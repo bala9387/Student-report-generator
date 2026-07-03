@@ -10,7 +10,9 @@ window.REPORT_DATA = {
   "PE - Analysis",
   "Bio - Maths",
   "Bio - CS",
-  "Maths - CS"
+  "Maths - CS",
+  "Applied Math",
+  "CS"
  ],
  "modes": {
   "Bio - Maths": {
@@ -44,7 +46,7 @@ window.REPORT_DATA = {
     "CU 2": false,
     "TE 2": false
    },
-   "classSize": 21,
+   "classSize": 85,
    "classStats": {
     "CU 1": {
      "subjects": {
@@ -216,19 +218,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 304,
-       "rank": 58
+       "rank": 58,
+       "domainRank": 17,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -294,19 +301,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 311,
-       "rank": 52
+       "rank": 52,
+       "domainRank": 15,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -372,19 +384,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 374,
-       "rank": 29
+       "rank": 28,
+       "domainRank": 11,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -450,19 +467,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 496,
-       "rank": 5
+       "rank": 5,
+       "domainRank": 3,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -528,19 +550,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 458,
-       "rank": 9
+       "rank": 9,
+       "domainRank": 4,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -606,19 +633,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 268,
-       "rank": 74
+       "rank": 74,
+       "domainRank": 20,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -684,19 +716,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 410,
-       "rank": 19
+       "rank": 18,
+       "domainRank": 7,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -762,19 +799,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 301,
-       "rank": 62
+       "rank": 62,
+       "domainRank": 19,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -840,19 +882,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 514,
-       "rank": 3
+       "rank": 3,
+       "domainRank": 1,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -918,19 +965,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 424,
-       "rank": 14
+       "rank": 14,
+       "domainRank": 6,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -996,19 +1048,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 400,
-       "rank": 22
+       "rank": 21,
+       "domainRank": 9,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -1074,19 +1131,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 345,
-       "rank": 36
+       "rank": 35,
+       "domainRank": 12,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -1152,19 +1214,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 406,
-       "rank": 20
+       "rank": 19,
+       "domainRank": 8,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -1230,19 +1297,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 310,
-       "rank": 54
+       "rank": 54,
+       "domainRank": 16,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -1311,19 +1383,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 258,
-       "rank": 76
+       "rank": 76,
+       "domainRank": 21,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -1389,19 +1466,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 329,
-       "rank": 42
+       "rank": 41,
+       "domainRank": 14,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -1467,19 +1549,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 390,
-       "rank": 24
+       "rank": 23,
+       "domainRank": 10,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -1545,19 +1632,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 452,
-       "rank": 11
+       "rank": 11,
+       "domainRank": 5,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -1623,19 +1715,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 333,
-       "rank": 40
+       "rank": 39,
+       "domainRank": 13,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -1701,19 +1798,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 303,
-       "rank": 60
+       "rank": 60,
+       "domainRank": 18,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -1779,19 +1881,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 505,
-       "rank": 4
+       "rank": 4,
+       "domainRank": 2,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     }
@@ -1828,7 +1935,7 @@ window.REPORT_DATA = {
     "CU 2": false,
     "TE 2": false
    },
-   "classSize": 4,
+   "classSize": 85,
    "classStats": {
     "CU 1": {
      "subjects": {
@@ -2003,19 +2110,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 281,
-       "rank": 69
+       "rank": 69,
+       "domainRank": 4,
+       "domainSize": 4
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       }
      }
     },
@@ -2081,19 +2193,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 325,
-       "rank": 44
+       "rank": 43,
+       "domainRank": 1,
+       "domainSize": 4
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       }
      }
     },
@@ -2159,19 +2276,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 296,
-       "rank": 63
+       "rank": 63,
+       "domainRank": 2,
+       "domainSize": 4
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       }
      }
     },
@@ -2237,19 +2359,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 286,
-       "rank": 67
+       "rank": 67,
+       "domainRank": 3,
+       "domainSize": 4
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       }
      }
     }
@@ -2286,7 +2413,7 @@ window.REPORT_DATA = {
     "CU 2": false,
     "TE 2": false
    },
-   "classSize": 53,
+   "classSize": 85,
    "classStats": {
     "CU 1": {
      "subjects": {
@@ -2458,19 +2585,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 381,
-       "rank": 27
+       "rank": 26,
+       "domainRank": 13,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -2536,19 +2668,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 383,
-       "rank": 25
+       "rank": 24,
+       "domainRank": 11,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -2614,19 +2751,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 317,
-       "rank": 50
+       "rank": 50,
+       "domainRank": 29,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -2692,19 +2834,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 368,
-       "rank": 32
+       "rank": 31,
+       "domainRank": 17,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -2770,19 +2917,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 302,
-       "rank": 61
+       "rank": 61,
+       "domainRank": 35,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -2850,19 +3002,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 292,
-       "rank": 65
+       "rank": 65,
+       "domainRank": 37,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -2927,20 +3084,25 @@ window.REPORT_DATA = {
      },
      "overall": {
       "CU 1": {
-       "total": 536,
-       "rank": 1
+       "total": 600,
+       "rank": 1,
+       "domainRank": 1,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -3006,19 +3168,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 272,
-       "rank": 73
+       "rank": 73,
+       "domainRank": 43,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -3084,19 +3251,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 304,
-       "rank": 58
+       "rank": 58,
+       "domainRank": 34,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -3162,19 +3334,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 222,
-       "rank": 81
+       "rank": 81,
+       "domainRank": 49,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -3240,19 +3417,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 531,
-       "rank": 2
+       "rank": 2,
+       "domainRank": 2,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -3318,19 +3500,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 348,
-       "rank": 35
+       "rank": 34,
+       "domainRank": 20,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -3396,19 +3583,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 211,
-       "rank": 84
+       "rank": 84,
+       "domainRank": 52,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -3474,19 +3666,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 354,
-       "rank": 34
+       "rank": 33,
+       "domainRank": 19,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -3555,19 +3752,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 227,
-       "rank": 80
+       "rank": 80,
+       "domainRank": 48,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -3633,19 +3835,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 420,
-       "rank": 16
+       "rank": 16,
+       "domainRank": 7,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -3711,19 +3918,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 440,
-       "rank": 12
+       "rank": 12,
+       "domainRank": 5,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -3789,19 +4001,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 238,
-       "rank": 79
+       "rank": 79,
+       "domainRank": 47,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -3867,19 +4084,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 256,
-       "rank": 77
+       "rank": 77,
+       "domainRank": 45,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -3945,19 +4167,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 308,
-       "rank": 56
+       "rank": 56,
+       "domainRank": 32,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -4023,19 +4250,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 328,
-       "rank": 43
+       "rank": 42,
+       "domainRank": 25,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -4101,19 +4333,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 423,
-       "rank": 15
+       "rank": 15,
+       "domainRank": 6,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -4179,19 +4416,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 475,
-       "rank": 6
+       "rank": 6,
+       "domainRank": 3,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -4257,19 +4499,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 216,
-       "rank": 82
+       "rank": 82,
+       "domainRank": 50,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -4335,19 +4582,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 330,
-       "rank": 41
+       "rank": 40,
+       "domainRank": 24,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -4413,19 +4665,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 306,
-       "rank": 57
+       "rank": 57,
+       "domainRank": 33,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -4491,19 +4748,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 371,
-       "rank": 30
+       "rank": 29,
+       "domainRank": 15,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -4569,19 +4831,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 458,
-       "rank": 9
+       "rank": 9,
+       "domainRank": 4,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -4647,19 +4914,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 309,
-       "rank": 55
+       "rank": 55,
+       "domainRank": 31,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -4725,19 +4997,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 364,
-       "rank": 33
+       "rank": 32,
+       "domainRank": 18,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -4803,19 +5080,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 318,
-       "rank": 49
+       "rank": 49,
+       "domainRank": 28,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -4881,19 +5163,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 325,
-       "rank": 44
+       "rank": 43,
+       "domainRank": 26,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -4959,19 +5246,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 335.5,
-       "rank": 39
+       "rank": 38,
+       "domainRank": 23,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -5037,19 +5329,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 215,
-       "rank": 83
+       "rank": 83,
+       "domainRank": 51,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -5115,19 +5412,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 400,
-       "rank": 22
+       "rank": 21,
+       "domainRank": 10,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -5193,19 +5495,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 284,
-       "rank": 68
+       "rank": 68,
+       "domainRank": 39,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -5273,19 +5580,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 259,
-       "rank": 75
+       "rank": 75,
+       "domainRank": 44,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -5351,19 +5663,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 275.5,
-       "rank": 71
+       "rank": 71,
+       "domainRank": 41,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -5429,19 +5746,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 414,
-       "rank": 18
+       "rank": 17,
+       "domainRank": 8,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -5507,19 +5829,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 381.5,
-       "rank": 26
+       "rank": 25,
+       "domainRank": 12,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -5585,19 +5912,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 276,
-       "rank": 70
+       "rank": 70,
+       "domainRank": 40,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -5663,19 +5995,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 337.5,
-       "rank": 38
+       "rank": 37,
+       "domainRank": 22,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -5741,19 +6078,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 402,
-       "rank": 21
+       "rank": 20,
+       "domainRank": 9,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -5819,19 +6161,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 370,
-       "rank": 31
+       "rank": 30,
+       "domainRank": 16,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -5897,19 +6244,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 375,
-       "rank": 28
+       "rank": 27,
+       "domainRank": 14,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -5975,19 +6327,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 248,
-       "rank": 78
+       "rank": 78,
+       "domainRank": 46,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -6053,19 +6410,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 296,
-       "rank": 63
+       "rank": 63,
+       "domainRank": 36,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -6133,19 +6495,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 323,
-       "rank": 46
+       "rank": 46,
+       "domainRank": 27,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -6211,19 +6578,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 311,
-       "rank": 52
+       "rank": 52,
+       "domainRank": 30,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -6289,19 +6661,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 275.5,
-       "rank": 71
+       "rank": 71,
+       "domainRank": 41,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -6367,19 +6744,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 288,
-       "rank": 66
+       "rank": 66,
+       "domainRank": 38,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -6445,19 +6827,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 344,
-       "rank": 37
+       "rank": 36,
+       "domainRank": 21,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -6525,19 +6912,24 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 192,
-       "rank": 85
+       "rank": 85,
+       "domainRank": 53,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     }
@@ -6581,19 +6973,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 304,
-       "rank": 58
+       "rank": 58,
+       "domainRank": 17,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -6608,19 +7005,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 311,
-       "rank": 52
+       "rank": 52,
+       "domainRank": 15,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -6635,19 +7037,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 374,
-       "rank": 29
+       "rank": 28,
+       "domainRank": 11,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -6662,19 +7069,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 496,
-       "rank": 5
+       "rank": 5,
+       "domainRank": 3,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -6689,19 +7101,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 458,
-       "rank": 9
+       "rank": 9,
+       "domainRank": 4,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -6716,19 +7133,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 268,
-       "rank": 74
+       "rank": 74,
+       "domainRank": 20,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -6743,19 +7165,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 410,
-       "rank": 19
+       "rank": 18,
+       "domainRank": 7,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -6770,19 +7197,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 301,
-       "rank": 62
+       "rank": 62,
+       "domainRank": 19,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -6797,19 +7229,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 381,
-       "rank": 27
+       "rank": 26,
+       "domainRank": 13,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -6824,19 +7261,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 383,
-       "rank": 25
+       "rank": 24,
+       "domainRank": 11,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -6851,19 +7293,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 317,
-       "rank": 50
+       "rank": 50,
+       "domainRank": 29,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -6878,19 +7325,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 368,
-       "rank": 32
+       "rank": 31,
+       "domainRank": 17,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -6905,19 +7357,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 302,
-       "rank": 61
+       "rank": 61,
+       "domainRank": 35,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -6932,19 +7389,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 292,
-       "rank": 65
+       "rank": 65,
+       "domainRank": 37,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -6958,20 +7420,25 @@ window.REPORT_DATA = {
      ],
      "exams": {
       "CU 1": {
-       "total": 536,
-       "rank": 1
+       "total": 600,
+       "rank": 1,
+       "domainRank": 1,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -6986,19 +7453,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 272,
-       "rank": 73
+       "rank": 73,
+       "domainRank": 43,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7013,19 +7485,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 304,
-       "rank": 58
+       "rank": 58,
+       "domainRank": 34,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7040,19 +7517,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 222,
-       "rank": 81
+       "rank": 81,
+       "domainRank": 49,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7067,19 +7549,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 531,
-       "rank": 2
+       "rank": 2,
+       "domainRank": 2,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7094,19 +7581,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 348,
-       "rank": 35
+       "rank": 34,
+       "domainRank": 20,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7121,19 +7613,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 211,
-       "rank": 84
+       "rank": 84,
+       "domainRank": 52,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7148,19 +7645,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 354,
-       "rank": 34
+       "rank": 33,
+       "domainRank": 19,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7175,19 +7677,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 227,
-       "rank": 80
+       "rank": 80,
+       "domainRank": 48,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7202,19 +7709,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 420,
-       "rank": 16
+       "rank": 16,
+       "domainRank": 7,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7229,19 +7741,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 440,
-       "rank": 12
+       "rank": 12,
+       "domainRank": 5,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7256,19 +7773,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 238,
-       "rank": 79
+       "rank": 79,
+       "domainRank": 47,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7283,19 +7805,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 256,
-       "rank": 77
+       "rank": 77,
+       "domainRank": 45,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7310,19 +7837,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 281,
-       "rank": 69
+       "rank": 69,
+       "domainRank": 4,
+       "domainSize": 4
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       }
      }
     },
@@ -7337,19 +7869,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 514,
-       "rank": 3
+       "rank": 3,
+       "domainRank": 1,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -7364,19 +7901,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 424,
-       "rank": 14
+       "rank": 14,
+       "domainRank": 6,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -7391,19 +7933,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 400,
-       "rank": 22
+       "rank": 21,
+       "domainRank": 9,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -7418,19 +7965,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 345,
-       "rank": 36
+       "rank": 35,
+       "domainRank": 12,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -7445,19 +7997,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 406,
-       "rank": 20
+       "rank": 19,
+       "domainRank": 8,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -7472,19 +8029,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 310,
-       "rank": 54
+       "rank": 54,
+       "domainRank": 16,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -7499,19 +8061,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 258,
-       "rank": 76
+       "rank": 76,
+       "domainRank": 21,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -7526,19 +8093,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 329,
-       "rank": 42
+       "rank": 41,
+       "domainRank": 14,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -7553,19 +8125,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 390,
-       "rank": 24
+       "rank": 23,
+       "domainRank": 10,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -7580,19 +8157,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 452,
-       "rank": 11
+       "rank": 11,
+       "domainRank": 5,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -7607,19 +8189,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 333,
-       "rank": 40
+       "rank": 39,
+       "domainRank": 13,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -7634,19 +8221,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 303,
-       "rank": 60
+       "rank": 60,
+       "domainRank": 18,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -7661,19 +8253,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 505,
-       "rank": 4
+       "rank": 4,
+       "domainRank": 2,
+       "domainSize": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 21
       }
      }
     },
@@ -7688,19 +8285,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 308,
-       "rank": 56
+       "rank": 56,
+       "domainRank": 32,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7715,19 +8317,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 328,
-       "rank": 43
+       "rank": 42,
+       "domainRank": 25,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7742,19 +8349,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 423,
-       "rank": 15
+       "rank": 15,
+       "domainRank": 6,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7769,19 +8381,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 475,
-       "rank": 6
+       "rank": 6,
+       "domainRank": 3,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7796,19 +8413,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 216,
-       "rank": 82
+       "rank": 82,
+       "domainRank": 50,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7823,19 +8445,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 330,
-       "rank": 41
+       "rank": 40,
+       "domainRank": 24,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7850,19 +8477,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 306,
-       "rank": 57
+       "rank": 57,
+       "domainRank": 33,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7877,19 +8509,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 371,
-       "rank": 30
+       "rank": 29,
+       "domainRank": 15,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7904,19 +8541,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 458,
-       "rank": 9
+       "rank": 9,
+       "domainRank": 4,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7931,19 +8573,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 309,
-       "rank": 55
+       "rank": 55,
+       "domainRank": 31,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -7958,19 +8605,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 325,
-       "rank": 44
+       "rank": 43,
+       "domainRank": 1,
+       "domainSize": 4
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       }
      }
     },
@@ -7985,19 +8637,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 296,
-       "rank": 63
+       "rank": 63,
+       "domainRank": 2,
+       "domainSize": 4
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       }
      }
     },
@@ -8012,19 +8669,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 286,
-       "rank": 67
+       "rank": 67,
+       "domainRank": 3,
+       "domainSize": 4
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 4
       }
      }
     },
@@ -8039,19 +8701,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 364,
-       "rank": 33
+       "rank": 32,
+       "domainRank": 18,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8066,19 +8733,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 318,
-       "rank": 49
+       "rank": 49,
+       "domainRank": 28,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8093,19 +8765,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 325,
-       "rank": 44
+       "rank": 43,
+       "domainRank": 26,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8120,19 +8797,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 335.5,
-       "rank": 39
+       "rank": 38,
+       "domainRank": 23,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8147,19 +8829,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 215,
-       "rank": 83
+       "rank": 83,
+       "domainRank": 51,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8174,19 +8861,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 400,
-       "rank": 22
+       "rank": 21,
+       "domainRank": 10,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8201,19 +8893,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 284,
-       "rank": 68
+       "rank": 68,
+       "domainRank": 39,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8228,19 +8925,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 259,
-       "rank": 75
+       "rank": 75,
+       "domainRank": 44,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8255,19 +8957,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 275.5,
-       "rank": 71
+       "rank": 71,
+       "domainRank": 41,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8282,19 +8989,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 414,
-       "rank": 18
+       "rank": 17,
+       "domainRank": 8,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8309,19 +9021,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 381.5,
-       "rank": 26
+       "rank": 25,
+       "domainRank": 12,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8336,19 +9053,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 276,
-       "rank": 70
+       "rank": 70,
+       "domainRank": 40,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8363,19 +9085,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 337.5,
-       "rank": 38
+       "rank": 37,
+       "domainRank": 22,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8390,19 +9117,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 402,
-       "rank": 21
+       "rank": 20,
+       "domainRank": 9,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8417,19 +9149,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 370,
-       "rank": 31
+       "rank": 30,
+       "domainRank": 16,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8444,19 +9181,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 375,
-       "rank": 28
+       "rank": 27,
+       "domainRank": 14,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8471,19 +9213,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 248,
-       "rank": 78
+       "rank": 78,
+       "domainRank": 46,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8498,19 +9245,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 296,
-       "rank": 63
+       "rank": 63,
+       "domainRank": 36,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8525,19 +9277,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 323,
-       "rank": 46
+       "rank": 46,
+       "domainRank": 27,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8552,19 +9309,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 311,
-       "rank": 52
+       "rank": 52,
+       "domainRank": 30,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8579,19 +9341,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 275.5,
-       "rank": 71
+       "rank": 71,
+       "domainRank": 41,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8606,19 +9373,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 288,
-       "rank": 66
+       "rank": 66,
+       "domainRank": 38,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8633,19 +9405,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 344,
-       "rank": 37
+       "rank": 36,
+       "domainRank": 21,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8660,19 +9437,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 192,
-       "rank": 85
+       "rank": 85,
+       "domainRank": 53,
+       "domainSize": 53
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 53
       }
      }
     },
@@ -8685,20 +9467,25 @@ window.REPORT_DATA = {
      ],
      "exams": {
       "CU 1": {
-       "total": 416,
-       "rank": 17
+       "total": 324,
+       "rank": 45,
+       "domainRank": 1,
+       "domainSize": 2
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 2
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 2
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 2
       }
      }
     },
@@ -8712,19 +9499,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 323,
-       "rank": 46
+       "rank": 46,
+       "domainRank": 2,
+       "domainSize": 2
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 2
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 2
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 2
       }
      }
     },
@@ -8738,19 +9530,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 315,
-       "rank": 51
+       "rank": 51,
+       "domainRank": 5,
+       "domainSize": 5
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 5
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 5
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 5
       }
      }
     },
@@ -8764,19 +9561,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 323,
-       "rank": 46
+       "rank": 46,
+       "domainRank": 4,
+       "domainSize": 5
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 5
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 5
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 5
       }
      }
     },
@@ -8790,19 +9592,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 461,
-       "rank": 8
+       "rank": 8,
+       "domainRank": 2,
+       "domainSize": 5
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 5
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 5
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 5
       }
      }
     },
@@ -8816,19 +9623,24 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 462,
-       "rank": 7
+       "rank": 7,
+       "domainRank": 1,
+       "domainSize": 5
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 5
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 5
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 5
       }
      }
     },
@@ -8842,19 +9654,824 @@ window.REPORT_DATA = {
      "exams": {
       "CU 1": {
        "total": 427,
-       "rank": 13
+       "rank": 13,
+       "domainRank": 3,
+       "domainSize": 5
       },
       "TE 1": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 5
       },
       "CU 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 5
       },
       "TE 2": {
        "total": 0,
-       "rank": 1
+       "rank": 1,
+       "domainSize": 5
+      }
+     }
+    }
+   }
+  },
+  "Applied Math": {
+   "type": "group",
+   "label": "Applied Math",
+   "subjects": [
+    "Acc",
+    "Bs",
+    "Eco",
+    "A.Math",
+    "Eng",
+    "PE"
+   ],
+   "subjectFull": {
+    "Acc": "Accountancy",
+    "Bs": "Business Studies",
+    "Eco": "Economics",
+    "A.Math": "Applied Mathematics",
+    "Eng": "English",
+    "PE": "Physical Education"
+   },
+   "exams": [
+    "CU 1",
+    "TE 1",
+    "CU 2",
+    "TE 2"
+   ],
+   "conducted": {
+    "CU 1": true,
+    "TE 1": false,
+    "CU 2": false,
+    "TE 2": false
+   },
+   "classSize": 2,
+   "classStats": {
+    "CU 1": {
+     "subjects": {
+      "Acc": {
+       "max": 64.0,
+       "min": 48.0,
+       "avg": 56.0,
+       "present": 2,
+       "topperRoll": "26S2379",
+       "topperName": "Hariharan.J"
+      },
+      "Bs": {
+       "max": 79.0,
+       "min": 63.0,
+       "avg": 71.0,
+       "present": 2,
+       "topperRoll": "26S2379",
+       "topperName": "Hariharan.J"
+      },
+      "Eco": {
+       "max": 70.0,
+       "min": 41.0,
+       "avg": 55.5,
+       "present": 2,
+       "topperRoll": "26S2379",
+       "topperName": "Hariharan.J"
+      },
+      "A.Math": {
+       "max": 72.0,
+       "min": 59.0,
+       "avg": 65.5,
+       "present": 2,
+       "topperRoll": "26S2380",
+       "topperName": "Mouneeth.K.S"
+      },
+      "Eng": {
+       "max": 60.0,
+       "min": 35.0,
+       "avg": 47.5,
+       "present": 2,
+       "topperRoll": "26S2379",
+       "topperName": "Hariharan.J"
+      },
+      "PE": {
+       "max": 84.0,
+       "min": 64.0,
+       "avg": 74.0,
+       "present": 2,
+       "topperRoll": "26S2379",
+       "topperName": "Hariharan.J"
+      }
+     },
+     "total": {
+      "max": 416.0,
+      "topperRoll": "26S2379",
+      "topperName": "Hariharan.J",
+      "present": 2
+     }
+    },
+    "TE 1": null,
+    "CU 2": null,
+    "TE 2": null
+   },
+   "students": {
+    "26S2379": {
+     "rollNo": "26S2379",
+     "sNo": 79.0,
+     "name": "Hariharan.J",
+     "marks": {
+      "CU 1": {
+       "Acc": 64.0,
+       "Bs": 79.0,
+       "Eco": 70.0,
+       "A.Math": 59.0,
+       "Eng": 60.0,
+       "PE": 84.0,
+       "Total": 416.0
+      },
+      "TE 1": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "A.Math": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      },
+      "CU 2": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "A.Math": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      },
+      "TE 2": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "A.Math": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      }
+     },
+     "absent": {
+      "CU 1": {},
+      "TE 1": {},
+      "CU 2": {},
+      "TE 2": {}
+     },
+     "percentile": {
+      "CU 1": {
+       "Acc": 75,
+       "Bs": 75,
+       "Eco": 75,
+       "A.Math": 25,
+       "Eng": 75,
+       "PE": 75,
+       "Total": 75
+      },
+      "TE 1": null,
+      "CU 2": null,
+      "TE 2": null
+     },
+     "overall": {
+      "CU 1": {
+       "total": 324,
+       "rank": 45,
+       "domainRank": 1,
+       "domainSize": 2
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 2
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 2
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 2
+      }
+     }
+    },
+    "26S2380": {
+     "rollNo": "26S2380",
+     "sNo": 80.0,
+     "name": "Mouneeth.K.S",
+     "marks": {
+      "CU 1": {
+       "Acc": 48.0,
+       "Bs": 63.0,
+       "Eco": 41.0,
+       "A.Math": 72.0,
+       "Eng": 35.0,
+       "PE": 64.0,
+       "Total": 323.0
+      },
+      "TE 1": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "A.Math": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      },
+      "CU 2": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "A.Math": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      },
+      "TE 2": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "A.Math": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      }
+     },
+     "absent": {
+      "CU 1": {},
+      "TE 1": {},
+      "CU 2": {},
+      "TE 2": {}
+     },
+     "percentile": {
+      "CU 1": {
+       "Acc": 25,
+       "Bs": 25,
+       "Eco": 25,
+       "A.Math": 75,
+       "Eng": 25,
+       "PE": 25,
+       "Total": 25
+      },
+      "TE 1": null,
+      "CU 2": null,
+      "TE 2": null
+     },
+     "overall": {
+      "CU 1": {
+       "total": 323,
+       "rank": 46,
+       "domainRank": 2,
+       "domainSize": 2
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 2
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 2
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 2
+      }
+     }
+    }
+   }
+  },
+  "CS": {
+   "type": "group",
+   "label": "CS",
+   "subjects": [
+    "Acc",
+    "Bs",
+    "Eco",
+    "Cs",
+    "Eng",
+    "PE"
+   ],
+   "subjectFull": {
+    "Acc": "Accountancy",
+    "Bs": "Business Studies",
+    "Eco": "Economics",
+    "Cs": "Computer Science",
+    "Eng": "English",
+    "PE": "Physical Education"
+   },
+   "exams": [
+    "CU 1",
+    "TE 1",
+    "CU 2",
+    "TE 2"
+   ],
+   "conducted": {
+    "CU 1": true,
+    "TE 1": false,
+    "CU 2": false,
+    "TE 2": false
+   },
+   "classSize": 5,
+   "classStats": {
+    "CU 1": {
+     "subjects": {
+      "Acc": {
+       "max": 70.0,
+       "min": 45.0,
+       "avg": 53.0,
+       "present": 5,
+       "topperRoll": "26S3384",
+       "topperName": "Midhunasree.G.P"
+      },
+      "Bs": {
+       "max": 93.0,
+       "min": 58.0,
+       "avg": 80.6,
+       "present": 5,
+       "topperRoll": "26S3383",
+       "topperName": "Jessica.N"
+      },
+      "Eco": {
+       "max": 90.0,
+       "min": 44.0,
+       "avg": 75.8,
+       "present": 5,
+       "topperRoll": "26S3383",
+       "topperName": "Jessica.N"
+      },
+      "Cs": {
+       "max": 66.0,
+       "min": 50.0,
+       "avg": 55.8,
+       "present": 5,
+       "topperRoll": "26S3383",
+       "topperName": "Jessica.N"
+      },
+      "Eng": {
+       "max": 75.0,
+       "min": 46.0,
+       "avg": 66.4,
+       "present": 5,
+       "topperRoll": "26S3384",
+       "topperName": "Midhunasree.G.P"
+      },
+      "PE": {
+       "max": 87.0,
+       "min": 79.0,
+       "avg": 82.5,
+       "present": 4,
+       "topperRoll": "26S3383",
+       "topperName": "Jessica.N"
+      }
+     },
+     "total": {
+      "max": 462.0,
+      "topperRoll": "26S3384",
+      "topperName": "Midhunasree.G.P",
+      "present": 5
+     }
+    },
+    "TE 1": null,
+    "CU 2": null,
+    "TE 2": null
+   },
+   "students": {
+    "26S3381": {
+     "rollNo": "26S3381",
+     "sNo": 81.0,
+     "name": "Atchaya.K",
+     "marks": {
+      "CU 1": {
+       "Acc": 45.0,
+       "Bs": 80.0,
+       "Eco": 71.0,
+       "Cs": 50.0,
+       "Eng": 69.0,
+       "PE": null,
+       "Total": 315.0
+      },
+      "TE 1": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "Cs": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      },
+      "CU 2": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "Cs": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      },
+      "TE 2": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "Cs": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      }
+     },
+     "absent": {
+      "CU 1": {
+       "PE": true
+      },
+      "TE 1": {},
+      "CU 2": {},
+      "TE 2": {}
+     },
+     "percentile": {
+      "CU 1": {
+       "Acc": 20,
+       "Bs": 30,
+       "Eco": 30,
+       "Cs": 20,
+       "Eng": 40,
+       "PE": null,
+       "Total": 10
+      },
+      "TE 1": null,
+      "CU 2": null,
+      "TE 2": null
+     },
+     "overall": {
+      "CU 1": {
+       "total": 315,
+       "rank": 51,
+       "domainRank": 5,
+       "domainSize": 5
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 5
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 5
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 5
+      }
+     }
+    },
+    "26S3382": {
+     "rollNo": "26S3382",
+     "sNo": 82.0,
+     "name": "Deshigasree.A.G",
+     "marks": {
+      "CU 1": {
+       "Acc": 45.0,
+       "Bs": 58.0,
+       "Eco": 44.0,
+       "Cs": 50.0,
+       "Eng": 46.0,
+       "PE": 80.0,
+       "Total": 323.0
+      },
+      "TE 1": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "Cs": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      },
+      "CU 2": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "Cs": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      },
+      "TE 2": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "Cs": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      }
+     },
+     "absent": {
+      "CU 1": {},
+      "TE 1": {},
+      "CU 2": {},
+      "TE 2": {}
+     },
+     "percentile": {
+      "CU 1": {
+       "Acc": 20,
+       "Bs": 10,
+       "Eco": 10,
+       "Cs": 20,
+       "Eng": 10,
+       "PE": 38,
+       "Total": 30
+      },
+      "TE 1": null,
+      "CU 2": null,
+      "TE 2": null
+     },
+     "overall": {
+      "CU 1": {
+       "total": 323,
+       "rank": 46,
+       "domainRank": 4,
+       "domainSize": 5
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 5
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 5
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 5
+      }
+     }
+    },
+    "26S3383": {
+     "rollNo": "26S3383",
+     "sNo": 83.0,
+     "name": "Jessica.N",
+     "marks": {
+      "CU 1": {
+       "Acc": 52.0,
+       "Bs": 93.0,
+       "Eco": 90.0,
+       "Cs": 66.0,
+       "Eng": 73.0,
+       "PE": 87.0,
+       "Total": 461.0
+      },
+      "TE 1": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "Cs": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      },
+      "CU 2": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "Cs": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      },
+      "TE 2": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "Cs": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      }
+     },
+     "absent": {
+      "CU 1": {},
+      "TE 1": {},
+      "CU 2": {},
+      "TE 2": {}
+     },
+     "percentile": {
+      "CU 1": {
+       "Acc": 50,
+       "Bs": 90,
+       "Eco": 90,
+       "Cs": 90,
+       "Eng": 70,
+       "PE": 88,
+       "Total": 70
+      },
+      "TE 1": null,
+      "CU 2": null,
+      "TE 2": null
+     },
+     "overall": {
+      "CU 1": {
+       "total": 461,
+       "rank": 8,
+       "domainRank": 2,
+       "domainSize": 5
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 5
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 5
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 5
+      }
+     }
+    },
+    "26S3384": {
+     "rollNo": "26S3384",
+     "sNo": 84.0,
+     "name": "Midhunasree.G.P",
+     "marks": {
+      "CU 1": {
+       "Acc": 70.0,
+       "Bs": 88.0,
+       "Eco": 86.0,
+       "Cs": 59.0,
+       "Eng": 75.0,
+       "PE": 84.0,
+       "Total": 462.0
+      },
+      "TE 1": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "Cs": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      },
+      "CU 2": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "Cs": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      },
+      "TE 2": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "Cs": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      }
+     },
+     "absent": {
+      "CU 1": {},
+      "TE 1": {},
+      "CU 2": {},
+      "TE 2": {}
+     },
+     "percentile": {
+      "CU 1": {
+       "Acc": 90,
+       "Bs": 70,
+       "Eco": 50,
+       "Cs": 70,
+       "Eng": 90,
+       "PE": 62,
+       "Total": 90
+      },
+      "TE 1": null,
+      "CU 2": null,
+      "TE 2": null
+     },
+     "overall": {
+      "CU 1": {
+       "total": 462,
+       "rank": 7,
+       "domainRank": 1,
+       "domainSize": 5
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 5
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 5
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 5
+      }
+     }
+    },
+    "26S3385": {
+     "rollNo": "26S3385",
+     "sNo": 85.0,
+     "name": "Prathiksha.V.P",
+     "marks": {
+      "CU 1": {
+       "Acc": 53.0,
+       "Bs": 84.0,
+       "Eco": 88.0,
+       "Cs": 54.0,
+       "Eng": 69.0,
+       "PE": 79.0,
+       "Total": 427.0
+      },
+      "TE 1": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "Cs": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      },
+      "CU 2": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "Cs": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      },
+      "TE 2": {
+       "Acc": null,
+       "Bs": null,
+       "Eco": null,
+       "Cs": null,
+       "Eng": null,
+       "PE": null,
+       "Total": 0
+      }
+     },
+     "absent": {
+      "CU 1": {},
+      "TE 1": {},
+      "CU 2": {},
+      "TE 2": {}
+     },
+     "percentile": {
+      "CU 1": {
+       "Acc": 70,
+       "Bs": 50,
+       "Eco": 70,
+       "Cs": 50,
+       "Eng": 40,
+       "PE": 12,
+       "Total": 50
+      },
+      "TE 1": null,
+      "CU 2": null,
+      "TE 2": null
+     },
+     "overall": {
+      "CU 1": {
+       "total": 427,
+       "rank": 13,
+       "domainRank": 3,
+       "domainSize": 5
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 5
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 5
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1,
+       "domainSize": 5
       }
      }
     }
@@ -9175,25 +10792,32 @@ window.REPORT_DATA = {
    "PE - Analysis"
   ],
   "26S2379": [
-   "PE - Analysis"
+   "PE - Analysis",
+   "Applied Math"
   ],
   "26S2380": [
-   "PE - Analysis"
+   "PE - Analysis",
+   "Applied Math"
   ],
   "26S3381": [
-   "PE - Analysis"
+   "PE - Analysis",
+   "CS"
   ],
   "26S3382": [
-   "PE - Analysis"
+   "PE - Analysis",
+   "CS"
   ],
   "26S3383": [
-   "PE - Analysis"
+   "PE - Analysis",
+   "CS"
   ],
   "26S3384": [
-   "PE - Analysis"
+   "PE - Analysis",
+   "CS"
   ],
   "26S3385": [
-   "PE - Analysis"
+   "PE - Analysis",
+   "CS"
   ]
  }
 };

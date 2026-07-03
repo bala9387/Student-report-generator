@@ -4,18 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student Performance Report</title>
-  <link rel="stylesheet" href="styles.css?v=20" />
+  <link rel="stylesheet" href="styles.css?v=29" />
 </head>
 <body>
   <div class="page">
     <!-- ===================== HERO ===================== -->
     <header class="hero">
-      <div class="crest">SR</div>
+      <img class="crest" src="logo.jpg" alt="KSR Logo" />
       <div class="hero-text">
         <h1>Student Performance Report</h1>
         <p>Grade XII &middot; Team Elevate 2027 &middot; Parent Portal</p>
       </div>
-      <button id="statusPill" class="status-pill loading" type="button" title="Data source">
+      <button id="statusPill" class="status-pill loading" type="button" title="Data source" style="display: none;">
         <span class="dot"></span><span id="statusText">Connecting&hellip;</span>
       </button>
     </header>
@@ -36,9 +36,10 @@
           <label for="mode">2. Mode of Exam</label>
           <select id="mode" name="mode" required>
             <option value="PE - Analysis">PE - Analysis</option>
-            <option value="Bio - Maths">Bio - Maths</option>
-            <option value="Bio - CS">Bio - CS</option>
-            <option value="Maths - CS">Maths - CS</option>
+            <option value="CU 1">CU 1</option>
+            <option value="TE 1">TE 1</option>
+            <option value="CU 2">CU 2</option>
+            <option value="TE 2">TE 2</option>
           </select>
         </div>
 
@@ -70,9 +71,9 @@
 
   </div>
 
-  <script src="data.js?v=20"></script>          <!-- offline fallback snapshot -->
-  <script src="datasource.js?v=20"></script>    <!-- live Google Sheets reader -->
+  <script src="data.js?v=29"></script>          <!-- offline fallback snapshot -->
+  <!-- <script src="datasource.js?v=29"></script>    live Google Sheets reader -->
   <script src="vendor/jspdf.umd.min.js"></script>
-  <script src="app.js?v=20"></script>
+  <script src="app.js?v=29"></script>
 </body>
 </html>

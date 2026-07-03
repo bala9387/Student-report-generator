@@ -25,9 +25,8 @@ body{
   margin:0 -16px 22px;padding:16px 20px;
 }
 .crest{
-  width:44px;height:44px;flex:none;display:grid;place-items:center;
-  font-weight:700;font-size:1rem;letter-spacing:.5px;color:#fff;
-  background:var(--red);border-radius:6px;
+  height:44px;width:auto;flex:none;display:block;
+  object-fit:contain;
 }
 .hero-text{flex:1;min-width:0}
 .hero-text h1{margin:0;font-size:1.25rem;font-weight:700}
@@ -157,7 +156,7 @@ table.grid tr.total-row td{background:#faf6ea;font-weight:700}
 /* ---------- mobile ---------- */
 @media (max-width:600px){
   .hero{flex-wrap:wrap;gap:10px;padding:14px 16px}
-  .crest{width:40px;height:40px}
+  .crest{height:40px;width:auto}
   .hero-text h1{font-size:1.1rem}
   .status-pill{order:3;width:100%;justify-content:center}
   .lookup-card{padding:18px 15px 16px}

@@ -103,6 +103,36 @@
       peStudents[roll] = { rollNo: roll, sNo: num(cell(row, 0)), name: name, stream: stream, exams: ex };
       addIndex(roll, "PE - Analysis");
     });
+// --- Compute Domain-specific Ranks ---
+    var domainGroups = {};
+    Object.keys(peStudents).forEach(function(roll) {
+      var st = peStudents[roll];
+      var dom = st.stream.join("-");
+      st.domainName = dom;
+      if (!domainGroups[dom]) domainGroups[dom] = [];
+      domainGroups[dom].push(st);
+    });
+
+    EXAMS.forEach(function(exn) {
+      Object.keys(domainGroups).forEach(function(dom) {
+        var arr = domainGroups[dom].filter(function(st) {
+          return st.exams[exn] && st.exams[exn].total > 0;
+        });
+        arr.sort(function(a, b) { return b.exams[exn].total - a.exams[exn].total; });
+        var prevTot = -1, prevRk = 1;
+        arr.forEach(function(st, i) {
+          var tot = st.exams[exn].total;
+          if (tot !== prevTot) {
+            prevRk = i + 1;
+            prevTot = tot;
+          }
+          st.exams[exn].domainRank = prevRk;
+          st.exams[exn].domainSize = domainGroups[dom].length;
+        });
+      });
+    });
+    // -------------------------------------
+
     var peConducted = {}, peTopper = {};
     EXAMS.forEach(function (exn) {
       var mx = peClass[exn].reduce(function (a, b) { return Math.max(a, b); }, 0);
