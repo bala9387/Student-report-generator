@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Performance Report</title>
+  <link rel="stylesheet" href="styles.css?v=20" />
+</head>
+<body>
+  <div class="page">
+    <!-- ===================== HERO ===================== -->
+    <header class="hero">
+      <div class="crest">SR</div>
+      <div class="hero-text">
+        <h1>Student Performance Report</h1>
+        <p>Grade XII &middot; Team Elevate 2027 &middot; Parent Portal</p>
+      </div>
+      <button id="statusPill" class="status-pill loading" type="button" title="Data source">
+        <span class="dot"></span><span id="statusText">Connecting&hellip;</span>
+      </button>
+    </header>
+
+    <!-- ===================== LOOKUP ===================== -->
+    <section class="lookup-card" id="lookupCard">
+      <h2>View your child&rsquo;s report</h2>
+      <p class="hint">Enter the student&rsquo;s Roll Number and choose the exam mode.</p>
+
+      <form id="lookupForm" autocomplete="off">
+        <div class="field">
+          <label for="roll">1. Roll Number</label>
+          <input id="roll" name="roll" type="text" inputmode="text"
+                 placeholder="Enter Roll Number" required />
+        </div>
+
+        <div class="field">
+          <label for="mode">2. Mode of Exam</label>
+          <select id="mode" name="mode" required>
+            <option value="PE - Analysis">PE - Analysis</option>
+            <option value="Bio - Maths">Bio - Maths</option>
+            <option value="Bio - CS">Bio - CS</option>
+            <option value="Maths - CS">Maths - CS</option>
+          </select>
+        </div>
+
+        <button type="submit" id="submitBtn" class="btn-primary" disabled>Get Report</button>
+      </form>
+
+      <div id="message" class="message" role="status"></div>
+    </section>
+
+    <!-- ===================== REPORT ===================== -->
+    <section id="reportWrap" class="report-wrap" hidden>
+      <div class="report-toolbar no-print">
+        <button id="downloadBtn" class="btn-primary">
+          <svg viewBox="0 0 24 24" class="btn-ic"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+          <span>Download PDF</span>
+        </button>
+        <button id="printBtn" class="btn-ghost">
+          <svg viewBox="0 0 24 24" class="btn-ic"><path d="M6 9V3h12v6"/><rect x="5" y="9" width="14" height="7" rx="1"/><path d="M8 16h8v5H8z"/></svg>
+          <span>Print</span>
+        </button>
+        <button id="backBtn" class="btn-ghost">
+          <svg viewBox="0 0 24 24" class="btn-ic"><path d="M15 5l-7 7 7 7"/></svg>
+          <span>New Search</span>
+        </button>
+      </div>
+      <div id="report" class="report"></div>
+    </section>
+
+
+  </div>
+
+  <script src="data.js?v=20"></script>          <!-- offline fallback snapshot -->
+  <script src="datasource.js?v=20"></script>    <!-- live Google Sheets reader -->
+  <script src="vendor/jspdf.umd.min.js"></script>
+  <script src="app.js?v=20"></script>
+</body>
+</html>

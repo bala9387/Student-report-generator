@@ -1,0 +1,17 @@
+{
+  "name": "student-report-generator",
+  "version": "1.0.0",
+  "description": "A website where a parent enters **1) Roll Number** and **2) Mode of Exam** and gets an accurate performance report on screen plus a downloadable **PDF**. Each report also shows the **highest mark in every subject across the whole class**.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}
