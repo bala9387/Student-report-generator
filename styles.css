@@ -88,6 +88,35 @@ body{
 }
 .message .switch:hover{background:#fbeced}
 
+/* ---------- leaderboard links (landing page) ---------- */
+.lb-links{margin-top:18px;padding-top:14px;border-top:1px solid var(--line-soft)}
+.lb-links .hint{margin:0 0 10px}
+.lb-btns{display:flex;gap:9px;flex-wrap:wrap}
+.lb-btns .btn-ghost{flex:1 1 auto;white-space:nowrap}
+
+/* ---------- rank badges (medals for top 3, used in tables + cards) ---------- */
+.rank-badge{display:inline-flex;align-items:center;gap:3px;font-weight:700}
+.rank-badge .rank-of{font-weight:500;color:var(--muted);font-size:.85em}
+.rank-badge.rank-gold{color:#8a6d00}
+.rank-badge.rank-silver{color:#5b6473}
+.rank-badge.rank-bronze{color:#8a4a1f}
+.rank-badge.rank-top10{color:var(--ink)}
+.card.card-rank{border-width:1.5px}
+.card.card-rank-1{border-color:#d4af37;background:linear-gradient(180deg,#fff9e8,#fbfbfc)}
+.card.card-rank-2{border-color:#a8adb4;background:linear-gradient(180deg,#f6f7f8,#fbfbfc)}
+.card.card-rank-3{border-color:#c98a54;background:linear-gradient(180deg,#fdf3ea,#fbfbfc)}
+
+/* ---------- leaderboard tables ---------- */
+.lb-asof{margin:0;padding:10px 18px;font-size:.82rem;color:var(--muted);
+  border-bottom:1px solid var(--line);background:#fafbfc}
+table.grid tr.lb-rank-1 td{background:#fffaeb}
+table.grid tr.lb-rank-2 td{background:#f7f8f9}
+table.grid tr.lb-rank-3 td{background:#fdf6f0}
+table.grid td.lb-name{text-align:left;font-weight:600}
+.lb-stream-heading{margin:0;padding:9px 18px;font-size:.9rem;font-weight:700;color:#333a45;
+  background:#f6f7f9;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.lb-stream-heading:first-of-type{border-top:none}
+
 /* ---------- report ---------- */
 .report-wrap{margin-top:22px}
 .report-toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
@@ -160,6 +189,7 @@ table.grid tr.total-row td{background:#faf6ea;font-weight:700}
   .hero-text h1{font-size:1.1rem}
   .status-pill{order:3;width:100%;justify-content:center}
   .lookup-card{padding:18px 15px 16px}
+  .lb-btns{flex-direction:column}
   .field input,.field select{font-size:16px}   /* stop iOS zoom */
   .report-toolbar .btn-primary,.report-toolbar .btn-ghost{flex:1 1 100%}
   .rep-head h2{font-size:1.12rem}

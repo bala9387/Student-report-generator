@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student Performance Report</title>
-  <link rel="stylesheet" href="styles.css?v=29" />
+  <link rel="stylesheet" href="styles.css?v=31" />
 </head>
 <body>
   <div class="page">
@@ -47,6 +47,14 @@
       </form>
 
       <div id="message" class="message" role="status"></div>
+
+      <div class="lb-links">
+        <p class="hint">Or view class rankings</p>
+        <div class="lb-btns">
+          <button type="button" id="topSchoolBtn" class="btn-ghost" disabled>🏆 Top Performers</button>
+          <button type="button" id="topStreamBtn" class="btn-ghost" disabled>🥇 Top Performers by Stream</button>
+        </div>
+      </div>
     </section>
 
     <!-- ===================== REPORT ===================== -->
@@ -71,9 +79,9 @@
 
   </div>
 
-  <script src="data.js?v=29"></script>          <!-- offline fallback snapshot -->
-  <!-- <script src="datasource.js?v=29"></script>    live Google Sheets reader -->
+  <script src="data.js?v=31"></script>          <!-- offline fallback snapshot -->
+  <script src="datasource.js?v=31"></script>    <!-- live Google Sheets reader -->
   <script src="vendor/jspdf.umd.min.js"></script>
-  <script src="app.js?v=29"></script>
+  <script src="app.js?v=31"></script>
 </body>
 </html>

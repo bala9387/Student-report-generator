@@ -60,7 +60,9 @@
         var s = groupMode.students[roll.toUpperCase()];
         if (s) {
           if (!groupMode.conducted[mode]) {
-            showMsg("info", "Exam <b>" + esc(mode) + "</b> has not been conducted yet. Only CU 1 data is available.");
+            var avail = conductedExams(groupMode);
+            showMsg("info", "Exam <b>" + esc(mode) + "</b> has not been conducted yet." +
+              (avail.length ? " Available: <b>" + avail.map(esc).join(", ") + "</b>." : ""));
             return;
           }
           renderExamReport(groupMode, s, mode);
@@ -80,10 +82,11 @@
   });
   $("#printBtn").addEventListener("click", function () { window.print(); });
 $("#downloadBtn").addEventListener("click", function () {
-    if (currentPDF) {
-      if (currentPDF.type === "exam") buildExamPDF(currentPDF.mode, currentPDF.student, currentPDF.exam);
-      else buildPDF(currentPDF.mode, currentPDF.student);
-    }
+    if (!currentPDF) return;
+    if (currentPDF.type === "exam") buildExamPDF(currentPDF.mode, currentPDF.student, currentPDF.exam);
+    else if (currentPDF.type === "top-school") buildSchoolTopPDF();
+    else if (currentPDF.type === "top-stream") buildStreamTopPDF();
+    else buildPDF(currentPDF.mode, currentPDF.student);
   });
 
   // ---------- rendering ----------
@@ -92,6 +95,12 @@ $("#downloadBtn").addEventListener("click", function () {
   }
   function pendingExams(m) {
     return m.exams.filter(function (ex) { return !m.conducted[ex]; });
+  }
+  // most recent exam period with marks entered (CU 1 -> TE 1 -> CU 2 -> TE 2), so the
+  // "current standing" (topper badge, summary cards) always reflects the latest sheet data
+  function latestConductedExam(m) {
+    var conducted = conductedExams(m);
+    return conducted.length ? conducted[conducted.length - 1] : m.exams[0];
   }
   // maximum possible total = number of subjects × marks-per-subject (every student takes 6 subjects)
   function maxTotalMarks() {
@@ -248,8 +257,10 @@ if (isSchoolTopper) {
 
   // ----- ANALYSIS report (totals + ranks) -----
   function renderAnalysis(host, m, s) {
-var isSchoolTopper = !!(s.exams["CU 1"] && s.exams["CU 1"].rank === 1);
-    var isStreamTopper = !!(s.exams["CU 1"] && s.exams["CU 1"].domainRank === 1);
+    var latest = latestConductedExam(m);
+    var latestEx = s.exams[latest];
+    var isSchoolTopper = !!(latestEx && latestEx.rank === 1);
+    var isStreamTopper = !!(latestEx && latestEx.domainRank === 1);
     var topperHtml = "";
     if (isSchoolTopper) {
       topperHtml = "<div class='topper-badge' style='background:#ffd700; color:#5c4000; font-size:1.05em; font-weight:800; border:1px solid #cca100; box-shadow:0 2px 8px rgba(255,215,0,0.4)'>🏆 OVERALL SCHOOL TOPPER</div>";
@@ -265,11 +276,11 @@ var isSchoolTopper = !!(s.exams["CU 1"] && s.exams["CU 1"].rank === 1);
     host.appendChild(head);
     if (isSchoolTopper) {
       host.appendChild(el("p", "note-top",
-        "<b>Outstanding Achievement!</b> " + esc(s.name) + " holds Rank 1 out of the entire school (" + m.classSize + " students) in CU 1."));
+        "<b>Outstanding Achievement!</b> " + esc(s.name) + " holds Rank 1 out of the entire school (" + m.classSize + " students) in " + esc(latest) + "."));
     } else if (isStreamTopper) {
       host.appendChild(el("p", "note-top",
         "<b>Congratulations.</b> " + esc(s.name) + " holds Rank 1 in their stream (" +
-        s.exams["CU 1"].domainSize + " students in CU 1)."));
+        latestEx.domainSize + " students in " + esc(latest) + ")."));
     }
 
     host.appendChild(el("div", "sec-title", "1. Student Information"));
@@ -304,13 +315,12 @@ var isSchoolTopper = !!(s.exams["CU 1"] && s.exams["CU 1"].rank === 1);
     tbl.innerHTML = h; scroll.appendChild(tbl); host.appendChild(scroll);
 
     var cards = el("div", "cards");
-    var cu = s.exams["CU 1"];
-    cards.appendChild(card(cu.total + " / " + maxTot, "Total Marks (CU 1)"));
+    cards.appendChild(card(latestEx.total + " / " + maxTot, "Total Marks (" + latest + ")"));
     // rank card with special styling
-    var rankCard = el("div", "card" + (cu.rank != null && cu.rank <= 3 ? " card-rank card-rank-" + cu.rank : ""));
-    rankCard.innerHTML = "<div class='num'>" + rankBadge(cu.domainRank, cu.domainSize) + "</div><div class='lbl'>Rank (in stream)</div>";
+    var rankCard = el("div", "card" + (latestEx.rank != null && latestEx.rank <= 3 ? " card-rank card-rank-" + latestEx.rank : ""));
+    rankCard.innerHTML = "<div class='num'>" + rankBadge(latestEx.domainRank, latestEx.domainSize) + "</div><div class='lbl'>Rank (in stream)</div>";
     cards.appendChild(rankCard);
-    var pctObt = pctObtained(cu.total, maxTot);
+    var pctObt = pctObtained(latestEx.total, maxTot);
     cards.appendChild(card(pctObt != null ? pctObt + "%" : "—", "Percentage"));
     host.appendChild(cards);
 
@@ -326,12 +336,126 @@ var isSchoolTopper = !!(s.exams["CU 1"] && s.exams["CU 1"].rank === 1);
   function pendingNote(host, m) {
     var pend = pendingExams(m);
     if (!pend.length) return;
+    var done = conductedExams(m);
     var p = el("p", "note-pending");
-    p.innerHTML = "<b>Note:</b> Only <b>CU 1</b> has been conducted so far. The following are pending and will appear once marks are entered: " +
+    p.innerHTML = "<b>Note:</b> <b>" + done.map(esc).join(", ") +
+      "</b> ha" + (done.length === 1 ? "s" : "ve") + " been conducted so far. The following are pending and will appear once marks are entered: " +
       pend.map(esc).join(", ") + ".";
     host.appendChild(p);
   }
 
+  // ---------- Top Performers (leaderboards) ----------
+  var DOMAIN_LABELS = {
+    "Bio-Math": "Bio - Maths", "Math-CS": "Maths - CS", "Bio-CS": "Bio - CS",
+    "Applied Math": "Applied Maths", "CS": "Computer Science"
+  };
+  function domainLabel(dom) { return DOMAIN_LABELS[dom] || dom; }
+
+  function allStudents(m) {
+    return Object.keys(m.students).map(function (k) { return m.students[k]; });
+  }
+
+  // top N school-wide, ranked by the latest conducted exam's overall rank
+  function computeSchoolTop(n) {
+    var m = DATA.modes["PE - Analysis"];
+    var exam = latestConductedExam(m);
+    var list = allStudents(m)
+      .filter(function (s) { return s.exams[exam] && s.exams[exam].rank != null; })
+      .sort(function (a, b) { return a.exams[exam].rank - b.exams[exam].rank; })
+      .slice(0, n);
+    return { m: m, exam: exam, list: list };
+  }
+
+  // top N within each stream, ranked by the latest conducted exam's domain (stream) rank
+  function computeStreamTop(n) {
+    var m = DATA.modes["PE - Analysis"];
+    var exam = latestConductedExam(m);
+    var groups = {}, order = [];
+    allStudents(m).forEach(function (s) {
+      var e = s.exams[exam];
+      if (!e || e.domainRank == null) return;
+      var dom = s.domainName || (s.stream || []).join("-");
+      if (!groups[dom]) { groups[dom] = []; order.push(dom); }
+      groups[dom].push(s);
+    });
+    order.sort(function (a, b) { return domainLabel(a).localeCompare(domainLabel(b)); });
+    var out = order.map(function (dom) {
+      groups[dom].sort(function (a, b) { return a.exams[exam].domainRank - b.exams[exam].domainRank; });
+      return { domain: dom, label: domainLabel(dom), size: groups[dom].length, list: groups[dom].slice(0, n) };
+    });
+    return { m: m, exam: exam, groups: out };
+  }
+
+  function lbRowClass(rank) { return rank <= 3 ? " lb-rank-" + rank : ""; }
+
+  function renderSchoolTop(host) {
+    var top = computeSchoolTop(5);
+    currentPDF = { type: "top-school" };
+    var maxTot = maxTotalMarks();
+
+    var head = el("div", "rep-head");
+    head.innerHTML = "<div class='rep-banner'>" + esc(BANNER) + "</div>" +
+      "<h2>Top Performers</h2><div class='school'>School-wide &middot; Academic Year " +
+      esc(DATA.meta.academicYear) + "</div>";
+    host.appendChild(head);
+    host.appendChild(el("p", "lb-asof",
+      "Ranking as of <b>" + esc(top.exam) + "</b> &middot; out of " + top.m.classSize + " students"));
+
+    var scroll = el("div", "tbl-scroll");
+    var tbl = el("table", "grid");
+    var h = "<thead><tr><th>Rank</th><th>Name</th><th>Roll No</th><th>Stream</th><th>Total Marks</th><th>Percentage</th></tr></thead><tbody>";
+    top.list.forEach(function (s) {
+      var e = s.exams[top.exam];
+      var pct = pctObtained(e.total, maxTot);
+      h += "<tr class='" + lbRowClass(e.rank).trim() + "'><td>" + rankBadge(e.rank, top.m.classSize) +
+        "</td><td class='lb-name'>" + esc(s.name) + "</td><td>" + esc(s.rollNo) + "</td><td>" +
+        esc(domainLabel(s.domainName || (s.stream || []).join("-"))) + "</td><td>" + e.total + " / " + maxTot +
+        "</td><td>" + (pct != null ? pct + "%" : "—") + "</td></tr>";
+    });
+    h += "</tbody>";
+    tbl.innerHTML = h; scroll.appendChild(tbl); host.appendChild(scroll);
+  }
+
+  function renderStreamTop(host) {
+    var top = computeStreamTop(5);
+    currentPDF = { type: "top-stream" };
+    var maxTot = maxTotalMarks();
+
+    var head = el("div", "rep-head");
+    head.innerHTML = "<div class='rep-banner'>" + esc(BANNER) + "</div>" +
+      "<h2>Top Performers by Stream</h2><div class='school'>Academic Year " +
+      esc(DATA.meta.academicYear) + "</div>";
+    host.appendChild(head);
+    host.appendChild(el("p", "lb-asof", "Ranking as of <b>" + esc(top.exam) + "</b>"));
+
+    top.groups.forEach(function (g) {
+      host.appendChild(el("div", "lb-stream-heading", esc(g.label) + " &middot; " + g.size + " students"));
+      var scroll = el("div", "tbl-scroll");
+      var tbl = el("table", "grid");
+      var h = "<thead><tr><th>Rank</th><th>Name</th><th>Roll No</th><th>Total Marks</th><th>Percentage</th></tr></thead><tbody>";
+      g.list.forEach(function (s) {
+        var e = s.exams[top.exam];
+        var pct = pctObtained(e.total, maxTot);
+        h += "<tr class='" + lbRowClass(e.domainRank).trim() + "'><td>" + rankBadge(e.domainRank, e.domainSize) +
+          "</td><td class='lb-name'>" + esc(s.name) + "</td><td>" + esc(s.rollNo) + "</td><td>" + e.total + " / " + maxTot +
+          "</td><td>" + (pct != null ? pct + "%" : "—") + "</td></tr>";
+      });
+      h += "</tbody>";
+      tbl.innerHTML = h; scroll.appendChild(tbl); host.appendChild(scroll);
+    });
+  }
+
+  function showLeaderboard(renderFn) {
+    var host = $("#report");
+    host.innerHTML = "";
+    renderFn(host);
+    $("#downloadBtn").hidden = false;
+    $("#lookupCard").hidden = true;
+    $("#reportWrap").hidden = false;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  $("#topSchoolBtn").addEventListener("click", function () { showLeaderboard(renderSchoolTop); });
+  $("#topStreamBtn").addEventListener("click", function () { showLeaderboard(renderStreamTop); });
 
   // ---------- PDF export (jsPDF) ----------
   function buildExamPDF(m, s, exam) {
@@ -431,6 +555,80 @@ var isSchoolTopper = !!(s.exams["CU 1"] && s.exams["CU 1"].rank === 1);
     doc.save(fn);
   }
 
+  function pdfHeader(doc, title, subtitle) {
+    var W = doc.internal.pageSize.getWidth();
+    doc.setFillColor(209, 213, 219); doc.rect(0, 0, W, 8, "F");
+    doc.setFillColor(183, 22, 28); doc.rect(0, 0, W, 6, "F");
+    doc.setFont("helvetica", "bold"); doc.setFontSize(11); doc.setTextColor(20, 30, 48);
+    doc.text(BANNER, W / 2, 32, { align: "center" });
+    doc.setFont("helvetica", "bold"); doc.setFontSize(18); doc.setTextColor(183, 22, 28);
+    doc.text(title, W / 2, 52, { align: "center" });
+    doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(90);
+    doc.text(subtitle, W / 2, 68, { align: "center" });
+    return 84;
+  }
+
+  function buildSchoolTopPDF() {
+    var jsPDF = window.jspdf.jsPDF;
+    var doc = new jsPDF({ unit: "pt", format: "a4" });
+    var top = computeSchoolTop(5);
+    var maxTot = maxTotalMarks();
+
+    var y = pdfHeader(doc, "Top Performers",
+      "School-wide · Academic Year " + DATA.meta.academicYear);
+    doc.setFont("helvetica", "italic"); doc.setFontSize(9); doc.setTextColor(120);
+    doc.text("Ranking as of " + top.exam + " · out of " + top.m.classSize + " students", doc.internal.pageSize.getWidth() / 2, y, { align: "center" });
+    y += 16;
+
+    var rows = top.list.map(function (s) {
+      var e = s.exams[top.exam];
+      var pct = pctObtained(e.total, maxTot);
+      var rankCell = e.rank === 1 ? { text: String(e.rank), isTop: true } : String(e.rank);
+      return [rankCell, s.name, s.rollNo, domainLabel(s.domainName || (s.stream || []).join("-")),
+        e.total + " / " + maxTot, pct != null ? pct + "%" : "-"];
+    });
+    drawTable(doc, {
+      startY: y, colWidths: [50, 140, 85, 110, 75, 55],
+      aligns: ["center", "left", "center", "center", "center", "center"],
+      fontSize: 9, head: ["Rank", "Name", "Roll No", "Stream", "Total Marks", "Percentage"], body: rows
+    });
+
+    doc.save("Top_Performers_School_" + top.exam.replace(/\s+/g, "") + ".pdf");
+  }
+
+  function buildStreamTopPDF() {
+    var jsPDF = window.jspdf.jsPDF;
+    var doc = new jsPDF({ unit: "pt", format: "a4" });
+    var top = computeStreamTop(5);
+    var maxTot = maxTotalMarks();
+    var pageH = doc.internal.pageSize.getHeight();
+
+    var y = pdfHeader(doc, "Top Performers by Stream", "Academic Year " + DATA.meta.academicYear);
+    doc.setFont("helvetica", "italic"); doc.setFontSize(9); doc.setTextColor(120);
+    doc.text("Ranking as of " + top.exam, doc.internal.pageSize.getWidth() / 2, y, { align: "center" });
+    y += 16;
+
+    top.groups.forEach(function (g) {
+      var blockH = 24 + 20 + g.list.length * 19 + 14;
+      if (y + blockH > pageH - 40) { doc.addPage(); y = 40; }
+      y = sectionBar(doc, y, g.label + " · " + g.size + " students");
+      var rows = g.list.map(function (s) {
+        var e = s.exams[top.exam];
+        var pct = pctObtained(e.total, maxTot);
+        var rankCell = e.domainRank === 1 ? { text: String(e.domainRank), isTop: true } : String(e.domainRank);
+        return [rankCell, s.name, s.rollNo, e.total + " / " + maxTot, pct != null ? pct + "%" : "-"];
+      });
+      y = drawTable(doc, {
+        startY: y, colWidths: [60, 175, 100, 95, 85],
+        aligns: ["center", "left", "center", "center", "center"],
+        fontSize: 9, head: ["Rank", "Name", "Roll No", "Total Marks", "Percentage"], body: rows
+      });
+      y += 14;
+    });
+
+    doc.save("Top_Performers_by_Stream_" + top.exam.replace(/\s+/g, "") + ".pdf");
+  }
+
   function buildPDF(mode, student) {
     var jsPDF = window.jspdf.jsPDF;
     var doc = new jsPDF({ unit: "pt", format: "a4" });
@@ -438,8 +636,10 @@ var isSchoolTopper = !!(s.exams["CU 1"] && s.exams["CU 1"].rank === 1);
     var W = doc.internal.pageSize.getWidth();
     var GOLD = [201, 154, 30];
     
-    var isSchoolTopper = !!(student.exams["CU 1"] && student.exams["CU 1"].rank === 1);
-    var isStreamTopper = !!(student.exams["CU 1"] && student.exams["CU 1"].domainRank === 1);
+    var latest = latestConductedExam(m);
+    var latestEx = student.exams[latest];
+    var isSchoolTopper = !!(latestEx && latestEx.rank === 1);
+    var isStreamTopper = !!(latestEx && latestEx.domainRank === 1);
 
     doc.setFillColor(209, 213, 219); doc.rect(0, 0, W, 8, "F");
     doc.setFillColor(183, 22, 28); doc.rect(0, 0, W, 6, "F");
@@ -475,11 +675,11 @@ var isSchoolTopper = !!(s.exams["CU 1"] && s.exams["CU 1"].rank === 1);
     var y = infoStartY;
     if (isSchoolTopper) {
       doc.setFont("helvetica", "italic"); doc.setFontSize(9); doc.setTextColor(90, 67, 0);
-      doc.text("Outstanding Achievement - " + student.name + " holds Rank 1 out of the entire school in CU 1.", W / 2, y, { align: "center" });
+      doc.text("Outstanding Achievement - " + student.name + " holds Rank 1 out of the entire school in " + latest + ".", W / 2, y, { align: "center" });
       y += 14;
     } else if (isStreamTopper) {
       doc.setFont("helvetica", "italic"); doc.setFontSize(9); doc.setTextColor(90, 67, 0);
-      doc.text("Congratulations - " + student.name + " holds Rank 1 in their stream in CU 1.", W / 2, y, { align: "center" });
+      doc.text("Congratulations - " + student.name + " holds Rank 1 in their stream in " + latest + ".", W / 2, y, { align: "center" });
       y += 14;
     }
 
@@ -616,12 +816,13 @@ var isSchoolTopper = !!(s.exams["CU 1"] && s.exams["CU 1"].rank === 1);
       fontSize: 9, head: ["Exam", "Marks Obtained", "Rank (in stream)", "Class Highest", "Percentage"], body: rows
     });
 
-    var cu = s.exams["CU 1"];
-    var pctCU = pctObtained(cu.total, maxTot);
+    var latest = latestConductedExam(m);
+    var latestEx = s.exams[latest];
+    var pctLatest = pctObtained(latestEx.total, maxTot);
     var boxes = [
-      { num: cu.total + " / " + maxTot, label: "Total Marks (CU 1)" },
-      { num: rankText(cu.domainRank, cu.domainSize), label: "Rank (in stream)" },
-      { num: (pctCU != null ? pctCU + "%" : "-"), label: "Percentage" }
+      { num: latestEx.total + " / " + maxTot, label: "Total Marks (" + latest + ")" },
+      { num: rankText(latestEx.domainRank, latestEx.domainSize), label: "Rank (in stream)" },
+      { num: (pctLatest != null ? pctLatest + "%" : "-"), label: "Percentage" }
     ];
     y = statBoxes(doc, y + 14, boxes);
     footerNote(doc, m, y);
@@ -631,13 +832,15 @@ var isSchoolTopper = !!(s.exams["CU 1"] && s.exams["CU 1"].rank === 1);
     var pend = pendingExams(m);
     doc.setFont("helvetica", "italic"); doc.setFontSize(8); doc.setTextColor(120);
     if (pend.length) {
-      doc.text("Note: Only CU 1 has been conducted. Pending: " + pend.join(", ") + ".", 40, y, { maxWidth: doc.internal.pageSize.getWidth() - 80 });
+      var done = conductedExams(m);
+      doc.text("Note: " + done.join(", ") + " ha" + (done.length === 1 ? "s" : "ve") +
+        " been conducted. Pending: " + pend.join(", ") + ".", 40, y, { maxWidth: doc.internal.pageSize.getWidth() - 80 });
       y += 12;
     }
   }
 
   function today() {
-    return "04 Jul 2026";
+    return new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
   }
 
   // uppercase the roll field as the user types
@@ -663,7 +866,14 @@ var isSchoolTopper = !!(s.exams["CU 1"] && s.exams["CU 1"].rank === 1);
     DATA = res.data;
     MAXSUB = (DATA.meta && DATA.meta.maxPerSubject) || 100;
     $("#submitBtn").disabled = false;
-    setStatus("live", "Constant data 4", "Loaded static data.");
+    $("#topSchoolBtn").disabled = false;
+    $("#topStreamBtn").disabled = false;
+    if (res.live) {
+      setStatus("live", "Live · " + fmtTime(res.when), "Loaded live from Google Sheets.");
+    } else {
+      setStatus("offline", "Offline snapshot", "Could not reach Google Sheets" +
+        (res.error ? " (" + res.error + ")" : "") + " — showing the last saved snapshot.");
+    }
   }
 
     function load(isRefresh) {
