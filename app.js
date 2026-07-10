@@ -1,9 +1,10 @@
 /* Student Performance Report — parent portal.
-   Data is loaded live from Google Sheets (datasource.js), with the bundled
-   data.js snapshot as an offline fallback. */
+   Data is loaded from our own backend (server.js), which is the only thing
+   that ever talks to Google Sheets. The browser never sees the sheet ID or
+   any student's data beyond the single record it explicitly asked for. */
 (function () {
   "use strict";
-  var DATA = null;          // set once report data has loaded
+  var DATA = null;          // small cache: { meta, modes: { "PE - Analysis": {classSize} } }
   var MAXSUB = 100;
   var BANNER = "Grade XII · Team Elevate 2027";   // report topic / heading
 
@@ -22,18 +23,22 @@
   }
   function normRoll(s) { return String(s || "").trim().toUpperCase().replace(/\s+/g, ""); }
 
-  // find a student key in a mode case-insensitively
-  function findStudent(mode, roll) {
-    var m = DATA.modes[mode];
-    if (!m) return null;
-    if (m.students[roll]) return m.students[roll];
-    var want = roll.toUpperCase();
-    for (var k in m.students) if (k.toUpperCase() === want) return m.students[k];
-    return null;
+  // fetch JSON from our backend; throws with a readable message on failure
+  function apiGet(path) {
+    return fetch(path).then(function (r) {
+      return r.json().catch(function () { throw new Error("Bad response from server"); })
+        .then(function (body) {
+          if (!r.ok) throw new Error(body.error || ("HTTP " + r.status));
+          return body;
+        });
+    });
   }
-  function modesForRoll(roll) {
-    var idx = DATA.rollIndex[roll.toUpperCase()];
-    return idx ? idx.slice() : [];
+  // keep the small cross-cutting bits (academic year, whole-cohort size) fresh
+  function absorbMeta(resp) {
+    DATA = DATA || { meta: {}, modes: { "PE - Analysis": {} } };
+    DATA.meta = resp.meta;
+    DATA.modes["PE - Analysis"].classSize = resp.peClassSize;
+    MAXSUB = (DATA.meta && DATA.meta.maxPerSubject) || 100;
   }
 
   var currentPDF = null; // holds {mode, student} for export
@@ -49,28 +54,28 @@
     msg.className = "message"; msg.innerHTML = "";
     if (!roll) { showMsg("error", "Please enter a Roll Number."); return; }
 
-    if (mode === "PE - Analysis") {
-      var student = findStudent(mode, roll);
-      if (student) { renderReport(mode, student); return; }
-    } else {
-      var streams = modesForRoll(roll);
-      var stream = streams.find(function(m) { return m !== "PE - Analysis"; });
-      if (stream) {
-        var groupMode = DATA.modes[stream];
-        var s = groupMode.students[roll.toUpperCase()];
-        if (s) {
-          if (!groupMode.conducted[mode]) {
-            var avail = conductedExams(groupMode);
-            showMsg("info", "Exam <b>" + esc(mode) + "</b> has not been conducted yet." +
-              (avail.length ? " Available: <b>" + avail.map(esc).join(", ") + "</b>." : ""));
-            return;
-          }
-          renderExamReport(groupMode, s, mode);
-          return;
+    var submitBtn = $("#submitBtn");
+    submitBtn.disabled = true;
+    apiGet("/api/lookup?mode=" + encodeURIComponent(mode) + "&roll=" + encodeURIComponent(roll))
+      .then(function (resp) {
+        absorbMeta(resp);
+        if (resp.found && resp.kind === "analysis") {
+          DATA.modes[resp.mode.label] = resp.mode;
+          renderReport(resp.mode.label, resp.student);
+        } else if (resp.found && resp.kind === "exam") {
+          DATA.modes[resp.mode.label] = resp.mode;
+          renderExamReport(resp.mode, resp.student, resp.exam);
+        } else if (resp.reason === "not-conducted") {
+          showMsg("info", "Exam <b>" + esc(mode) + "</b> has not been conducted yet." +
+            (resp.availableExams.length ? " Available: <b>" + resp.availableExams.map(esc).join(", ") + "</b>." : ""));
+        } else {
+          showMsg("error", "No student found with Roll Number <b>" + esc(roll) + "</b>.");
         }
-      }
-    }
-    showMsg("error", "No student found with Roll Number <b>" + esc(roll) + "</b>.");
+      })
+      .catch(function (e) {
+        showMsg("error", "Could not reach the server. " + esc(e.message));
+      })
+      .then(function () { submitBtn.disabled = false; });
   });
 
   function showMsg(kind, html) { msg.className = "message " + kind; msg.innerHTML = html; }
@@ -351,45 +356,14 @@ if (isSchoolTopper) {
   };
   function domainLabel(dom) { return DOMAIN_LABELS[dom] || dom; }
 
-  function allStudents(m) {
-    return Object.keys(m.students).map(function (k) { return m.students[k]; });
-  }
-
-  // top N school-wide, ranked by the latest conducted exam's overall rank
-  function computeSchoolTop(n) {
-    var m = DATA.modes["PE - Analysis"];
-    var exam = latestConductedExam(m);
-    var list = allStudents(m)
-      .filter(function (s) { return s.exams[exam] && s.exams[exam].rank != null; })
-      .sort(function (a, b) { return a.exams[exam].rank - b.exams[exam].rank; })
-      .slice(0, n);
-    return { m: m, exam: exam, list: list };
-  }
-
-  // top N within each stream, ranked by the latest conducted exam's domain (stream) rank
-  function computeStreamTop(n) {
-    var m = DATA.modes["PE - Analysis"];
-    var exam = latestConductedExam(m);
-    var groups = {}, order = [];
-    allStudents(m).forEach(function (s) {
-      var e = s.exams[exam];
-      if (!e || e.domainRank == null) return;
-      var dom = s.domainName || (s.stream || []).join("-");
-      if (!groups[dom]) { groups[dom] = []; order.push(dom); }
-      groups[dom].push(s);
-    });
-    order.sort(function (a, b) { return domainLabel(a).localeCompare(domainLabel(b)); });
-    var out = order.map(function (dom) {
-      groups[dom].sort(function (a, b) { return a.exams[exam].domainRank - b.exams[exam].domainRank; });
-      return { domain: dom, label: domainLabel(dom), size: groups[dom].length, list: groups[dom].slice(0, n) };
-    });
-    return { m: m, exam: exam, groups: out };
-  }
-
   function lbRowClass(rank) { return rank <= 3 ? " lb-rank-" + rank : ""; }
 
-  function renderSchoolTop(host) {
-    var top = computeSchoolTop(5);
+  // cached copies of the last-fetched leaderboard, reused by the PDF builders
+  // so downloading doesn't need a second round trip
+  var lastSchoolTop = null, lastStreamTop = null;
+
+  function renderSchoolTop(host, top) {
+    lastSchoolTop = top;
     currentPDF = { type: "top-school" };
     var maxTot = maxTotalMarks();
 
@@ -399,7 +373,7 @@ if (isSchoolTopper) {
       esc(DATA.meta.academicYear) + "</div>";
     host.appendChild(head);
     host.appendChild(el("p", "lb-asof",
-      "Ranking as of <b>" + esc(top.exam) + "</b> &middot; out of " + top.m.classSize + " students"));
+      "Ranking as of <b>" + esc(top.exam) + "</b> &middot; out of " + top.classSize + " students"));
 
     var scroll = el("div", "tbl-scroll");
     var tbl = el("table", "grid");
@@ -407,17 +381,17 @@ if (isSchoolTopper) {
     top.list.forEach(function (s) {
       var e = s.exams[top.exam];
       var pct = pctObtained(e.total, maxTot);
-      h += "<tr class='" + lbRowClass(e.rank).trim() + "'><td>" + rankBadge(e.rank, top.m.classSize) +
+      h += "<tr class='" + lbRowClass(e.rank).trim() + "'><td>" + rankBadge(e.rank, top.classSize) +
         "</td><td class='lb-name'>" + esc(s.name) + "</td><td>" + esc(s.rollNo) + "</td><td>" +
-        esc(domainLabel(s.domainName || (s.stream || []).join("-"))) + "</td><td>" + e.total + " / " + maxTot +
+        esc(domainLabel(s.domainName)) + "</td><td>" + e.total + " / " + maxTot +
         "</td><td>" + (pct != null ? pct + "%" : "—") + "</td></tr>";
     });
     h += "</tbody>";
     tbl.innerHTML = h; scroll.appendChild(tbl); host.appendChild(scroll);
   }
 
-  function renderStreamTop(host) {
-    var top = computeStreamTop(5);
+  function renderStreamTop(host, top) {
+    lastStreamTop = top;
     currentPDF = { type: "top-stream" };
     var maxTot = maxTotalMarks();
 
@@ -429,7 +403,7 @@ if (isSchoolTopper) {
     host.appendChild(el("p", "lb-asof", "Ranking as of <b>" + esc(top.exam) + "</b>"));
 
     top.groups.forEach(function (g) {
-      host.appendChild(el("div", "lb-stream-heading", esc(g.label) + " &middot; " + g.size + " students"));
+      host.appendChild(el("div", "lb-stream-heading", esc(domainLabel(g.domain)) + " &middot; " + g.size + " students"));
       var scroll = el("div", "tbl-scroll");
       var tbl = el("table", "grid");
       var h = "<thead><tr><th>Rank</th><th>Name</th><th>Roll No</th><th>Total Marks</th><th>Percentage</th></tr></thead><tbody>";
@@ -445,17 +419,29 @@ if (isSchoolTopper) {
     });
   }
 
-  function showLeaderboard(renderFn) {
+  function showLeaderboard(scope, renderFn, btn) {
+    btn.disabled = true;
     var host = $("#report");
     host.innerHTML = "";
-    renderFn(host);
+    host.appendChild(el("p", "lb-asof", "Loading&hellip;"));
     $("#downloadBtn").hidden = false;
     $("#lookupCard").hidden = true;
     $("#reportWrap").hidden = false;
     window.scrollTo({ top: 0, behavior: "smooth" });
+    apiGet("/api/leaderboard?scope=" + scope + "&n=5")
+      .then(function (resp) {
+        absorbMeta(resp);
+        host.innerHTML = "";
+        renderFn(host, resp);
+      })
+      .catch(function (e) {
+        host.innerHTML = "";
+        host.appendChild(el("p", "note-pending", "Could not load rankings. " + esc(e.message)));
+      })
+      .then(function () { btn.disabled = false; });
   }
-  $("#topSchoolBtn").addEventListener("click", function () { showLeaderboard(renderSchoolTop); });
-  $("#topStreamBtn").addEventListener("click", function () { showLeaderboard(renderStreamTop); });
+  $("#topSchoolBtn").addEventListener("click", function (ev) { showLeaderboard("school", renderSchoolTop, ev.currentTarget); });
+  $("#topStreamBtn").addEventListener("click", function (ev) { showLeaderboard("stream", renderStreamTop, ev.currentTarget); });
 
   // ---------- PDF export (jsPDF) ----------
   function buildExamPDF(m, s, exam) {
@@ -569,22 +555,23 @@ if (isSchoolTopper) {
   }
 
   function buildSchoolTopPDF() {
+    if (!lastSchoolTop) return;
     var jsPDF = window.jspdf.jsPDF;
     var doc = new jsPDF({ unit: "pt", format: "a4" });
-    var top = computeSchoolTop(5);
+    var top = lastSchoolTop;
     var maxTot = maxTotalMarks();
 
     var y = pdfHeader(doc, "Top Performers",
       "School-wide · Academic Year " + DATA.meta.academicYear);
     doc.setFont("helvetica", "italic"); doc.setFontSize(9); doc.setTextColor(120);
-    doc.text("Ranking as of " + top.exam + " · out of " + top.m.classSize + " students", doc.internal.pageSize.getWidth() / 2, y, { align: "center" });
+    doc.text("Ranking as of " + top.exam + " · out of " + top.classSize + " students", doc.internal.pageSize.getWidth() / 2, y, { align: "center" });
     y += 16;
 
     var rows = top.list.map(function (s) {
       var e = s.exams[top.exam];
       var pct = pctObtained(e.total, maxTot);
       var rankCell = e.rank === 1 ? { text: String(e.rank), isTop: true } : String(e.rank);
-      return [rankCell, s.name, s.rollNo, domainLabel(s.domainName || (s.stream || []).join("-")),
+      return [rankCell, s.name, s.rollNo, domainLabel(s.domainName),
         e.total + " / " + maxTot, pct != null ? pct + "%" : "-"];
     });
     drawTable(doc, {
@@ -597,9 +584,10 @@ if (isSchoolTopper) {
   }
 
   function buildStreamTopPDF() {
+    if (!lastStreamTop) return;
     var jsPDF = window.jspdf.jsPDF;
     var doc = new jsPDF({ unit: "pt", format: "a4" });
-    var top = computeStreamTop(5);
+    var top = lastStreamTop;
     var maxTot = maxTotalMarks();
     var pageH = doc.internal.pageSize.getHeight();
 
@@ -611,7 +599,7 @@ if (isSchoolTopper) {
     top.groups.forEach(function (g) {
       var blockH = 24 + 20 + g.list.length * 19 + 14;
       if (y + blockH > pageH - 40) { doc.addPage(); y = 40; }
-      y = sectionBar(doc, y, g.label + " · " + g.size + " students");
+      y = sectionBar(doc, y, domainLabel(g.domain) + " · " + g.size + " students");
       var rows = g.list.map(function (s) {
         var e = s.exams[top.exam];
         var pct = pctObtained(e.total, maxTot);
@@ -861,39 +849,25 @@ if (isSchoolTopper) {
     return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   }
 
-  // ---------- load report data (live first, snapshot fallback) ----------
+  // ---------- load report data (from our backend, which owns the live fetch) ----------
   function applyData(res) {
-    DATA = res.data;
-    MAXSUB = (DATA.meta && DATA.meta.maxPerSubject) || 100;
+    absorbMeta(res);
     $("#submitBtn").disabled = false;
     $("#topSchoolBtn").disabled = false;
     $("#topStreamBtn").disabled = false;
     if (res.live) {
-      setStatus("live", "Live · " + fmtTime(res.when), "Loaded live from Google Sheets.");
+      setStatus("live", "Live · " + fmtTime(new Date(res.when)), "Loaded live from Google Sheets.");
     } else {
       setStatus("offline", "Offline snapshot", "Could not reach Google Sheets" +
         (res.error ? " (" + res.error + ")" : "") + " — showing the last saved snapshot.");
     }
   }
 
-    function load(isRefresh) {
-    if (window.ReportSource) {
-      setStatus("loading", isRefresh ? "Refreshing..." : "Connecting...", "Contacting Google Sheets");
-      return window.ReportSource.loadReportData().then(applyData).catch(function (e) {
-        if (window.REPORT_DATA) {
-          applyData({ data: window.REPORT_DATA });
-        } else {
-          setStatus("offline", "Data unavailable", String(e && e.message || e));
-        }
-      });
-    } else {
-      if (window.REPORT_DATA) {
-        applyData({ data: window.REPORT_DATA });
-      } else {
-        setStatus("offline", "Data unavailable", "Local data not loaded.");
-      }
-      return Promise.resolve();
-    }
+  function load(isRefresh) {
+    setStatus("loading", isRefresh ? "Refreshing..." : "Connecting...", "Contacting the server");
+    return apiGet("/api/meta").then(applyData).catch(function (e) {
+      setStatus("offline", "Data unavailable", String(e && e.message || e));
+    });
   }
 
   // click the pill to refresh live data on demand

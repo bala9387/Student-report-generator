@@ -3,9 +3,10 @@
   "configurations": [
     {
       "name": "report-site",
-      "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "5177"],
-      "port": 5177
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.js"],
+      "port": 8080,
+      "autoPort": true
     }
   ]
 }
