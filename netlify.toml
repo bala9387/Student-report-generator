@@ -1,0 +1,18 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# data.js is read at runtime via fs.readFileSync (offline fallback only), so
+# Netlify's static-require scanner won't pick it up automatically — bundle
+# it explicitly. It is never served publicly; publish = "public" already
+# excludes it from the deployed site's static files.
+[functions]
+  included_files = ["data.js"]
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
