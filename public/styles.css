@@ -106,6 +106,27 @@ body{
 .card.card-rank-2{border-color:#a8adb4;background:linear-gradient(180deg,#f6f7f8,#fbfbfc)}
 .card.card-rank-3{border-color:#c98a54;background:linear-gradient(180deg,#fdf3ea,#fbfbfc)}
 
+/* ---------- login modal ---------- */
+.login-overlay{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(20,24,36,.55);
+  display:flex;align-items:center;justify-content:center;
+  padding:16px;
+  backdrop-filter:blur(2px);
+}
+.login-overlay[hidden]{display:none}
+.login-card{
+  background:#fff;border-radius:10px;
+  box-shadow:0 8px 32px rgba(0,0,0,.18);
+  width:100%;max-width:360px;
+  padding:28px 28px 24px;
+}
+.login-header{text-align:center;margin-bottom:20px}
+.login-logo{height:48px;width:auto;margin-bottom:10px}
+.login-header h2{margin:0 0 4px;font-size:1.15rem;font-weight:700;color:var(--ink)}
+.login-header p{margin:0;font-size:.88rem;color:var(--muted)}
+.login-cancel{width:100%;margin-top:8px}
+
 /* ---------- leaderboard tables ---------- */
 .lb-asof{margin:0;padding:10px 18px;font-size:.82rem;color:var(--muted);
   border-bottom:1px solid var(--line);background:#fafbfc}

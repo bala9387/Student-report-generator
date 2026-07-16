@@ -33,6 +33,18 @@ app.get('/api/leaderboard', async (req, res) => {
   const r = await api.getLeaderboard(req.query.scope, req.query.n);
   res.status(r.status).json(r.body);
 });
+app.post('/api/auth', express.json(), (req, res) => {
+  const validUser = process.env.ADMIN_USER;
+  const validPass = process.env.ADMIN_PASS;
+  if (!validUser || !validPass) {
+    return res.status(500).json({ error: 'Server credentials not configured. Set ADMIN_USER and ADMIN_PASS env vars.' });
+  }
+  const { username, password } = req.body || {};
+  if (username === validUser && password === validPass) {
+    return res.json({ ok: true, until: Date.now() + 8 * 3600 * 1000 });
+  }
+  res.status(401).json({ ok: false, error: 'Invalid username or password' });
+});
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

@@ -440,8 +440,89 @@ if (isSchoolTopper) {
       })
       .then(function () { btn.disabled = false; });
   }
-  $("#topSchoolBtn").addEventListener("click", function (ev) { showLeaderboard("school", renderSchoolTop, ev.currentTarget); });
-  $("#topStreamBtn").addEventListener("click", function (ev) { showLeaderboard("stream", renderStreamTop, ev.currentTarget); });
+  // ---------- Auth / Login ----------
+  var SESSION_KEY = "akshara_lb_auth";
+
+  function isAuthed() {
+    try {
+      var s = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
+      return s && s.until > Date.now();
+    } catch (e) { return false; }
+  }
+
+  function saveSession(until) {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ until: until }));
+  }
+
+  // pending leaderboard scope to launch after successful login
+  var pendingScope = null;
+
+  function openLogin(scope) {
+    pendingScope = scope;
+    $("#loginUser").value = "";
+    $("#loginPass").value = "";
+    $("#loginMsg").className = "message";
+    $("#loginMsg").innerHTML = "";
+    $("#loginOverlay").hidden = false;
+    setTimeout(function () { $("#loginUser").focus(); }, 50);
+  }
+
+  function closeLogin() {
+    $("#loginOverlay").hidden = true;
+    pendingScope = null;
+  }
+
+  $("#loginCancelBtn").addEventListener("click", closeLogin);
+  $("#loginOverlay").addEventListener("click", function (ev) {
+    if (ev.target === this) closeLogin();
+  });
+
+  $("#loginForm").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var btn = $("#loginBtn");
+    var msgEl = $("#loginMsg");
+    var username = $("#loginUser").value.trim();
+    var password = $("#loginPass").value;
+    btn.disabled = true;
+    msgEl.className = "message";
+    msgEl.innerHTML = "";
+
+    fetch("/api/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: username, password: password })
+    })
+      .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, body: b }; }); })
+      .then(function (res) {
+        if (res.body.ok) {
+          saveSession(res.body.until);
+          var scope = pendingScope;
+          closeLogin();
+          if (scope === "school") showLeaderboard("school", renderSchoolTop, $("#topSchoolBtn"));
+          else if (scope === "stream") showLeaderboard("stream", renderStreamTop, $("#topStreamBtn"));
+        } else {
+          msgEl.className = "message error";
+          msgEl.innerHTML = esc(res.body.error || "Invalid credentials");
+          btn.disabled = false;
+        }
+      })
+      .catch(function () {
+        msgEl.className = "message error";
+        msgEl.innerHTML = "Could not reach server. Try again.";
+        btn.disabled = false;
+      });
+  });
+
+  function guardedLeaderboard(scope, renderFn, btn) {
+    if (isAuthed()) {
+      showLeaderboard(scope, renderFn, btn);
+    } else {
+      openLogin(scope);
+    }
+  }
+
+  $("#topSchoolBtn").addEventListener("click", function (ev) { guardedLeaderboard("school", renderSchoolTop, ev.currentTarget); });
+  $("#topStreamBtn").addEventListener("click", function (ev) { guardedLeaderboard("stream", renderStreamTop, ev.currentTarget); });
 
   // ---------- PDF export (jsPDF) ----------
   function buildExamPDF(m, s, exam) {
