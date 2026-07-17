@@ -9,7 +9,7 @@
 
   var SHEET_ID = "1C3p9hipQLxe4YbfA14s_0zF5seHISiL1fdKquWaMdJk";
   var GROUPS = ["Bio - Maths", "Bio - CS", "Maths - CS"];
-  var TABS = ["PE - Analysis"].concat(GROUPS);
+  var TABS = ["PE - Analysis", "Mentor Report"].concat(GROUPS);
   var EXAMS = ["CU 1", "TE 1", "CU 2", "TE 2"];
   // 0-indexed start column of each exam block in a group tab (6 subjects + Total)
   var BLOCK_START = { "CU 1": 3, "TE 1": 10, "CU 2": 17, "TE 2": 24 };
@@ -228,11 +228,22 @@
         classStats: classStats, students: students };
     });
 
+    // ---- Mentor Report tab: roll → Google Drive link ----
+    var mentorLinks = {};
+    var mentorRows = sheets["Mentor Report"] || [];
+    mentorRows.forEach(function (row) {
+      var roll = String(cell(row, 1)).trim();
+      var link = String(cell(row, 3)).trim();
+      if (roll && link && /^https?:\/\//.test(link)) {
+        mentorLinks[roll.toUpperCase()] = link;
+      }
+    });
+
     return {
       meta: { source: "Google Sheets (live)", academicYear: "2026 - 2027", maxPerSubject: 100,
         note: "Only CU 1 has been conducted; TE 1 / CU 2 / TE 2 are pending." },
       modeOrder: ["PE - Analysis", "Bio - Maths", "Bio - CS", "Maths - CS"],
-      modes: modes, rollIndex: rollIndex
+      modes: modes, rollIndex: rollIndex, mentorLinks: mentorLinks
     };
   }
 

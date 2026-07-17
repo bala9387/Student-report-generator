@@ -42,6 +42,12 @@
   }
 
   var currentPDF = null; // holds {mode, student} for export
+  var currentMentorUrl = null;
+
+  function showMentorBtn(url) {
+    currentMentorUrl = url || null;
+    $("#mentorReportBtn").hidden = !currentMentorUrl;
+  }
 
   // ---------- form handling ----------
 
@@ -61,9 +67,11 @@
         absorbMeta(resp);
         if (resp.found && resp.kind === "analysis") {
           DATA.modes[resp.mode.label] = resp.mode;
+          showMentorBtn(resp.mentorReportUrl);
           renderReport(resp.mode.label, resp.student);
         } else if (resp.found && resp.kind === "exam") {
           DATA.modes[resp.mode.label] = resp.mode;
+          showMentorBtn(resp.mentorReportUrl);
           renderExamReport(resp.mode, resp.student, resp.exam);
         } else if (resp.reason === "not-conducted") {
           showMsg("info", "Exam <b>" + esc(mode) + "</b> has not been conducted yet." +
@@ -81,9 +89,14 @@
   function showMsg(kind, html) { msg.className = "message " + kind; msg.innerHTML = html; }
 
   $("#backBtn").addEventListener("click", function () {
+    showMentorBtn(null);
     $("#reportWrap").hidden = true;
     $("#lookupCard").hidden = false;
     window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  $("#mentorReportBtn").addEventListener("click", function () {
+    if (currentMentorUrl) window.open(currentMentorUrl, "_blank", "noopener,noreferrer");
   });
   $("#printBtn").addEventListener("click", function () { window.print(); });
 $("#downloadBtn").addEventListener("click", function () {
@@ -421,6 +434,7 @@ if (isSchoolTopper) {
 
   function showLeaderboard(scope, renderFn, btn) {
     btn.disabled = true;
+    showMentorBtn(null);
     var host = $("#report");
     host.innerHTML = "";
     host.appendChild(el("p", "lb-asof", "Loading&hellip;"));
