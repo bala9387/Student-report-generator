@@ -84,14 +84,30 @@
         if (resp.found && resp.kind === "analysis") {
           DATA.modes[resp.mode.label] = resp.mode;
           currentMentorUrl = resp.mentorReportUrl || null;
+          $("#downloadBtn").hidden = false;
           renderReport(resp.mode.label, resp.student);
         } else if (resp.found && resp.kind === "exam") {
           DATA.modes[resp.mode.label] = resp.mode;
           currentMentorUrl = resp.mentorReportUrl || null;
+          $("#downloadBtn").hidden = false;
           renderExamReport(resp.mode, resp.student, resp.exam);
         } else if (resp.reason === "not-conducted") {
-          showMsg("info", "Exam <b>" + esc(mode) + "</b> has not been conducted yet." +
-            (resp.availableExams.length ? " Available: <b>" + resp.availableExams.map(esc).join(", ") + "</b>." : ""));
+          if (resp.mentorReportUrl) {
+            currentMentorUrl = resp.mentorReportUrl;
+            var host = $("#report");
+            host.innerHTML = "";
+            var notice = el("p", "note-pending");
+            notice.innerHTML = "<b>" + esc(mode) + "</b> marks have not been entered yet &mdash; showing mentor report.";
+            host.appendChild(notice);
+            appendMentorSection(host);
+            $("#downloadBtn").hidden = true;
+            $("#lookupCard").hidden = true;
+            $("#reportWrap").hidden = false;
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          } else {
+            showMsg("info", "Exam <b>" + esc(mode) + "</b> has not been conducted yet." +
+              (resp.availableExams.length ? " Available: <b>" + resp.availableExams.map(esc).join(", ") + "</b>." : ""));
+          }
         } else {
           showMsg("error", "No student found with Roll Number <b>" + esc(roll) + "</b>.");
         }
