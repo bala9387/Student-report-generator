@@ -44,9 +44,25 @@
   var currentPDF = null; // holds {mode, student} for export
   var currentMentorUrl = null;
 
-  function showMentorBtn(url) {
-    currentMentorUrl = url || null;
-    $("#mentorReportBtn").hidden = !currentMentorUrl;
+  function toDriveEmbedUrl(url) {
+    if (!url) return null;
+    var m = url.match(/\/file\/d\/([^\/\?]+)/);
+    if (m) return "https://drive.google.com/file/d/" + m[1] + "/preview";
+    return url;
+  }
+
+  function appendMentorSection(host) {
+    if (!currentMentorUrl) return;
+    var embedUrl = toDriveEmbedUrl(currentMentorUrl);
+    var wrap = el("div", "mentor-report-wrap");
+    wrap.innerHTML = '<div class="sec-title">Mentor Report</div>';
+    var frame = document.createElement("iframe");
+    frame.src = embedUrl;
+    frame.className = "mentor-report-frame";
+    frame.setAttribute("allowfullscreen", "");
+    frame.setAttribute("loading", "lazy");
+    wrap.appendChild(frame);
+    host.appendChild(wrap);
   }
 
   // ---------- form handling ----------
@@ -67,11 +83,11 @@
         absorbMeta(resp);
         if (resp.found && resp.kind === "analysis") {
           DATA.modes[resp.mode.label] = resp.mode;
-          showMentorBtn(resp.mentorReportUrl);
+          currentMentorUrl = resp.mentorReportUrl || null;
           renderReport(resp.mode.label, resp.student);
         } else if (resp.found && resp.kind === "exam") {
           DATA.modes[resp.mode.label] = resp.mode;
-          showMentorBtn(resp.mentorReportUrl);
+          currentMentorUrl = resp.mentorReportUrl || null;
           renderExamReport(resp.mode, resp.student, resp.exam);
         } else if (resp.reason === "not-conducted") {
           showMsg("info", "Exam <b>" + esc(mode) + "</b> has not been conducted yet." +
@@ -89,14 +105,10 @@
   function showMsg(kind, html) { msg.className = "message " + kind; msg.innerHTML = html; }
 
   $("#backBtn").addEventListener("click", function () {
-    showMentorBtn(null);
+    currentMentorUrl = null;
     $("#reportWrap").hidden = true;
     $("#lookupCard").hidden = false;
     window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-
-  $("#mentorReportBtn").addEventListener("click", function () {
-    if (currentMentorUrl) window.open(currentMentorUrl, "_blank", "noopener,noreferrer");
   });
   $("#printBtn").addEventListener("click", function () { window.print(); });
 $("#downloadBtn").addEventListener("click", function () {
@@ -134,6 +146,7 @@ $("#downloadBtn").addEventListener("click", function () {
     host.innerHTML = "";
     if (m.type === "group") renderGroup(host, m, student);
     else renderAnalysis(host, m, student);
+    appendMentorSection(host);
     $("#lookupCard").hidden = true;
     $("#reportWrap").hidden = false;
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -268,6 +281,7 @@ if (isSchoolTopper) {
     cards.appendChild(card(tot != null ? pctObtained(tot, maxTotal) + "%" : "—", "Overall Percentage"));
     host.appendChild(cards);
 
+    appendMentorSection(host);
     $("#lookupCard").hidden = true;
     $("#reportWrap").hidden = false;
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -434,7 +448,7 @@ if (isSchoolTopper) {
 
   function showLeaderboard(scope, renderFn, btn) {
     btn.disabled = true;
-    showMentorBtn(null);
+    currentMentorUrl = null;
     var host = $("#report");
     host.innerHTML = "";
     host.appendChild(el("p", "lb-asof", "Loading&hellip;"));

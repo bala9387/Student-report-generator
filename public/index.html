@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student Performance Report</title>
-  <link rel="stylesheet" href="styles.css?v=34" />
+  <link rel="stylesheet" href="styles.css?v=35" />
 </head>
 <body>
   <div class="page">
@@ -37,7 +37,7 @@
           <select id="mode" name="mode" required>
             <option value="PE - Analysis">PE - Analysis</option>
             <option value="CU 1">CU 1</option>
-            <option value="TE 1">TE 1</option>
+            <option value="TE 1" selected>TE 1</option>
             <option value="CU 2">CU 2</option>
             <option value="TE 2">TE 2</option>
           </select>
@@ -68,11 +68,7 @@
           <svg viewBox="0 0 24 24" class="btn-ic"><path d="M6 9V3h12v6"/><rect x="5" y="9" width="14" height="7" rx="1"/><path d="M8 16h8v5H8z"/></svg>
           <span>Print</span>
         </button>
-        <button id="mentorReportBtn" class="btn-ghost" hidden>
-          <svg viewBox="0 0 24 24" class="btn-ic"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          <span>Mentor Report</span>
-        </button>
-        <button id="backBtn" class="btn-ghost">
+<button id="backBtn" class="btn-ghost">
           <svg viewBox="0 0 24 24" class="btn-ic"><path d="M15 5l-7 7 7 7"/></svg>
           <span>New Search</span>
         </button>
@@ -110,6 +106,6 @@
   <!-- data.js / datasource.js are backend-only now (see server.js) — the browser
        never talks to Google Sheets directly and never sees the sheet ID. -->
   <script src="vendor/jspdf.umd.min.js"></script>
-  <script src="app.js?v=34"></script>
+  <script src="app.js?v=35"></script>
 </body>
 </html>
