@@ -10,6 +10,8 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const api = require('./lib/reportApi.js');
+const authToken = require('./lib/authToken.js');
+const gemini = require('./lib/geminiReport.js');
 
 const app = express();
 app.use(cors());
@@ -20,6 +22,8 @@ app.get('/app.js', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'app.js')));
 app.get('/styles.css', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'styles.css')));
 app.get('/logo.jpg', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'logo.jpg')));
 app.use('/vendor', express.static(path.join(PUBLIC_DIR, 'vendor')));
+// staff-only report generator (mirrors Netlify's publish=public routing)
+app.use('/generator', express.static(path.join(PUBLIC_DIR, 'generator')));
 
 app.get('/api/meta', async (req, res) => {
   const r = await api.getMeta();
@@ -41,9 +45,30 @@ app.post('/api/auth', express.json(), (req, res) => {
   }
   const { username, password } = req.body || {};
   if (username === validUser && password === validPass) {
-    return res.json({ ok: true, until: Date.now() + 8 * 3600 * 1000 });
+    const until = Date.now() + 8 * 3600 * 1000;
+    return res.json({ ok: true, until, token: authToken.sign(until) });
   }
   res.status(401).json({ ok: false, error: 'Invalid username or password' });
+});
+
+// staff-only: evaluate an answer sheet with Gemini. Body can be large (base64
+// files), so bump the JSON limit well above Express's 100 KB default.
+app.post('/api/generate-report', express.json({ limit: '20mb' }), async (req, res) => {
+  const bearer = (req.headers.authorization || '').replace(/^Bearer\s+/i, '');
+  if (!authToken.verify(bearer || (req.body && req.body.token))) {
+    return res.status(401).json({ error: 'Not signed in. Please log in again.' });
+  }
+  try {
+    const result = await gemini.generateReport({
+      syllabus: req.body.syllabus,
+      questionPaper: req.body.questionPaper,
+      answerPaper: req.body.answerPaper,
+      notes: req.body.notes
+    });
+    res.json(result);
+  } catch (err) {
+    res.status(err.status || 502).json({ error: err.message || 'Report generation failed' });
+  }
 });
 
 const PORT = process.env.PORT || 8080;

@@ -1,4 +1,5 @@
 const api = require('../../lib/reportApi.js');
+const token = require('../../lib/authToken.js');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -17,10 +18,11 @@ exports.handler = async (event) => {
   }
 
   if (body.username === validUser && body.password === validPass) {
+    const until = Date.now() + 8 * 3600 * 1000;
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ok: true, until: Date.now() + 8 * 3600 * 1000 })
+      body: JSON.stringify({ ok: true, until, token: token.sign(until) })
     };
   }
 
