@@ -56,7 +56,26 @@
       }
       btn.disabled = true;
       m.className = "message info";
-      m.innerHTML = "Evaluating&hellip; this can take up to a minute.<span class='gen-busy'>Please keep this tab open.</span>";
+      m.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;font-weight:600;"><span id="genStatusText">Reading answer sheet &amp; question paper&hellip;</span><span id="genPctText">5%</span></div>' +
+                    '<div class="gen-progress-track"><div id="genProgressBar" class="gen-progress-bar" style="width:5%"></div></div>' +
+                    '<div style="font-size:.78rem;color:var(--muted);margin-top:6px;">Please keep this tab open while AI evaluates the marks.</div>';
+
+      var pct = 5;
+      var statusEl = $("#genStatusText");
+      var pctEl = $("#genPctText");
+      var barEl = $("#genProgressBar");
+
+      var progressTimer = setInterval(function () {
+        if (pct < 92) {
+          pct += (pct < 40 ? 4 : (pct < 75 ? 2 : 1));
+          if (pct === 25) { if (statusEl) statusEl.textContent = "Analyzing question paper & syllabus rubric..."; }
+          else if (pct === 50) { if (statusEl) statusEl.textContent = "Grading section marks & detecting discrepancies..."; }
+          else if (pct === 80) { if (statusEl) statusEl.textContent = "Generating actionable student recommendations..."; }
+
+          if (pctEl) pctEl.textContent = pct + "%";
+          if (barEl) barEl.style.width = pct + "%";
+        }
+      }, 500);
 
       return fetch("/api/generate-report", {
         method: "POST",
@@ -75,13 +94,21 @@
           });
         })
         .then(function (res) {
+          clearInterval(progressTimer);
           btn.disabled = false;
-          if (res.status !== 200) {
-            m.className = "message error"; m.innerHTML = esc(res.body.error || "Generation failed.");
+          if (res.status !== 200 || (res.body && res.body.error)) {
+            m.className = "message error"; m.innerHTML = esc((res.body && res.body.error) || "Generation failed.");
             return;
           }
+          if (barEl) barEl.style.width = "100%";
+          if (pctEl) pctEl.textContent = "100%";
           m.className = "message"; m.innerHTML = "";
           renderReport(res.body.report, res.body.model);
+        })
+        .catch(function (err) {
+          clearInterval(progressTimer);
+          btn.disabled = false;
+          m.className = "message error"; m.innerHTML = esc(err.message || "Network request failed.");
         });
     }).catch(function (e) {
       btn.disabled = false;
