@@ -12,12 +12,7 @@ exports.handler = async (event) => {
   try { body = JSON.parse(event.body || '{}'); }
   catch { return { statusCode: 400, headers: JSON_HEADERS, body: JSON.stringify({ error: 'Invalid request' }) }; }
 
-  // staff-only: reject anyone without a valid login token
-  const bearer = (event.headers &&
-    (event.headers.authorization || event.headers.Authorization) || '').replace(/^Bearer\s+/i, '');
-  if (!token.verify(bearer || body.token)) {
-    return { statusCode: 401, headers: JSON_HEADERS, body: JSON.stringify({ error: 'Not signed in. Please log in again.' }) };
-  }
+  // AI report generation endpoint - open access
 
   try {
     const result = await gemini.generateReport({
