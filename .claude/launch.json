@@ -7,6 +7,12 @@
       "runtimeArgs": ["server.js"],
       "port": 8080,
       "autoPort": true
+    },
+    {
+      "name": "darkskoll",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["C:/Users/balac/Documents/my code/my code/Darkskoll website/serve.js"],
+      "port": 5199
     }
   ]
 }

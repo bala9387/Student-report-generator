@@ -8,7 +8,7 @@
   "use strict";
 
   var SHEET_ID = "1C3p9hipQLxe4YbfA14s_0zF5seHISiL1fdKquWaMdJk";
-  var GROUPS = ["Bio - Maths", "Bio - CS", "Maths - CS"];
+  var GROUPS = ["Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"];
   var TABS = ["PE - Analysis", "Mentor Report"].concat(GROUPS);
   var EXAMS = ["CU 1", "TE 1", "CU 2", "TE 2"];
   // 0-indexed start column of each exam block in a group tab (6 subjects + Total)
@@ -17,7 +17,9 @@
   var PE_COLS = { "CU 1": [6, 7], "TE 1": [8, 9], "CU 2": [10, 11], "TE 2": [12, 13] };
   var SUBJECT_FULL = {
     PHY: "Physics", CHE: "Chemistry", MAT: "Mathematics", BIO: "Biology",
-    CS: "Computer Science", ENG: "English", PED: "Physical Education"
+    CS: "Computer Science", ENG: "English", PED: "Physical Education",
+    Acc: "Accountancy", Bs: "Business Studies", Eco: "Economics",
+    "A.Math": "Applied Mathematics", Eng: "English", PE: "Physical Education", Cs: "Computer Science"
   };
 
   function tabUrl(name) {
@@ -242,7 +244,7 @@
     return {
       meta: { source: "Google Sheets (live)", academicYear: "2026 - 2027", maxPerSubject: 100,
         note: "Only CU 1 has been conducted; TE 1 / CU 2 / TE 2 are pending." },
-      modeOrder: ["PE - Analysis", "Bio - Maths", "Bio - CS", "Maths - CS"],
+      modeOrder: ["PE - Analysis", "Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"],
       modes: modes, rollIndex: rollIndex, mentorLinks: mentorLinks
     };
   }

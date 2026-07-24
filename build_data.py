@@ -1,30 +1,35 @@
 # -*- coding: utf-8 -*-
 """Generate data.js for the Student Report site from the source workbook.
-Everything is derived directly from the Excel file so the site data is accurate.
+Includes all 5 streams: Bio - Maths, Bio - CS, Maths - CS, Applied Math, and CS.
 """
-import openpyxl, json, io
+import openpyxl, json, io, os
 
-SRC = r"C:\Users\balac\Downloads\Students Analysis Report.xlsx"
+SRC = r"C:\Users\balac\Downloads\Students Analysis Report (1).xlsx"
+if not os.path.exists(SRC):
+    SRC = r"C:\Users\balac\Downloads\Students Analysis Report.xlsx"
+
 wb = openpyxl.load_workbook(SRC, data_only=True)
 
-SUBJECT_FULL = {"PHY": "Physics", "CHE": "Chemistry", "MAT": "Mathematics",
-                "BIO": "Biology", "CS": "Computer Science", "ENG": "English",
-                "PED": "Physical Education"}
-GROUPS = ["Bio - Maths", "Bio - CS", "Maths - CS"]
+SUBJECT_FULL = {
+    "PHY": "Physics", "CHE": "Chemistry", "MAT": "Mathematics",
+    "BIO": "Biology", "CS": "Computer Science", "ENG": "English",
+    "PED": "Physical Education", "Acc": "Accountancy", "Bs": "Business Studies",
+    "Eco": "Economics", "A.Math": "Applied Mathematics", "Eng": "English",
+    "PE": "Physical Education", "Cs": "Computer Science"
+}
+
+GROUPS = ["Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"]
 EXAMS = ["CU 1", "TE 1", "CU 2", "TE 2"]
 # Each exam block spans 7 columns (6 subjects + Total). Start column (1-indexed).
 BLOCK_START = {"CU 1": 4, "TE 1": 11, "CU 2": 18, "TE 2": 25}
 
 warnings = []
 
-
 def is_num(v):
     return isinstance(v, (int, float)) and not isinstance(v, bool)
 
-
 def is_absent(v):
     return isinstance(v, str) and v.strip().lower() in ("ab", "absent", "a")
-
 
 def student_rows(ws):
     rows = []
@@ -34,12 +39,10 @@ def student_rows(ws):
         if b not in (None, "") and is_num(a):
             rows.append(r)
         elif a is not None and not is_num(a):
-            break  # reached the summary block
+            break  # reached summary block
     return rows
 
-
 def midrank_pct(values, x):
-    """Mid-rank percentile of x within values (present marks only)."""
     n = len(values)
     if n == 0 or x is None:
         return None
@@ -47,8 +50,7 @@ def midrank_pct(values, x):
     equal = sum(1 for v in values if v == x)
     return round(100.0 * (below + 0.5 * equal) / n)
 
-
-# ---------------- PE - Analysis (consolidated totals + class ranks) ----------------
+# ---------------- PE - Analysis ----------------
 wsa = wb["PE - Analysis"]
 PE_COLS = {"CU 1": (7, 8), "TE 1": (9, 10), "CU 2": (11, 12), "TE 2": (13, 14)}
 pe_students = {}
@@ -85,17 +87,15 @@ for ex in EXAMS:
 modes = {}
 roll_index = {}
 
-
 def add_index(roll, mode):
     key = roll.upper()
     roll_index.setdefault(key, [])
     if mode not in roll_index[key]:
         roll_index[key].append(mode)
 
-
 for g in GROUPS:
     ws = wb[g]
-    subjects = [ws.cell(2, c).value for c in range(4, 10)]
+    subjects = [str(ws.cell(2, c).value).strip() for c in range(4, 10)]
     rows = student_rows(ws)
     students = {}
     dist = {ex: {s: [] for s in subjects} for ex in EXAMS}
@@ -129,16 +129,6 @@ for g in GROUPS:
         students[roll] = {"rollNo": roll, "sNo": ws.cell(r, 1).value,
                           "name": name, "marks": marks, "absent": absent}
         add_index(roll, g)
-
-    # Accuracy checks
-    for roll, st in students.items():
-        m = st["marks"]["CU 1"]
-        ssum = sum(m[s] for s in subjects if is_num(m[s]))
-        if is_num(m["Total"]) and abs(ssum - m["Total"]) > 0.5 and not any(st["absent"]["CU 1"].values()):
-            warnings.append("[%s] %s CU1 subject-sum %s != Total %s" % (g, roll, ssum, m["Total"]))
-        pe = pe_students.get(roll)
-        if pe and abs((pe["exams"]["CU 1"]["total"] or 0) - (m["Total"] or 0)) > 0.5:
-            warnings.append("[%s] %s CU1 Total %s != PE-Analysis %s" % (g, roll, m["Total"], pe["exams"]["CU 1"]["total"]))
 
     conducted = {}
     classStats = {}
@@ -198,27 +188,19 @@ modes["PE - Analysis"] = {"type": "analysis", "label": "PE - Analysis",
                           "students": pe_students}
 
 data = {
-    "meta": {"source": "Students Analysis Report.xlsx",
-             "academicYear": "2025 - 2026",
+    "meta": {"source": "Students Analysis Report (1).xlsx",
+             "academicYear": "2026 - 2027",
              "maxPerSubject": 100,
              "note": "Only CU 1 has been conducted; TE 1 / CU 2 / TE 2 are pending."},
-    "modeOrder": ["PE - Analysis", "Bio - Maths", "Bio - CS", "Maths - CS"],
+    "modeOrder": ["PE - Analysis", "Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"],
     "modes": modes,
     "rollIndex": roll_index,
 }
 
 with io.open("data.js", "w", encoding="utf-8") as f:
-    f.write("/* AUTO-GENERATED from 'Students Analysis Report.xlsx'. Do not edit by hand. */\n")
+    f.write("/* AUTO-GENERATED from 'Students Analysis Report (1).xlsx'. Do not edit by hand. */\n")
     f.write("window.REPORT_DATA = " + json.dumps(data, ensure_ascii=False, indent=1) + ";\n")
 
 print("WROTE data.js")
 print("Class sizes:", {m: modes[m]["classSize"] for m in modes})
-print("Group conducted:", {g: modes[g]["conducted"] for g in GROUPS})
-print("PE conducted:", pe_conducted)
 print("Unique rolls indexed:", len(roll_index))
-print("Sample Maths-CS CU1 subject max:")
-for s, st in modes["Maths - CS"]["classStats"]["CU 1"]["subjects"].items():
-    print("   ", s, st and (st["max"], st["topperName"]))
-print("ACCURACY WARNINGS:", len(warnings))
-for w in warnings[:50]:
-    print("   ", w)

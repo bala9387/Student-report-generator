@@ -1,7 +1,7 @@
-/* AUTO-GENERATED from 'Students Analysis Report.xlsx'. Do not edit by hand. */
+/* AUTO-GENERATED from 'Students Analysis Report (1).xlsx'. Do not edit by hand. */
 window.REPORT_DATA = {
  "meta": {
-  "source": "Students Analysis Report.xlsx",
+  "source": "Students Analysis Report (1).xlsx",
   "academicYear": "2026 - 2027",
   "maxPerSubject": 100,
   "note": "Only CU 1 has been conducted; TE 1 / CU 2 / TE 2 are pending."
@@ -46,7 +46,7 @@ window.REPORT_DATA = {
     "CU 2": false,
     "TE 2": false
    },
-   "classSize": 85,
+   "classSize": 21,
    "classStats": {
     "CU 1": {
      "subjects": {
@@ -218,24 +218,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 304,
-       "rank": 58,
-       "domainRank": 17,
-       "domainSize": 21
+       "rank": 58
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -301,24 +296,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 311,
-       "rank": 52,
-       "domainRank": 15,
-       "domainSize": 21
+       "rank": 52
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -384,24 +374,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 374,
-       "rank": 28,
-       "domainRank": 11,
-       "domainSize": 21
+       "rank": 29
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -467,24 +452,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 496,
-       "rank": 5,
-       "domainRank": 3,
-       "domainSize": 21
+       "rank": 5
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -550,24 +530,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 458,
-       "rank": 9,
-       "domainRank": 4,
-       "domainSize": 21
+       "rank": 9
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -633,24 +608,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 268,
-       "rank": 74,
-       "domainRank": 20,
-       "domainSize": 21
+       "rank": 74
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -716,24 +686,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 410,
-       "rank": 18,
-       "domainRank": 7,
-       "domainSize": 21
+       "rank": 19
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -799,24 +764,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 301,
-       "rank": 62,
-       "domainRank": 19,
-       "domainSize": 21
+       "rank": 62
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -882,24 +842,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 514,
-       "rank": 3,
-       "domainRank": 1,
-       "domainSize": 21
+       "rank": 3
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -965,24 +920,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 424,
-       "rank": 14,
-       "domainRank": 6,
-       "domainSize": 21
+       "rank": 14
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -1048,24 +998,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 400,
-       "rank": 21,
-       "domainRank": 9,
-       "domainSize": 21
+       "rank": 22
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -1131,24 +1076,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 345,
-       "rank": 35,
-       "domainRank": 12,
-       "domainSize": 21
+       "rank": 36
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -1214,24 +1154,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 406,
-       "rank": 19,
-       "domainRank": 8,
-       "domainSize": 21
+       "rank": 20
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -1297,24 +1232,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 310,
-       "rank": 54,
-       "domainRank": 16,
-       "domainSize": 21
+       "rank": 54
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -1383,24 +1313,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 258,
-       "rank": 76,
-       "domainRank": 21,
-       "domainSize": 21
+       "rank": 76
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -1466,24 +1391,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 329,
-       "rank": 41,
-       "domainRank": 14,
-       "domainSize": 21
+       "rank": 42
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -1549,24 +1469,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 390,
-       "rank": 23,
-       "domainRank": 10,
-       "domainSize": 21
+       "rank": 24
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -1632,24 +1547,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 452,
-       "rank": 11,
-       "domainRank": 5,
-       "domainSize": 21
+       "rank": 11
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -1715,24 +1625,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 333,
-       "rank": 39,
-       "domainRank": 13,
-       "domainSize": 21
+       "rank": 40
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -1798,24 +1703,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 303,
-       "rank": 60,
-       "domainRank": 18,
-       "domainSize": 21
+       "rank": 60
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     },
@@ -1881,24 +1781,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 505,
-       "rank": 4,
-       "domainRank": 2,
-       "domainSize": 21
+       "rank": 4
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 21
+       "rank": 1
       }
      }
     }
@@ -1935,7 +1830,7 @@ window.REPORT_DATA = {
     "CU 2": false,
     "TE 2": false
    },
-   "classSize": 85,
+   "classSize": 4,
    "classStats": {
     "CU 1": {
      "subjects": {
@@ -2110,24 +2005,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 281,
-       "rank": 69,
-       "domainRank": 4,
-       "domainSize": 4
+       "rank": 69
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 4
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 4
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 4
+       "rank": 1
       }
      }
     },
@@ -2193,24 +2083,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 325,
-       "rank": 43,
-       "domainRank": 1,
-       "domainSize": 4
+       "rank": 44
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 4
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 4
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 4
+       "rank": 1
       }
      }
     },
@@ -2276,24 +2161,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 296,
-       "rank": 63,
-       "domainRank": 2,
-       "domainSize": 4
+       "rank": 63
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 4
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 4
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 4
+       "rank": 1
       }
      }
     },
@@ -2359,24 +2239,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 286,
-       "rank": 67,
-       "domainRank": 3,
-       "domainSize": 4
+       "rank": 67
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 4
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 4
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 4
+       "rank": 1
       }
      }
     }
@@ -2413,7 +2288,7 @@ window.REPORT_DATA = {
     "CU 2": false,
     "TE 2": false
    },
-   "classSize": 85,
+   "classSize": 53,
    "classStats": {
     "CU 1": {
      "subjects": {
@@ -2585,24 +2460,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 381,
-       "rank": 26,
-       "domainRank": 13,
-       "domainSize": 53
+       "rank": 27
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -2668,24 +2538,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 383,
-       "rank": 24,
-       "domainRank": 11,
-       "domainSize": 53
+       "rank": 25
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -2751,24 +2616,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 317,
-       "rank": 50,
-       "domainRank": 29,
-       "domainSize": 53
+       "rank": 50
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -2834,24 +2694,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 368,
-       "rank": 31,
-       "domainRank": 17,
-       "domainSize": 53
+       "rank": 32
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -2917,24 +2772,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 302,
-       "rank": 61,
-       "domainRank": 35,
-       "domainSize": 53
+       "rank": 61
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -3002,24 +2852,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 292,
-       "rank": 65,
-       "domainRank": 37,
-       "domainSize": 53
+       "rank": 65
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -3084,25 +2929,20 @@ window.REPORT_DATA = {
      },
      "overall": {
       "CU 1": {
-       "total": 600,
-       "rank": 1,
-       "domainRank": 1,
-       "domainSize": 53
+       "total": 536,
+       "rank": 1
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -3168,24 +3008,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 272,
-       "rank": 73,
-       "domainRank": 43,
-       "domainSize": 53
+       "rank": 73
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -3251,24 +3086,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 304,
-       "rank": 58,
-       "domainRank": 34,
-       "domainSize": 53
+       "rank": 58
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -3334,24 +3164,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 222,
-       "rank": 81,
-       "domainRank": 49,
-       "domainSize": 53
+       "rank": 81
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -3417,24 +3242,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 531,
-       "rank": 2,
-       "domainRank": 2,
-       "domainSize": 53
+       "rank": 2
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -3500,24 +3320,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 348,
-       "rank": 34,
-       "domainRank": 20,
-       "domainSize": 53
+       "rank": 35
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -3583,24 +3398,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 211,
-       "rank": 84,
-       "domainRank": 52,
-       "domainSize": 53
+       "rank": 84
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -3666,24 +3476,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 354,
-       "rank": 33,
-       "domainRank": 19,
-       "domainSize": 53
+       "rank": 34
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -3752,24 +3557,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 227,
-       "rank": 80,
-       "domainRank": 48,
-       "domainSize": 53
+       "rank": 80
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -3835,24 +3635,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 420,
-       "rank": 16,
-       "domainRank": 7,
-       "domainSize": 53
+       "rank": 16
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -3918,24 +3713,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 440,
-       "rank": 12,
-       "domainRank": 5,
-       "domainSize": 53
+       "rank": 12
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -4001,24 +3791,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 238,
-       "rank": 79,
-       "domainRank": 47,
-       "domainSize": 53
+       "rank": 79
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -4084,24 +3869,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 256,
-       "rank": 77,
-       "domainRank": 45,
-       "domainSize": 53
+       "rank": 77
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -4167,24 +3947,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 308,
-       "rank": 56,
-       "domainRank": 32,
-       "domainSize": 53
+       "rank": 56
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -4250,24 +4025,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 328,
-       "rank": 42,
-       "domainRank": 25,
-       "domainSize": 53
+       "rank": 43
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -4333,24 +4103,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 423,
-       "rank": 15,
-       "domainRank": 6,
-       "domainSize": 53
+       "rank": 15
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -4416,24 +4181,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 475,
-       "rank": 6,
-       "domainRank": 3,
-       "domainSize": 53
+       "rank": 6
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -4499,24 +4259,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 216,
-       "rank": 82,
-       "domainRank": 50,
-       "domainSize": 53
+       "rank": 82
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -4582,24 +4337,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 330,
-       "rank": 40,
-       "domainRank": 24,
-       "domainSize": 53
+       "rank": 41
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -4665,24 +4415,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 306,
-       "rank": 57,
-       "domainRank": 33,
-       "domainSize": 53
+       "rank": 57
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -4748,24 +4493,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 371,
-       "rank": 29,
-       "domainRank": 15,
-       "domainSize": 53
+       "rank": 30
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -4831,24 +4571,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 458,
-       "rank": 9,
-       "domainRank": 4,
-       "domainSize": 53
+       "rank": 9
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -4914,24 +4649,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 309,
-       "rank": 55,
-       "domainRank": 31,
-       "domainSize": 53
+       "rank": 55
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -4997,24 +4727,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 364,
-       "rank": 32,
-       "domainRank": 18,
-       "domainSize": 53
+       "rank": 33
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -5080,24 +4805,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 318,
-       "rank": 49,
-       "domainRank": 28,
-       "domainSize": 53
+       "rank": 49
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -5163,24 +4883,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 325,
-       "rank": 43,
-       "domainRank": 26,
-       "domainSize": 53
+       "rank": 44
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -5246,24 +4961,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 335.5,
-       "rank": 38,
-       "domainRank": 23,
-       "domainSize": 53
+       "rank": 39
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -5329,24 +5039,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 215,
-       "rank": 83,
-       "domainRank": 51,
-       "domainSize": 53
+       "rank": 83
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -5412,24 +5117,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 400,
-       "rank": 21,
-       "domainRank": 10,
-       "domainSize": 53
+       "rank": 22
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -5495,24 +5195,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 284,
-       "rank": 68,
-       "domainRank": 39,
-       "domainSize": 53
+       "rank": 68
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -5580,24 +5275,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 259,
-       "rank": 75,
-       "domainRank": 44,
-       "domainSize": 53
+       "rank": 75
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -5663,24 +5353,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 275.5,
-       "rank": 71,
-       "domainRank": 41,
-       "domainSize": 53
+       "rank": 71
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -5746,24 +5431,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 414,
-       "rank": 17,
-       "domainRank": 8,
-       "domainSize": 53
+       "rank": 18
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -5829,24 +5509,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 381.5,
-       "rank": 25,
-       "domainRank": 12,
-       "domainSize": 53
+       "rank": 26
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -5912,24 +5587,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 276,
-       "rank": 70,
-       "domainRank": 40,
-       "domainSize": 53
+       "rank": 70
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -5995,24 +5665,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 337.5,
-       "rank": 37,
-       "domainRank": 22,
-       "domainSize": 53
+       "rank": 38
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -6078,24 +5743,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 402,
-       "rank": 20,
-       "domainRank": 9,
-       "domainSize": 53
+       "rank": 21
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -6161,24 +5821,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 370,
-       "rank": 30,
-       "domainRank": 16,
-       "domainSize": 53
+       "rank": 31
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -6244,24 +5899,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 375,
-       "rank": 27,
-       "domainRank": 14,
-       "domainSize": 53
+       "rank": 28
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -6327,24 +5977,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 248,
-       "rank": 78,
-       "domainRank": 46,
-       "domainSize": 53
+       "rank": 78
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -6410,24 +6055,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 296,
-       "rank": 63,
-       "domainRank": 36,
-       "domainSize": 53
+       "rank": 63
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -6495,24 +6135,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 323,
-       "rank": 46,
-       "domainRank": 27,
-       "domainSize": 53
+       "rank": 46
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -6578,24 +6213,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 311,
-       "rank": 52,
-       "domainRank": 30,
-       "domainSize": 53
+       "rank": 52
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -6661,24 +6291,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 275.5,
-       "rank": 71,
-       "domainRank": 41,
-       "domainSize": 53
+       "rank": 71
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -6744,24 +6369,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 288,
-       "rank": 66,
-       "domainRank": 38,
-       "domainSize": 53
+       "rank": 66
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -6827,24 +6447,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 344,
-       "rank": 36,
-       "domainRank": 21,
-       "domainSize": 53
+       "rank": 37
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       }
      }
     },
@@ -6912,2766 +6527,19 @@ window.REPORT_DATA = {
      "overall": {
       "CU 1": {
        "total": 192,
-       "rank": 85,
-       "domainRank": 53,
-       "domainSize": 53
+       "rank": 85
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    }
-   }
-  },
-  "PE - Analysis": {
-   "type": "analysis",
-   "label": "PE - Analysis",
-   "exams": [
-    "CU 1",
-    "TE 1",
-    "CU 2",
-    "TE 2"
-   ],
-   "conducted": {
-    "CU 1": true,
-    "TE 1": false,
-    "CU 2": false,
-    "TE 2": false
-   },
-   "classSize": 85,
-   "topper": {
-    "CU 1": {
-     "total": 536,
-     "roll": "26H2315",
-     "name": "Kanimitha.M"
-    },
-    "TE 1": null,
-    "CU 2": null,
-    "TE 2": null
-   },
-   "students": {
-    "26H1301": {
-     "rollNo": "26H1301",
-     "sNo": 1.0,
-     "name": "Ahalya.R",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 304,
-       "rank": 58,
-       "domainRank": 17,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26H1302": {
-     "rollNo": "26H1302",
-     "sNo": 2.0,
-     "name": "Asswin.R.S",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 311,
-       "rank": 52,
-       "domainRank": 15,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26H1303": {
-     "rollNo": "26H1303",
-     "sNo": 3.0,
-     "name": "Dharunraja.M.S",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 374,
-       "rank": 28,
-       "domainRank": 11,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26H1304": {
-     "rollNo": "26H1304",
-     "sNo": 4.0,
-     "name": "Jaisree.A",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 496,
-       "rank": 5,
-       "domainRank": 3,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26H1305": {
-     "rollNo": "26H1305",
-     "sNo": 5.0,
-     "name": "Rethika.S",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 458,
-       "rank": 9,
-       "domainRank": 4,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26H1306": {
-     "rollNo": "26H1306",
-     "sNo": 6.0,
-     "name": "Rubhan.S",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 268,
-       "rank": 74,
-       "domainRank": 20,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26H1307": {
-     "rollNo": "26H1307",
-     "sNo": 7.0,
-     "name": "Sakthi Jeevanes.G.A",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 410,
-       "rank": 18,
-       "domainRank": 7,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26H1308": {
-     "rollNo": "26H1308",
-     "sNo": 8.0,
-     "name": "Sharvesh.S.P",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 301,
-       "rank": 62,
-       "domainRank": 19,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26H2309": {
-     "rollNo": "26H2309",
-     "sNo": 9.0,
-     "name": "Aaradhana.R",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 381,
-       "rank": 26,
-       "domainRank": 13,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2310": {
-     "rollNo": "26H2310",
-     "sNo": 10.0,
-     "name": "Abhinav Shrihari.N",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 383,
-       "rank": 24,
-       "domainRank": 11,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2311": {
-     "rollNo": "26H2311",
-     "sNo": 11.0,
-     "name": "Akash.R",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 317,
-       "rank": 50,
-       "domainRank": 29,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2312": {
-     "rollNo": "26H2312",
-     "sNo": 12.0,
-     "name": "Danish.M",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 368,
-       "rank": 31,
-       "domainRank": 17,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2313": {
-     "rollNo": "26H2313",
-     "sNo": 13.0,
-     "name": "Dharaniish.R.S",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 302,
-       "rank": 61,
-       "domainRank": 35,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2314": {
-     "rollNo": "26H2314",
-     "sNo": 14.0,
-     "name": "Jovith Vinayaka.M.V",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 292,
-       "rank": 65,
-       "domainRank": 37,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2315": {
-     "rollNo": "26H2315",
-     "sNo": 15.0,
-     "name": "Kanimitha.M",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 600,
-       "rank": 1,
-       "domainRank": 1,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2316": {
-     "rollNo": "26H2316",
-     "sNo": 16.0,
-     "name": "Kanishkaa.V",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 272,
-       "rank": 73,
-       "domainRank": 43,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2317": {
-     "rollNo": "26H2317",
-     "sNo": 17.0,
-     "name": "Nikesh.S.S",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 304,
-       "rank": 58,
-       "domainRank": 34,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2318": {
-     "rollNo": "26H2318",
-     "sNo": 18.0,
-     "name": "Perinban.M",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 222,
-       "rank": 81,
-       "domainRank": 49,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2319": {
-     "rollNo": "26H2319",
-     "sNo": 19.0,
-     "name": "Prakalya.K.S",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 531,
-       "rank": 2,
-       "domainRank": 2,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2320": {
-     "rollNo": "26H2320",
-     "sNo": 20.0,
-     "name": "Praveen Kumaran.T",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 348,
-       "rank": 34,
-       "domainRank": 20,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2321": {
-     "rollNo": "26H2321",
-     "sNo": 21.0,
-     "name": "Ram Prasath.K",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 211,
-       "rank": 84,
-       "domainRank": 52,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2322": {
-     "rollNo": "26H2322",
-     "sNo": 22.0,
-     "name": "Sri Hari.A.S",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 354,
-       "rank": 33,
-       "domainRank": 19,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2323": {
-     "rollNo": "26H2323",
-     "sNo": 23.0,
-     "name": "Srinika.J.S",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 227,
-       "rank": 80,
-       "domainRank": 48,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2324": {
-     "rollNo": "26H2324",
-     "sNo": 24.0,
-     "name": "Suvekshaya.V.S",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 420,
-       "rank": 16,
-       "domainRank": 7,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2325": {
-     "rollNo": "26H2325",
-     "sNo": 25.0,
-     "name": "Thirushanth.B",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 440,
-       "rank": 12,
-       "domainRank": 5,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2326": {
-     "rollNo": "26H2326",
-     "sNo": 26.0,
-     "name": "Vishnu Varthan. A",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 238,
-       "rank": 79,
-       "domainRank": 47,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H2327": {
-     "rollNo": "26H2327",
-     "sNo": 27.0,
-     "name": "Vishal.M",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 256,
-       "rank": 77,
-       "domainRank": 45,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26H3328": {
-     "rollNo": "26H3328",
-     "sNo": 28.0,
-     "name": "Narmadhavarshini.G",
-     "stream": [
-      "Bio",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 281,
-       "rank": 69,
-       "domainRank": 4,
-       "domainSize": 4
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 4
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 4
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 4
-      }
-     }
-    },
-    "26M11329": {
-     "rollNo": "26M11329",
-     "sNo": 29.0,
-     "name": "Anu Varshini.K.M",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 514,
-       "rank": 3,
-       "domainRank": 1,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26M11330": {
-     "rollNo": "26M11330",
-     "sNo": 30.0,
-     "name": "Hemasri.S.S",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 424,
-       "rank": 14,
-       "domainRank": 6,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26M11331": {
-     "rollNo": "26M11331",
-     "sNo": 31.0,
-     "name": "Hemavaashini.S",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 400,
-       "rank": 21,
-       "domainRank": 9,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26M11332": {
-     "rollNo": "26M11332",
-     "sNo": 32.0,
-     "name": "Naveen.C.S",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 345,
-       "rank": 35,
-       "domainRank": 12,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26M11333": {
-     "rollNo": "26M11333",
-     "sNo": 33.0,
-     "name": "Nela",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 406,
-       "rank": 19,
-       "domainRank": 8,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26M11334": {
-     "rollNo": "26M11334",
-     "sNo": 34.0,
-     "name": "Nikhil Shriram.J",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 310,
-       "rank": 54,
-       "domainRank": 16,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26M11335": {
-     "rollNo": "26M11335",
-     "sNo": 35.0,
-     "name": "Pritika.S.R",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 258,
-       "rank": 76,
-       "domainRank": 21,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26M11336": {
-     "rollNo": "26M11336",
-     "sNo": 36.0,
-     "name": "Rethika.S",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 329,
-       "rank": 41,
-       "domainRank": 14,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26M11337": {
-     "rollNo": "26M11337",
-     "sNo": 37.0,
-     "name": "Samritha.K",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 390,
-       "rank": 23,
-       "domainRank": 10,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26M11338": {
-     "rollNo": "26M11338",
-     "sNo": 38.0,
-     "name": "Shynthavi.S",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 452,
-       "rank": 11,
-       "domainRank": 5,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26M11339": {
-     "rollNo": "26M11339",
-     "sNo": 39.0,
-     "name": "Tara.R",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 333,
-       "rank": 39,
-       "domainRank": 13,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26M11340": {
-     "rollNo": "26M11340",
-     "sNo": 40.0,
-     "name": "Veka",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 303,
-       "rank": 60,
-       "domainRank": 18,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26M11341": {
-     "rollNo": "26M11341",
-     "sNo": 41.0,
-     "name": "Vinusha.P.S",
-     "stream": [
-      "Bio",
-      "Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 505,
-       "rank": 4,
-       "domainRank": 2,
-       "domainSize": 21
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 21
-      }
-     }
-    },
-    "26M12342": {
-     "rollNo": "26M12342",
-     "sNo": 42.0,
-     "name": "Abinav.M",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 308,
-       "rank": 56,
-       "domainRank": 32,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M12343": {
-     "rollNo": "26M12343",
-     "sNo": 43.0,
-     "name": "Akkshayaa.K",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 328,
-       "rank": 42,
-       "domainRank": 25,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M12344": {
-     "rollNo": "26M12344",
-     "sNo": 44.0,
-     "name": "Bharanish.S.R",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 423,
-       "rank": 15,
-       "domainRank": 6,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M12345": {
-     "rollNo": "26M12345",
-     "sNo": 45.0,
-     "name": "Kaviyavarshini.A",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 475,
-       "rank": 6,
-       "domainRank": 3,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M12346": {
-     "rollNo": "26M12346",
-     "sNo": 46.0,
-     "name": "Lishvanth.S.V",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 216,
-       "rank": 82,
-       "domainRank": 50,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M12347": {
-     "rollNo": "26M12347",
-     "sNo": 47.0,
-     "name": "Mavish.J.S",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 330,
-       "rank": 40,
-       "domainRank": 24,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M12348": {
-     "rollNo": "26M12348",
-     "sNo": 48.0,
-     "name": "Navanitha.M",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 306,
-       "rank": 57,
-       "domainRank": 33,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M12349": {
-     "rollNo": "26M12349",
-     "sNo": 49.0,
-     "name": "Sathvika.Y",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 371,
-       "rank": 29,
-       "domainRank": 15,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M12350": {
-     "rollNo": "26M12350",
-     "sNo": 50.0,
-     "name": "Devashri.P.R",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 458,
-       "rank": 9,
-       "domainRank": 4,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M12351": {
-     "rollNo": "26M12351",
-     "sNo": 51.0,
-     "name": "Nithin Pranav.V",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 309,
-       "rank": 55,
-       "domainRank": 31,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M13352": {
-     "rollNo": "26M13352",
-     "sNo": 52.0,
-     "name": "Girishanth.S.G",
-     "stream": [
-      "Bio",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 325,
-       "rank": 43,
-       "domainRank": 1,
-       "domainSize": 4
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 4
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 4
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 4
-      }
-     }
-    },
-    "26M13353": {
-     "rollNo": "26M13353",
-     "sNo": 53.0,
-     "name": "Nandita.T.P",
-     "stream": [
-      "Bio",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 296,
-       "rank": 63,
-       "domainRank": 2,
-       "domainSize": 4
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 4
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 4
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 4
-      }
-     }
-    },
-    "26M13354": {
-     "rollNo": "26M13354",
-     "sNo": 54.0,
-     "name": "Shruthisha.S.N",
-     "stream": [
-      "Bio",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 286,
-       "rank": 67,
-       "domainRank": 3,
-       "domainSize": 4
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 4
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 4
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 4
-      }
-     }
-    },
-    "26M22355": {
-     "rollNo": "26M22355",
-     "sNo": 55.0,
-     "name": "Akshaya.K",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 364,
-       "rank": 32,
-       "domainRank": 18,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22356": {
-     "rollNo": "26M22356",
-     "sNo": 56.0,
-     "name": "Amrish.J.R",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 318,
-       "rank": 49,
-       "domainRank": 28,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22357": {
-     "rollNo": "26M22357",
-     "sNo": 57.0,
-     "name": "Anikksha.P",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 325,
-       "rank": 43,
-       "domainRank": 26,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22358": {
-     "rollNo": "26M22358",
-     "sNo": 58.0,
-     "name": "Archita.K",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 335.5,
-       "rank": 38,
-       "domainRank": 23,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22359": {
-     "rollNo": "26M22359",
-     "sNo": 59.0,
-     "name": "Ashok. A",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 215,
-       "rank": 83,
-       "domainRank": 51,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22360": {
-     "rollNo": "26M22360",
-     "sNo": 60.0,
-     "name": "Dhaadsin.N",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 400,
-       "rank": 21,
-       "domainRank": 10,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22361": {
-     "rollNo": "26M22361",
-     "sNo": 61.0,
-     "name": "Dhakshin.T.K",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 284,
-       "rank": 68,
-       "domainRank": 39,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22362": {
-     "rollNo": "26M22362",
-     "sNo": 62.0,
-     "name": "Gajeshwar.N.J",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 259,
-       "rank": 75,
-       "domainRank": 44,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22363": {
-     "rollNo": "26M22363",
-     "sNo": 63.0,
-     "name": "Harsheta.A",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 275.5,
-       "rank": 71,
-       "domainRank": 41,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22364": {
-     "rollNo": "26M22364",
-     "sNo": 64.0,
-     "name": "Kabilesh.B",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 414,
-       "rank": 17,
-       "domainRank": 8,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22365": {
-     "rollNo": "26M22365",
-     "sNo": 65.0,
-     "name": "Kavinaya",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 381.5,
-       "rank": 25,
-       "domainRank": 12,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22366": {
-     "rollNo": "26M22366",
-     "sNo": 66.0,
-     "name": "Kiruthick",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 276,
-       "rank": 70,
-       "domainRank": 40,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22367": {
-     "rollNo": "26M22367",
-     "sNo": 67.0,
-     "name": "Lakshana.R",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 337.5,
-       "rank": 37,
-       "domainRank": 22,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22368": {
-     "rollNo": "26M22368",
-     "sNo": 68.0,
-     "name": "Likitha.R",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 402,
-       "rank": 20,
-       "domainRank": 9,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22369": {
-     "rollNo": "26M22369",
-     "sNo": 69.0,
-     "name": "Pranav.P.K",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 370,
-       "rank": 30,
-       "domainRank": 16,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22370": {
-     "rollNo": "26M22370",
-     "sNo": 70.0,
-     "name": "Rithika. R",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 375,
-       "rank": 27,
-       "domainRank": 14,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22371": {
-     "rollNo": "26M22371",
-     "sNo": 71.0,
-     "name": "Sachith.B",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 248,
-       "rank": 78,
-       "domainRank": 46,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22372": {
-     "rollNo": "26M22372",
-     "sNo": 72.0,
-     "name": "Shana Manikandan",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 296,
-       "rank": 63,
-       "domainRank": 36,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22373": {
-     "rollNo": "26M22373",
-     "sNo": 73.0,
-     "name": "Shruthi Sainthavi.S",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 323,
-       "rank": 46,
-       "domainRank": 27,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22374": {
-     "rollNo": "26M22374",
-     "sNo": 74.0,
-     "name": "Shruthikka.K.P",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 311,
-       "rank": 52,
-       "domainRank": 30,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22375": {
-     "rollNo": "26M22375",
-     "sNo": 75.0,
-     "name": "Sri Haran.R",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 275.5,
-       "rank": 71,
-       "domainRank": 41,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22376": {
-     "rollNo": "26M22376",
-     "sNo": 76.0,
-     "name": "Srree maansheiga.A.M",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 288,
-       "rank": 66,
-       "domainRank": 38,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22377": {
-     "rollNo": "26M22377",
-     "sNo": 77.0,
-     "name": "Thejashvini.N",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 344,
-       "rank": 36,
-       "domainRank": 21,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26M22378": {
-     "rollNo": "26M22378",
-     "sNo": 78.0,
-     "name": "Vithun.D.S",
-     "stream": [
-      "Math",
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 192,
-       "rank": 85,
-       "domainRank": 53,
-       "domainSize": 53
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 53
-      }
-     }
-    },
-    "26S2379": {
-     "rollNo": "26S2379",
-     "sNo": 79.0,
-     "name": "Hariharan.J",
-     "stream": [
-      "Applied Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 324,
-       "rank": 45,
-       "domainRank": 1,
-       "domainSize": 2
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 2
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 2
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 2
-      }
-     }
-    },
-    "26S2380": {
-     "rollNo": "26S2380",
-     "sNo": 80.0,
-     "name": "Mouneeth.K.S",
-     "stream": [
-      "Applied Math"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 323,
-       "rank": 46,
-       "domainRank": 2,
-       "domainSize": 2
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 2
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 2
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 2
-      }
-     }
-    },
-    "26S3381": {
-     "rollNo": "26S3381",
-     "sNo": 81.0,
-     "name": "Atchaya.K",
-     "stream": [
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 315,
-       "rank": 51,
-       "domainRank": 5,
-       "domainSize": 5
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 5
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 5
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 5
-      }
-     }
-    },
-    "26S3382": {
-     "rollNo": "26S3382",
-     "sNo": 82.0,
-     "name": "Deshigasree.A.G",
-     "stream": [
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 323,
-       "rank": 46,
-       "domainRank": 4,
-       "domainSize": 5
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 5
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 5
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 5
-      }
-     }
-    },
-    "26S3383": {
-     "rollNo": "26S3383",
-     "sNo": 83.0,
-     "name": "Jessica.N",
-     "stream": [
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 461,
-       "rank": 8,
-       "domainRank": 2,
-       "domainSize": 5
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 5
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 5
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 5
-      }
-     }
-    },
-    "26S3384": {
-     "rollNo": "26S3384",
-     "sNo": 84.0,
-     "name": "Midhunasree.G.P",
-     "stream": [
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 462,
-       "rank": 7,
-       "domainRank": 1,
-       "domainSize": 5
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 5
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 5
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 5
-      }
-     }
-    },
-    "26S3385": {
-     "rollNo": "26S3385",
-     "sNo": 85.0,
-     "name": "Prathiksha.V.P",
-     "stream": [
-      "CS"
-     ],
-     "exams": {
-      "CU 1": {
-       "total": 427,
-       "rank": 13,
-       "domainRank": 3,
-       "domainSize": 5
-      },
-      "TE 1": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 5
-      },
-      "CU 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 5
-      },
-      "TE 2": {
-       "total": 0,
-       "rank": 1,
-       "domainSize": 5
+       "rank": 1
       }
      }
     }
@@ -9713,48 +6581,48 @@ window.REPORT_DATA = {
     "CU 1": {
      "subjects": {
       "Acc": {
-       "max": 64.0,
-       "min": 48.0,
+       "max": 64,
+       "min": 48,
        "avg": 56.0,
        "present": 2,
        "topperRoll": "26S2379",
        "topperName": "Hariharan.J"
       },
       "Bs": {
-       "max": 79.0,
-       "min": 63.0,
+       "max": 79,
+       "min": 63,
        "avg": 71.0,
        "present": 2,
        "topperRoll": "26S2379",
        "topperName": "Hariharan.J"
       },
       "Eco": {
-       "max": 70.0,
-       "min": 41.0,
+       "max": 70,
+       "min": 41,
        "avg": 55.5,
        "present": 2,
        "topperRoll": "26S2379",
        "topperName": "Hariharan.J"
       },
       "A.Math": {
-       "max": 72.0,
-       "min": 59.0,
+       "max": 72,
+       "min": 59,
        "avg": 65.5,
        "present": 2,
        "topperRoll": "26S2380",
        "topperName": "Mouneeth.K.S"
       },
       "Eng": {
-       "max": 60.0,
-       "min": 35.0,
+       "max": 60,
+       "min": 35,
        "avg": 47.5,
        "present": 2,
        "topperRoll": "26S2379",
        "topperName": "Hariharan.J"
       },
       "PE": {
-       "max": 84.0,
-       "min": 64.0,
+       "max": 84,
+       "min": 64,
        "avg": 74.0,
        "present": 2,
        "topperRoll": "26S2379",
@@ -9762,30 +6630,75 @@ window.REPORT_DATA = {
       }
      },
      "total": {
-      "max": 416.0,
+      "max": 416,
       "topperRoll": "26S2379",
       "topperName": "Hariharan.J",
       "present": 2
      }
     },
-    "TE 1": null,
-    "CU 2": null,
-    "TE 2": null
+    "TE 1": {
+     "subjects": {
+      "Acc": null,
+      "Bs": null,
+      "Eco": null,
+      "A.Math": null,
+      "Eng": null,
+      "PE": null
+     },
+     "total": {
+      "max": 0,
+      "topperRoll": "26S2379",
+      "topperName": "Hariharan.J",
+      "present": 2
+     }
+    },
+    "CU 2": {
+     "subjects": {
+      "Acc": null,
+      "Bs": null,
+      "Eco": null,
+      "A.Math": null,
+      "Eng": null,
+      "PE": null
+     },
+     "total": {
+      "max": 0,
+      "topperRoll": "26S2379",
+      "topperName": "Hariharan.J",
+      "present": 2
+     }
+    },
+    "TE 2": {
+     "subjects": {
+      "Acc": null,
+      "Bs": null,
+      "Eco": null,
+      "A.Math": null,
+      "Eng": null,
+      "PE": null
+     },
+     "total": {
+      "max": 0,
+      "topperRoll": "26S2379",
+      "topperName": "Hariharan.J",
+      "present": 2
+     }
+    }
    },
    "students": {
     "26S2379": {
      "rollNo": "26S2379",
-     "sNo": 79.0,
+     "sNo": 1.0,
      "name": "Hariharan.J",
      "marks": {
       "CU 1": {
-       "Acc": 64.0,
-       "Bs": 79.0,
-       "Eco": 70.0,
-       "A.Math": 59.0,
-       "Eng": 60.0,
-       "PE": 84.0,
-       "Total": 416.0
+       "Acc": 64,
+       "Bs": 79,
+       "Eco": 70,
+       "A.Math": 59,
+       "Eng": 60,
+       "PE": 84,
+       "Total": 416
       },
       "TE 1": {
        "Acc": null,
@@ -9830,48 +6743,40 @@ window.REPORT_DATA = {
        "Eng": 75,
        "PE": 75,
        "Total": 75
-      },
-      "TE 1": null,
-      "CU 2": null,
-      "TE 2": null
+      }
      },
      "overall": {
       "CU 1": {
-       "total": 324,
-       "rank": 45,
-       "domainRank": 1,
-       "domainSize": 2
+       "total": 416,
+       "rank": 17
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 2
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 2
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 2
+       "rank": 1
       }
      }
     },
     "26S2380": {
      "rollNo": "26S2380",
-     "sNo": 80.0,
+     "sNo": 2.0,
      "name": "Mouneeth.K.S",
      "marks": {
       "CU 1": {
-       "Acc": 48.0,
-       "Bs": 63.0,
-       "Eco": 41.0,
-       "A.Math": 72.0,
-       "Eng": 35.0,
-       "PE": 64.0,
-       "Total": 323.0
+       "Acc": 48,
+       "Bs": 63,
+       "Eco": 41,
+       "A.Math": 72,
+       "Eng": 35,
+       "PE": 64,
+       "Total": 323
       },
       "TE 1": {
        "Acc": null,
@@ -9916,32 +6821,24 @@ window.REPORT_DATA = {
        "Eng": 25,
        "PE": 25,
        "Total": 25
-      },
-      "TE 1": null,
-      "CU 2": null,
-      "TE 2": null
+      }
      },
      "overall": {
       "CU 1": {
        "total": 323,
-       "rank": 46,
-       "domainRank": 2,
-       "domainSize": 2
+       "rank": 46
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 2
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 2
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 2
+       "rank": 1
       }
      }
     }
@@ -9983,48 +6880,48 @@ window.REPORT_DATA = {
     "CU 1": {
      "subjects": {
       "Acc": {
-       "max": 70.0,
-       "min": 45.0,
+       "max": 70,
+       "min": 45,
        "avg": 53.0,
        "present": 5,
        "topperRoll": "26S3384",
        "topperName": "Midhunasree.G.P"
       },
       "Bs": {
-       "max": 93.0,
-       "min": 58.0,
+       "max": 93,
+       "min": 58,
        "avg": 80.6,
        "present": 5,
        "topperRoll": "26S3383",
        "topperName": "Jessica.N"
       },
       "Eco": {
-       "max": 90.0,
-       "min": 44.0,
+       "max": 90,
+       "min": 44,
        "avg": 75.8,
        "present": 5,
        "topperRoll": "26S3383",
        "topperName": "Jessica.N"
       },
       "Cs": {
-       "max": 66.0,
-       "min": 50.0,
+       "max": 66,
+       "min": 50,
        "avg": 55.8,
        "present": 5,
        "topperRoll": "26S3383",
        "topperName": "Jessica.N"
       },
       "Eng": {
-       "max": 75.0,
-       "min": 46.0,
+       "max": 75,
+       "min": 46,
        "avg": 66.4,
        "present": 5,
        "topperRoll": "26S3384",
        "topperName": "Midhunasree.G.P"
       },
       "PE": {
-       "max": 87.0,
-       "min": 79.0,
+       "max": 87,
+       "min": 79,
        "avg": 82.5,
        "present": 4,
        "topperRoll": "26S3383",
@@ -10032,30 +6929,75 @@ window.REPORT_DATA = {
       }
      },
      "total": {
-      "max": 462.0,
+      "max": 462,
       "topperRoll": "26S3384",
       "topperName": "Midhunasree.G.P",
       "present": 5
      }
     },
-    "TE 1": null,
-    "CU 2": null,
-    "TE 2": null
+    "TE 1": {
+     "subjects": {
+      "Acc": null,
+      "Bs": null,
+      "Eco": null,
+      "Cs": null,
+      "Eng": null,
+      "PE": null
+     },
+     "total": {
+      "max": 0,
+      "topperRoll": "26S3381",
+      "topperName": "Atchaya.K",
+      "present": 5
+     }
+    },
+    "CU 2": {
+     "subjects": {
+      "Acc": null,
+      "Bs": null,
+      "Eco": null,
+      "Cs": null,
+      "Eng": null,
+      "PE": null
+     },
+     "total": {
+      "max": 0,
+      "topperRoll": "26S3381",
+      "topperName": "Atchaya.K",
+      "present": 5
+     }
+    },
+    "TE 2": {
+     "subjects": {
+      "Acc": null,
+      "Bs": null,
+      "Eco": null,
+      "Cs": null,
+      "Eng": null,
+      "PE": null
+     },
+     "total": {
+      "max": 0,
+      "topperRoll": "26S3381",
+      "topperName": "Atchaya.K",
+      "present": 5
+     }
+    }
    },
    "students": {
     "26S3381": {
      "rollNo": "26S3381",
-     "sNo": 81.0,
+     "sNo": 1.0,
      "name": "Atchaya.K",
      "marks": {
       "CU 1": {
-       "Acc": 45.0,
-       "Bs": 80.0,
-       "Eco": 71.0,
-       "Cs": 50.0,
-       "Eng": 69.0,
+       "Acc": 45,
+       "Bs": 80,
+       "Eco": 71,
+       "Cs": 50,
+       "Eng": 69,
        "PE": null,
-       "Total": 315.0
+       "Total": 315
       },
       "TE 1": {
        "Acc": null,
@@ -10102,48 +7044,40 @@ window.REPORT_DATA = {
        "Eng": 40,
        "PE": null,
        "Total": 10
-      },
-      "TE 1": null,
-      "CU 2": null,
-      "TE 2": null
+      }
      },
      "overall": {
       "CU 1": {
        "total": 315,
-       "rank": 51,
-       "domainRank": 5,
-       "domainSize": 5
+       "rank": 51
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 5
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 5
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 5
+       "rank": 1
       }
      }
     },
     "26S3382": {
      "rollNo": "26S3382",
-     "sNo": 82.0,
+     "sNo": 2.0,
      "name": "Deshigasree.A.G",
      "marks": {
       "CU 1": {
-       "Acc": 45.0,
-       "Bs": 58.0,
-       "Eco": 44.0,
-       "Cs": 50.0,
-       "Eng": 46.0,
-       "PE": 80.0,
-       "Total": 323.0
+       "Acc": 45,
+       "Bs": 58,
+       "Eco": 44,
+       "Cs": 50,
+       "Eng": 46,
+       "PE": 80,
+       "Total": 323
       },
       "TE 1": {
        "Acc": null,
@@ -10188,48 +7122,40 @@ window.REPORT_DATA = {
        "Eng": 10,
        "PE": 38,
        "Total": 30
-      },
-      "TE 1": null,
-      "CU 2": null,
-      "TE 2": null
+      }
      },
      "overall": {
       "CU 1": {
        "total": 323,
-       "rank": 46,
-       "domainRank": 4,
-       "domainSize": 5
+       "rank": 46
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 5
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 5
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 5
+       "rank": 1
       }
      }
     },
     "26S3383": {
      "rollNo": "26S3383",
-     "sNo": 83.0,
+     "sNo": 3.0,
      "name": "Jessica.N",
      "marks": {
       "CU 1": {
-       "Acc": 52.0,
-       "Bs": 93.0,
-       "Eco": 90.0,
-       "Cs": 66.0,
-       "Eng": 73.0,
-       "PE": 87.0,
-       "Total": 461.0
+       "Acc": 52,
+       "Bs": 93,
+       "Eco": 90,
+       "Cs": 66,
+       "Eng": 73,
+       "PE": 87,
+       "Total": 461
       },
       "TE 1": {
        "Acc": null,
@@ -10274,48 +7200,40 @@ window.REPORT_DATA = {
        "Eng": 70,
        "PE": 88,
        "Total": 70
-      },
-      "TE 1": null,
-      "CU 2": null,
-      "TE 2": null
+      }
      },
      "overall": {
       "CU 1": {
        "total": 461,
-       "rank": 8,
-       "domainRank": 2,
-       "domainSize": 5
+       "rank": 8
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 5
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 5
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 5
+       "rank": 1
       }
      }
     },
     "26S3384": {
      "rollNo": "26S3384",
-     "sNo": 84.0,
+     "sNo": 4.0,
      "name": "Midhunasree.G.P",
      "marks": {
       "CU 1": {
-       "Acc": 70.0,
-       "Bs": 88.0,
-       "Eco": 86.0,
-       "Cs": 59.0,
-       "Eng": 75.0,
-       "PE": 84.0,
-       "Total": 462.0
+       "Acc": 70,
+       "Bs": 88,
+       "Eco": 86,
+       "Cs": 59,
+       "Eng": 75,
+       "PE": 84,
+       "Total": 462
       },
       "TE 1": {
        "Acc": null,
@@ -10360,48 +7278,40 @@ window.REPORT_DATA = {
        "Eng": 90,
        "PE": 62,
        "Total": 90
-      },
-      "TE 1": null,
-      "CU 2": null,
-      "TE 2": null
+      }
      },
      "overall": {
       "CU 1": {
        "total": 462,
-       "rank": 7,
-       "domainRank": 1,
-       "domainSize": 5
+       "rank": 7
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 5
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 5
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 5
+       "rank": 1
       }
      }
     },
     "26S3385": {
      "rollNo": "26S3385",
-     "sNo": 85.0,
+     "sNo": 5.0,
      "name": "Prathiksha.V.P",
      "marks": {
       "CU 1": {
-       "Acc": 53.0,
-       "Bs": 84.0,
-       "Eco": 88.0,
-       "Cs": 54.0,
-       "Eng": 69.0,
-       "PE": 79.0,
-       "Total": 427.0
+       "Acc": 53,
+       "Bs": 84,
+       "Eco": 88,
+       "Cs": 54,
+       "Eng": 69,
+       "PE": 79,
+       "Total": 427
       },
       "TE 1": {
        "Acc": null,
@@ -10446,32 +7356,2341 @@ window.REPORT_DATA = {
        "Eng": 40,
        "PE": 12,
        "Total": 50
-      },
-      "TE 1": null,
-      "CU 2": null,
-      "TE 2": null
+      }
      },
      "overall": {
       "CU 1": {
        "total": 427,
-       "rank": 13,
-       "domainRank": 3,
-       "domainSize": 5
+       "rank": 13
       },
       "TE 1": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 5
+       "rank": 1
       },
       "CU 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 5
+       "rank": 1
       },
       "TE 2": {
        "total": 0,
-       "rank": 1,
-       "domainSize": 5
+       "rank": 1
+      }
+     }
+    }
+   }
+  },
+  "PE - Analysis": {
+   "type": "analysis",
+   "label": "PE - Analysis",
+   "exams": [
+    "CU 1",
+    "TE 1",
+    "CU 2",
+    "TE 2"
+   ],
+   "conducted": {
+    "CU 1": true,
+    "TE 1": false,
+    "CU 2": false,
+    "TE 2": false
+   },
+   "classSize": 85,
+   "topper": {
+    "CU 1": {
+     "total": 536,
+     "roll": "26H2315",
+     "name": "Kanimitha.M"
+    },
+    "TE 1": null,
+    "CU 2": null,
+    "TE 2": null
+   },
+   "students": {
+    "26H1301": {
+     "rollNo": "26H1301",
+     "sNo": 1.0,
+     "name": "Ahalya.R",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 304,
+       "rank": 58
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H1302": {
+     "rollNo": "26H1302",
+     "sNo": 2.0,
+     "name": "Asswin.R.S",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 311,
+       "rank": 52
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H1303": {
+     "rollNo": "26H1303",
+     "sNo": 3.0,
+     "name": "Dharunraja.M.S",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 374,
+       "rank": 29
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H1304": {
+     "rollNo": "26H1304",
+     "sNo": 4.0,
+     "name": "Jaisree.A",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 496,
+       "rank": 5
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H1305": {
+     "rollNo": "26H1305",
+     "sNo": 5.0,
+     "name": "Rethika.S",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 458,
+       "rank": 9
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H1306": {
+     "rollNo": "26H1306",
+     "sNo": 6.0,
+     "name": "Rubhan.S",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 268,
+       "rank": 74
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H1307": {
+     "rollNo": "26H1307",
+     "sNo": 7.0,
+     "name": "Sakthi Jeevanes.G.A",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 410,
+       "rank": 19
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H1308": {
+     "rollNo": "26H1308",
+     "sNo": 8.0,
+     "name": "Sharvesh.S.P",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 301,
+       "rank": 62
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2309": {
+     "rollNo": "26H2309",
+     "sNo": 9.0,
+     "name": "Aaradhana.R",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 381,
+       "rank": 27
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2310": {
+     "rollNo": "26H2310",
+     "sNo": 10.0,
+     "name": "Abhinav Shrihari.N",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 383,
+       "rank": 25
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2311": {
+     "rollNo": "26H2311",
+     "sNo": 11.0,
+     "name": "Akash.R",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 317,
+       "rank": 50
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2312": {
+     "rollNo": "26H2312",
+     "sNo": 12.0,
+     "name": "Danish.M",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 368,
+       "rank": 32
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2313": {
+     "rollNo": "26H2313",
+     "sNo": 13.0,
+     "name": "Dharaniish.R.S",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 302,
+       "rank": 61
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2314": {
+     "rollNo": "26H2314",
+     "sNo": 14.0,
+     "name": "Jovith Vinayaka.M.V",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 292,
+       "rank": 65
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2315": {
+     "rollNo": "26H2315",
+     "sNo": 15.0,
+     "name": "Kanimitha.M",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 536,
+       "rank": 1
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2316": {
+     "rollNo": "26H2316",
+     "sNo": 16.0,
+     "name": "Kanishkaa.V",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 272,
+       "rank": 73
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2317": {
+     "rollNo": "26H2317",
+     "sNo": 17.0,
+     "name": "Nikesh.S.S",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 304,
+       "rank": 58
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2318": {
+     "rollNo": "26H2318",
+     "sNo": 18.0,
+     "name": "Perinban.M",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 222,
+       "rank": 81
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2319": {
+     "rollNo": "26H2319",
+     "sNo": 19.0,
+     "name": "Prakalya.K.S",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 531,
+       "rank": 2
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2320": {
+     "rollNo": "26H2320",
+     "sNo": 20.0,
+     "name": "Praveen Kumaran.T",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 348,
+       "rank": 35
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2321": {
+     "rollNo": "26H2321",
+     "sNo": 21.0,
+     "name": "Ram Prasath.K",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 211,
+       "rank": 84
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2322": {
+     "rollNo": "26H2322",
+     "sNo": 22.0,
+     "name": "Sri Hari.A.S",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 354,
+       "rank": 34
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2323": {
+     "rollNo": "26H2323",
+     "sNo": 23.0,
+     "name": "Srinika.J.S",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 227,
+       "rank": 80
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2324": {
+     "rollNo": "26H2324",
+     "sNo": 24.0,
+     "name": "Suvekshaya.V.S",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 420,
+       "rank": 16
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2325": {
+     "rollNo": "26H2325",
+     "sNo": 25.0,
+     "name": "Thirushanth.B",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 440,
+       "rank": 12
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2326": {
+     "rollNo": "26H2326",
+     "sNo": 26.0,
+     "name": "Vishnu Varthan. A",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 238,
+       "rank": 79
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H2327": {
+     "rollNo": "26H2327",
+     "sNo": 27.0,
+     "name": "Vishal.M",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 256,
+       "rank": 77
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26H3328": {
+     "rollNo": "26H3328",
+     "sNo": 28.0,
+     "name": "Narmadhavarshini.G",
+     "stream": [
+      "Bio",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 281,
+       "rank": 69
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M11329": {
+     "rollNo": "26M11329",
+     "sNo": 29.0,
+     "name": "Anu Varshini.K.M",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 514,
+       "rank": 3
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M11330": {
+     "rollNo": "26M11330",
+     "sNo": 30.0,
+     "name": "Hemasri.S.S",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 424,
+       "rank": 14
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M11331": {
+     "rollNo": "26M11331",
+     "sNo": 31.0,
+     "name": "Hemavaashini.S",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 400,
+       "rank": 22
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M11332": {
+     "rollNo": "26M11332",
+     "sNo": 32.0,
+     "name": "Naveen.C.S",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 345,
+       "rank": 36
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M11333": {
+     "rollNo": "26M11333",
+     "sNo": 33.0,
+     "name": "Nela",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 406,
+       "rank": 20
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M11334": {
+     "rollNo": "26M11334",
+     "sNo": 34.0,
+     "name": "Nikhil Shriram.J",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 310,
+       "rank": 54
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M11335": {
+     "rollNo": "26M11335",
+     "sNo": 35.0,
+     "name": "Pritika.S.R",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 258,
+       "rank": 76
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M11336": {
+     "rollNo": "26M11336",
+     "sNo": 36.0,
+     "name": "Rethika.S",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 329,
+       "rank": 42
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M11337": {
+     "rollNo": "26M11337",
+     "sNo": 37.0,
+     "name": "Samritha.K",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 390,
+       "rank": 24
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M11338": {
+     "rollNo": "26M11338",
+     "sNo": 38.0,
+     "name": "Shynthavi.S",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 452,
+       "rank": 11
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M11339": {
+     "rollNo": "26M11339",
+     "sNo": 39.0,
+     "name": "Tara.R",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 333,
+       "rank": 40
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M11340": {
+     "rollNo": "26M11340",
+     "sNo": 40.0,
+     "name": "Veka",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 303,
+       "rank": 60
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M11341": {
+     "rollNo": "26M11341",
+     "sNo": 41.0,
+     "name": "Vinusha.P.S",
+     "stream": [
+      "Bio",
+      "Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 505,
+       "rank": 4
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M12342": {
+     "rollNo": "26M12342",
+     "sNo": 42.0,
+     "name": "Abinav.M",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 308,
+       "rank": 56
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M12343": {
+     "rollNo": "26M12343",
+     "sNo": 43.0,
+     "name": "Akkshayaa.K",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 328,
+       "rank": 43
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M12344": {
+     "rollNo": "26M12344",
+     "sNo": 44.0,
+     "name": "Bharanish.S.R",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 423,
+       "rank": 15
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M12345": {
+     "rollNo": "26M12345",
+     "sNo": 45.0,
+     "name": "Kaviyavarshini.A",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 475,
+       "rank": 6
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M12346": {
+     "rollNo": "26M12346",
+     "sNo": 46.0,
+     "name": "Lishvanth.S.V",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 216,
+       "rank": 82
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M12347": {
+     "rollNo": "26M12347",
+     "sNo": 47.0,
+     "name": "Mavish.J.S",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 330,
+       "rank": 41
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M12348": {
+     "rollNo": "26M12348",
+     "sNo": 48.0,
+     "name": "Navanitha.M",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 306,
+       "rank": 57
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M12349": {
+     "rollNo": "26M12349",
+     "sNo": 49.0,
+     "name": "Sathvika.Y",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 371,
+       "rank": 30
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M12350": {
+     "rollNo": "26M12350",
+     "sNo": 50.0,
+     "name": "Devashri.P.R",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 458,
+       "rank": 9
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M12351": {
+     "rollNo": "26M12351",
+     "sNo": 51.0,
+     "name": "Nithin Pranav.V",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 309,
+       "rank": 55
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M13352": {
+     "rollNo": "26M13352",
+     "sNo": 52.0,
+     "name": "Girishanth.S.G",
+     "stream": [
+      "Bio",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 325,
+       "rank": 44
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M13353": {
+     "rollNo": "26M13353",
+     "sNo": 53.0,
+     "name": "Nandita.T.P",
+     "stream": [
+      "Bio",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 296,
+       "rank": 63
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M13354": {
+     "rollNo": "26M13354",
+     "sNo": 54.0,
+     "name": "Shruthisha.S.N",
+     "stream": [
+      "Bio",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 286,
+       "rank": 67
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22355": {
+     "rollNo": "26M22355",
+     "sNo": 55.0,
+     "name": "Akshaya.K",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 364,
+       "rank": 33
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22356": {
+     "rollNo": "26M22356",
+     "sNo": 56.0,
+     "name": "Amrish.J.R",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 318,
+       "rank": 49
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22357": {
+     "rollNo": "26M22357",
+     "sNo": 57.0,
+     "name": "Anikksha.P",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 325,
+       "rank": 44
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22358": {
+     "rollNo": "26M22358",
+     "sNo": 58.0,
+     "name": "Archita.K",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 335.5,
+       "rank": 39
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22359": {
+     "rollNo": "26M22359",
+     "sNo": 59.0,
+     "name": "Ashok. A",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 215,
+       "rank": 83
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22360": {
+     "rollNo": "26M22360",
+     "sNo": 60.0,
+     "name": "Dhaadsin.N",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 400,
+       "rank": 22
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22361": {
+     "rollNo": "26M22361",
+     "sNo": 61.0,
+     "name": "Dhakshin.T.K",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 284,
+       "rank": 68
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22362": {
+     "rollNo": "26M22362",
+     "sNo": 62.0,
+     "name": "Gajeshwar.N.J",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 259,
+       "rank": 75
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22363": {
+     "rollNo": "26M22363",
+     "sNo": 63.0,
+     "name": "Harsheta.A",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 275.5,
+       "rank": 71
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22364": {
+     "rollNo": "26M22364",
+     "sNo": 64.0,
+     "name": "Kabilesh.B",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 414,
+       "rank": 18
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22365": {
+     "rollNo": "26M22365",
+     "sNo": 65.0,
+     "name": "Kavinaya",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 381.5,
+       "rank": 26
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22366": {
+     "rollNo": "26M22366",
+     "sNo": 66.0,
+     "name": "Kiruthick",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 276,
+       "rank": 70
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22367": {
+     "rollNo": "26M22367",
+     "sNo": 67.0,
+     "name": "Lakshana.R",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 337.5,
+       "rank": 38
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22368": {
+     "rollNo": "26M22368",
+     "sNo": 68.0,
+     "name": "Likitha.R",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 402,
+       "rank": 21
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22369": {
+     "rollNo": "26M22369",
+     "sNo": 69.0,
+     "name": "Pranav.P.K",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 370,
+       "rank": 31
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22370": {
+     "rollNo": "26M22370",
+     "sNo": 70.0,
+     "name": "Rithika. R",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 375,
+       "rank": 28
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22371": {
+     "rollNo": "26M22371",
+     "sNo": 71.0,
+     "name": "Sachith.B",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 248,
+       "rank": 78
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22372": {
+     "rollNo": "26M22372",
+     "sNo": 72.0,
+     "name": "Shana Manikandan",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 296,
+       "rank": 63
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22373": {
+     "rollNo": "26M22373",
+     "sNo": 73.0,
+     "name": "Shruthi Sainthavi.S",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 323,
+       "rank": 46
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22374": {
+     "rollNo": "26M22374",
+     "sNo": 74.0,
+     "name": "Shruthikka.K.P",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 311,
+       "rank": 52
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22375": {
+     "rollNo": "26M22375",
+     "sNo": 75.0,
+     "name": "Sri Haran.R",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 275.5,
+       "rank": 71
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22376": {
+     "rollNo": "26M22376",
+     "sNo": 76.0,
+     "name": "Srree maansheiga.A.M",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 288,
+       "rank": 66
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22377": {
+     "rollNo": "26M22377",
+     "sNo": 77.0,
+     "name": "Thejashvini.N",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 344,
+       "rank": 37
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26M22378": {
+     "rollNo": "26M22378",
+     "sNo": 78.0,
+     "name": "Vithun.D.S",
+     "stream": [
+      "Math",
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 192,
+       "rank": 85
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26S2379": {
+     "rollNo": "26S2379",
+     "sNo": 79.0,
+     "name": "Hariharan.J",
+     "stream": [
+      "Applied Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 416,
+       "rank": 17
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26S2380": {
+     "rollNo": "26S2380",
+     "sNo": 80.0,
+     "name": "Mouneeth.K.S",
+     "stream": [
+      "Applied Math"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 323,
+       "rank": 46
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26S3381": {
+     "rollNo": "26S3381",
+     "sNo": 81.0,
+     "name": "Atchaya.K",
+     "stream": [
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 315,
+       "rank": 51
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26S3382": {
+     "rollNo": "26S3382",
+     "sNo": 82.0,
+     "name": "Deshigasree.A.G",
+     "stream": [
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 323,
+       "rank": 46
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26S3383": {
+     "rollNo": "26S3383",
+     "sNo": 83.0,
+     "name": "Jessica.N",
+     "stream": [
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 461,
+       "rank": 8
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26S3384": {
+     "rollNo": "26S3384",
+     "sNo": 84.0,
+     "name": "Midhunasree.G.P",
+     "stream": [
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 462,
+       "rank": 7
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
+      }
+     }
+    },
+    "26S3385": {
+     "rollNo": "26S3385",
+     "sNo": 85.0,
+     "name": "Prathiksha.V.P",
+     "stream": [
+      "CS"
+     ],
+     "exams": {
+      "CU 1": {
+       "total": 427,
+       "rank": 13
+      },
+      "TE 1": {
+       "total": 0,
+       "rank": 1
+      },
+      "CU 2": {
+       "total": 0,
+       "rank": 1
+      },
+      "TE 2": {
+       "total": 0,
+       "rank": 1
       }
      }
     }
@@ -10792,32 +10011,32 @@ window.REPORT_DATA = {
    "PE - Analysis"
   ],
   "26S2379": [
-   "PE - Analysis",
-   "Applied Math"
+   "Applied Math",
+   "PE - Analysis"
   ],
   "26S2380": [
-   "PE - Analysis",
-   "Applied Math"
+   "Applied Math",
+   "PE - Analysis"
   ],
   "26S3381": [
-   "PE - Analysis",
-   "CS"
+   "CS",
+   "PE - Analysis"
   ],
   "26S3382": [
-   "PE - Analysis",
-   "CS"
+   "CS",
+   "PE - Analysis"
   ],
   "26S3383": [
-   "PE - Analysis",
-   "CS"
+   "CS",
+   "PE - Analysis"
   ],
   "26S3384": [
-   "PE - Analysis",
-   "CS"
+   "CS",
+   "PE - Analysis"
   ],
   "26S3385": [
-   "PE - Analysis",
-   "CS"
+   "CS",
+   "PE - Analysis"
   ]
  }
 };

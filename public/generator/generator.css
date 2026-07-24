@@ -1,4 +1,4 @@
-/* Report generator — staff tool. Builds on the main styles.css. */
+/* Report generator styles — exact match for Student Performance Report PDF */
 
 .gen-card{max-width:640px}
 .gen-block{margin:0 0 16px}
@@ -19,26 +19,185 @@
 }
 .gen-file input[type=file]{font-size:.82rem;max-width:100%}
 
-.gen-logout{width:100%;margin-top:8px}
-
 .gen-busy{display:inline-block;margin-left:8px;color:var(--muted);font-size:.85rem}
 
-/* generated report */
-.gen-report-head{padding:18px;border-bottom:1px solid var(--line)}
-.gen-grade-badge{
-  display:inline-block;margin-top:6px;padding:4px 14px;border-radius:20px;
-  font-weight:700;font-size:.95rem;background:#eaf5ee;color:var(--good);
-  border:1px solid #bfe2cc;
+/* ==========================================================================
+   PDF-STYLE STUDENT PERFORMANCE REPORT
+   ========================================================================== */
+#genReport {
+  background: #ffffff;
+  padding: 36px 40px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #2d3748;
 }
-.gen-remarks{text-align:left;font-size:.86rem;color:#4a5160;max-width:340px}
-table.grid td.gen-remarks{white-space:normal;line-height:1.45}
-.gen-list{margin:6px 18px 16px;padding-left:20px}
-.gen-list li{margin:4px 0;font-size:.92rem;line-height:1.5}
-.gen-feedback{padding:6px 18px 18px;font-size:.94rem;line-height:1.6;color:#333a45}
 
-.ai-note{margin:14px 18px 0;font-size:.76rem;color:#9aa1ac;font-style:italic}
+.pdf-report-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.pdf-title {
+  color: #237bbd;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin: 0 0 6px 0;
+  text-transform: uppercase;
+}
+
+.pdf-subtitle {
+  color: #6b7280;
+  font-size: 14px;
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+.pdf-header-line {
+  height: 3px;
+  background-color: #237bbd;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.pdf-sec-bar {
+  background-color: #eef5fb;
+  border-left: 4px solid #237bbd;
+  color: #1a365d;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 10px 14px;
+  margin-top: 24px;
+  margin-bottom: 16px;
+  border-radius: 2px;
+}
+
+.pdf-profile-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 4px 6px;
+}
+
+.pdf-p-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dotted #cbd5e1;
+  padding-bottom: 10px;
+}
+
+.pdf-p-row-last {
+  border-bottom: none;
+}
+
+.pdf-p-cell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.pdf-p-lbl {
+  color: #237bbd;
+  font-weight: 700;
+  font-size: 14.5px;
+  min-width: 140px;
+}
+
+.pdf-p-val {
+  color: #334155;
+  font-weight: 500;
+  font-size: 14.5px;
+}
+
+.pdf-score-pill {
+  background-color: #20a052;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 5px 14px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.pdf-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.pdf-table th {
+  background-color: #237bbd;
+  color: #ffffff;
+  font-weight: 700;
+  padding: 12px 10px;
+  text-align: left;
+  border: 1px solid #1d6fae;
+}
+
+.pdf-table td {
+  border: 1px solid #cbd5e1;
+  padding: 10px 12px;
+  color: #334155;
+}
+
+.pdf-td-bold {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.pdf-td-center {
+  text-align: center;
+}
+
+.pdf-total-row {
+  background-color: #e2effa;
+  font-weight: 700;
+}
+
+.pdf-total-row td {
+  border-top: 2px solid #237bbd;
+  color: #0f172a;
+}
+
+.pdf-footnote {
+  font-size: 12px;
+  color: #64748b;
+  font-style: italic;
+  margin-top: 6px;
+  margin-bottom: 20px;
+}
+
+.pdf-bullet-list {
+  margin: 0;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.pdf-bullet-list li {
+  margin-bottom: 12px;
+  line-height: 1.6;
+  font-size: 14.5px;
+  color: #334155;
+}
+
+.pdf-bullet-list li strong {
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.pdf-empty {
+  color: #94a3b8;
+  font-style: italic;
+  margin: 8px 0;
+}
+
+.ai-note{margin:24px 0 0;font-size:.78rem;color:#9aa1ac;font-style:italic}
 
 @media(max-width:600px){
   .gen-card{padding:18px 15px 16px}
-  table.grid td.gen-remarks{font-size:.8rem}
+  #genReport{padding:20px 16px}
+  .pdf-p-row{flex-direction:column;gap:8px;align-items:flex-start}
+  .pdf-p-cell{width:100%}
+  .pdf-title{font-size:20px}
 }

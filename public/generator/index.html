@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Report Generator &middot; Staff</title>
+  <title>AI Report Generator &middot; Akshara Academy</title>
   <link rel="stylesheet" href="../styles.css?v=36" />
   <link rel="stylesheet" href="generator.css?v=1" />
 </head>
@@ -14,15 +14,14 @@
       <img class="crest" src="../logo.jpg" alt="KSR Logo" />
       <div class="hero-text">
         <h1>AI Report Generator</h1>
-        <p>Staff Only &middot; Evaluate answer sheets with AI</p>
+        <p>Evaluate your answer sheet with AI</p>
       </div>
     </header>
 
     <!-- ===================== GENERATOR ===================== -->
-    <section class="lookup-card gen-card" id="genCard" hidden>
+    <section class="lookup-card gen-card" id="genCard">
       <h2>Evaluate a student&rsquo;s answer sheet</h2>
-      <p class="hint">Provide the syllabus, the question paper and the student&rsquo;s written
-        answers. Paste text or upload a PDF / photo for each. The answer sheet is required.</p>
+      <p class="hint">Provide the question paper and the student&rsquo;s written answers &mdash; both are required. Paste text or upload a PDF / photo for each.</p>
 
       <form id="genForm" autocomplete="off">
         <div class="gen-block">
@@ -32,7 +31,7 @@
         </div>
 
         <div class="gen-block">
-          <label class="gen-label">2. Question Paper <span class="opt">(optional)</span></label>
+          <label class="gen-label">2. Question Paper <span class="req">(required)</span></label>
           <textarea class="gen-text" id="questionText" rows="2" placeholder="Paste question paper text&hellip;"></textarea>
           <label class="gen-file"><input type="file" id="questionFile" accept=".pdf,image/*" /><span>or choose a file</span></label>
         </div>
@@ -49,7 +48,7 @@
         </div>
 
         <button type="submit" id="genBtn" class="btn-primary">Generate Report</button>
-        <button type="button" id="logoutBtn" class="btn-ghost gen-logout">Log out</button>
+
       </form>
 
       <div id="genMsg" class="message" role="status"></div>
@@ -71,28 +70,7 @@
     </section>
   </div>
 
-  <!-- LOGIN MODAL -->
-  <div id="loginOverlay" class="login-overlay" hidden>
-    <div class="login-card">
-      <div class="login-header">
-        <img src="../logo.jpg" alt="KSR Logo" class="login-logo" />
-        <h2>Staff Access</h2>
-        <p>Sign in to use the report generator</p>
-      </div>
-      <form id="loginForm" autocomplete="off">
-        <div class="field">
-          <label for="loginUser">Username</label>
-          <input id="loginUser" type="text" placeholder="Username" required autocomplete="username" />
-        </div>
-        <div class="field">
-          <label for="loginPass">Password</label>
-          <input id="loginPass" type="password" placeholder="Password" required autocomplete="current-password" />
-        </div>
-        <div id="loginMsg" class="message" role="status"></div>
-        <button type="submit" id="loginBtn" class="btn-primary">Sign In</button>
-      </form>
-    </div>
-  </div>
+
 
   <script src="generator.js?v=1"></script>
 </body>

@@ -193,16 +193,15 @@ $("#downloadBtn").addEventListener("click", function () {
     if (v == null) return "&mdash;";
     return '<span class="pct-pill' + (v >= 75 ? " pct-hi" : "") + '">' + v + '%</span>';
   }
-  // rank badge with medal icons for top 3
   function rankBadge(rank, total) {
     if (rank == null) return "&mdash;";
     var medal = "";
     var cls = "rank-badge";
-    if (rank === 1) { medal = "🥇"; cls += " rank-gold"; }
-    else if (rank === 2) { medal = "🥈"; cls += " rank-silver"; }
-    else if (rank === 3) { medal = "🥉"; cls += " rank-bronze"; }
+    if (rank === 1) { medal = "#1"; cls += " rank-gold"; }
+    else if (rank === 2) { medal = "#2"; cls += " rank-silver"; }
+    else if (rank === 3) { medal = "#3"; cls += " rank-bronze"; }
     else if (rank <= 10) { cls += " rank-top10"; }
-    var txt = medal + (medal ? " " : "") + rank;
+    var txt = medal ? medal : String(rank);
     if (total) txt += " <span class='rank-of'>/ " + total + "</span>";
     return '<span class="' + cls + '">' + txt + '</span>';
   }
@@ -224,9 +223,9 @@ var isSchoolTopper = !!(overallEx && overallEx.rank === 1);
     var isStreamTopper = !!(overallEx && overallEx.domainRank === 1);
     var topperHtml = "";
     if (isSchoolTopper) {
-      topperHtml = "<div class='topper-badge' style='background:#ffd700; color:#5c4000; font-size:1.05em; font-weight:800; border:1px solid #cca100; box-shadow:0 2px 8px rgba(255,215,0,0.4)'>🏆 OVERALL SCHOOL TOPPER</div>";
+      topperHtml = "<div class='topper-badge' style='background:#ffd700; color:#5c4000; font-size:1.05em; font-weight:800; border:1px solid #cca100; box-shadow:0 2px 8px rgba(255,215,0,0.4)'>OVERALL SCHOOL TOPPER</div>";
     } else if (isStreamTopper) {
-      topperHtml = "<div class='topper-badge'>🥇 Rank 1 &middot; Stream Topper</div>";
+      topperHtml = "<div class='topper-badge'>Rank 1 &middot; Stream Topper</div>";
     }
 
     var head = el("div", (isSchoolTopper || isStreamTopper) ? "rep-head rep-head-top" : "rep-head");
@@ -311,9 +310,9 @@ if (isSchoolTopper) {
     var isStreamTopper = !!(latestEx && latestEx.domainRank === 1);
     var topperHtml = "";
     if (isSchoolTopper) {
-      topperHtml = "<div class='topper-badge' style='background:#ffd700; color:#5c4000; font-size:1.05em; font-weight:800; border:1px solid #cca100; box-shadow:0 2px 8px rgba(255,215,0,0.4)'>🏆 OVERALL SCHOOL TOPPER</div>";
+      topperHtml = "<div class='topper-badge' style='background:#ffd700; color:#5c4000; font-size:1.05em; font-weight:800; border:1px solid #cca100; box-shadow:0 2px 8px rgba(255,215,0,0.4)'>OVERALL SCHOOL TOPPER</div>";
     } else if (isStreamTopper) {
-      topperHtml = "<div class='topper-badge'>🥇 Rank 1 &middot; Stream Topper</div>";
+      topperHtml = "<div class='topper-badge'>Rank 1 &middot; Stream Topper</div>";
     }
 
     var head = el("div", (isSchoolTopper || isStreamTopper) ? "rep-head rep-head-top" : "rep-head");
@@ -966,8 +965,10 @@ if (isSchoolTopper) {
   // ---------- data status pill ----------
   function setStatus(state, text, title) {
     var pill = $("#statusPill");
+    if (!pill) return;
     pill.className = "status-pill " + state;
-    $("#statusText").textContent = text;
+    var txtEl = $("#statusText");
+    if (txtEl) txtEl.textContent = text;
     if (title) pill.title = title;
   }
   function fmtTime(d) {
@@ -996,10 +997,13 @@ if (isSchoolTopper) {
   }
 
   // click the pill to refresh live data on demand
-  $("#statusPill").addEventListener("click", function () {
-    if ($("#statusPill").classList.contains("loading")) return;
-    load(true);
-  });
+  var statusPill = $("#statusPill");
+  if (statusPill) {
+    statusPill.addEventListener("click", function () {
+      if (statusPill.classList.contains("loading")) return;
+      load(true);
+    });
+  }
 
   load(false);
 })();
