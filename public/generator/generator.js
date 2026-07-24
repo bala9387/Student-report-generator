@@ -66,7 +66,14 @@
           notes: $("#notesText").value.trim()
         })
       })
-        .then(function (r) { return r.json().then(function (b) { return { status: r.status, body: b }; }); })
+        .then(function (r) {
+          return r.text().then(function (txt) {
+            var b;
+            try { b = JSON.parse(txt); }
+            catch (e) { b = { error: txt || ("HTTP " + r.status + " Server Error") }; }
+            return { status: r.status, body: b };
+          });
+        })
         .then(function (res) {
           btn.disabled = false;
           if (res.status !== 200) {
