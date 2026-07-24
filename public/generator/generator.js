@@ -12,9 +12,54 @@
   function num(n) { return (n == null || isNaN(n)) ? "—" : (Math.round(n * 100) / 100); }
 
   // ---------- file helpers ----------
+  function extractPdfText(file) {
+    if (!window.pdfjsLib) return Promise.resolve(null);
+    return new Promise(function (resolve) {
+      var fr = new FileReader();
+      fr.onload = function () {
+        var typedarray = new Uint8Array(fr.result);
+        window.pdfjsLib.getDocument(typedarray).promise.then(function (pdf) {
+          var maxPages = Math.min(pdf.numPages, 10);
+          var count = 0;
+          var fullText = "";
+          for (var i = 1; i <= maxPages; i++) {
+            (function (pageNum) {
+              pdf.getPage(pageNum).then(function (page) {
+                page.getTextContent().then(function (textContent) {
+                  var pageStr = textContent.items.map(function (item) { return item.str; }).join(" ");
+                  fullText += "\n--- Page " + pageNum + " ---\n" + pageStr;
+                  count++;
+                  if (count === maxPages) {
+                    resolve(fullText.trim());
+                  }
+                });
+              });
+            })(i);
+          }
+        }).catch(function () { resolve(null); });
+      };
+      fr.onerror = function () { resolve(null); };
+      fr.readAsArrayBuffer(file);
+    });
+  }
+
   function readFile(input) {
     var f = input.files && input.files[0];
     if (!f) return Promise.resolve(null);
+
+    if (f.type === "application/pdf" || (f.name && f.name.toLowerCase().endsWith(".pdf"))) {
+      return extractPdfText(f).then(function (txt) {
+        if (txt && txt.trim().length > 30) {
+          return { text: txt, name: f.name };
+        }
+        // Fallback to base64 if text extraction yielded little/no text
+        return readAsBase64(f);
+      });
+    }
+    return readAsBase64(f);
+  }
+
+  function readAsBase64(f) {
     return new Promise(function (resolve, reject) {
       var fr = new FileReader();
       fr.onload = function () {
