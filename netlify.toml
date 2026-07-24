@@ -11,6 +11,7 @@
 # excludes it from the deployed site's static files.
 [functions]
   included_files = ["data.js"]
+  timeout = 26
 
 [[redirects]]
   from = "/api/*"
