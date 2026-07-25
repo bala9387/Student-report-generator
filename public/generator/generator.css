@@ -1,23 +1,58 @@
 /* Report generator styles — exact match for Student Performance Report PDF */
 
-.gen-card{max-width:640px}
-.gen-block{margin:0 0 16px}
-.gen-label{display:block;font-weight:600;font-size:.9rem;color:#333a45;margin:0 0 6px}
-.gen-label .opt{color:var(--muted);font-weight:400;font-size:.8rem}
-.gen-label .req{color:var(--red);font-weight:600;font-size:.8rem}
-
-.gen-text{
-  width:100%;border:1px solid var(--line);border-radius:6px;
-  padding:9px 11px;font-family:inherit;font-size:.92rem;color:var(--ink);
-  resize:vertical;background:#fff;
+.gen-card {
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
-.gen-text:focus{outline:none;border-color:var(--header);box-shadow:0 0 0 2px rgba(39,48,67,.12)}
-
-.gen-file{
-  display:inline-flex;align-items:center;gap:8px;margin-top:7px;
-  font-size:.84rem;color:var(--muted);cursor:pointer;
+.gen-block {
+  margin: 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
-.gen-file input[type=file]{font-size:.82rem;max-width:100%}
+.gen-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: .9rem;
+  color: #333a45;
+  margin: 0;
+}
+.gen-label .opt { color: var(--muted, #6b7280); font-weight: 400; font-size: .8rem; }
+.gen-label .req { color: var(--red, #b7161c); font-weight: 600; font-size: .8rem; }
+
+.gen-text {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--line, #dcdfe4);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: .92rem;
+  color: var(--ink, #20242c);
+  resize: vertical;
+  background: #fff;
+  min-height: 56px;
+}
+.gen-text:focus { outline: none; border-color: var(--header, #273043); box-shadow: 0 0 0 2px rgba(39,48,67,.12); }
+
+.gen-file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+  font-size: .84rem;
+  color: var(--muted, #6b7280);
+  background: #f8fafc;
+  padding: 6px 10px;
+  border: 1px dashed var(--line, #cbd5e1);
+  border-radius: 6px;
+}
+.gen-file input[type=file] { font-size: .82rem; max-width: 100%; cursor: pointer; }
+.gen-file span { white-space: nowrap; }
 
 .gen-busy{display:inline-block;margin-left:8px;color:var(--muted);font-size:.85rem}
 
