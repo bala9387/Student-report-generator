@@ -11,11 +11,7 @@
   }
   function num(n) { return (n == null || isNaN(n)) ? "\u2014" : (Math.round(n * 100) / 100); }
 
-  // ---------- Gemini config ----------
-  var _k = atob("QVEuQWI4Uk42SWhUdUlseUpYTURrdFQ2bF9ncl9SWVBqQ1dkdGtYNnA3SzRIbk5GLWZHN2c=");
-  var GEMINI_MODEL = "gemini-2.5-flash";
-  var GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/" +
-    GEMINI_MODEL + ":generateContent?key=" + encodeURIComponent(_k);
+  // ---------- Vercel serverless API mode ----------
 
   var SYSTEM_PROMPT =
     "You are a strict but fair senior examiner at KSR Akshara Academy grading a " +
@@ -192,36 +188,27 @@
     return parts;
   }
 
-  // ---------- call Gemini directly ----------
+  // ---------- call secure serverless endpoint ----------
   function callGemini(inputs) {
-    var body = {
-      contents: [{ role: "user", parts: buildParts(inputs) }],
-      generationConfig: {
-        temperature: 0.2,
-        responseMimeType: "application/json",
-        responseSchema: RESPONSE_SCHEMA
-      }
-    };
-
-    return fetch(GEMINI_ENDPOINT, {
+    return fetch("/api/generate-report", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body)
+      body: JSON.stringify({
+        syllabus: inputs.syllabus,
+        questionPaper: inputs.questionPaper,
+        answerPaper: inputs.answerPaper,
+        notes: inputs.notes
+      })
     }).then(function (res) {
       return res.text().then(function (raw) {
-        if (!res.ok) {
-          var msg = "Gemini API error (HTTP " + res.status + ")";
-          try { var j = JSON.parse(raw); if (j.error && j.error.message) msg = j.error.message; } catch (e) {}
-          throw new Error(msg);
+        var b;
+        try { b = JSON.parse(raw); }
+        catch (e) { b = { error: raw || ("HTTP " + res.status + " Server Error") }; }
+        
+        if (!res.ok || b.error) {
+          throw new Error(b.error || "Server failed to process request.");
         }
-        var data = JSON.parse(raw);
-        var candidate = data.candidates && data.candidates[0];
-        if (!candidate || !candidate.content || !candidate.content.parts || !candidate.content.parts[0]) {
-          throw new Error("Gemini returned empty response.");
-        }
-        var textOut = candidate.content.parts[0].text;
-        if (!textOut) throw new Error("Gemini returned empty text.");
-        return { report: JSON.parse(textOut), model: "Gemini (" + GEMINI_MODEL + ")" };
+        return b;
       });
     });
   }
