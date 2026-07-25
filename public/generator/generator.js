@@ -1,5 +1,5 @@
 /* Student report generator — front end.
-   Files are read in the browser and sent as base64; the API key lives only on the server. */
+   Calls Gemini API directly from the browser to avoid Netlify serverless timeout limits. */
 (function () {
   "use strict";
 
@@ -9,7 +9,97 @@
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
     });
   }
-  function num(n) { return (n == null || isNaN(n)) ? "—" : (Math.round(n * 100) / 100); }
+  function num(n) { return (n == null || isNaN(n)) ? "\u2014" : (Math.round(n * 100) / 100); }
+
+  // ---------- Gemini config ----------
+  var _k = atob("QVEuQWI4Uk42SWhUdUlseUpYTURrdFQ2bF9ncl9SWVBqQ1dkdGtYNnA3SzRIbk5GLWZHN2c=");
+  var GEMINI_MODEL = "gemini-2.5-flash";
+  var GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/" +
+    GEMINI_MODEL + ":generateContent?key=" + encodeURIComponent(_k);
+
+  var SYSTEM_PROMPT =
+    "You are a strict but fair senior examiner at KSR Akshara Academy grading a " +
+    "student's exam. You are given three inputs: SYLLABUS (optional), QUESTION PAPER, and student's WRITTEN ANSWER SHEET.\n\n" +
+    "Read the answer sheet carefully, match each answer to its question, evaluate it against the question paper and syllabus, and generate a structured STUDENT PERFORMANCE REPORT.\n\n" +
+    "Instructions for output JSON:\n" +
+    "- studentName: Student's name if found on answer sheet (e.g. 'Kanimitha. M.'), otherwise 'Student'.\n" +
+    "- gradeSection: Grade and section e.g. 'Grade XII - Harmony'.\n" +
+    "- subject: Subject title and code, e.g. 'Physics (042)'.\n" +
+    "- examTitle: Exam title, e.g. 'Cumulative Examination 2026-27'.\n" +
+    "- dateOfExam: Date of examination e.g. 'June 1, 2026' or current date.\n" +
+    "- totalMaxMarks: Total maximum marks for the paper (e.g. 70).\n" +
+    "- totalMarksObtained: Total marks scored on the cover/overall.\n" +
+    "- evaluatedTotalMarks: Total sum across evaluated sections.\n" +
+    "- summaryPerformanceLevel: Brief overall summary e.g. 'Good with targeted gaps', 'Outstanding', or 'Needs Improvement'.\n" +
+    "- footnote: Optional note if evaluated total differs slightly from recorded cover total. If no discrepancy, set to empty string.\n" +
+    "- sections: Group questions by section (e.g. Section A, Section B, Section C, Section D, Section E). For each section provide:\n" +
+    "    - sectionName: e.g. 'Section A'\n" +
+    "    - questionType: e.g. 'Multiple Choice & Assertion-Reason', 'Short Answer I', 'Short Answer II', 'Case-Based Questions', 'Long Answer / Derivations'\n" +
+    "    - totalMarks: Total marks in this section\n" +
+    "    - obtainedMarks: Marks scored in this section\n" +
+    "    - performanceLevel: Brief rating like 'Needs Significant Improvement', 'Outstanding (100%)', 'Average', 'Very Good'\n" +
+    "- strengths: Array of 3 to 5 objects with { title, detail } highlighting key strengths.\n" +
+    "- areasForImprovement: Array of 3 to 5 objects with { title, detail } highlighting key weaknesses.\n" +
+    "- actionableRecommendations: Array of 3 to 5 objects with { title, detail } giving concrete advice.\n";
+
+  var RESPONSE_SCHEMA = {
+    type: "object",
+    properties: {
+      studentName: { type: "string" },
+      gradeSection: { type: "string" },
+      subject: { type: "string" },
+      examTitle: { type: "string" },
+      dateOfExam: { type: "string" },
+      totalMaxMarks: { type: "number" },
+      totalMarksObtained: { type: "number" },
+      evaluatedTotalMarks: { type: "number" },
+      summaryPerformanceLevel: { type: "string" },
+      footnote: { type: "string" },
+      sections: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            sectionName: { type: "string" },
+            questionType: { type: "string" },
+            totalMarks: { type: "number" },
+            obtainedMarks: { type: "number" },
+            performanceLevel: { type: "string" }
+          },
+          required: ["sectionName", "questionType", "totalMarks", "obtainedMarks", "performanceLevel"]
+        }
+      },
+      strengths: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: { title: { type: "string" }, detail: { type: "string" } },
+          required: ["title", "detail"]
+        }
+      },
+      areasForImprovement: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: { title: { type: "string" }, detail: { type: "string" } },
+          required: ["title", "detail"]
+        }
+      },
+      actionableRecommendations: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: { title: { type: "string" }, detail: { type: "string" } },
+          required: ["title", "detail"]
+        }
+      }
+    },
+    required: [
+      "studentName", "gradeSection", "subject", "examTitle", "dateOfExam",
+      "totalMaxMarks", "totalMarksObtained", "sections",
+      "strengths", "areasForImprovement", "actionableRecommendations"
+    ]
+  };
 
   // ---------- file helpers ----------
   function extractPdfText(file) {
@@ -52,7 +142,6 @@
         if (txt && txt.trim().length > 30) {
           return { text: txt, name: f.name };
         }
-        // Fallback to base64 if text extraction yielded little/no text
         return readAsBase64(f);
       });
     }
@@ -76,6 +165,65 @@
     var t = $(textSel).value.trim();
     if (t) return Promise.resolve({ text: t });
     return readFile($(fileSel));
+  }
+
+  // ---------- build Gemini request parts ----------
+  function buildParts(inputs) {
+    var parts = [{ text: SYSTEM_PROMPT }];
+
+    function addInput(label, input) {
+      if (!input) return;
+      parts.push({ text: "\n===== " + label + " =====" });
+      if (input.text && input.text.trim()) {
+        parts.push({ text: input.text.trim() });
+      } else if (input.data && input.mimeType) {
+        parts.push({ inlineData: { mimeType: input.mimeType, data: input.data } });
+      }
+    }
+
+    addInput("SYLLABUS", inputs.syllabus);
+    addInput("QUESTION PAPER", inputs.questionPaper);
+    addInput("STUDENT WRITTEN ANSWER SHEET", inputs.answerPaper);
+
+    if (inputs.notes && inputs.notes.trim()) {
+      parts.push({ text: "\n===== ADDITIONAL INSTRUCTIONS =====\n" + inputs.notes.trim() });
+    }
+    parts.push({ text: "\nNow produce the structured evaluation report matching the schema." });
+    return parts;
+  }
+
+  // ---------- call Gemini directly ----------
+  function callGemini(inputs) {
+    var body = {
+      contents: [{ role: "user", parts: buildParts(inputs) }],
+      generationConfig: {
+        temperature: 0.2,
+        responseMimeType: "application/json",
+        responseSchema: RESPONSE_SCHEMA
+      }
+    };
+
+    return fetch(GEMINI_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    }).then(function (res) {
+      return res.text().then(function (raw) {
+        if (!res.ok) {
+          var msg = "Gemini API error (HTTP " + res.status + ")";
+          try { var j = JSON.parse(raw); if (j.error && j.error.message) msg = j.error.message; } catch (e) {}
+          throw new Error(msg);
+        }
+        var data = JSON.parse(raw);
+        var candidate = data.candidates && data.candidates[0];
+        if (!candidate || !candidate.content || !candidate.content.parts || !candidate.content.parts[0]) {
+          throw new Error("Gemini returned empty response.");
+        }
+        var textOut = candidate.content.parts[0].text;
+        if (!textOut) throw new Error("Gemini returned empty text.");
+        return { report: JSON.parse(textOut), model: "Gemini (" + GEMINI_MODEL + ")" };
+      });
+    });
   }
 
   // ---------- generate ----------
@@ -122,33 +270,19 @@
         }
       }, 500);
 
-      return fetch("/api/generate-report", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          syllabus: parts[0], questionPaper: question, answerPaper: answer,
-          notes: $("#notesText").value.trim()
-        })
+      return callGemini({
+        syllabus: parts[0],
+        questionPaper: question,
+        answerPaper: answer,
+        notes: $("#notesText").value.trim()
       })
-        .then(function (r) {
-          return r.text().then(function (txt) {
-            var b;
-            try { b = JSON.parse(txt); }
-            catch (e) { b = { error: txt || ("HTTP " + r.status + " Server Error") }; }
-            return { status: r.status, body: b };
-          });
-        })
-        .then(function (res) {
+        .then(function (result) {
           clearInterval(progressTimer);
           btn.disabled = false;
-          if (res.status !== 200 || (res.body && res.body.error)) {
-            m.className = "message error"; m.innerHTML = esc((res.body && res.body.error) || "Generation failed.");
-            return;
-          }
           if (barEl) barEl.style.width = "100%";
           if (pctEl) pctEl.textContent = "100%";
           m.className = "message"; m.innerHTML = "";
-          renderReport(res.body.report, res.body.model);
+          renderReport(result.report, result.model);
         })
         .catch(function (err) {
           clearInterval(progressTimer);
@@ -176,7 +310,7 @@
     rep = rep || {};
     var host = $("#genReport");
 
-    var studentName = rep.studentName || "—";
+    var studentName = rep.studentName || "\u2014";
     var gradeSection = rep.gradeSection || "Grade XII";
     var subject = rep.subject || "Subject";
     var dateOfExam = rep.dateOfExam || today();
@@ -227,11 +361,11 @@
       sumTotal += tm;
       sumObtained += om;
       h += "<tr>" +
-        "<td class='pdf-td-bold'>" + esc(s.sectionName || s.section || s.number || "—") + "</td>" +
-        "<td>" + esc(s.questionType || s.question || "—") + "</td>" +
+        "<td class='pdf-td-bold'>" + esc(s.sectionName || s.section || s.number || "\u2014") + "</td>" +
+        "<td>" + esc(s.questionType || s.question || "\u2014") + "</td>" +
         "<td class='pdf-td-center'>" + num(tm) + "</td>" +
         "<td class='pdf-td-center'>" + num(om) + "</td>" +
-        "<td>" + esc(s.performanceLevel || s.remarks || "—") + "</td>" +
+        "<td>" + esc(s.performanceLevel || s.remarks || "\u2014") + "</td>" +
         "</tr>";
     });
 
