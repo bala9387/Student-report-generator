@@ -258,17 +258,35 @@
       var pctEl = $("#genPctText");
       var barEl = $("#genProgressBar");
 
+      var statusStage = 0;
       var progressTimer = setInterval(function () {
         if (pct < 92) {
-          pct += (pct < 40 ? 4 : (pct < 75 ? 2 : 1));
-          if (pct === 25) { if (statusEl) statusEl.textContent = "Analyzing question paper & syllabus rubric..."; }
-          else if (pct === 50) { if (statusEl) statusEl.textContent = "Grading section marks & detecting discrepancies..."; }
-          else if (pct === 80) { if (statusEl) statusEl.textContent = "Generating actionable student recommendations..."; }
+          // Slow climb over ~2 minutes: 5% to 92% in ~120 seconds
+          pct += (pct < 35 ? 1.2 : (pct < 65 ? 0.7 : 0.5));
+          if (pct > 92) pct = 92;
 
-          if (pctEl) pctEl.textContent = pct + "%";
+          // 5 status stages at different milestones
+          if (statusStage === 0 && pct >= 15) {
+            statusStage = 1;
+            if (statusEl) statusEl.textContent = "Extracting text from uploaded files...";
+          } else if (statusStage === 1 && pct >= 30) {
+            statusStage = 2;
+            if (statusEl) statusEl.textContent = "Analyzing question paper & syllabus rubric...";
+          } else if (statusStage === 2 && pct >= 50) {
+            statusStage = 3;
+            if (statusEl) statusEl.textContent = "Grading section marks & detecting discrepancies...";
+          } else if (statusStage === 3 && pct >= 70) {
+            statusStage = 4;
+            if (statusEl) statusEl.textContent = "Generating strengths, improvements & recommendations...";
+          } else if (statusStage === 4 && pct >= 85) {
+            statusStage = 5;
+            if (statusEl) statusEl.textContent = "Finalizing student performance report...";
+          }
+
+          if (pctEl) pctEl.textContent = Math.round(pct) + "%";
           if (barEl) barEl.style.width = pct + "%";
         }
-      }, 500);
+      }, 1000);
 
       return callGemini({
         syllabus: parts[0],
