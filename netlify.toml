@@ -7,7 +7,6 @@
 
 [functions]
   included_files = ["data.js"]
-  timeout = 26
 
 [[redirects]]
   from = "/api/*"
