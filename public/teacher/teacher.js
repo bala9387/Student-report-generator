@@ -51,7 +51,7 @@
       var p = $("#loginPass").value.trim();
       loginMsg.style.display = "none";
 
-      fetch("/api/auth", {
+      fetch("/api/teacher/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user: u, pass: p })

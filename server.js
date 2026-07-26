@@ -15,7 +15,7 @@ const app = express();
 app.use(cors());
 
 // Auth endpoint for Teacher/Admin Login
-app.post('/api/auth', express.json(), (req, res) => {
+app.post(['/api/auth', '/api/teacher/auth'], express.json(), (req, res) => {
   const user = (req.body.user || '').trim();
   const pass = (req.body.pass || '').trim();
   const expectedUser = process.env.ADMIN_USER || 'aksharaacademy';
