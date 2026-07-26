@@ -48,6 +48,32 @@
   font-size: .9rem;
   box-sizing: border-box;
 }
+.pass-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.pass-input-container input {
+  padding-right: 2.4rem !important;
+}
+.toggle-pass-btn {
+  position: absolute;
+  right: 0.6rem;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  outline: none;
+}
+.toggle-pass-btn:hover {
+  color: var(--fg);
+}
 .login-modal-card input:focus { outline: none; border-color: var(--accent); }
 .login-modal-card .btn-primary {
   width: 100%;
