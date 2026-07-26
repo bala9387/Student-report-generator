@@ -47,6 +47,7 @@
   color: var(--fg);
   font-size: .9rem;
   box-sizing: border-box;
+  text-transform: none !important;
 }
 .pass-input-container {
   position: relative;
@@ -62,7 +63,7 @@
   right: 0.6rem;
   background: none;
   border: none;
-  color: var(--muted);
+  color: #9ca3af;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -70,9 +71,10 @@
   padding: 4px;
   border-radius: 4px;
   outline: none;
+  z-index: 2;
 }
 .toggle-pass-btn:hover {
-  color: var(--fg);
+  color: #e2e8f0;
 }
 .login-modal-card input:focus { outline: none; border-color: var(--accent); }
 .login-modal-card .btn-primary {

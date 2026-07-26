@@ -20,7 +20,7 @@ exports.handler = async (event) => {
       const expectedUser = process.env.ADMIN_USER || 'aksharaacademy';
       const expectedPass = process.env.ADMIN_PASS || 'aksharaacademy@98?';
 
-      if (user === expectedUser && pass === expectedPass) {
+      if (user.toLowerCase() === expectedUser.toLowerCase() && pass === expectedPass) {
         const expires = Date.now() + 8 * 60 * 60 * 1000;
         const token = authToken.sign(expires);
         return {

@@ -21,7 +21,7 @@ app.post(['/api/auth', '/api/teacher/auth'], express.json(), (req, res) => {
   const expectedUser = process.env.ADMIN_USER || 'aksharaacademy';
   const expectedPass = process.env.ADMIN_PASS || 'aksharaacademy@98?';
 
-  if (user === expectedUser && pass === expectedPass) {
+  if (user.toLowerCase() === expectedUser.toLowerCase() && pass === expectedPass) {
     const expires = Date.now() + 8 * 60 * 60 * 1000; // 8 hours
     const token = authToken.sign(expires);
     return res.json({ ok: true, token, expires });
