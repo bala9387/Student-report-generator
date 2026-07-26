@@ -1,10 +1,8 @@
 {
   "version": 2,
+  "buildCommand": "echo done",
   "outputDirectory": "public",
   "cleanUrls": true,
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" }
-  ],
   "headers": [
     {
       "source": "/(.*)",
