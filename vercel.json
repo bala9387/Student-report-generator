@@ -1,7 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "echo done",
-  "outputDirectory": "public",
   "cleanUrls": true,
   "headers": [
     {
