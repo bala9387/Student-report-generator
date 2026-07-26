@@ -13,13 +13,3 @@
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
-
-[[headers]]
-  for = "/*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-
-[[headers]]
-  for = "/*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
