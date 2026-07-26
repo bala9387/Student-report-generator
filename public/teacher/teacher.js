@@ -503,6 +503,22 @@
         var firstInput = next.querySelector(".mark-input");
         if (firstInput) firstInput.focus();
       }
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      var next = row.nextElementSibling;
+      while (next && next.classList.contains("hidden-row")) next = next.nextElementSibling;
+      if (next) {
+        var nextInputs = Array.from(next.querySelectorAll(".mark-input"));
+        if (nextInputs[colIdx]) nextInputs[colIdx].focus();
+      }
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      var prev = row.previousElementSibling;
+      while (prev && prev.classList.contains("hidden-row")) prev = prev.previousElementSibling;
+      if (prev) {
+        var prevInputs = Array.from(prev.querySelectorAll(".mark-input"));
+        if (prevInputs[colIdx]) prevInputs[colIdx].focus();
+      }
     } else if (e.key === "Escape") {
       inp.value = "";
       inp.dispatchEvent(new Event("input"));
