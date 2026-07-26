@@ -1,3 +1,12 @@
+:root {
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --fg: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --accent: #2563eb;
+}
+
 /* Hero Actions & Logout Pill */
 .hero-actions { display: flex; gap: .5rem; align-items: center; }
 .logout-pill {
@@ -279,8 +288,8 @@
 }
 .entry-table th,
 .entry-table td {
-  padding: .45rem .6rem;
-  border-bottom: 1px solid var(--border);
+  padding: .5rem .6rem;
+  border: 1px solid var(--border);
   text-align: center;
   white-space: nowrap;
 }
@@ -333,26 +342,35 @@
   background: var(--bg);
   z-index: 5;
 }
+.entry-table tbody tr:nth-child(even) td {
+  background: #f8fafc;
+}
+.entry-table tbody tr:nth-child(even) td:first-child,
+.entry-table tbody tr:nth-child(even) td:nth-child(2),
+.entry-table tbody tr:nth-child(even) td:nth-child(3) {
+  background: #f1f5f9;
+}
 .entry-table tbody tr:hover td {
-  background: rgba(79,140,255,.04);
+  background: rgba(37,99,235,.06);
 }
 .entry-table tbody tr:hover td:first-child,
-.entry-table tbody tr:hover td:nth-child(2) {
-  background: rgba(79,140,255,.08);
+.entry-table tbody tr:hover td:nth-child(2),
+.entry-table tbody tr:hover td:nth-child(3) {
+  background: rgba(37,99,235,.1);
 }
 
 /* Editable Mark Cells */
 .mark-input {
-  width: 52px;
-  padding: .3rem .35rem;
-  border: 1.5px solid transparent;
-  border-radius: 8px;
-  background: var(--bg);
+  width: 55px;
+  padding: .4rem .35rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #f1f5f9;
   color: var(--fg);
-  font-size: .82rem;
+  font-size: .88rem;
   text-align: center;
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-weight: 600;
+  font-weight: 700;
   transition: all .15s;
 }
 .mark-input:focus {
