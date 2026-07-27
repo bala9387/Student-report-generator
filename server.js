@@ -85,6 +85,8 @@ app.post('/api/teacher/save', requireAuth, express.json({ limit: '10mb' }), asyn
     let result;
     if (req.body.stream === "PE - Analysis") {
       result = await teacherApi.updatePeTotals(req.body.updates);
+    } else if (req.body.stream === "Mentor Report") {
+      result = await teacherApi.updateMentorLinks(req.body.exam, req.body.updates);
     } else {
       result = await teacherApi.updateStudentMarks(req.body.stream, req.body.exam, req.body.updates);
     }

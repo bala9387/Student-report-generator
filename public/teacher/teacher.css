@@ -373,6 +373,12 @@
   font-weight: 700;
   transition: all .15s;
 }
+.mentor-input {
+  width: 350px;
+  text-align: left;
+  font-family: var(--font-stack, 'Inter', sans-serif);
+  font-weight: 400;
+}
 .mark-input:focus {
   outline: none;
   border-color: var(--accent);

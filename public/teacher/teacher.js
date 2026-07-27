@@ -116,17 +116,14 @@
         currentStream = c.dataset.stream;
         resetDirty();
 
-        // Hide module tabs for PE Analysis but keep search box and save button visible
+        // Hide module tabs for all-exam views (PE Analysis, Rankwise)
         var moduleTabs = $("#examTabs");
-        if (currentStream === "PE - Analysis" || 
-            currentStream === "Full Portion Exam (FPE)" || 
-            currentStream === "Periodic Exam (PE)" || 
-            currentStream === "Rankwise" || 
-            currentStream === "Mentor Report") {
+        if (currentStream === "PE - Analysis" || currentStream === "Rankwise") {
           if (moduleTabs) moduleTabs.style.display = "none";
         } else {
           if (moduleTabs) moduleTabs.style.display = "";
         }
+        
         loadData();
       });
     });
@@ -150,21 +147,8 @@
   function loadData() {
     showMsg("Loading...", "info");
 
-    if (currentStream === "PE - Analysis") {
+    if (currentStream === "PE - Analysis" || currentStream === "Rankwise") {
       loadPeAnalysis();
-      return;
-    }
-
-    if (currentStream === "Full Portion Exam (FPE)" || 
-        currentStream === "Periodic Exam (PE)" || 
-        currentStream === "Rankwise" || 
-        currentStream === "Mentor Report") {
-      titleEl.textContent = currentStream;
-      tHead.innerHTML = "<tr><th>Notice</th></tr>";
-      tBody.innerHTML = "<tr><td style='padding: 3rem; text-align: center; color: var(--muted);'>This view is currently under development.</td></tr>";
-      tFoot.innerHTML = "";
-      updateStats(0, 0);
-      hideMsg();
       return;
     }
 
@@ -353,6 +337,7 @@
     // Body
     var html = "";
     var filledCells = 0, totalCells = 0;
+    var isMentor = (currentStream === "Mentor Report");
 
     studentRows.forEach(function (st, idx) {
       html += '<tr data-roll="' + esc(st.rollNo) + '">';
@@ -365,15 +350,21 @@
         var display = (val === null || val === undefined || val === "") ? "" : val;
         totalCells++;
         if (display !== "") filledCells++;
-        html += '<td><input type="text" class="mark-input" ' +
+        var modeStr = isMentor ? 'type="url" inputmode="url"' : 'type="text" inputmode="decimal"';
+        var clsStr = isMentor ? 'mark-input mentor-input' : 'mark-input';
+        html += '<td><input ' + modeStr + ' class="' + clsStr + '" ' +
                 'data-roll="' + esc(st.rollNo) + '" ' +
                 'data-subj="' + esc(s) + '" ' +
                 'value="' + esc(String(display)) + '" ' +
-                'inputmode="decimal" autocomplete="off" /></td>';
+                'autocomplete="off" /></td>';
       });
 
       // Total column (auto-computed)
-      html += '<td class="sno" id="total-' + esc(st.rollNo) + '">' + computeTotal(st.marks) + '</td>';
+      if (!isMentor) {
+        html += '<td class="sno" id="total-' + esc(st.rollNo) + '">' + computeTotal(st.marks) + '</td>';
+      } else {
+        html += '<td class="sno"></td>';
+      }
       html += '</tr>';
     });
 

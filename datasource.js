@@ -8,7 +8,7 @@
   "use strict";
 
   var SHEET_ID = "16TMqtxp-U9BU6w8Zn6anHD9mdHvD23BOyf38nZa7f50";
-  var GROUPS = ["Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"];
+  var GROUPS = ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"];
   var TABS = ["PE - Analysis", "Mentor Report"].concat(GROUPS);
   var EXAMS = ["CU 1", "TE 1", "CU 2", "TE 2"];
   // 0-indexed start column of each exam block in a group tab (6 subjects + Total)
@@ -234,14 +234,20 @@
         classStats: classStats, students: students };
     });
 
-    // ---- Mentor Report tab: roll → Google Drive link ----
+    // ---- Mentor Report tab: roll → per-exam Google Drive links ----
     var mentorLinks = {};
     var mentorRows = sheets["Mentor Report"] || [];
     mentorRows.forEach(function (row) {
       var roll = String(cell(row, 1)).trim();
-      var link = String(cell(row, 3)).trim();
-      if (roll && link && /^https?:\/\//.test(link)) {
-        mentorLinks[roll.toUpperCase()] = link;
+      if (roll) {
+        var links = {};
+        EXAMS.forEach(function(ex, i) {
+          var link = String(cell(row, 3 + i)).trim();
+          if (link && /^https?:\/\//.test(link)) {
+            links[ex] = link;
+          }
+        });
+        mentorLinks[roll.toUpperCase()] = { links: links, rowIdx: row.rowIndex };
       }
     });
 
