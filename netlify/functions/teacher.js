@@ -67,6 +67,8 @@ exports.handler = async (event) => {
       let result;
       if (body.stream === 'PE - Analysis') {
         result = await teacherApi.updatePeTotals(body.updates);
+      } else if (body.stream === 'Mentor Report') {
+        result = await teacherApi.updateMentorLinks(body.exam, body.updates);
       } else {
         result = await teacherApi.updateStudentMarks(body.stream, body.exam, body.updates);
       }
