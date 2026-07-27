@@ -99,48 +99,75 @@
   margin-top: .5rem;
 }
 
-/* Stream Selector */
+/* Layout Overrides for PC Dashboard */
+.page.teacher-page {
+  max-width: 1400px; /* Fill left and right empty space */
+  padding: 0 24px 56px;
+}
+.teacher-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .teacher-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Sidebar & Stream Selector */
+.teacher-sidebar {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  position: sticky;
+  top: 1rem;
+}
 .stream-heading {
   font-size: .85rem;
   text-transform: uppercase;
   letter-spacing: .08em;
   color: var(--muted);
-  margin: 0 0 .5rem;
+  margin: 0 0 1rem;
+  padding-left: .5rem;
 }
 .stream-cards {
   display: flex;
-  gap: .5rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: .4rem;
 }
 .stream-card {
-  flex: 0 0 auto;
-  display: inline-flex;
+  width: 100%;
+  display: flex;
   align-items: center;
-  padding: .5rem 1rem;
+  padding: .75rem 1rem;
   border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--card);
+  border: 1px solid transparent;
+  background: transparent;
   cursor: pointer;
   transition: all .2s;
   font-family: inherit;
   color: var(--fg);
+  text-align: left;
 }
 .stream-card:hover {
-  border-color: var(--accent);
   background: rgba(79,140,255,.04);
 }
 .stream-card.active {
-  border-color: var(--accent);
   background: rgba(79,140,255,.1);
   color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(79,140,255,.15);
+  font-weight: 700;
+  border-color: rgba(79,140,255,.2);
 }
 .stream-name {
   font-weight: 600;
-  font-size: .88rem;
+  font-size: .95rem;
 }
 .stream-sub {
-  display: none; /* Hide subtitle to save vertical space on PC */
+  display: none; /* Hide subtitle to keep it clean */
 }
 
 /* Exam Bar */

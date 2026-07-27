@@ -49,97 +49,106 @@
       </div>
     </div>
 
-    <!-- Stream Selector Cards -->
-    <div class="stream-selector" id="streamSelector">
-      <h2 class="stream-heading">Select Stream</h2>
-      <div class="stream-cards">
-        <button class="stream-card" data-stream="Full Portion Exam (FPE)">
-          <span class="stream-name">FPE</span>
-          <span class="stream-sub">Full Portion Exam</span>
-        </button>
-        <button class="stream-card" data-stream="Periodic Exam (PE)">
-          <span class="stream-name">PE</span>
-          <span class="stream-sub">Periodic Exam</span>
-        </button>
-        <button class="stream-card active" data-stream="Bio - Maths">
-          <span class="stream-name">Bio - Maths</span>
-          <span class="stream-sub">PHY &middot; CHE &middot; MAT &middot; BIO &middot; ENG &middot; PED</span>
-        </button>
-        <button class="stream-card" data-stream="Bio - CS">
-          <span class="stream-name">Bio - CS</span>
-          <span class="stream-sub">PHY &middot; CHE &middot; CS &middot; BIO &middot; ENG &middot; PED</span>
-        </button>
-        <button class="stream-card" data-stream="Maths - CS">
-          <span class="stream-name">Maths - CS</span>
-          <span class="stream-sub">PHY &middot; CHE &middot; MAT &middot; CS &middot; ENG &middot; PED</span>
-        </button>
-        <button class="stream-card" data-stream="Applied Math">
-          <span class="stream-name">Applied Math</span>
-          <span class="stream-sub">Acc &middot; Bs &middot; Eco &middot; A.Math &middot; Eng &middot; PE</span>
-        </button>
-        <button class="stream-card" data-stream="CS">
-          <span class="stream-name">CS (Commerce)</span>
-          <span class="stream-sub">Acc &middot; Bs &middot; Eco &middot; Cs &middot; Eng &middot; PE</span>
-        </button>
-        <button class="stream-card" data-stream="PE - Analysis">
-          <span class="stream-name">PE Analysis</span>
-          <span class="stream-sub">Totals &middot; Ranks &middot; Score Ranges</span>
-        </button>
-        <button class="stream-card" data-stream="Rankwise">
-          <span class="stream-name">Rankwise</span>
-          <span class="stream-sub">Class Ranks</span>
-        </button>
-        <button class="stream-card" data-stream="Mentor Report">
-          <span class="stream-name">Mentor Report</span>
-          <span class="stream-sub">Mentorship</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Exam Module Tabs -->
-    <div class="exam-bar no-print">
-      <div class="module-tabs" id="examTabs">
-        <button class="tab-btn active" data-exam="CU 1">CU 1</button>
-        <button class="tab-btn" data-exam="TE 1">TE 1</button>
-        <button class="tab-btn" data-exam="CU 2">CU 2</button>
-        <button class="tab-btn" data-exam="TE 2">TE 2</button>
-      </div>
-      <div class="exam-bar-right">
-        <input type="text" id="searchInput" class="search-box" placeholder="Search by name or roll no..." />
-        <button id="saveMarksBtn" class="save-btn">
-          <svg viewBox="0 0 24 24" class="btn-ic"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-          Save All Marks
-        </button>
-      </div>
-    </div>
-
-    <!-- Status Message -->
-    <div id="teacherMsg" class="message" role="status"></div>
-
-    <!-- Marks Entry Table -->
-    <div class="entry-card">
-      <div class="entry-header">
-        <h2 id="tableTitle">Bio - Maths &mdash; CU 1</h2>
-        <div class="entry-stats">
-          <span class="stat-pill" id="studentCount">0 students</span>
-          <span class="stat-pill stat-filled" id="filledCount">0 filled</span>
-          <span class="stat-pill stat-empty" id="emptyCount">0 empty</span>
+    <!-- Sidebar & Main Content Layout -->
+    <div class="teacher-layout">
+      
+      <!-- Sidebar -->
+      <aside class="teacher-sidebar no-print">
+        <div class="stream-selector" id="streamSelector">
+          <h2 class="stream-heading">Select Stream</h2>
+          <div class="stream-cards">
+            <button class="stream-card" data-stream="Full Portion Exam (FPE)">
+              <span class="stream-name">FPE</span>
+              <span class="stream-sub">Full Portion Exam</span>
+            </button>
+            <button class="stream-card" data-stream="Periodic Exam (PE)">
+              <span class="stream-name">PE</span>
+              <span class="stream-sub">Periodic Exam</span>
+            </button>
+            <button class="stream-card active" data-stream="Bio - Maths">
+              <span class="stream-name">Bio - Maths</span>
+              <span class="stream-sub">PHY &middot; CHE &middot; MAT &middot; BIO &middot; ENG &middot; PED</span>
+            </button>
+            <button class="stream-card" data-stream="Bio - CS">
+              <span class="stream-name">Bio - CS</span>
+              <span class="stream-sub">PHY &middot; CHE &middot; CS &middot; BIO &middot; ENG &middot; PED</span>
+            </button>
+            <button class="stream-card" data-stream="Maths - CS">
+              <span class="stream-name">Maths - CS</span>
+              <span class="stream-sub">PHY &middot; CHE &middot; MAT &middot; CS &middot; ENG &middot; PED</span>
+            </button>
+            <button class="stream-card" data-stream="Applied Math">
+              <span class="stream-name">Applied Math</span>
+              <span class="stream-sub">Acc &middot; Bs &middot; Eco &middot; A.Math &middot; Eng &middot; PE</span>
+            </button>
+            <button class="stream-card" data-stream="CS">
+              <span class="stream-name">CS (Commerce)</span>
+              <span class="stream-sub">Acc &middot; Bs &middot; Eco &middot; Cs &middot; Eng &middot; PE</span>
+            </button>
+            <button class="stream-card" data-stream="PE - Analysis">
+              <span class="stream-name">PE Analysis</span>
+              <span class="stream-sub">Totals &middot; Ranks &middot; Score Ranges</span>
+            </button>
+            <button class="stream-card" data-stream="Rankwise">
+              <span class="stream-name">Rankwise</span>
+              <span class="stream-sub">Class Ranks</span>
+            </button>
+            <button class="stream-card" data-stream="Mentor Report">
+              <span class="stream-name">Mentor Report</span>
+              <span class="stream-sub">Mentorship</span>
+            </button>
+          </div>
         </div>
-      </div>
+      </aside>
 
-      <div class="tbl-scroll">
-        <table class="entry-table" id="marksTable">
-          <thead id="tableHead"></thead>
-          <tbody id="tableBody"></tbody>
-          <tfoot id="tableFoot"></tfoot>
-        </table>
-      </div>
-
-      <div class="entry-footer no-print">
-        <div class="keyboard-hint">
-          <kbd>&uarr;</kbd><kbd>&darr;</kbd> Prev / Next student &nbsp; <kbd>&larr;</kbd><kbd>&rarr;</kbd> Prev / Next subject &nbsp; <kbd>Tab</kbd> Next cell &nbsp; <kbd>Esc</kbd> Clear cell
+      <!-- Main Content -->
+      <main class="teacher-main">
+        <!-- Exam Module Tabs -->
+        <div class="exam-bar no-print">
+          <div class="module-tabs" id="examTabs">
+            <button class="tab-btn active" data-exam="CU 1">CU 1</button>
+            <button class="tab-btn" data-exam="TE 1">TE 1</button>
+            <button class="tab-btn" data-exam="CU 2">CU 2</button>
+            <button class="tab-btn" data-exam="TE 2">TE 2</button>
+          </div>
+          <div class="exam-bar-right">
+            <input type="text" id="searchInput" class="search-box" placeholder="Search by name or roll no..." />
+            <button id="saveMarksBtn" class="save-btn">
+              <svg viewBox="0 0 24 24" class="btn-ic"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Save All Marks
+            </button>
+          </div>
         </div>
-      </div>
+
+        <!-- Status Message -->
+        <div id="teacherMsg" class="message" role="status"></div>
+
+        <!-- Marks Entry Table -->
+        <div class="entry-card">
+          <div class="entry-header">
+            <h2 id="tableTitle">Bio - Maths &mdash; CU 1</h2>
+            <div class="entry-stats">
+              <span class="stat-pill" id="studentCount">0 students</span>
+              <span class="stat-pill stat-filled" id="filledCount">0 filled</span>
+              <span class="stat-pill stat-empty" id="emptyCount">0 empty</span>
+            </div>
+          </div>
+
+          <div class="tbl-scroll">
+            <table class="entry-table" id="marksTable">
+              <thead id="tableHead"></thead>
+              <tbody id="tableBody"></tbody>
+              <tfoot id="tableFoot"></tfoot>
+            </table>
+          </div>
+
+          <div class="entry-footer no-print">
+            <div class="keyboard-hint">
+              <kbd>&uarr;</kbd><kbd>&darr;</kbd> Prev / Next student &nbsp; <kbd>&larr;</kbd><kbd>&rarr;</kbd> Prev / Next subject &nbsp; <kbd>Tab</kbd> Next cell &nbsp; <kbd>Esc</kbd> Clear cell
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   </div>
 
