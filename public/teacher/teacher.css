@@ -101,8 +101,14 @@
 
 /* Layout Overrides for PC Dashboard */
 .page.teacher-page {
-  max-width: 1400px; /* Fill left and right empty space */
-  padding: 0 24px 56px;
+  max-width: 98% !important;
+  width: 98% !important;
+  margin: 0 auto !important;
+  padding: 0 16px 56px !important;
+}
+.teacher-page .hero {
+  margin: 12px 0 20px 0 !important;
+  border-radius: 12px;
 }
 .teacher-layout {
   display: grid;
