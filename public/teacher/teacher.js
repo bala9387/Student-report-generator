@@ -326,18 +326,19 @@
 
   /* ═══════════ Render the spreadsheet table ═══════════ */
   function renderTable() {
+    var isMentor = (currentStream === "Mentor Report");
     // Header
     var thRow = "<tr><th>S.No</th><th>Roll No</th><th>Student Name</th>";
     subjectCols.forEach(function (s) {
-      thRow += "<th>" + esc(s) + "</th>";
+      thRow += "<th" + (isMentor ? ' style="width:100%;"' : '') + ">" + esc(s) + "</th>";
     });
-    thRow += "<th>Total</th></tr>";
+    if (!isMentor) thRow += "<th>Total</th>";
+    thRow += "</tr>";
     tHead.innerHTML = thRow;
 
     // Body
     var html = "";
     var filledCells = 0, totalCells = 0;
-    var isMentor = (currentStream === "Mentor Report");
 
     studentRows.forEach(function (st, idx) {
       html += '<tr data-roll="' + esc(st.rollNo) + '">';
@@ -350,20 +351,18 @@
         var display = (val === null || val === undefined || val === "") ? "" : val;
         totalCells++;
         if (display !== "") filledCells++;
-        var modeStr = isMentor ? 'type="url" inputmode="url"' : 'type="text" inputmode="decimal"';
+        var modeStr = isMentor ? 'type="url" inputmode="url" placeholder="Paste Google Drive link here..."' : 'type="text" inputmode="decimal"';
         var clsStr = isMentor ? 'mark-input mentor-input' : 'mark-input';
-        html += '<td><input ' + modeStr + ' class="' + clsStr + '" ' +
+        html += '<td' + (isMentor ? ' style="width:100%;"' : '') + '><input ' + modeStr + ' class="' + clsStr + '" ' +
                 'data-roll="' + esc(st.rollNo) + '" ' +
                 'data-subj="' + esc(s) + '" ' +
                 'value="' + esc(String(display)) + '" ' +
                 'autocomplete="off" /></td>';
       });
 
-      // Total column (auto-computed)
+      // Total column (auto-computed for exams)
       if (!isMentor) {
         html += '<td class="sno" id="total-' + esc(st.rollNo) + '">' + computeTotal(st.marks) + '</td>';
-      } else {
-        html += '<td class="sno"></td>';
       }
       html += '</tr>';
     });
