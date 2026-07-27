@@ -63,7 +63,11 @@
     for (var r = 0; r < rows.length; r++) {
       var a = String(cell(rows[r], 0)).trim();
       var b = String(cell(rows[r], 1)).trim();
-      if (isNum(a) && b !== "") { out.push(rows[r]); started = true; }
+      if (isNum(a) && b !== "") { 
+        rows[r].rowIndex = r + 1; // 1-indexed for Google Sheets A1 notation
+        out.push(rows[r]); 
+        started = true; 
+      }
       else if (started && a !== "") break; // reached a summary/label row
     }
     return out;
@@ -102,7 +106,7 @@
         ex[exn] = { total: tot, rank: rk };
         peClass[exn].push(tot);
       });
-      peStudents[roll] = { rollNo: roll, sNo: num(cell(row, 0)), name: name, stream: stream, exams: ex };
+      peStudents[roll] = { rollNo: roll, sNo: num(cell(row, 0)), name: name, stream: stream, exams: ex, rowIdx: row.rowIndex };
       addIndex(roll, "PE - Analysis");
     });
 // --- Compute Domain-specific Ranks ---
@@ -183,7 +187,7 @@
           marks[ex] = rm;
           if (tot != null) distTotal[ex].push(tot);
         });
-        students[roll] = { rollNo: roll, sNo: num(cell(row, 0)), name: name, marks: marks };
+        students[roll] = { rollNo: roll, sNo: num(cell(row, 0)), name: name, marks: marks, rowIdx: row.rowIndex };
         addIndex(roll, g);
       });
 
