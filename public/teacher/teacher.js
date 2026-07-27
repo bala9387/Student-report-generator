@@ -353,7 +353,7 @@
         if (display !== "") filledCells++;
         var modeStr = isMentor ? 'type="url" inputmode="url" placeholder="Paste Google Drive link here..."' : 'type="text" inputmode="decimal"';
         var clsStr = isMentor ? 'mark-input mentor-input' : 'mark-input';
-        html += '<td' + (isMentor ? ' style="width:100%;"' : '') + '><input ' + modeStr + ' class="' + clsStr + '" ' +
+        html += '<td' + (isMentor ? ' style="width:100%;padding:4px 8px;"' : '') + '><input ' + modeStr + ' class="' + clsStr + '" ' +
                 'data-roll="' + esc(st.rollNo) + '" ' +
                 'data-subj="' + esc(s) + '" ' +
                 'value="' + esc(String(display)) + '" ' +

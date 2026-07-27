@@ -401,14 +401,15 @@
   transition: all .15s;
 }
 .mentor-input {
+  display: block;
   width: 100%;
-  min-width: 400px;
   box-sizing: border-box;
   text-align: left;
   font-family: inherit;
   font-weight: 400;
-  padding: .45rem .75rem;
-  font-size: .85rem;
+  padding: .6rem .8rem;
+  font-size: .88rem;
+  border-radius: 8px;
 }
 .mark-input:focus {
   outline: none;
