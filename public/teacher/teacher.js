@@ -118,7 +118,11 @@
 
         // Hide module tabs for PE Analysis but keep search box and save button visible
         var moduleTabs = $("#examTabs");
-        if (currentStream === "PE - Analysis") {
+        if (currentStream === "PE - Analysis" || 
+            currentStream === "Full Portion Exam (FPE)" || 
+            currentStream === "Periodic Exam (PE)" || 
+            currentStream === "Rankwise" || 
+            currentStream === "Mentor Report") {
           if (moduleTabs) moduleTabs.style.display = "none";
         } else {
           if (moduleTabs) moduleTabs.style.display = "";
@@ -148,6 +152,19 @@
 
     if (currentStream === "PE - Analysis") {
       loadPeAnalysis();
+      return;
+    }
+
+    if (currentStream === "Full Portion Exam (FPE)" || 
+        currentStream === "Periodic Exam (PE)" || 
+        currentStream === "Rankwise" || 
+        currentStream === "Mentor Report") {
+      titleEl.textContent = currentStream;
+      tHead.innerHTML = "<tr><th>Notice</th></tr>";
+      tBody.innerHTML = "<tr><td style='padding: 3rem; text-align: center; color: var(--muted);'>This view is currently under development.</td></tr>";
+      tFoot.innerHTML = "";
+      updateStats(0, 0);
+      hideMsg();
       return;
     }
 
