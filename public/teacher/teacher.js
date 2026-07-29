@@ -131,6 +131,17 @@
     });
   }
 
+  function isStreamAllowed(streamName) {
+    var info = getTeacherInfo();
+    if (!info || info.isAdmin || !info.allowedStreams) return true; // Admin or full access
+    var streams = info.allowedStreams;
+    if (!Array.isArray(streams)) return true;
+    var target = String(streamName).toLowerCase();
+    return streams.some(function (s) {
+      return String(s).toLowerCase() === target;
+    });
+  }
+
   function logout() {
     token = "";
     localStorage.removeItem("teacher_token");
@@ -409,10 +420,17 @@
         totalCells++;
         if (display !== "") filledCells++;
         
-        var canEdit = isMentor ? true : isSubjectAllowed(s);
+        var canEditStream = isStreamAllowed(currentStream);
+        var canEditSubject = isSubjectAllowed(s);
+        var canEdit = isMentor ? true : (canEditStream && canEditSubject);
+
         var modeStr = isMentor ? 'type="url" inputmode="url" placeholder="Paste Google Drive link here..."' : 'type="text" inputmode="decimal"';
         var clsStr = isMentor ? 'mark-input mentor-input' : (canEdit ? 'mark-input' : 'mark-input disabled-input');
-        var disabledAttr = canEdit ? '' : 'disabled title="Only authorized subject teacher can edit ' + esc(s) + '"';
+        
+        var tooltip = !canEditStream 
+          ? 'Teacher not assigned to stream: ' + esc(currentStream) 
+          : 'Only authorized subject teacher can edit ' + esc(s);
+        var disabledAttr = canEdit ? '' : 'disabled title="' + tooltip + '"';
 
         html += '<td' + (isMentor ? ' style="width:100%;padding:4px 8px;"' : '') + '><input ' + modeStr + ' class="' + clsStr + '" ' +
                 'data-roll="' + esc(st.rollNo) + '" ' +

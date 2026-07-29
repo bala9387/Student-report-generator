@@ -48,9 +48,9 @@ exports.handler = async (event) => {
   }
 
   const teacherUser = authInfo.user || '';
-  const allowedCodes = (teacherUser && teacherAccounts.ACCOUNTS[teacherUser])
-    ? teacherAccounts.ACCOUNTS[teacherUser].allowedCodes
-    : null;
+  const accInfo = (teacherUser && teacherAccounts.ACCOUNTS[teacherUser]);
+  const allowedCodes = accInfo ? accInfo.allowedCodes : null;
+  const allowedStreams = accInfo ? accInfo.allowedStreams : null;
 
   try {
     const qp = event.queryStringParameters || {};
@@ -78,7 +78,7 @@ exports.handler = async (event) => {
       } else if (body.stream === 'Mentor Report') {
         result = await teacherApi.updateMentorLinks(body.exam, body.updates, targetGrade);
       } else {
-        result = await teacherApi.updateStudentMarks(body.stream, body.exam, body.updates, allowedCodes, targetGrade);
+        result = await teacherApi.updateStudentMarks(body.stream, body.exam, body.updates, allowedCodes, allowedStreams, targetGrade);
       }
       return { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(result) };
     }

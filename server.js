@@ -39,8 +39,10 @@ function requireAuth(req, res, next) {
   req.teacherUser = verified.user || '';
   if (req.teacherUser && teacherAccounts.ACCOUNTS[req.teacherUser]) {
     req.allowedCodes = teacherAccounts.ACCOUNTS[req.teacherUser].allowedCodes;
+    req.allowedStreams = teacherAccounts.ACCOUNTS[req.teacherUser].allowedStreams;
   } else {
     req.allowedCodes = null; // Admin
+    req.allowedStreams = null; // Admin
   }
   next();
 }
@@ -95,7 +97,7 @@ app.post('/api/teacher/save', requireAuth, express.json({ limit: '10mb' }), asyn
     } else if (req.body.stream === "Mentor Report") {
       result = await teacherApi.updateMentorLinks(req.body.exam, req.body.updates, grade);
     } else {
-      result = await teacherApi.updateStudentMarks(req.body.stream, req.body.exam, req.body.updates, req.allowedCodes, grade);
+      result = await teacherApi.updateStudentMarks(req.body.stream, req.body.exam, req.body.updates, req.allowedCodes, req.allowedStreams, grade);
     }
     res.json(result);
   } catch (err) {
