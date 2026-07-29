@@ -22,12 +22,15 @@
   }
 
   var GRADE_GROUPS = {
-    "10": ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "X Harmony", "X Melody", "X Symphony"],
+    "10": ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "10 H", "10 M", "10 S", "X Harmony", "X Melody", "X Symphony"],
     "11": ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "PCBM", "PCCM", "PCBC", "A.Math", "CS"],
     "12": ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS", "PCBM", "PCCM", "PCBC", "A.Math"]
   };
 
   var STREAM_ALIAS = {
+    "10 H": "X Harmony",
+    "10 M": "X Melody",
+    "10 S": "X Symphony",
     "PCBM": "Bio - Maths",
     "PCCM": "Maths - CS",
     "PCBC": "Bio - CS",
@@ -42,6 +45,10 @@
   }
 
   function getGradeTabs(grade) {
+    var g = String(grade || currentGrade).trim();
+    if (g === "10" || g === "X") {
+      return ["Rank wise", "PE - Analysis", "Mentor Report"].concat(getGradeGroups(grade));
+    }
     return ["PE - Analysis", "Mentor Report"].concat(getGradeGroups(grade));
   }
 
@@ -121,7 +128,7 @@
   // ---- build the REPORT_DATA structure from raw sheet rows ----
   function buildData(sheets, grade) {
     var groups = getGradeGroups(grade);
-    var peRows = studentRows(sheets["PE - Analysis"] || []);
+    var peRows = studentRows(sheets["PE - Analysis"] || sheets["Rank wise"] || sheets["All sec"] || []);
     var peStudents = {};
     var rollIndex = {}; // rollNo -> array of mode names
 
