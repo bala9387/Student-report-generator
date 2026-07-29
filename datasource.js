@@ -8,6 +8,7 @@
   "use strict";
 
   var GRADE_SHEETS = {
+    "10": "1U3O31VXCi-713KVDbshSN-huM4lUVkTHaOwmcgBZgsk",
     "11": "1p4JweOss5DNn1Ywg4P76jpYi6FgHJtcLlmxAQzdAVj8",
     "12": "1C3p9hipQLxe4YbfA14s_0zF5seHISiL1fdKquWaMdJk"
   };
@@ -15,11 +16,12 @@
 
   function getSheetId(grade) {
     var g = String(grade || currentGrade).trim();
+    if (g === "10" || g === "X") return GRADE_SHEETS["10"];
     if (g === "11" || g === "XI") return GRADE_SHEETS["11"];
     return GRADE_SHEETS["12"];
   }
 
-  var GROUPS = ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"];
+  var GROUPS = ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS", "X Harmony", "X Melody", "X Symphony"];
   var TABS = ["PE - Analysis", "Mentor Report"].concat(GROUPS);
   var EXAMS = ["CU 1", "TE 1", "CU 2", "TE 2"];
   // 0-indexed start column of each exam block in a group tab (6 subjects + Total)
@@ -30,7 +32,8 @@
     PHY: "Physics", CHE: "Chemistry", MAT: "Mathematics", BIO: "Biology",
     CS: "Computer Science", ENG: "English", PED: "Physical Education",
     Acc: "Accountancy", Bs: "Business Studies", Eco: "Economics",
-    "A.Math": "Applied Mathematics", Eng: "English", PE: "Physical Education", Cs: "Computer Science"
+    "A.Math": "Applied Mathematics", Eng: "English", PE: "Physical Education", Cs: "Computer Science",
+    Tam: "Tamil", Math: "Mathematics", Sci: "Science", Sco: "Social Science", AI: "Artificial Intelligence"
   };
 
   function tabUrl(name, grade) {
@@ -167,6 +170,7 @@
     // ---- group tabs ----
     GROUPS.forEach(function (g) {
       var rows = sheets[g];
+      if (!rows || !rows.length) return;
       // subject codes: header row is the row directly above the first student row
       var firstIdx = 0;
       for (var r = 0; r < rows.length; r++) {
@@ -189,15 +193,23 @@
         var marks = {};
         EXAMS.forEach(function (ex) {
           var base = BLOCK_START[ex]; var rm = {};
+          var sumSubject = 0, hasSubjectMark = false;
           subjects.forEach(function (s, i) {
             var v = num(cell(row, base + i));
             rm[s] = v;
-            if (v != null) dist[ex][s].push(v);
+            if (v != null) {
+              dist[ex][s].push(v);
+              sumSubject += v;
+              hasSubjectMark = true;
+            }
           });
           var tot = num(cell(row, base + 6));
+          if ((tot == null || tot === 0) && hasSubjectMark) {
+            tot = sumSubject;
+          }
           rm.Total = tot == null ? 0 : tot;
           marks[ex] = rm;
-          if (tot != null) distTotal[ex].push(tot);
+          if (tot != null && tot > 0) distTotal[ex].push(tot);
         });
         students[roll] = { rollNo: roll, sNo: num(cell(row, 0)), name: name, marks: marks, rowIdx: row.rowIndex };
         addIndex(roll, g);
