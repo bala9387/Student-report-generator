@@ -23,8 +23,15 @@
 
   var GRADE_GROUPS = {
     "10": ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "X Harmony", "X Melody", "X Symphony"],
-    "11": ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"],
-    "12": ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"]
+    "11": ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "PCBM", "PCCM", "PCBC", "A.Math", "CS"],
+    "12": ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS", "PCBM", "PCCM", "PCBC", "A.Math"]
+  };
+
+  var STREAM_ALIAS = {
+    "PCBM": "Bio - Maths",
+    "PCCM": "Maths - CS",
+    "PCBC": "Bio - CS",
+    "A.Math": "Applied Math"
   };
 
   function getGradeGroups(grade) {
@@ -212,6 +219,8 @@
       var dist = {}, distTotal = {};
       EXAMS.forEach(function (ex) { dist[ex] = {}; subjects.forEach(function (s) { dist[ex][s] = []; }); distTotal[ex] = []; });
 
+      var modeLabel = STREAM_ALIAS[g] || g;
+
       srows.forEach(function (row) {
         var roll = String(cell(row, 1)).trim();
         var name = String(cell(row, 2)).trim();
@@ -237,7 +246,7 @@
           if (tot != null && tot > 0) distTotal[ex].push(tot);
         });
         students[roll] = { rollNo: roll, sNo: num(cell(row, 0)), name: name, marks: marks, rowIdx: row.rowIndex };
-        addIndex(roll, g);
+        addIndex(roll, modeLabel);
       });
 
       var conducted = {}, classStats = {};
@@ -278,7 +287,7 @@
       });
 
       var subjectFull = {}; subjects.forEach(function (s) { subjectFull[s] = SUBJECT_FULL[s] || s; });
-      modes[g] = { type: "group", label: g, subjects: subjects, subjectFull: subjectFull,
+      modes[modeLabel] = { type: "group", label: modeLabel, subjects: subjects, subjectFull: subjectFull,
         exams: EXAMS, conducted: conducted, classSize: srows.length,
         classStats: classStats, students: students };
     });
