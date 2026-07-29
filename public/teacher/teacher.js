@@ -48,6 +48,47 @@
   searchBox.addEventListener("input", filterRows);
   if (logoutBtn) logoutBtn.addEventListener("click", logout);
 
+  function updateGradeStreamVisibility() {
+    var cards = document.querySelectorAll(".stream-card");
+    var g = String(currentGrade);
+    var firstVisibleCard = null;
+
+    cards.forEach(function (c) {
+      var st = c.dataset.stream;
+      var isG10Stream = (st === "X Harmony" || st === "X Melody" || st === "X Symphony");
+      var isG1112Stream = (st === "Bio - Maths" || st === "Bio - CS" || st === "Maths - CS" || st === "Applied Math" || st === "CS");
+
+      if (g === "10") {
+        if (isG1112Stream) {
+          c.style.display = "none";
+        } else {
+          c.style.display = "";
+          if (!firstVisibleCard && isG10Stream) {
+            firstVisibleCard = c;
+          }
+        }
+      } else {
+        if (isG10Stream) {
+          c.style.display = "none";
+        } else {
+          c.style.display = "";
+          if (!firstVisibleCard && isG1112Stream) {
+            firstVisibleCard = c;
+          }
+        }
+      }
+    });
+
+    var currentCard = document.querySelector('.stream-card[data-stream="' + CSS.escape(currentStream) + '"]');
+    if (currentCard && currentCard.style.display === "none") {
+      if (firstVisibleCard) {
+        cards.forEach(function (x) { x.classList.remove("active"); });
+        firstVisibleCard.classList.add("active");
+        currentStream = firstVisibleCard.dataset.stream;
+      }
+    }
+  }
+
   function wireGradeButtons() {
     var btns = document.querySelectorAll(".grade-btn");
     btns.forEach(function (b) {
@@ -59,10 +100,12 @@
         b.classList.add("active");
         currentGrade = b.dataset.grade;
         localStorage.setItem("teacher_grade", currentGrade);
+        updateGradeStreamVisibility();
         resetDirty();
         loadData();
       });
     });
+    updateGradeStreamVisibility();
   }
   var togglePassBtn = $("#togglePassBtn");
   if (togglePassBtn) {
@@ -151,13 +194,14 @@
   }
 
   function autoSelectTeacherStream() {
+    updateGradeStreamVisibility();
     var info = getTeacherInfo();
     if (!info || info.isAdmin || !info.allowedStreams) return;
     var cards = document.querySelectorAll(".stream-card");
     var firstAllowed = null;
     cards.forEach(function (c) {
       var st = c.dataset.stream;
-      if (isStreamAllowed(st) && st !== "PE - Analysis" && st !== "Rankwise" && !firstAllowed) {
+      if (c.style.display !== "none" && isStreamAllowed(st) && st !== "PE - Analysis" && st !== "Rankwise" && !firstAllowed) {
         firstAllowed = c;
       }
     });
