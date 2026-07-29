@@ -1,4 +1,5 @@
 const authToken = require('../../../lib/authToken.js');
+const teacherAccounts = require('../../../lib/teacherAccounts.js');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
@@ -7,15 +8,12 @@ module.exports = async (req, res) => {
 
   try {
     const body = req.body || {};
-    const user = (body.user || '').trim();
-    const pass = (body.pass || '').trim();
-    const expectedUser = process.env.ADMIN_USER || 'aksharaacademy';
-    const expectedPass = process.env.ADMIN_PASS || 'aksharaacademy@98?';
+    const authRes = teacherAccounts.verifyTeacherLogin(body.user, body.pass);
 
-    if (user.toLowerCase() === expectedUser.toLowerCase() && pass === expectedPass) {
+    if (authRes && authRes.ok) {
       const expires = Date.now() + 8 * 60 * 60 * 1000;
       const token = authToken.sign(expires);
-      return res.status(200).json({ ok: true, token, expires });
+      return res.status(200).json({ ok: true, token, expires, teacher: authRes });
     }
     return res.status(401).json({ error: 'Invalid username or password' });
   } catch (e) {

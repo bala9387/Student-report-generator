@@ -1,5 +1,6 @@
 const teacherApi = require('../../lib/teacherApi.js');
 const authToken = require('../../lib/authToken.js');
+const teacherAccounts = require('../../lib/teacherAccounts.js');
 
 function requireAuth(event) {
   const hdr = event.headers.authorization || event.headers.Authorization || '';
@@ -15,18 +16,15 @@ exports.handler = async (event) => {
     if (event.httpMethod !== 'POST') return { statusCode: 450, body: 'Method Not Allowed' };
     try {
       const body = JSON.parse(event.body || '{}');
-      const user = (body.user || '').trim();
-      const pass = (body.pass || '').trim();
-      const expectedUser = process.env.ADMIN_USER || 'aksharaacademy';
-      const expectedPass = process.env.ADMIN_PASS || 'aksharaacademy@98?';
+      const authRes = teacherAccounts.verifyTeacherLogin(body.user, body.pass);
 
-      if (user.toLowerCase() === expectedUser.toLowerCase() && pass === expectedPass) {
+      if (authRes && authRes.ok) {
         const expires = Date.now() + 8 * 60 * 60 * 1000;
         const token = authToken.sign(expires);
         return {
           statusCode: 200,
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ok: true, token, expires })
+          body: JSON.stringify({ ok: true, token, expires, teacher: authRes })
         };
       }
       return {
