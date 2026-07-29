@@ -32,6 +32,18 @@
 
 /* Hero Actions & Logout Pill */
 .hero-actions { display: flex; gap: .5rem; align-items: center; }
+.teacher-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f1f6fe;
+  color: #1967d2;
+  border: 1px solid #c2e7ff;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
 .topbar-link { color:#1967d2; text-decoration:none; font-size:.85rem; font-weight:600; padding:.5rem .7rem; border-radius:4px; }
 .topbar-link:hover { background:#f1f6fe; }
 .logout-pill {

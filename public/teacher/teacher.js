@@ -149,6 +149,25 @@
     checkAuth();
   }
 
+  function autoSelectTeacherStream() {
+    var info = getTeacherInfo();
+    if (!info || info.isAdmin || !info.allowedStreams) return;
+    var cards = document.querySelectorAll(".stream-card");
+    var firstAllowed = null;
+    cards.forEach(function (c) {
+      var st = c.dataset.stream;
+      if (isStreamAllowed(st) && !firstAllowed) {
+        firstAllowed = c;
+      }
+    });
+
+    if (firstAllowed && !isStreamAllowed(currentStream)) {
+      cards.forEach(function (x) { x.classList.remove("active"); });
+      firstAllowed.classList.add("active");
+      currentStream = firstAllowed.dataset.stream;
+    }
+  }
+
   function checkAuth() {
     var badge = $("#teacherBadge");
     if (!token) {
@@ -161,11 +180,13 @@
       
       var info = getTeacherInfo();
       if (badge && info && info.name) {
-        badge.innerHTML = "👤 " + esc(info.name);
+        var subText = info.subjects ? (" &middot; <span style='font-weight:normal;opacity:0.85;'>" + esc(info.subjects) + "</span>") : "";
+        badge.innerHTML = "👤 <strong>" + esc(info.name) + "</strong>" + subText;
         badge.style.display = "inline-flex";
       } else if (badge) {
         badge.style.display = "none";
       }
+      autoSelectTeacherStream();
       loadData();
     }
   }
