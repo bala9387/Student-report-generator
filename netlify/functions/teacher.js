@@ -73,7 +73,7 @@ exports.handler = async (event) => {
       const body = JSON.parse(event.body || '{}');
       const targetGrade = body.grade || grade;
       let result;
-      if (body.stream === 'PE - Analysis') {
+      if (body.stream === 'PE - Analysis' || body.stream === 'Rankwise') {
         result = await teacherApi.updatePeTotals(body.updates, targetGrade);
       } else if (body.stream === 'Mentor Report') {
         result = await teacherApi.updateMentorLinks(body.exam, body.updates, targetGrade);

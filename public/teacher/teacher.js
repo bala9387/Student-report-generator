@@ -248,15 +248,14 @@
         currentStream = c.dataset.stream;
         resetDirty();
 
-        // Hide module tabs and Save button for read-only aggregate views (PE Analysis, Rankwise)
+        // Always keep Save All Marks button visible for all streams and views
         var moduleTabs = $("#examTabs");
         if (currentStream === "PE - Analysis" || currentStream === "Rankwise") {
           if (moduleTabs) moduleTabs.style.display = "none";
-          if (saveBtn) saveBtn.style.display = "none";
         } else {
           if (moduleTabs) moduleTabs.style.display = "";
-          if (saveBtn) saveBtn.style.display = "";
         }
+        if (saveBtn) saveBtn.style.display = "";
         
         loadData();
       });

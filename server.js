@@ -92,7 +92,7 @@ app.post('/api/teacher/save', requireAuth, express.json({ limit: '10mb' }), asyn
   try {
     let result;
     const grade = req.body.grade || req.query.grade;
-    if (req.body.stream === "PE - Analysis") {
+    if (req.body.stream === "PE - Analysis" || req.body.stream === "Rankwise") {
       result = await teacherApi.updatePeTotals(req.body.updates, grade);
     } else if (req.body.stream === "Mentor Report") {
       result = await teacherApi.updateMentorLinks(req.body.exam, req.body.updates, grade);
