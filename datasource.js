@@ -21,8 +21,23 @@
     return GRADE_SHEETS["12"];
   }
 
-  var GROUPS = ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS", "X Harmony", "X Melody", "X Symphony"];
-  var TABS = ["PE - Analysis", "Mentor Report"].concat(GROUPS);
+  var GRADE_GROUPS = {
+    "10": ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "X Harmony", "X Melody", "X Symphony"],
+    "11": ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"],
+    "12": ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"]
+  };
+
+  function getGradeGroups(grade) {
+    var g = String(grade || currentGrade).trim();
+    if (g === "10" || g === "X") return GRADE_GROUPS["10"];
+    if (g === "11" || g === "XI") return GRADE_GROUPS["11"];
+    return GRADE_GROUPS["12"];
+  }
+
+  function getGradeTabs(grade) {
+    return ["PE - Analysis", "Mentor Report"].concat(getGradeGroups(grade));
+  }
+
   var EXAMS = ["CU 1", "TE 1", "CU 2", "TE 2"];
   // 0-indexed start column of each exam block in a group tab (6 subjects + Total)
   var BLOCK_START = { "CU 1": 3, "TE 1": 10, "CU 2": 17, "TE 2": 24 };
@@ -97,46 +112,56 @@
   }
 
   // ---- build the REPORT_DATA structure from raw sheet rows ----
-  function buildData(sheets) {
-    var rollIndex = {};
-    function addIndex(roll, mode) {
-      var k = roll.toUpperCase();
-      if (!rollIndex[k]) rollIndex[k] = [];
-      if (rollIndex[k].indexOf(mode) < 0) rollIndex[k].push(mode);
+  function buildData(sheets, grade) {
+    var groups = getGradeGroups(grade);
+    var peRows = studentRows(sheets["PE - Analysis"] || []);
+    var peStudents = {};
+    var rollIndex = {}; // rollNo -> array of mode names
+
+    function addIndex(roll, modeName) {
+      var r = roll.toUpperCase();
+      if (!rollIndex[r]) rollIndex[r] = [];
+      if (rollIndex[r].indexOf(modeName) === -1) rollIndex[r].push(modeName);
     }
 
-    // ---- PE - Analysis ----
-    var peRows = studentRows(sheets["PE - Analysis"]);
-    var peStudents = {}, peClass = { "CU 1": [], "TE 1": [], "CU 2": [], "TE 2": [] };
+    // Parse PE - Analysis
+    var peClass = {};
+    EXAMS.forEach(function (ex) { peClass[ex] = []; });
+
     peRows.forEach(function (row) {
       var roll = String(cell(row, 1)).trim();
       var name = String(cell(row, 2)).trim();
-      var stream = [3, 4, 5].map(function (i) { return String(cell(row, i)).trim(); })
-        .filter(function (v) { return v !== ""; });
-      var ex = {};
-      EXAMS.forEach(function (exn) {
-        var tc = PE_COLS[exn][0], rc = PE_COLS[exn][1];
-        var tot = num(cell(row, tc)); var rk = num(cell(row, rc));
-        tot = tot == null ? 0 : tot;
-        ex[exn] = { total: tot, rank: rk };
-        peClass[exn].push(tot);
+      var streamStr = String(cell(row, 3)).trim() + " " + String(cell(row, 4)).trim() + " " + String(cell(row, 5)).trim();
+      var stream = streamStr.split(/\s+/).filter(Boolean);
+
+      var exams = {};
+      EXAMS.forEach(function (ex) {
+        var cols = PE_COLS[ex];
+        var tot = num(cell(row, cols[0]));
+        var rk = num(cell(row, cols[1]));
+        exams[ex] = { total: tot == null ? 0 : tot, rank: rk };
+        if (tot != null) peClass[ex].push(tot);
       });
-      peStudents[roll] = { rollNo: roll, sNo: num(cell(row, 0)), name: name, stream: stream, exams: ex, rowIdx: row.rowIndex };
+
+      peStudents[roll] = { rollNo: roll, sNo: num(cell(row, 0)), name: name, stream: stream, exams: exams, rowIdx: row.rowIndex };
       addIndex(roll, "PE - Analysis");
     });
-// --- Compute Domain-specific Ranks ---
+
+    // -------------------------------------
+    // Compute domain (stream) ranks per exam
+    // Group students by domain (e.g. Bio-Maths)
     var domainGroups = {};
-    Object.keys(peStudents).forEach(function(roll) {
-      var st = peStudents[roll];
-      var dom = st.stream.join("-");
+    Object.keys(peStudents).forEach(function (r) {
+      var st = peStudents[r];
+      var dom = (st.stream || []).join("-");
       st.domainName = dom;
       if (!domainGroups[dom]) domainGroups[dom] = [];
       domainGroups[dom].push(st);
     });
 
-    EXAMS.forEach(function(exn) {
-      Object.keys(domainGroups).forEach(function(dom) {
-        var arr = domainGroups[dom].filter(function(st) {
+    EXAMS.forEach(function (exn) {
+      Object.keys(domainGroups).forEach(function (dom) {
+        var arr = domainGroups[dom].filter(function (st) {
           return st.exams[exn] && st.exams[exn].total > 0;
         });
         arr.sort(function(a, b) { return b.exams[exn].total - a.exams[exn].total; });
@@ -168,7 +193,7 @@
     };
 
     // ---- group tabs ----
-    GROUPS.forEach(function (g) {
+    groups.forEach(function (g) {
       var rows = sheets[g];
       if (!rows || !rows.length) return;
       // subject codes: header row is the row directly above the first student row
@@ -302,7 +327,8 @@
   }
 
   function loadLive(grade) {
-    return Promise.all(TABS.map(function (t) {
+    var tabs = getGradeTabs(grade);
+    return Promise.all(tabs.map(function (t) {
       return fetchWithTimeout(tabUrl(t, grade), { credentials: "omit" }, FETCH_TIMEOUT).then(function (r) {
         if (!r.ok) throw new Error(t + " HTTP " + r.status);
         return r.text();
@@ -313,7 +339,7 @@
     })).then(function (pairs) {
       var sheets = {};
       pairs.forEach(function (p) { sheets[p[0]] = p[1]; });
-      return { data: buildData(sheets), live: true, when: new Date() };
+      return { data: buildData(sheets, grade), live: true, when: new Date() };
     });
   }
 
@@ -331,6 +357,6 @@
   // Node test harness support
   if (typeof module !== "undefined" && module.exports) {
     module.exports = root.ReportSource;
-    module.exports._internal = { TABS: TABS, tabUrl: tabUrl };
+    module.exports._internal = { getGradeTabs: getGradeTabs, tabUrl: tabUrl };
   }
 })(typeof window !== "undefined" ? window : globalThis);
