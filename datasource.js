@@ -49,7 +49,7 @@
     if (g === "10" || g === "X") {
       return ["Rank wise", "PE - Analysis", "Mentor Report"].concat(getGradeGroups(grade));
     }
-    return ["PE - Analysis", "Mentor Report"].concat(getGradeGroups(grade));
+    return ["Sheet1", "PE - Analysis", "Mentor Report"].concat(getGradeGroups(grade));
   }
 
   var EXAMS = ["CU 1", "TE 1", "CU 2", "TE 2"];
@@ -128,7 +128,7 @@
   // ---- build the REPORT_DATA structure from raw sheet rows ----
   function buildData(sheets, grade) {
     var groups = getGradeGroups(grade);
-    var peRows = studentRows(sheets["PE - Analysis"] || sheets["Rank wise"] || sheets["All sec"] || []);
+    var peRows = studentRows(sheets["PE - Analysis"] || sheets["Sheet1"] || sheets["Rank wise"] || sheets["All sec"] || []);
     var peStudents = {};
     var rollIndex = {}; // rollNo -> array of mode names
 
