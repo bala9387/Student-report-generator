@@ -8,6 +8,7 @@
   var $ = function (s) { return document.querySelector(s); };
 
   /* ── State ── */
+  var currentGrade  = localStorage.getItem("teacher_grade") || "12";
   var currentStream = "Bio - Maths";
   var currentExam   = "CU 1";
   var studentRows   = [];      // data returned by API
@@ -40,11 +41,29 @@
   var saveStatus     = document.querySelector(".save-status");
 
   /* ═══════════ Init ═══════════ */
+  wireGradeButtons();
   wireStreamCards();
   wireExamTabs();
   saveBtn.addEventListener("click", saveAll);
   searchBox.addEventListener("input", filterRows);
   if (logoutBtn) logoutBtn.addEventListener("click", logout);
+
+  function wireGradeButtons() {
+    var btns = document.querySelectorAll(".grade-btn");
+    btns.forEach(function (b) {
+      if (b.dataset.grade === currentGrade) b.classList.add("active");
+      else b.classList.remove("active");
+
+      b.addEventListener("click", function () {
+        btns.forEach(function (x) { x.classList.remove("active"); });
+        b.classList.add("active");
+        currentGrade = b.dataset.grade;
+        localStorage.setItem("teacher_grade", currentGrade);
+        resetDirty();
+        loadData();
+      });
+    });
+  }
   var togglePassBtn = $("#togglePassBtn");
   if (togglePassBtn) {
     togglePassBtn.addEventListener("click", function () {
@@ -189,7 +208,8 @@
     }
 
     fetch("/api/teacher/marks?stream=" + encodeURIComponent(currentStream) +
-          "&exam=" + encodeURIComponent(currentExam), {
+          "&exam=" + encodeURIComponent(currentExam) +
+          "&grade=" + encodeURIComponent(currentGrade), {
       headers: getAuthHeaders()
     })
       .then(function (r) {
@@ -202,7 +222,7 @@
         studentRows = (d.students || []).slice().sort(function (a, b) {
           return (a.sNo || 0) - (b.sNo || 0);
         });
-        titleEl.textContent = currentStream + " — " + currentExam;
+        titleEl.textContent = "Grade " + currentGrade + " — " + currentStream + " (" + currentExam + ")";
         renderTable();
         hideMsg();
       })
@@ -211,7 +231,7 @@
 
   /* ═══════════ PE Analysis view ═══════════ */
   function loadPeAnalysis() {
-    fetch("/api/teacher/pe-analysis", {
+    fetch("/api/teacher/pe-analysis?grade=" + encodeURIComponent(currentGrade), {
       headers: getAuthHeaders()
     })
       .then(function (r) {
@@ -624,7 +644,7 @@
     fetch("/api/teacher/save", {
       method: "POST",
       headers: Object.assign({ "Content-Type": "application/json" }, getAuthHeaders()),
-      body: JSON.stringify({ stream: currentStream, exam: currentExam, updates: updates })
+      body: JSON.stringify({ stream: currentStream, exam: currentExam, updates: updates, grade: currentGrade })
     })
     .then(function (r) {
       if (r.status === 401) { logout(); throw new Error("Session expired. Please log in again."); }

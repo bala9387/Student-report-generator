@@ -470,6 +470,37 @@
   user-select: none;
 }
 
+.grade-switcher {
+  margin-bottom: 1.25rem;
+  background: #f8fafc;
+  padding: .75rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.grade-pill-group {
+  display: flex;
+  gap: 6px;
+  margin-top: .5rem;
+}
+.grade-btn {
+  flex: 1;
+  padding: .45rem .5rem;
+  font-size: .8rem;
+  font-weight: 700;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--fg);
+  cursor: pointer;
+  transition: all .15s;
+}
+.grade-btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 2px 6px rgba(26,115,232,.3);
+}
+
 .teacher-badge {
   display: inline-flex;
   align-items: center;

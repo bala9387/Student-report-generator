@@ -24,13 +24,21 @@
 
       <form id="lookupForm" autocomplete="off">
         <div class="field">
-          <label for="roll">1. Roll Number</label>
+          <label for="grade">1. Grade / Class</label>
+          <select id="grade" name="grade" required>
+            <option value="11">Grade 11 (XI - 2026-27)</option>
+            <option value="12" selected>Grade 12 (XII - 2026-27)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="roll">2. Roll Number</label>
           <input id="roll" name="roll" type="text" inputmode="text"
                  placeholder="Enter Roll Number" required />
         </div>
 
         <div class="field">
-          <label for="mode">2. Mode of Exam</label>
+          <label for="mode">3. Mode of Exam</label>
           <select id="mode" name="mode" required>
             <option value="PE - Analysis">PE - Analysis</option>
             <option value="CU 1" selected>CU 1</option>

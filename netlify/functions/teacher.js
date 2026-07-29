@@ -53,28 +53,32 @@ exports.handler = async (event) => {
     : null;
 
   try {
+    const qp = event.queryStringParameters || {};
+    const grade = qp.grade;
+
     if (path.endsWith('/teacher/marks')) {
-      const stream = event.queryStringParameters && event.queryStringParameters.stream;
-      const exam = event.queryStringParameters && event.queryStringParameters.exam;
-      const data = await teacherApi.getTeacherData(stream, exam);
+      const stream = qp.stream;
+      const exam = qp.exam;
+      const data = await teacherApi.getTeacherData(stream, exam, grade);
       return { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) };
     }
 
     if (path.endsWith('/teacher/pe-analysis')) {
-      const data = await teacherApi.getPeAnalysis();
+      const data = await teacherApi.getPeAnalysis(grade);
       return { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) };
     }
 
     if (path.endsWith('/teacher/save')) {
       if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed' };
       const body = JSON.parse(event.body || '{}');
+      const targetGrade = body.grade || grade;
       let result;
       if (body.stream === 'PE - Analysis') {
-        result = await teacherApi.updatePeTotals(body.updates);
+        result = await teacherApi.updatePeTotals(body.updates, targetGrade);
       } else if (body.stream === 'Mentor Report') {
-        result = await teacherApi.updateMentorLinks(body.exam, body.updates);
+        result = await teacherApi.updateMentorLinks(body.exam, body.updates, targetGrade);
       } else {
-        result = await teacherApi.updateStudentMarks(body.stream, body.exam, body.updates, allowedCodes);
+        result = await teacherApi.updateStudentMarks(body.stream, body.exam, body.updates, allowedCodes, targetGrade);
       }
       return { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(result) };
     }

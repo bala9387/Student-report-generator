@@ -55,22 +55,22 @@ app.use('/generator', express.static(path.join(PUBLIC_DIR, 'generator')));
 app.use('/teacher', express.static(path.join(PUBLIC_DIR, 'teacher')));
 
 app.get('/api/meta', async (req, res) => {
-  const r = await api.getMeta();
+  const r = await api.getMeta(req.query.grade);
   res.status(r.status).json(r.body);
 });
 app.get('/api/lookup', async (req, res) => {
-  const r = await api.getLookup(req.query.mode, req.query.roll);
+  const r = await api.getLookup(req.query.mode, req.query.roll, req.query.grade);
   res.status(r.status).json(r.body);
 });
 app.get('/api/leaderboard', async (req, res) => {
-  const r = await api.getLeaderboard(req.query.scope, req.query.n);
+  const r = await api.getLeaderboard(req.query.scope, req.query.n, req.query.grade);
   res.status(r.status).json(r.body);
 });
 
 // ---------- Teacher Portal Endpoints ----------
 app.get('/api/teacher/marks', requireAuth, async (req, res) => {
   try {
-    const data = await teacherApi.getTeacherData(req.query.stream, req.query.exam);
+    const data = await teacherApi.getTeacherData(req.query.stream, req.query.exam, req.query.grade);
     res.json(data);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -79,7 +79,7 @@ app.get('/api/teacher/marks', requireAuth, async (req, res) => {
 
 app.get('/api/teacher/pe-analysis', requireAuth, async (req, res) => {
   try {
-    const data = await teacherApi.getPeAnalysis();
+    const data = await teacherApi.getPeAnalysis(req.query.grade);
     res.json(data);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -89,12 +89,13 @@ app.get('/api/teacher/pe-analysis', requireAuth, async (req, res) => {
 app.post('/api/teacher/save', requireAuth, express.json({ limit: '10mb' }), async (req, res) => {
   try {
     let result;
+    const grade = req.body.grade || req.query.grade;
     if (req.body.stream === "PE - Analysis") {
-      result = await teacherApi.updatePeTotals(req.body.updates);
+      result = await teacherApi.updatePeTotals(req.body.updates, grade);
     } else if (req.body.stream === "Mentor Report") {
-      result = await teacherApi.updateMentorLinks(req.body.exam, req.body.updates);
+      result = await teacherApi.updateMentorLinks(req.body.exam, req.body.updates, grade);
     } else {
-      result = await teacherApi.updateStudentMarks(req.body.stream, req.body.exam, req.body.updates, req.allowedCodes);
+      result = await teacherApi.updateStudentMarks(req.body.stream, req.body.exam, req.body.updates, req.allowedCodes, grade);
     }
     res.json(result);
   } catch (err) {

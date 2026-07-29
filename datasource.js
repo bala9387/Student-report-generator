@@ -7,7 +7,18 @@
 (function (root) {
   "use strict";
 
-  var SHEET_ID = "16TMqtxp-U9BU6w8Zn6anHD9mdHvD23BOyf38nZa7f50";
+  var GRADE_SHEETS = {
+    "11": "1p4JweOss5DNn1Ywg4P76jpYi6FgHJtcLlmxAQzdAVj8",
+    "12": "1C3p9hipQLxe4YbfA14s_0zF5seHISiL1fdKquWaMdJk"
+  };
+  var currentGrade = "12";
+
+  function getSheetId(grade) {
+    var g = String(grade || currentGrade).trim();
+    if (g === "11" || g === "XI") return GRADE_SHEETS["11"];
+    return GRADE_SHEETS["12"];
+  }
+
   var GROUPS = ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"];
   var TABS = ["PE - Analysis", "Mentor Report"].concat(GROUPS);
   var EXAMS = ["CU 1", "TE 1", "CU 2", "TE 2"];
@@ -22,8 +33,9 @@
     "A.Math": "Applied Mathematics", Eng: "English", PE: "Physical Education", Cs: "Computer Science"
   };
 
-  function tabUrl(name) {
-    return "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
+  function tabUrl(name, grade) {
+    var sid = getSheetId(grade);
+    return "https://docs.google.com/spreadsheets/d/" + sid +
       "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(name) +
       "&t=" + Date.now(); // cache-bust so edits show up
   }
@@ -277,9 +289,9 @@
     return fetch(url, opts);
   }
 
-  function loadLive() {
+  function loadLive(grade) {
     return Promise.all(TABS.map(function (t) {
-      return fetchWithTimeout(tabUrl(t), { credentials: "omit" }, FETCH_TIMEOUT).then(function (r) {
+      return fetchWithTimeout(tabUrl(t, grade), { credentials: "omit" }, FETCH_TIMEOUT).then(function (r) {
         if (!r.ok) throw new Error(t + " HTTP " + r.status);
         return r.text();
       }).then(function (txt) {
@@ -293,8 +305,8 @@
     });
   }
 
-  function loadReportData() {
-    return loadLive().catch(function (err) {
+  function loadReportData(grade) {
+    return loadLive(grade).catch(function (err) {
       if (root.REPORT_DATA) {
         return { data: root.REPORT_DATA, live: false, when: null, error: err.message };
       }

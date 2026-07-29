@@ -73,12 +73,13 @@
     if (!DATA) { showMsg("info", "Loading data, please wait a moment&hellip;"); return; }
     var roll = normRoll($("#roll").value);
     var mode = $("#mode").value;
+    var grade = $("#grade") ? $("#grade").value : "12";
     msg.className = "message"; msg.innerHTML = "";
     if (!roll) { showMsg("error", "Please enter a Roll Number."); return; }
 
     var submitBtn = $("#submitBtn");
     submitBtn.disabled = true;
-    apiGet("/api/lookup?mode=" + encodeURIComponent(mode) + "&roll=" + encodeURIComponent(roll))
+    apiGet("/api/lookup?mode=" + encodeURIComponent(mode) + "&roll=" + encodeURIComponent(roll) + "&grade=" + encodeURIComponent(grade))
       .then(function (resp) {
         absorbMeta(resp);
         if (resp.found && resp.kind === "analysis") {
@@ -990,8 +991,9 @@ if (isSchoolTopper) {
   }
 
   function load(isRefresh) {
+    var grade = $("#grade") ? $("#grade").value : "12";
     setStatus("loading", isRefresh ? "Refreshing..." : "Connecting...", "Contacting the server");
-    return apiGet("/api/meta").then(applyData).catch(function (e) {
+    return apiGet("/api/meta?grade=" + encodeURIComponent(grade)).then(applyData).catch(function (e) {
       setStatus("offline", "Data unavailable", String(e && e.message || e));
     });
   }
