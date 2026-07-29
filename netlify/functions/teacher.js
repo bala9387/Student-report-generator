@@ -20,7 +20,7 @@ exports.handler = async (event) => {
 
       if (authRes && authRes.ok) {
         const expires = Date.now() + 8 * 60 * 60 * 1000;
-        const token = authToken.sign(expires);
+        const token = authToken.sign(expires, authRes.user);
         return {
           statusCode: 200,
           headers: { 'Content-Type': 'application/json' },
@@ -38,13 +38,19 @@ exports.handler = async (event) => {
   }
 
   // All teacher endpoints require authentication
-  if (!requireAuth(event)) {
+  const authInfo = requireAuth(event);
+  if (!authInfo) {
     return {
       statusCode: 401,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ error: 'Unauthorized: Staff login required' })
     };
   }
+
+  const teacherUser = authInfo.user || '';
+  const allowedCodes = (teacherUser && teacherAccounts.ACCOUNTS[teacherUser])
+    ? teacherAccounts.ACCOUNTS[teacherUser].allowedCodes
+    : null;
 
   try {
     if (path.endsWith('/teacher/marks')) {
@@ -68,7 +74,7 @@ exports.handler = async (event) => {
       } else if (body.stream === 'Mentor Report') {
         result = await teacherApi.updateMentorLinks(body.exam, body.updates);
       } else {
-        result = await teacherApi.updateStudentMarks(body.stream, body.exam, body.updates);
+        result = await teacherApi.updateStudentMarks(body.stream, body.exam, body.updates, allowedCodes);
       }
       return { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(result) };
     }

@@ -22,7 +22,7 @@ app.post(['/api/auth', '/api/teacher/auth'], express.json(), (req, res) => {
 
   if (authRes && authRes.ok) {
     const expires = Date.now() + 8 * 60 * 60 * 1000; // 8 hours
-    const token = authToken.sign(expires);
+    const token = authToken.sign(expires, authRes.user);
     return res.json({ ok: true, token, expires, teacher: authRes });
   }
   return res.status(401).json({ error: 'Invalid username or password' });
@@ -32,8 +32,15 @@ app.post(['/api/auth', '/api/teacher/auth'], express.json(), (req, res) => {
 function requireAuth(req, res, next) {
   const hdr = req.headers.authorization || '';
   const token = hdr.replace(/^Bearer\s+/i, '').trim();
-  if (!authToken.verify(token)) {
+  const verified = authToken.verify(token);
+  if (!verified) {
     return res.status(401).json({ error: 'Unauthorized: Staff login required' });
+  }
+  req.teacherUser = verified.user || '';
+  if (req.teacherUser && teacherAccounts.ACCOUNTS[req.teacherUser]) {
+    req.allowedCodes = teacherAccounts.ACCOUNTS[req.teacherUser].allowedCodes;
+  } else {
+    req.allowedCodes = null; // Admin
   }
   next();
 }
@@ -87,7 +94,7 @@ app.post('/api/teacher/save', requireAuth, express.json({ limit: '10mb' }), asyn
     } else if (req.body.stream === "Mentor Report") {
       result = await teacherApi.updateMentorLinks(req.body.exam, req.body.updates);
     } else {
-      result = await teacherApi.updateStudentMarks(req.body.stream, req.body.exam, req.body.updates);
+      result = await teacherApi.updateStudentMarks(req.body.stream, req.body.exam, req.body.updates, req.allowedCodes);
     }
     res.json(result);
   } catch (err) {

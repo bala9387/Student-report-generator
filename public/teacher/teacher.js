@@ -36,6 +36,8 @@
   var loginForm     = $("#loginForm");
   var loginMsg      = $("#loginMsg");
   var logoutBtn     = $("#logoutBtn");
+  var saveStatusText = $("#saveStatusText");
+  var saveStatus     = document.querySelector(".save-status");
 
   /* ═══════════ Init ═══════════ */
   wireStreamCards();
@@ -74,6 +76,11 @@
         if (d.ok && d.token) {
           token = d.token;
           localStorage.setItem("teacher_token", token);
+          if (d.teacher) {
+            localStorage.setItem("teacher_info", JSON.stringify(d.teacher));
+          } else {
+            localStorage.removeItem("teacher_info");
+          }
           checkAuth();
         } else {
           loginMsg.textContent = d.error || "Invalid login credentials";
@@ -87,19 +94,48 @@
     });
   }
 
+  function getTeacherInfo() {
+    try {
+      var raw = localStorage.getItem("teacher_info");
+      return raw ? JSON.parse(raw) : null;
+    } catch(e) { return null; }
+  }
+
+  function isSubjectAllowed(subj) {
+    var info = getTeacherInfo();
+    if (!info || info.isAdmin || !info.allowedCodes) return true; // Admin has full edit access
+    var codes = info.allowedCodes;
+    if (!Array.isArray(codes)) return true;
+    var target = String(subj).toLowerCase();
+    return codes.some(function (c) {
+      return String(c).toLowerCase() === target;
+    });
+  }
+
   function logout() {
     token = "";
     localStorage.removeItem("teacher_token");
+    localStorage.removeItem("teacher_info");
     checkAuth();
   }
 
   function checkAuth() {
+    var badge = $("#teacherBadge");
     if (!token) {
       if (loginModal) loginModal.style.display = "flex";
       if (logoutBtn) logoutBtn.style.display = "none";
+      if (badge) badge.style.display = "none";
     } else {
       if (loginModal) loginModal.style.display = "none";
       if (logoutBtn) logoutBtn.style.display = "inline-block";
+      
+      var info = getTeacherInfo();
+      if (badge && info && info.name) {
+        badge.innerHTML = "👤 " + esc(info.name);
+        badge.style.display = "inline-flex";
+      } else if (badge) {
+        badge.style.display = "none";
+      }
       loadData();
     }
   }
@@ -320,6 +356,7 @@
     if (!dirtyRolls[roll]) dirtyRolls[roll] = { exams: {} };
     if (!dirtyRolls[roll].exams) dirtyRolls[roll].exams = {};
     dirtyRolls[roll].exams[exam] = raw;
+    updateSaveState();
 
     renderPeSubjectStats(["CU 1", "TE 1", "CU 2", "TE 2"], {});
   }
@@ -351,12 +388,17 @@
         var display = (val === null || val === undefined || val === "") ? "" : val;
         totalCells++;
         if (display !== "") filledCells++;
+        
+        var canEdit = isMentor ? true : isSubjectAllowed(s);
         var modeStr = isMentor ? 'type="url" inputmode="url" placeholder="Paste Google Drive link here..."' : 'type="text" inputmode="decimal"';
-        var clsStr = isMentor ? 'mark-input mentor-input' : 'mark-input';
+        var clsStr = isMentor ? 'mark-input mentor-input' : (canEdit ? 'mark-input' : 'mark-input disabled-input');
+        var disabledAttr = canEdit ? '' : 'disabled title="Only authorized subject teacher can edit ' + esc(s) + '"';
+
         html += '<td' + (isMentor ? ' style="width:100%;padding:4px 8px;"' : '') + '><input ' + modeStr + ' class="' + clsStr + '" ' +
                 'data-roll="' + esc(st.rollNo) + '" ' +
                 'data-subj="' + esc(s) + '" ' +
                 'value="' + esc(String(display)) + '" ' +
+                disabledAttr + ' ' +
                 'autocomplete="off" /></td>';
       });
 
@@ -370,6 +412,7 @@
     tBody.innerHTML = html;
     updateStats(filledCells, totalCells);
     renderSubjectStats();
+    updateSaveState();
 
     // Wire up input events
     var inputs = tBody.querySelectorAll(".mark-input");
@@ -477,6 +520,7 @@
     // Track dirty
     if (!dirtyRolls[roll]) dirtyRolls[roll] = {};
     dirtyRolls[roll][subj] = raw;
+    updateSaveState();
 
     // Update total in the row
     recalcRowTotal(roll);
@@ -612,7 +656,24 @@
   }
 
   /* ═══════════ Helpers ═══════════ */
-  function resetDirty() { dirtyRolls = {}; }
+  function resetDirty() {
+    dirtyRolls = {};
+    updateSaveState();
+  }
+
+  function updateSaveState() {
+    var changed = Object.keys(dirtyRolls).length;
+    if (!saveStatusText || !saveStatus) return;
+    if (changed) {
+      saveStatusText.textContent = changed + " student" + (changed === 1 ? "" : "s") + " with unsaved changes";
+      saveStatus.classList.add("has-changes");
+      saveBtn.setAttribute("aria-label", "Save changes for " + changed + " student" + (changed === 1 ? "" : "s"));
+    } else {
+      saveStatusText.textContent = "All changes saved";
+      saveStatus.classList.remove("has-changes");
+      saveBtn.setAttribute("aria-label", "Save all marks");
+    }
+  }
 
   function computeTotal(marks) {
     var sum = 0;

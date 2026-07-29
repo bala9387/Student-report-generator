@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
 
     if (authRes && authRes.ok) {
       const expires = Date.now() + 8 * 60 * 60 * 1000;
-      const token = authToken.sign(expires);
+      const token = authToken.sign(expires, authRes.user);
       return res.status(200).json({ ok: true, token, expires, teacher: authRes });
     }
     return res.status(401).json({ error: 'Invalid username or password' });

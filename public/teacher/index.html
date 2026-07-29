@@ -5,19 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Teacher Portal &middot; KSR Akshara Academy</title>
   <link rel="stylesheet" href="../styles.css?v=36" />
-  <link rel="stylesheet" href="teacher.css?v=3" />
+  <link rel="stylesheet" href="teacher.css?v=4" />
 </head>
 <body>
   <div class="page teacher-page">
-    <header class="hero">
-      <img class="crest" src="../logo.jpg" alt="KSR Logo" />
-      <div class="hero-text">
-        <h1>Marks Entry Portal</h1>
-        <p>Enter subject marks for CU 1, TE 1, CU 2, TE 2</p>
+    <header class="classroom-topbar no-print">
+      <div class="brand-lockup">
+        <span class="apps-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <img class="crest" src="../logo.jpg" alt="KSR Akshara Academy" />
+        <div>
+          <strong>KSR Akshara Academy</strong>
+          <span>Teacher workspace</span>
+        </div>
       </div>
-      <div class="hero-actions no-print">
-        <button id="logoutBtn" class="status-pill logout-pill" style="display:none;">Log Out</button>
-        <a href="../" class="status-pill">Student Portal &rarr;</a>
+      <div class="hero-actions">
+        <span id="teacherBadge" class="teacher-badge" style="display:none;"></span>
+        <a href="../" class="topbar-link">Student portal</a>
+        <button id="logoutBtn" class="logout-pill" style="display:none;">Log out</button>
       </div>
     </header>
 
@@ -103,13 +107,28 @@
 
       <!-- Main Content -->
       <main class="teacher-main">
+        <section class="workspace-banner no-print" aria-labelledby="workspaceTitle">
+          <div>
+            <p class="eyebrow">MARKS</p>
+            <h1 id="workspaceTitle">Enter marks with confidence</h1>
+            <p>Choose a class and assessment, then type directly into the gradebook. Your total updates automatically.</p>
+          </div>
+          <div class="save-status" aria-live="polite">
+            <span class="save-status-dot"></span>
+            <span id="saveStatusText">All changes saved</span>
+          </div>
+        </section>
+
         <!-- Exam Module Tabs -->
         <div class="exam-bar no-print">
-          <div class="module-tabs" id="examTabs">
+          <div>
+            <p class="control-label">Assessment</p>
+            <div class="module-tabs" id="examTabs">
             <button class="tab-btn active" data-exam="CU 1">CU 1</button>
             <button class="tab-btn" data-exam="TE 1">TE 1</button>
             <button class="tab-btn" data-exam="CU 2">CU 2</button>
             <button class="tab-btn" data-exam="TE 2">TE 2</button>
+            </div>
           </div>
           <div class="exam-bar-right">
             <input type="text" id="searchInput" class="search-box" placeholder="Search by name or roll no..." />
@@ -126,7 +145,10 @@
         <!-- Marks Entry Table -->
         <div class="entry-card">
           <div class="entry-header">
-            <h2 id="tableTitle">Bio - Maths &mdash; CU 1</h2>
+            <div>
+              <p class="control-label">GRADEBOOK</p>
+              <h2 id="tableTitle">Bio - Maths &mdash; CU 1</h2>
+            </div>
             <div class="entry-stats">
               <span class="stat-pill" id="studentCount">0 students</span>
               <span class="stat-pill stat-filled" id="filledCount">0 filled</span>
