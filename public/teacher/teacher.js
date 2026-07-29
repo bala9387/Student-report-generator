@@ -81,7 +81,7 @@
   if (loginForm) {
     loginForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      var u = $("#loginUser").value.trim();
+      var u = $("#loginUser").value.trim().toLowerCase();
       var p = $("#loginPass").value.trim();
       loginMsg.style.display = "none";
 
@@ -134,6 +134,7 @@
   function isStreamAllowed(streamName) {
     var info = getTeacherInfo();
     if (!info || info.isAdmin || !info.allowedStreams) return true; // Admin or full access
+    if (streamName === "PE - Analysis" || streamName === "Rankwise") return true; // Read-only viewing allowed
     var streams = info.allowedStreams;
     if (!Array.isArray(streams)) return true;
     var target = String(streamName).toLowerCase();
@@ -156,12 +157,12 @@
     var firstAllowed = null;
     cards.forEach(function (c) {
       var st = c.dataset.stream;
-      if (isStreamAllowed(st) && !firstAllowed) {
+      if (isStreamAllowed(st) && st !== "PE - Analysis" && st !== "Rankwise" && !firstAllowed) {
         firstAllowed = c;
       }
     });
 
-    if (firstAllowed && !isStreamAllowed(currentStream)) {
+    if (firstAllowed && (!isStreamAllowed(currentStream) || currentStream === "PE - Analysis" || currentStream === "Rankwise")) {
       cards.forEach(function (x) { x.classList.remove("active"); });
       firstAllowed.classList.add("active");
       currentStream = firstAllowed.dataset.stream;
@@ -203,12 +204,14 @@
         currentStream = c.dataset.stream;
         resetDirty();
 
-        // Hide module tabs for all-exam views (PE Analysis, Rankwise)
+        // Hide module tabs and Save button for read-only aggregate views (PE Analysis, Rankwise)
         var moduleTabs = $("#examTabs");
         if (currentStream === "PE - Analysis" || currentStream === "Rankwise") {
           if (moduleTabs) moduleTabs.style.display = "none";
+          if (saveBtn) saveBtn.style.display = "none";
         } else {
           if (moduleTabs) moduleTabs.style.display = "";
+          if (saveBtn) saveBtn.style.display = "";
         }
         
         loadData();
