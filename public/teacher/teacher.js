@@ -215,12 +215,15 @@
 
   function checkAuth() {
     var badge = $("#teacherBadge");
+    var layout = $("#teacherLayout");
     if (!token) {
       if (loginModal) loginModal.style.display = "flex";
+      if (layout) layout.style.display = "none";
       if (logoutBtn) logoutBtn.style.display = "none";
       if (badge) badge.style.display = "none";
     } else {
       if (loginModal) loginModal.style.display = "none";
+      if (layout) layout.style.display = "";
       if (logoutBtn) logoutBtn.style.display = "inline-block";
       
       var info = getTeacherInfo();
