@@ -22,9 +22,9 @@
   }
 
   var GRADE_GROUPS = {
-    "10": ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "10 H", "10 M", "10 S", "X Harmony", "X Melody", "X Symphony"],
-    "11": ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "PCBM", "PCCM", "PCBC", "A.Math", "CS"],
-    "12": ["Full Portion Exam (FPE)", "Periodic Exam (PE)", "Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS", "PCBM", "PCCM", "PCBC", "A.Math"]
+    "10": ["10 H", "10 M", "10 S"],
+    "11": ["PCBM", "PCCM", "PCBC", "A.Math", "CS"],
+    "12": ["Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"]
   };
 
   var STREAM_ALIAS = {
