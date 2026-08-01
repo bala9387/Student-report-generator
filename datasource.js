@@ -10,7 +10,7 @@
   var GRADE_SHEETS = {
     "10": "1U3O31VXCi-713KVDbshSN-huM4lUVkTHaOwmcgBZgsk",
     "11": "1p4JweOss5DNn1Ywg4P76jpYi6FgHJtcLlmxAQzdAVj8",
-    "12": "1C3p9hipQLxe4YbfA14s_0zF5seHISiL1fdKquWaMdJk"
+    "12": "16TMqtxp-U9BU6w8Zn6anHD9mdHvD23BOyf38nZa7f50"
   };
   var currentGrade = "12";
 
