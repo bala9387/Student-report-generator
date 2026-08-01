@@ -16,6 +16,11 @@
   var dirtyRolls    = {};      // rollNo → { marks: { subj: val } }
 
   /* ── Auth State & Helper ── */
+  var PORTAL_VERSION = "10"; // bump this when allowedStreams/allowedCodes change
+  if (localStorage.getItem("teacher_portal_version") !== PORTAL_VERSION) {
+    localStorage.removeItem("teacher_info"); // force re-login with fresh permissions
+    localStorage.setItem("teacher_portal_version", PORTAL_VERSION);
+  }
   var token = localStorage.getItem("teacher_token") || "";
 
   function getAuthHeaders() {
