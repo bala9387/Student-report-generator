@@ -51,6 +51,8 @@
   function updateGradeStreamVisibility() {
     var cards = document.querySelectorAll(".stream-card");
     var g = String(currentGrade);
+    var info = getTeacherInfo();
+    var allowedStreams = (info && !info.isAdmin && Array.isArray(info.allowedStreams)) ? info.allowedStreams : null;
     var firstVisibleCard = null;
 
     cards.forEach(function (c) {
@@ -58,24 +60,27 @@
       var isG10Stream = (st === "X Harmony" || st === "X Melody" || st === "X Symphony");
       var isG1112Stream = (st === "Bio - Maths" || st === "Bio - CS" || st === "Maths - CS" || st === "Applied Math" || st === "CS");
 
+      // Check grade visibility
+      var gradeOk;
       if (g === "10") {
-        if (isG1112Stream) {
-          c.style.display = "none";
-        } else {
-          c.style.display = "";
-          if (!firstVisibleCard && isG10Stream) {
-            firstVisibleCard = c;
-          }
+        gradeOk = !isG1112Stream;
+      } else {
+        gradeOk = !isG10Stream;
+      }
+
+      // Check teacher stream permission (PE-Analysis/Rankwise/Mentor always visible)
+      var specialStream = (st === "PE - Analysis" || st === "Rankwise" || st === "Mentor Report" ||
+                           st === "Full Portion Exam (FPE)" || st === "Periodic Exam (PE)");
+      var streamOk = !allowedStreams || specialStream ||
+        allowedStreams.some(function (s) { return String(s).toLowerCase() === String(st).toLowerCase(); });
+
+      if (gradeOk && streamOk) {
+        c.style.display = "";
+        if (!firstVisibleCard && (isG1112Stream || isG10Stream || specialStream)) {
+          firstVisibleCard = c;
         }
       } else {
-        if (isG10Stream) {
-          c.style.display = "none";
-        } else {
-          c.style.display = "";
-          if (!firstVisibleCard && isG1112Stream) {
-            firstVisibleCard = c;
-          }
-        }
+        c.style.display = "none";
       }
     });
 
@@ -465,9 +470,20 @@
   /* ═══════════ Render the spreadsheet table ═══════════ */
   function renderTable() {
     var isMentor = (currentStream === "Mentor Report");
+    var info = getTeacherInfo();
+    var isAdmin = !info || info.isAdmin || !info.allowedCodes;
+
+    // For non-admin teachers, only show their subject columns (+ always show Total)
+    var visibleCols = subjectCols.filter(function (s) {
+      if (isAdmin || isMentor) return true;
+      return isSubjectAllowed(s);
+    });
+    // If no matching cols (shouldn't happen), fallback to all
+    if (visibleCols.length === 0) visibleCols = subjectCols;
+
     // Header
     var thRow = "<tr><th>S.No</th><th>Roll No</th><th>Student Name</th>";
-    subjectCols.forEach(function (s) {
+    visibleCols.forEach(function (s) {
       thRow += "<th" + (isMentor ? ' style="width:100%;"' : '') + ">" + esc(s) + "</th>";
     });
     if (!isMentor) thRow += "<th>Total</th>";
@@ -484,23 +500,17 @@
       html += '<td class="sno" style="font-weight:600;color:var(--fg);">' + esc(st.rollNo) + '</td>';
       html += '<td title="' + esc(st.rollNo) + '">' + esc(st.name) + '</td>';
 
-      subjectCols.forEach(function (s) {
+      visibleCols.forEach(function (s) {
         var val = st.marks[s];
         var display = (val === null || val === undefined || val === "") ? "" : val;
         totalCells++;
         if (display !== "") filledCells++;
         
-        var canEditStream = isStreamAllowed(currentStream);
-        var canEditSubject = isSubjectAllowed(s);
-        var canEdit = isMentor ? true : (canEditStream && canEditSubject);
+        var canEdit = isMentor ? true : isSubjectAllowed(s);
 
         var modeStr = isMentor ? 'type="url" inputmode="url" placeholder="Paste Google Drive link here..."' : 'type="text" inputmode="decimal"';
         var clsStr = isMentor ? 'mark-input mentor-input' : (canEdit ? 'mark-input' : 'mark-input disabled-input');
-        
-        var tooltip = !canEditStream 
-          ? 'Teacher not assigned to stream: ' + esc(currentStream) 
-          : 'Only authorized subject teacher can edit ' + esc(s);
-        var disabledAttr = canEdit ? '' : 'disabled title="' + tooltip + '"';
+        var disabledAttr = canEdit ? '' : 'disabled title="Only authorized subject teacher can edit ' + esc(s) + '"';
 
         html += '<td' + (isMentor ? ' style="width:100%;padding:4px 8px;"' : '') + '><input ' + modeStr + ' class="' + clsStr + '" ' +
                 'data-roll="' + esc(st.rollNo) + '" ' +
@@ -533,9 +543,18 @@
 
   /* ═══════════ Subject Statistics (tfoot) ═══════════ */
   function renderSubjectStats() {
+    var info = getTeacherInfo();
+    var isAdmin = !info || info.isAdmin || !info.allowedCodes;
+    var isMentor = (currentStream === "Mentor Report");
+    var visibleCols = subjectCols.filter(function (s) {
+      if (isAdmin || isMentor) return true;
+      return isSubjectAllowed(s);
+    });
+    if (visibleCols.length === 0) visibleCols = subjectCols;
+
     // Gather all mark values per subject from the current inputs
     var stats = {};
-    subjectCols.forEach(function (s) { stats[s] = []; });
+    visibleCols.forEach(function (s) { stats[s] = []; });
 
     var rows = tBody.querySelectorAll("tr");
     rows.forEach(function (row) {
@@ -575,7 +594,7 @@
       var totalVal = 0;
       var totalCount = 0;
 
-      subjectCols.forEach(function (s) {
+      visibleCols.forEach(function (s) {
         var arr = stats[s] || [];
         var present = arr.filter(function (v) { return v !== null; });
         var absent  = arr.filter(function (v) { return v === null; });
