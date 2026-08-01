@@ -68,9 +68,8 @@
         gradeOk = !isG10Stream;
       }
 
-      // Check teacher stream permission (PE-Analysis/Rankwise/Mentor always visible)
-      var specialStream = (st === "PE - Analysis" || st === "Rankwise" || st === "Mentor Report" ||
-                           st === "Full Portion Exam (FPE)" || st === "Periodic Exam (PE)");
+      // Check teacher stream permission (PE-Analysis/Rankwise/Mentor always visible as read-only)
+      var specialStream = (st === "PE - Analysis" || st === "Rankwise" || st === "Mentor Report");
       var streamOk = !allowedStreams || specialStream ||
         allowedStreams.some(function (s) { return String(s).toLowerCase() === String(st).toLowerCase(); });
 
