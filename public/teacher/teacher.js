@@ -8,7 +8,7 @@
   var $ = function (s) { return document.querySelector(s); };
 
   /* ── State ── */
-  var currentGrade  = localStorage.getItem("teacher_grade") || "12";
+  var currentGrade  = "12";
   var currentStream = "Bio - Maths";
   var currentExam   = "CU 1";
   var studentRows   = [];      // data returned by API
