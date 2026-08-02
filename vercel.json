@@ -15,6 +15,12 @@
     { "source": "/generator", "destination": "/generator/index.html" },
     { "source": "/((?!api/).*)", "destination": "/$1" }
   ],
+  "functions": {
+    "api/generate-report.js": {
+      "maxDuration": 60,
+      "memory": 1024
+    }
+  },
   "headers": [
     {
       "source": "/(.*)",
