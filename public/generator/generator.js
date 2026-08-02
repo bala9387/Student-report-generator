@@ -114,7 +114,8 @@
     required: [
       "studentName", "gradeSection", "subject", "examTitle", "dateOfExam",
       "totalMaxMarks", "totalMarksObtained", "sections",
-      "strengths", "areasForImprovement", "actionableRecommendations"
+      "strengths", "areasForImprovement", "actionableRecommendations",
+      "coreConcepts", "studyTips"
     ]
   };
 
