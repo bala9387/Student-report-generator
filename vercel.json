@@ -11,6 +11,8 @@
     { "source": "/api/teacher/save", "destination": "/api/teacher/save" },
     { "source": "/teacher/(.*)", "destination": "/teacher/index.html" },
     { "source": "/teacher", "destination": "/teacher/index.html" },
+    { "source": "/generator/(.*)", "destination": "/generator/index.html" },
+    { "source": "/generator", "destination": "/generator/index.html" },
     { "source": "/((?!api/).*)", "destination": "/$1" }
   ],
   "headers": [
