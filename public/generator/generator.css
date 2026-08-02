@@ -253,3 +253,97 @@
   .pdf-p-cell{width:100%}
   .pdf-title{font-size:20px}
 }
+
+/* ==========================================================================
+   PRINT STYLES — ensures full report prints/saves as PDF properly
+   ========================================================================== */
+@media print {
+  /* Hide everything except the report */
+  body, html {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .page {
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Hide form, header, toolbar, nav, messages */
+  .hero,
+  #genCard,
+  .no-print,
+  .report-toolbar,
+  #genMsg,
+  .gen-busy,
+  footer,
+  nav {
+    display: none !important;
+  }
+
+  /* Show the report result wrapper */
+  #genResultWrap {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Report container */
+  #genReport {
+    padding: 20px 24px !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
+  }
+
+  /* Allow page breaks between sections, avoid breaking inside */
+  .pdf-sec-bar {
+    page-break-before: auto;
+    break-before: auto;
+    page-break-after: avoid;
+    break-after: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .pdf-bullet-list {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .pdf-bullet-list li {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .pdf-table {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .pdf-profile-grid {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Ensure backgrounds print */
+  .pdf-sec-bar,
+  .pdf-table th,
+  .pdf-total-row,
+  .pdf-score-pill {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* AI note at the bottom */
+  .ai-note {
+    page-break-before: auto;
+    margin-top: 16px;
+  }
+}
