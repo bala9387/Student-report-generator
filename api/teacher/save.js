@@ -25,7 +25,10 @@ module.exports = async (req, res) => {
   const allowedStreams = accInfo ? accInfo.allowedStreams : null;
 
   try {
-    const body = req.body || {};
+    let body = req.body || {};
+    if (typeof body === 'string') {
+      try { body = JSON.parse(body); } catch(e) {}
+    }
     const grade = body.grade || '12';
     let result;
 

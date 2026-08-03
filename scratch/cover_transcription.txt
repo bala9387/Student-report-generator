@@ -1,0 +1,17 @@
+Here are the exact marks extracted from the table:
+
+*   **Section Name:** SECTION-A
+    *   **Max Marks:** 70
+    *   **Marks Obtained:** 62
+*   **Section Name:** SECTION-II
+    *   **Max Marks:** 10
+    *   **Marks Obtained:** 10
+*   **Section Name:** SECTION-III
+    *   **Max Marks:** 10
+    *   **Marks Obtained:** 6.5
+*   **Section Name:** SECTION-IV
+    *   **Max Marks:** 10
+    *   **Marks Obtained:** 6.5
+*   **Section Name:** SECTION-V
+    *   **Max Marks:** 15
+    *   **Marks Obtained:** 13.5

@@ -17,7 +17,10 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const body = req.body || {};
+    let body = req.body || {};
+    if (typeof body === 'string') {
+      try { body = JSON.parse(body); } catch(e) {}
+    }
     const result = await gemini.generateReport({
       syllabus: body.syllabus,
       questionPaper: body.questionPaper,

@@ -7,7 +7,10 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const body = req.body || {};
+    let body = req.body || {};
+    if (typeof body === 'string') {
+      try { body = JSON.parse(body); } catch(e) {}
+    }
     const authRes = teacherAccounts.verifyTeacherLogin(body.user, body.pass);
 
     if (authRes && authRes.ok) {
