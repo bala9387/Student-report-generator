@@ -258,7 +258,13 @@
       fr.onload = function () {
         var s = String(fr.result);
         var comma = s.indexOf(",");
-        resolve({ mimeType: f.type || "application/octet-stream", data: s.slice(comma + 1), name: f.name });
+        var mime = f.type;
+        if (!mime || mime === "application/octet-stream") {
+          if (f.name.toLowerCase().endsWith(".pdf")) mime = "application/pdf";
+          else if (f.name.toLowerCase().endsWith(".png")) mime = "image/png";
+          else mime = "image/jpeg";
+        }
+        resolve({ mimeType: mime, data: s.slice(comma + 1), name: f.name });
       };
       fr.onerror = function () { reject(new Error("Could not read " + f.name)); };
       fr.readAsDataURL(f);
