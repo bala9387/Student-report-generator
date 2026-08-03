@@ -174,19 +174,73 @@
     });
   }
 
+  function renderPdfPagesToJpegs(file) {
+    if (!window.pdfjsLib) return readAsBase64(file);
+    return new Promise(function (resolve) {
+      var fr = new FileReader();
+      fr.onload = function () {
+        var typedarray = new Uint8Array(fr.result);
+        window.pdfjsLib.getDocument(typedarray).promise.then(function (pdf) {
+          var maxPages = Math.min(pdf.numPages, 12);
+          var renderPromises = [];
+
+          for (var i = 1; i <= maxPages; i++) {
+            (function(pNum) {
+              renderPromises.push(
+                pdf.getPage(pNum).then(function (page) {
+                  var viewport = page.getViewport({ scale: 1.2 });
+                  var canvas = document.createElement("canvas");
+                  canvas.width = viewport.width;
+                  canvas.height = viewport.height;
+                  var ctx = canvas.getContext("2d");
+                  return page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function () {
+                    var maxW = 1000;
+                    var finalCanvas = canvas;
+                    if (canvas.width > maxW) {
+                      var scale = maxW / canvas.width;
+                      var scCanvas = document.createElement("canvas");
+                      scCanvas.width = maxW;
+                      scCanvas.height = Math.round(canvas.height * scale);
+                      var scCtx = scCanvas.getContext("2d");
+                      scCtx.drawImage(canvas, 0, 0, scCanvas.width, scCanvas.height);
+                      finalCanvas = scCanvas;
+                    }
+                    var dataUrl = finalCanvas.toDataURL("image/jpeg", 0.55);
+                    var comma = dataUrl.indexOf(",");
+                    return { mimeType: "image/jpeg", data: dataUrl.slice(comma + 1) };
+                  });
+                })
+              );
+            })(i);
+          }
+
+          Promise.all(renderPromises).then(function (imgs) {
+            resolve({ images: imgs, name: file.name });
+          }).catch(function () {
+            readAsBase64(file).then(resolve);
+          });
+        }).catch(function () {
+          readAsBase64(file).then(resolve);
+        });
+      };
+      fr.onerror = function () { readAsBase64(file).then(resolve); };
+      fr.readAsArrayBuffer(file);
+    });
+  }
+
   function readFile(input) {
     var f = input.files && input.files[0];
     if (!f) return Promise.resolve(null);
 
-    // If PDF, try extracting text first. If text content is substantial (> 120 chars), send text.
-    // If text is minimal/empty (scanned PDF), send raw PDF base64 so Gemini reads visual pages directly!
+    // If PDF, try text extraction first. If text content is substantial (> 120 chars), send text.
+    // If text is minimal/empty (scanned PDF), render pages as JPEGs so even 30MB PDFs compress to ~800KB!
     if (f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf")) {
       return extractPdfText(f).then(function (pdfText) {
         var cleanText = pdfText ? pdfText.replace(/--- Page \d+ ---/g, "").trim() : "";
         if (cleanText.length > 120) {
           return { text: pdfText, name: f.name };
         }
-        return readAsBase64(f);
+        return renderPdfPagesToJpegs(f);
       });
     }
 
