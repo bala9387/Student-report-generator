@@ -188,13 +188,13 @@
             (function(pNum) {
               renderPromises.push(
                 pdf.getPage(pNum).then(function (page) {
-                  var viewport = page.getViewport({ scale: 1.2 });
+                  var viewport = page.getViewport({ scale: 2.0 });
                   var canvas = document.createElement("canvas");
                   canvas.width = viewport.width;
                   canvas.height = viewport.height;
                   var ctx = canvas.getContext("2d");
                   return page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function () {
-                    var maxW = 1000;
+                    var maxW = 1600;
                     var finalCanvas = canvas;
                     if (canvas.width > maxW) {
                       var scale = maxW / canvas.width;
@@ -205,7 +205,7 @@
                       scCtx.drawImage(canvas, 0, 0, scCanvas.width, scCanvas.height);
                       finalCanvas = scCanvas;
                     }
-                    var dataUrl = finalCanvas.toDataURL("image/jpeg", 0.55);
+                    var dataUrl = finalCanvas.toDataURL("image/jpeg", 0.80);
                     var comma = dataUrl.indexOf(",");
                     return { mimeType: "image/jpeg", data: dataUrl.slice(comma + 1) };
                   });
