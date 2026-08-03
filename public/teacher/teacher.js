@@ -178,7 +178,7 @@
     loginForm.addEventListener("submit", function (e) {
       e.preventDefault();
       var u = $("#loginUser").value.trim().toLowerCase();
-      var p = $("#loginPass").value;
+      var p = $("#loginPass").value.trim();
       loginMsg.style.display = "none";
 
       if (!u || !p) {
