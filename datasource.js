@@ -148,6 +148,16 @@
       var streamStr = String(cell(row, 3)).trim() + " " + String(cell(row, 4)).trim() + " " + String(cell(row, 5)).trim();
       var stream = streamStr.split(/\s+/).filter(Boolean);
 
+      // Auto-assign Class 10 streams based on roll number prefix
+      var rollUpper = roll.toUpperCase();
+      if (/^26XH/i.test(rollUpper)) {
+        stream = ["10 H"];
+      } else if (/^26XM/i.test(rollUpper)) {
+        stream = ["10 M"];
+      } else if (/^26XS/i.test(rollUpper)) {
+        stream = ["10 S"];
+      }
+
       var exams = {};
       EXAMS.forEach(function (ex) {
         var cols = PE_COLS[ex];
