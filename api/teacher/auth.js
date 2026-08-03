@@ -11,15 +11,26 @@ module.exports = async (req, res) => {
     if (typeof body === 'string') {
       try { body = JSON.parse(body); } catch(e) {}
     }
-    const authRes = teacherAccounts.verifyTeacherLogin(body.user, body.pass);
+    if (!body || typeof body !== 'object') {
+      body = {};
+    }
+
+    const userVal = body.user || '';
+    const passVal = body.pass || '';
+
+    if (!userVal || !passVal) {
+      return res.status(400).json({ error: 'Username and password are required.' });
+    }
+
+    const authRes = teacherAccounts.verifyTeacherLogin(userVal, passVal);
 
     if (authRes && authRes.ok) {
       const expires = Date.now() + 8 * 60 * 60 * 1000;
       const token = authToken.sign(expires, authRes.user);
       return res.status(200).json({ ok: true, token, expires, teacher: authRes });
     }
-    return res.status(401).json({ error: 'Invalid username or password' });
+    return res.status(401).json({ error: 'Invalid username or password. Check spelling and case of your password.' });
   } catch (e) {
-    return res.status(400).json({ error: e.message });
+    return res.status(500).json({ error: 'Server error: ' + e.message });
   }
 };

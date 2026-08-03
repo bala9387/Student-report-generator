@@ -178,29 +178,38 @@
     loginForm.addEventListener("submit", function (e) {
       e.preventDefault();
       var u = $("#loginUser").value.trim().toLowerCase();
-      var p = $("#loginPass").value.trim();
+      var p = $("#loginPass").value;
       loginMsg.style.display = "none";
+
+      if (!u || !p) {
+        loginMsg.textContent = "Please enter both username and password.";
+        loginMsg.style.display = "block";
+        return;
+      }
 
       fetch("/api/teacher/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user: u, pass: p })
       })
-      .then(function (r) { return r.json(); })
-      .then(function (d) {
-        if (d.ok && d.token) {
-          token = d.token;
-          localStorage.setItem("teacher_token", token);
-          if (d.teacher) {
-            localStorage.setItem("teacher_info", JSON.stringify(d.teacher));
+      .then(function (r) {
+        return r.text().then(function (text) {
+          var d;
+          try { d = JSON.parse(text); } catch(e) { d = { error: "Server returned non-JSON: " + text.substring(0, 200) }; }
+          if (r.ok && d.ok && d.token) {
+            token = d.token;
+            localStorage.setItem("teacher_token", token);
+            if (d.teacher) {
+              localStorage.setItem("teacher_info", JSON.stringify(d.teacher));
+            } else {
+              localStorage.removeItem("teacher_info");
+            }
+            checkAuth();
           } else {
-            localStorage.removeItem("teacher_info");
+            loginMsg.textContent = d.error || ("Login failed (HTTP " + r.status + ")");
+            loginMsg.style.display = "block";
           }
-          checkAuth();
-        } else {
-          loginMsg.textContent = d.error || "Invalid login credentials";
-          loginMsg.style.display = "block";
-        }
+        });
       })
       .catch(function (err) {
         loginMsg.textContent = "Network error: " + err.message;
