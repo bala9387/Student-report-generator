@@ -117,23 +117,22 @@
       fr.onload = function () {
         var typedarray = new Uint8Array(fr.result);
         window.pdfjsLib.getDocument(typedarray).promise.then(function (pdf) {
-          var maxPages = Math.min(pdf.numPages, 10);
-          var count = 0;
-          var fullText = "";
+          var maxPages = Math.min(pdf.numPages, 15);
+          var promises = [];
           for (var i = 1; i <= maxPages; i++) {
             (function (pageNum) {
-              pdf.getPage(pageNum).then(function (page) {
-                page.getTextContent().then(function (textContent) {
+              promises.push(pdf.getPage(pageNum).then(function (page) {
+                return page.getTextContent().then(function (textContent) {
                   var pageStr = textContent.items.map(function (item) { return item.str; }).join(" ");
-                  fullText += "\n--- Page " + pageNum + " ---\n" + pageStr;
-                  count++;
-                  if (count === maxPages) {
-                    resolve(fullText.trim());
-                  }
+                  return "--- Page " + pageNum + " ---\n" + pageStr;
                 });
-              });
+              }));
             })(i);
           }
+          Promise.all(promises).then(function (pagesText) {
+            var fullText = pagesText.join("\n\n").trim();
+            resolve(fullText.length > 30 ? fullText : null);
+          }).catch(function () { resolve(null); });
         }).catch(function () { resolve(null); });
       };
       fr.onerror = function () { resolve(null); };
@@ -141,9 +140,59 @@
     });
   }
 
+  function compressImage(file) {
+    return new Promise(function (resolve) {
+      var img = new Image();
+      var url = URL.createObjectURL(file);
+      img.onload = function () {
+        URL.revokeObjectURL(url);
+        var maxDim = 1400;
+        var w = img.width, h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) {
+            h = Math.round((h * maxDim) / w);
+            w = maxDim;
+          } else {
+            w = Math.round((w * maxDim) / h);
+            h = maxDim;
+          }
+        }
+        var canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, w, h);
+        var dataUrl = canvas.toDataURL("image/jpeg", 0.70);
+        var comma = dataUrl.indexOf(",");
+        resolve({ mimeType: "image/jpeg", data: dataUrl.slice(comma + 1), name: file.name });
+      };
+      img.onerror = function () {
+        URL.revokeObjectURL(url);
+        readAsBase64(file).then(resolve);
+      };
+      img.src = url;
+    });
+  }
+
   function readFile(input) {
     var f = input.files && input.files[0];
     if (!f) return Promise.resolve(null);
+
+    // If PDF, extract text first
+    if (f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf")) {
+      return extractPdfText(f).then(function (pdfText) {
+        if (pdfText && pdfText.length > 30) {
+          return { text: pdfText, name: f.name };
+        }
+        return readAsBase64(f);
+      });
+    }
+
+    // If image, compress image
+    if (f.type && f.type.startsWith("image/")) {
+      return compressImage(f);
+    }
+
     return readAsBase64(f);
   }
 
@@ -193,15 +242,21 @@
 
   // ---------- call secure serverless endpoint ----------
   function callGemini(inputs) {
+    var payloadStr = JSON.stringify({
+      syllabus: inputs.syllabus,
+      questionPaper: inputs.questionPaper,
+      answerPaper: inputs.answerPaper,
+      notes: inputs.notes
+    });
+
+    if (payloadStr.length > 3.8 * 1024 * 1024) {
+      return Promise.reject(new Error("Uploaded files are too large for serverless processing (exceeds 3.5MB limit). Please upload PDF/image files under 3MB or paste plain text."));
+    }
+
     return fetch("/api/generate-report", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        syllabus: inputs.syllabus,
-        questionPaper: inputs.questionPaper,
-        answerPaper: inputs.answerPaper,
-        notes: inputs.notes
-      })
+      body: payloadStr
     }).then(function (res) {
       return res.text().then(function (raw) {
         var b;
