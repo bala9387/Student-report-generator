@@ -16,9 +16,10 @@
   var dirtyRolls    = {};      // rollNo → { marks: { subj: val } }
 
   /* ── Auth State & Helper ── */
-  var PORTAL_VERSION = "14"; // bump this when allowedStreams/allowedCodes change
+  var PORTAL_VERSION = "15"; // bump this when allowedStreams/allowedCodes change
   if (localStorage.getItem("teacher_portal_version") !== PORTAL_VERSION) {
     localStorage.removeItem("teacher_info"); // force re-login with fresh permissions
+    localStorage.removeItem("teacher_token");
     localStorage.setItem("teacher_portal_version", PORTAL_VERSION);
   }
   var token = localStorage.getItem("teacher_token") || "";
@@ -225,7 +226,12 @@
   function checkAuth() {
     var badge = $("#teacherBadge");
     var layout = $("#teacherLayout");
-    if (!token) {
+    var info = getTeacherInfo();
+
+    if (!token || !info) {
+      token = "";
+      localStorage.removeItem("teacher_token");
+      localStorage.removeItem("teacher_info");
       if (loginModal) loginModal.style.display = "flex";
       if (layout) layout.style.display = "none";
       if (logoutBtn) logoutBtn.style.display = "none";
@@ -235,7 +241,6 @@
       if (layout) layout.style.display = "";
       if (logoutBtn) logoutBtn.style.display = "inline-block";
       
-      var info = getTeacherInfo();
       if (badge && info && info.name) {
         var subText = info.subjects ? (" &middot; <span style='font-weight:normal;opacity:0.85;'>" + esc(info.subjects) + "</span>") : "";
         badge.innerHTML = "👤 <strong>" + esc(info.name) + "</strong>" + subText;
