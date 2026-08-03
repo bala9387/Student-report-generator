@@ -24,6 +24,11 @@
   }
   var token = localStorage.getItem("teacher_token") || "";
 
+  // Clean trailing ? query param from address bar if present
+  if (window.location.search && window.history && window.history.replaceState) {
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
   function getAuthHeaders() {
     return token ? { "Authorization": "Bearer " + token } : {};
   }

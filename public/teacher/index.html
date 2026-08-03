@@ -31,7 +31,7 @@
       <div class="login-modal-card">
         <h2>Admin &amp; Staff Login</h2>
         <p class="login-sub">Please enter credentials to access teacher mark entry portal.</p>
-        <form id="loginForm">
+        <form id="loginForm" action="javascript:void(0);" method="POST" onsubmit="return false;">
           <div class="field">
             <label for="loginUser">Staff Email ID / Username</label>
             <input type="text" id="loginUser" required placeholder="e.g. aksharaacademy or teacher@ksrakshara.org" style="text-transform:lowercase !important" />
@@ -62,7 +62,7 @@
       <div class="login-modal-card">
         <h2>Reset Password</h2>
         <p class="login-sub">Enter your registered staff email address to receive password instructions.</p>
-        <form id="forgotForm">
+        <form id="forgotForm" action="javascript:void(0);" method="POST" onsubmit="return false;">
           <div class="field">
             <label for="forgotEmail">Staff Email ID / Username</label>
             <input type="text" id="forgotEmail" required placeholder="e.g. anthony@ksrakshara.org" style="text-transform:lowercase !important" />
@@ -81,7 +81,7 @@
       <div class="login-modal-card">
         <h2>Change Your Password</h2>
         <p class="login-sub">Update your Staff Portal account password.</p>
-        <form id="changePassForm">
+        <form id="changePassForm" action="javascript:void(0);" method="POST" onsubmit="return false;">
           <div class="field">
             <label for="currPassInput">Current Password</label>
             <input type="password" id="currPassInput" required placeholder="Enter current password" />
