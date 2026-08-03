@@ -44,15 +44,57 @@
   var loginMsg      = $("#loginMsg");
   var logoutBtn     = $("#logoutBtn");
   var saveStatusText = $("#saveStatusText");
-  var saveStatus     = document.querySelector(".save-status");
+  var exportExcelBtn = $("#exportExcelBtn");
 
   /* ═══════════ Init ═══════════ */
   wireGradeButtons();
   wireStreamCards();
   wireExamTabs();
   saveBtn.addEventListener("click", saveAll);
+  if (exportExcelBtn) exportExcelBtn.addEventListener("click", exportToExcel);
   searchBox.addEventListener("input", filterRows);
   if (logoutBtn) logoutBtn.addEventListener("click", logout);
+
+  function exportToExcel() {
+    if (!studentRows || !studentRows.length) {
+      showMsg("No student data available to export.", "info");
+      return;
+    }
+
+    var isMentor = (currentStream === "Mentor Report");
+    var headers = ["S.No", "Roll No", "Student Name"].concat(subjectCols);
+    if (!isMentor) headers.push("Total");
+
+    var rows = [headers];
+    studentRows.forEach(function (st, idx) {
+      var r = [st.sNo || (idx + 1), st.rollNo, st.name];
+      subjectCols.forEach(function (s) {
+        var v = st.marks[s];
+        r.push((v === null || v === undefined) ? "" : v);
+      });
+      if (!isMentor) r.push(computeTotal(st.marks));
+      rows.push(r);
+    });
+
+    var csvContent = rows.map(function (row) {
+      return row.map(function (val) {
+        var str = String(val == null ? "" : val).replace(/"/g, '""');
+        return '"' + str + '"';
+      }).join(",");
+    }).join("\r\n");
+
+    var blob = new Blob(["\ufeff" + csvContent], { type: "text/csv;charset=utf-8;" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    var filename = "Grade_" + currentGrade + "_" + currentStream.replace(/[^a-zA-Z0-9]/g, "_") + "_" + currentExam.replace(/[^a-zA-Z0-9]/g, "_") + ".csv";
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showMsg("Exported " + filename + " successfully!", "ok");
+  }
 
   function updateGradeStreamVisibility() {
     var cards = document.querySelectorAll(".stream-card");
