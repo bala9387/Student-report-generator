@@ -178,10 +178,12 @@
     var f = input.files && input.files[0];
     if (!f) return Promise.resolve(null);
 
-    // If PDF, extract text first
+    // If PDF, try extracting text first. If text content is substantial (> 120 chars), send text.
+    // If text is minimal/empty (scanned PDF), send raw PDF base64 so Gemini reads visual pages directly!
     if (f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf")) {
       return extractPdfText(f).then(function (pdfText) {
-        if (pdfText && pdfText.length > 30) {
+        var cleanText = pdfText ? pdfText.replace(/--- Page \d+ ---/g, "").trim() : "";
+        if (cleanText.length > 120) {
           return { text: pdfText, name: f.name };
         }
         return readAsBase64(f);
