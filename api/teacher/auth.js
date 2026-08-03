@@ -1,5 +1,5 @@
-const authToken = require('../../../lib/authToken.js');
-const teacherAccounts = require('../../../lib/teacherAccounts.js');
+const authToken = require('../../lib/authToken.js');
+const teacherAccounts = require('../../lib/teacherAccounts.js');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
