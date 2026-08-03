@@ -16,7 +16,7 @@
   var dirtyRolls    = {};      // rollNo → { marks: { subj: val } }
 
   /* ── Auth State & Helper ── */
-  var PORTAL_VERSION = "16"; // bump this when allowedStreams/allowedCodes change
+  var PORTAL_VERSION = "17"; // bump this when allowedStreams/allowedCodes change
   if (localStorage.getItem("teacher_portal_version") !== PORTAL_VERSION) {
     localStorage.removeItem("teacher_info"); // force re-login with fresh permissions
     localStorage.removeItem("teacher_token");
@@ -74,8 +74,8 @@
         gradeOk = !isG10Stream;
       }
 
-      // Check teacher stream permission (PE-Analysis/Rankwise/Mentor always visible as read-only)
-      var specialStream = (st === "PE - Analysis" || st === "Rankwise" || st === "Mentor Report");
+      // Check teacher stream permission (Mentor Report always visible)
+      var specialStream = (st === "Mentor Report");
       var streamOk = !allowedStreams || specialStream ||
         allowedStreams.some(function (s) { return String(s).toLowerCase() === String(st).toLowerCase(); });
 
@@ -187,7 +187,7 @@
   function isStreamAllowed(streamName) {
     var info = getTeacherInfo();
     if (!info || info.isAdmin || !info.allowedStreams) return true; // Admin or full access
-    if (streamName === "PE - Analysis" || streamName === "Rankwise") return true; // Read-only viewing allowed
+    if (streamName === "Mentor Report") return true;
     var streams = info.allowedStreams;
     if (!Array.isArray(streams)) return true;
     var target = String(streamName).toLowerCase();
@@ -211,12 +211,12 @@
     var firstAllowed = null;
     cards.forEach(function (c) {
       var st = c.dataset.stream;
-      if (c.style.display !== "none" && isStreamAllowed(st) && st !== "PE - Analysis" && st !== "Rankwise" && !firstAllowed) {
+      if (c.style.display !== "none" && isStreamAllowed(st) && !firstAllowed) {
         firstAllowed = c;
       }
     });
 
-    if (firstAllowed && (!isStreamAllowed(currentStream) || currentStream === "PE - Analysis" || currentStream === "Rankwise")) {
+    if (firstAllowed && !isStreamAllowed(currentStream)) {
       cards.forEach(function (x) { x.classList.remove("active"); });
       firstAllowed.classList.add("active");
       currentStream = firstAllowed.dataset.stream;
