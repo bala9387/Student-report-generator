@@ -146,7 +146,7 @@
       var url = URL.createObjectURL(file);
       img.onload = function () {
         URL.revokeObjectURL(url);
-        var maxDim = 1400;
+        var maxDim = 1200;
         var w = img.width, h = img.height;
         if (w > maxDim || h > maxDim) {
           if (w > h) {
@@ -162,7 +162,7 @@
         canvas.height = h;
         var ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, w, h);
-        var dataUrl = canvas.toDataURL("image/jpeg", 0.70);
+        var dataUrl = canvas.toDataURL("image/jpeg", 0.60);
         var comma = dataUrl.indexOf(",");
         resolve({ mimeType: "image/jpeg", data: dataUrl.slice(comma + 1), name: file.name });
       };
@@ -181,20 +181,20 @@
       fr.onload = function () {
         var typedarray = new Uint8Array(fr.result);
         window.pdfjsLib.getDocument(typedarray).promise.then(function (pdf) {
-          var maxPages = Math.min(pdf.numPages, 12);
+          var maxPages = Math.min(pdf.numPages, 10);
           var renderPromises = [];
 
           for (var i = 1; i <= maxPages; i++) {
             (function(pNum) {
               renderPromises.push(
                 pdf.getPage(pNum).then(function (page) {
-                  var viewport = page.getViewport({ scale: 2.0 });
+                  var viewport = page.getViewport({ scale: 1.5 });
                   var canvas = document.createElement("canvas");
                   canvas.width = viewport.width;
                   canvas.height = viewport.height;
                   var ctx = canvas.getContext("2d");
                   return page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function () {
-                    var maxW = 1600;
+                    var maxW = 1100;
                     var finalCanvas = canvas;
                     if (canvas.width > maxW) {
                       var scale = maxW / canvas.width;
@@ -205,7 +205,7 @@
                       scCtx.drawImage(canvas, 0, 0, scCanvas.width, scCanvas.height);
                       finalCanvas = scCanvas;
                     }
-                    var dataUrl = finalCanvas.toDataURL("image/jpeg", 0.80);
+                    var dataUrl = finalCanvas.toDataURL("image/jpeg", 0.55);
                     var comma = dataUrl.indexOf(",");
                     return { mimeType: "image/jpeg", data: dataUrl.slice(comma + 1) };
                   });
@@ -304,15 +304,23 @@
 
   // ---------- call secure serverless endpoint ----------
   function callGemini(inputs) {
-    var payloadStr = JSON.stringify({
+    var payloadObj = {
       syllabus: inputs.syllabus,
       questionPaper: inputs.questionPaper,
       answerPaper: inputs.answerPaper,
       notes: inputs.notes
-    });
+    };
+    var payloadStr = JSON.stringify(payloadObj);
 
-    if (payloadStr.length > 3.8 * 1024 * 1024) {
-      return Promise.reject(new Error("Uploaded files are too large for serverless processing (exceeds 3.5MB limit). Please upload PDF/image files under 3MB or paste plain text."));
+    // Auto-trim page images if total payload approaches serverless gateway limit
+    if (payloadStr.length > 3.6 * 1024 * 1024) {
+      if (payloadObj.answerPaper && Array.isArray(payloadObj.answerPaper.images)) {
+        payloadObj.answerPaper.images = payloadObj.answerPaper.images.slice(0, 6);
+      }
+      if (payloadObj.questionPaper && Array.isArray(payloadObj.questionPaper.images)) {
+        payloadObj.questionPaper.images = payloadObj.questionPaper.images.slice(0, 6);
+      }
+      payloadStr = JSON.stringify(payloadObj);
     }
 
     return fetch("/api/generate-report", {
