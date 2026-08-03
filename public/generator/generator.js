@@ -346,11 +346,14 @@
     ]).then(function (parts) {
       var question = parts[1];
       var answer = parts[2];
-      if (!question || (!question.text && !question.data)) {
+      var hasQuestion = question && (question.text || question.data || (Array.isArray(question.images) && question.images.length > 0));
+      var hasAnswer = answer && (answer.text || answer.data || (Array.isArray(answer.images) && answer.images.length > 0));
+
+      if (!hasQuestion) {
         m.className = "message error"; m.innerHTML = "Please provide the Question Paper (text or file).";
         return;
       }
-      if (!answer || (!answer.text && !answer.data)) {
+      if (!hasAnswer) {
         m.className = "message error"; m.innerHTML = "Please provide the student's Answer Sheet (text or file).";
         return;
       }
