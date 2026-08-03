@@ -16,7 +16,7 @@
   var dirtyRolls    = {};      // rollNo → { marks: { subj: val } }
 
   /* ── Auth State & Helper ── */
-  var PORTAL_VERSION = "12"; // bump this when allowedStreams/allowedCodes change
+  var PORTAL_VERSION = "13"; // bump this when allowedStreams/allowedCodes change
   if (localStorage.getItem("teacher_portal_version") !== PORTAL_VERSION) {
     localStorage.removeItem("teacher_info"); // force re-login with fresh permissions
     localStorage.setItem("teacher_portal_version", PORTAL_VERSION);
