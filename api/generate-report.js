@@ -32,3 +32,11 @@ module.exports = async (req, res) => {
     return res.status(200).json({ error: err.message || 'Report generation error on server' });
   }
 };
+
+module.exports.config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '10mb'
+    }
+  }
+};

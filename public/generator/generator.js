@@ -188,13 +188,13 @@
             (function(pNum) {
               renderPromises.push(
                 pdf.getPage(pNum).then(function (page) {
-                  var viewport = page.getViewport({ scale: 1.5 });
+                  var viewport = page.getViewport({ scale: 1.0 });
                   var canvas = document.createElement("canvas");
                   canvas.width = viewport.width;
                   canvas.height = viewport.height;
                   var ctx = canvas.getContext("2d");
                   return page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function () {
-                    var maxW = 1100;
+                    var maxW = 900;
                     var finalCanvas = canvas;
                     if (canvas.width > maxW) {
                       var scale = maxW / canvas.width;
@@ -205,7 +205,7 @@
                       scCtx.drawImage(canvas, 0, 0, scCanvas.width, scCanvas.height);
                       finalCanvas = scCanvas;
                     }
-                    var dataUrl = finalCanvas.toDataURL("image/jpeg", 0.55);
+                    var dataUrl = finalCanvas.toDataURL("image/jpeg", 0.45);
                     var comma = dataUrl.indexOf(",");
                     return { mimeType: "image/jpeg", data: dataUrl.slice(comma + 1) };
                   });
@@ -312,15 +312,18 @@
     };
     var payloadStr = JSON.stringify(payloadObj);
 
-    // Auto-trim page images if total payload approaches serverless gateway limit
-    if (payloadStr.length > 3.6 * 1024 * 1024) {
-      if (payloadObj.answerPaper && Array.isArray(payloadObj.answerPaper.images)) {
-        payloadObj.answerPaper.images = payloadObj.answerPaper.images.slice(0, 6);
-      }
-      if (payloadObj.questionPaper && Array.isArray(payloadObj.questionPaper.images)) {
-        payloadObj.questionPaper.images = payloadObj.questionPaper.images.slice(0, 6);
+    // Auto-trim page images if total payload approaches serverless gateway limit (2.6 MB max)
+    while (payloadStr.length > 2.6 * 1024 * 1024) {
+      var trimmed = false;
+      if (payloadObj.answerPaper && Array.isArray(payloadObj.answerPaper.images) && payloadObj.answerPaper.images.length > 1) {
+        payloadObj.answerPaper.images.pop();
+        trimmed = true;
+      } else if (payloadObj.questionPaper && Array.isArray(payloadObj.questionPaper.images) && payloadObj.questionPaper.images.length > 1) {
+        payloadObj.questionPaper.images.pop();
+        trimmed = true;
       }
       payloadStr = JSON.stringify(payloadObj);
+      if (!trimmed) break;
     }
 
     return fetch("/api/generate-report", {
