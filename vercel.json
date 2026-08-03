@@ -6,6 +6,7 @@
     { "source": "/api/meta", "destination": "/api/meta" },
     { "source": "/api/leaderboard", "destination": "/api/leaderboard" },
     { "source": "/api/generate-report", "destination": "/api/generate-report" },
+    { "source": "/api/auth", "destination": "/api/auth" },
     { "source": "/api/teacher/auth", "destination": "/api/teacher/auth" },
     { "source": "/api/teacher/marks", "destination": "/api/teacher/marks" },
     { "source": "/api/teacher/pe-analysis", "destination": "/api/teacher/pe-analysis" },

@@ -15,11 +15,11 @@ module.exports = async (req, res) => {
       body = {};
     }
 
-    const userVal = body.user || '';
-    const passVal = body.pass || '';
+    const userVal = (body.user || body.username || '').trim();
+    const passVal = (body.pass || body.password || '').trim();
 
     if (!userVal || !passVal) {
-      return res.status(400).json({ error: 'Username and password are required.' });
+      return res.status(400).json({ ok: false, error: 'Username and password are required.' });
     }
 
     const authRes = teacherAccounts.verifyTeacherLogin(userVal, passVal);
@@ -27,10 +27,10 @@ module.exports = async (req, res) => {
     if (authRes && authRes.ok) {
       const expires = Date.now() + 8 * 60 * 60 * 1000;
       const token = authToken.sign(expires, authRes.user);
-      return res.status(200).json({ ok: true, token, expires, teacher: authRes });
+      return res.status(200).json({ ok: true, token, expires, until: expires, teacher: authRes });
     }
-    return res.status(401).json({ error: 'Invalid username or password. Check spelling and case of your password.' });
+    return res.status(401).json({ ok: false, error: 'Invalid username or password. Check spelling and case of your password.' });
   } catch (e) {
-    return res.status(500).json({ error: 'Server error: ' + e.message });
+    return res.status(500).json({ ok: false, error: 'Server error: ' + e.message });
   }
 };
