@@ -132,14 +132,14 @@
 
 .pdf-sec-bar {
   background-color: #f1f5f9;
-  border: none;
+  border-left: 6px solid #237bbd;
   color: #0f172a;
   font-size: 16px;
   font-weight: 700;
   padding: 10px 14px;
   margin-top: 24px;
   margin-bottom: 16px;
-  border-radius: 4px;
+  border-radius: 0 4px 4px 0;
 }
 
 .pdf-profile-grid {
