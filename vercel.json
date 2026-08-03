@@ -10,6 +10,8 @@
     { "source": "/api/teacher/marks", "destination": "/api/teacher/marks" },
     { "source": "/api/teacher/pe-analysis", "destination": "/api/teacher/pe-analysis" },
     { "source": "/api/teacher/save", "destination": "/api/teacher/save" },
+    { "source": "/api/teacher/change-password", "destination": "/api/teacher/change-password" },
+    { "source": "/api/teacher/forgot-password", "destination": "/api/teacher/forgot-password" },
     { "source": "/teacher", "destination": "/teacher/index.html" },
     { "source": "/teacher/", "destination": "/teacher/index.html" },
     { "source": "/generator", "destination": "/generator/index.html" },

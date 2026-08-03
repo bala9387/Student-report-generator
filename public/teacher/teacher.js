@@ -293,6 +293,7 @@
     var badge = $("#teacherBadge");
     var layout = $("#teacherLayout");
     var info = getTeacherInfo();
+    var changeNavBtn = $("#changePassNavBtn");
 
     if (!token || !info) {
       token = "";
@@ -302,10 +303,12 @@
       if (layout) layout.style.display = "none";
       if (logoutBtn) logoutBtn.style.display = "none";
       if (badge) badge.style.display = "none";
+      if (changeNavBtn) changeNavBtn.style.display = "none";
     } else {
       if (loginModal) loginModal.style.display = "none";
       if (layout) layout.style.display = "";
       if (logoutBtn) logoutBtn.style.display = "inline-block";
+      if (changeNavBtn) changeNavBtn.style.display = "inline-block";
       
       if (badge && info && info.name) {
         var subText = info.subjects ? (" &middot; <span style='font-weight:normal;opacity:0.85;'>" + esc(info.subjects) + "</span>") : "";
@@ -317,6 +320,173 @@
       autoSelectTeacherStream();
       loadData();
     }
+  }
+
+  /* ═══════════ Forgot & Change Password Modal Handlers ═══════════ */
+  var forgotModal = $("#forgotModal");
+  var forgotForm = $("#forgotForm");
+  var forgotMsg = $("#forgotMsg");
+  var forgotPassBtn = $("#forgotPassBtn");
+  var backToLoginBtn = $("#backToLoginBtn");
+
+  if (forgotPassBtn) {
+    forgotPassBtn.addEventListener("click", function () {
+      if (loginModal) loginModal.style.display = "none";
+      if (forgotModal) forgotModal.style.display = "flex";
+      if (forgotMsg) forgotMsg.style.display = "none";
+    });
+  }
+
+  if (backToLoginBtn) {
+    backToLoginBtn.addEventListener("click", function () {
+      if (forgotModal) forgotModal.style.display = "none";
+      if (loginModal) loginModal.style.display = "flex";
+    });
+  }
+
+  if (forgotForm) {
+    forgotForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var email = $("#forgotEmail").value.trim();
+      var submitBtn = $("#forgotSubmitBtn");
+      forgotMsg.style.display = "none";
+
+      if (!email) {
+        forgotMsg.className = "message error";
+        forgotMsg.textContent = "Please enter your staff email address.";
+        forgotMsg.style.display = "block";
+        return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending Instructions\u2026";
+      }
+
+      fetch("/api/teacher/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email })
+      })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Send Email Instructions";
+        }
+        if (d.error) {
+          forgotMsg.className = "message error";
+          forgotMsg.textContent = d.error;
+          forgotMsg.style.display = "block";
+        } else {
+          forgotMsg.className = "message ok";
+          forgotMsg.textContent = d.message;
+          forgotMsg.style.display = "block";
+        }
+      })
+      .catch(function (err) {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Send Email Instructions";
+        }
+        forgotMsg.className = "message error";
+        forgotMsg.textContent = "Network error: " + err.message;
+        forgotMsg.style.display = "block";
+      });
+    });
+  }
+
+  var changePassModal = $("#changePassModal");
+  var changePassForm = $("#changePassForm");
+  var changePassMsg = $("#changePassMsg");
+  var changePassNavBtn = $("#changePassNavBtn");
+  var closeChangePassBtn = $("#closeChangePassBtn");
+
+  if (changePassNavBtn) {
+    changePassNavBtn.addEventListener("click", function () {
+      if (changePassModal) changePassModal.style.display = "flex";
+      if (changePassMsg) changePassMsg.style.display = "none";
+      if ($("#currPassInput")) $("#currPassInput").value = "";
+      if ($("#newPassInput")) $("#newPassInput").value = "";
+      if ($("#confirmPassInput")) $("#confirmPassInput").value = "";
+    });
+  }
+
+  if (closeChangePassBtn) {
+    closeChangePassBtn.addEventListener("click", function () {
+      if (changePassModal) changePassModal.style.display = "none";
+    });
+  }
+
+  if (changePassForm) {
+    changePassForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var currPass = $("#currPassInput").value.trim();
+      var newPass = $("#newPassInput").value.trim();
+      var confirmPass = $("#confirmPassInput").value.trim();
+      var submitBtn = $("#changePassSubmitBtn");
+      changePassMsg.style.display = "none";
+
+      if (!currPass || !newPass || !confirmPass) {
+        changePassMsg.className = "message error";
+        changePassMsg.textContent = "Please fill in all password fields.";
+        changePassMsg.style.display = "block";
+        return;
+      }
+
+      if (newPass !== confirmPass) {
+        changePassMsg.className = "message error";
+        changePassMsg.textContent = "New password and confirm password do not match.";
+        changePassMsg.style.display = "block";
+        return;
+      }
+
+      if (newPass.length < 6) {
+        changePassMsg.className = "message error";
+        changePassMsg.textContent = "New password must be at least 6 characters long.";
+        changePassMsg.style.display = "block";
+        return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Updating Password\u2026";
+      }
+
+      fetch("/api/teacher/change-password", {
+        method: "POST",
+        headers: Object.assign({ "Content-Type": "application/json" }, getAuthHeaders()),
+        body: JSON.stringify({ currentPassword: currPass, newPassword: newPass })
+      })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Update Password";
+        }
+        if (d.error) {
+          changePassMsg.className = "message error";
+          changePassMsg.textContent = d.error;
+          changePassMsg.style.display = "block";
+        } else {
+          changePassMsg.className = "message ok";
+          changePassMsg.textContent = d.message || "Password updated successfully!";
+          changePassMsg.style.display = "block";
+          setTimeout(function () {
+            if (changePassModal) changePassModal.style.display = "none";
+          }, 2000);
+        }
+      })
+      .catch(function (err) {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Update Password";
+        }
+        changePassMsg.className = "message error";
+        changePassMsg.textContent = "Network error: " + err.message;
+        changePassMsg.style.display = "block";
+      });
+    });
   }
 
   checkAuth();
