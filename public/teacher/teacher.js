@@ -44,6 +44,7 @@
   var loginMsg      = $("#loginMsg");
   var logoutBtn     = $("#logoutBtn");
   var saveStatusText = $("#saveStatusText");
+  var saveStatus     = document.querySelector(".save-status");
   var exportExcelBtn = $("#exportExcelBtn");
 
   /* ═══════════ Init ═══════════ */
