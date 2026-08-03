@@ -56,6 +56,25 @@
 
 .gen-busy{display:inline-block;margin-left:8px;color:var(--muted);font-size:.85rem}
 
+.spinner-sm {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: gen-spin 0.8s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+.spinner-dark {
+  border-color: rgba(35,123,189,0.25);
+  border-top-color: #237bbd;
+}
+@keyframes gen-spin {
+  to { transform: rotate(360deg); }
+}
+
 /* Progress bar */
 .gen-progress-track {
   width: 100%;

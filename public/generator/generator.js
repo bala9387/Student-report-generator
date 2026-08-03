@@ -345,7 +345,16 @@
   $("#genForm").addEventListener("submit", function (ev) {
     ev.preventDefault();
     var btn = $("#genBtn"), m = $("#genMsg");
-    m.className = "message"; m.innerHTML = "";
+
+    // Immediately disable button & show instant loading state to prevent double clicks
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-sm"></span> Processing PDF &amp; Text...';
+    m.className = "message info";
+    m.style.display = "block";
+    m.innerHTML = '<div style="display:flex;align-items:center;gap:10px;font-weight:600;">' +
+                    '<span class="spinner-sm spinner-dark"></span>' +
+                    '<span>Reading uploaded files &amp; preparing document pages... Please wait&hellip;</span>' +
+                  '</div>';
 
     Promise.all([
       collect("#syllabusText", "#syllabusFile"),
@@ -358,14 +367,19 @@
       var hasAnswer = answer && (answer.text || answer.data || (Array.isArray(answer.images) && answer.images.length > 0));
 
       if (!hasQuestion) {
+        btn.disabled = false;
+        btn.innerHTML = "Generate Report";
         m.className = "message error"; m.innerHTML = "Please provide the Question Paper (text or file).";
         return;
       }
       if (!hasAnswer) {
+        btn.disabled = false;
+        btn.innerHTML = "Generate Report";
         m.className = "message error"; m.innerHTML = "Please provide the student's Answer Sheet (text or file).";
         return;
       }
-      btn.disabled = true;
+
+      btn.innerHTML = '<span class="spinner-sm"></span> Evaluating Report...';
       m.className = "message info";
       m.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;font-weight:600;"><span id="genStatusText">Reading answer sheet &amp; question paper&hellip;</span><span id="genPctText">5%</span></div>' +
                     '<div class="gen-progress-track"><div id="genProgressBar" class="gen-progress-bar" style="width:5%"></div></div>' +
@@ -378,35 +392,25 @@
 
       var statusStage = 0;
       var progressTimer = setInterval(function () {
-        if (pct < 92) {
-          // Slow climb over ~2 minutes: 5% to 92% in ~120 seconds
-          pct += (pct < 35 ? 1.2 : (pct < 65 ? 0.7 : 0.5));
-          if (pct > 92) pct = 92;
-
-          // 5 status stages at different milestones
-          if (statusStage === 0 && pct >= 15) {
-            statusStage = 1;
-            if (statusEl) statusEl.textContent = "Extracting text from uploaded files...";
-          } else if (statusStage === 1 && pct >= 30) {
-            statusStage = 2;
-            if (statusEl) statusEl.textContent = "Analyzing question paper & syllabus rubric...";
-          } else if (statusStage === 2 && pct >= 50) {
-            statusStage = 3;
-            if (statusEl) statusEl.textContent = "Grading section marks & detecting discrepancies...";
-          } else if (statusStage === 3 && pct >= 70) {
-            statusStage = 4;
-            if (statusEl) statusEl.textContent = "Generating strengths, improvements & recommendations...";
-          } else if (statusStage === 4 && pct >= 85) {
-            statusStage = 5;
-            if (statusEl) statusEl.textContent = "Finalizing student performance report...";
-          }
-
-          if (pctEl) pctEl.textContent = Math.round(pct) + "%";
+        if (pct < 90) {
+          pct += (pct < 30 ? 6 : (pct < 70 ? 4 : 2));
           if (barEl) barEl.style.width = pct + "%";
-        }
-      }, 1000);
+          if (pctEl) pctEl.textContent = pct + "%";
 
-      return callGemini({
+          if (pct > 25 && statusStage === 0) {
+            statusStage = 1;
+            if (statusEl) statusEl.textContent = "Analyzing question paper & syllabus rubric\u2026";
+          } else if (pct > 55 && statusStage === 1) {
+            statusStage = 2;
+            if (statusEl) statusEl.textContent = "Evaluating student answers & scoring marks\u2026";
+          } else if (pct > 80 && statusStage === 2) {
+            statusStage = 3;
+            if (statusEl) statusEl.textContent = "Generating performance report & study recommendations\u2026";
+          }
+        }
+      }, 700);
+
+      callGemini({
         syllabus: parts[0],
         questionPaper: question,
         answerPaper: answer,
@@ -415,6 +419,7 @@
         .then(function (result) {
           clearInterval(progressTimer);
           btn.disabled = false;
+          btn.innerHTML = "Generate Report";
           if (barEl) barEl.style.width = "100%";
           if (pctEl) pctEl.textContent = "100%";
           m.className = "message"; m.innerHTML = "";
@@ -423,10 +428,12 @@
         .catch(function (err) {
           clearInterval(progressTimer);
           btn.disabled = false;
+          btn.innerHTML = "Generate Report";
           m.className = "message error"; m.innerHTML = esc(err.message || "Network request failed.");
         });
     }).catch(function (e) {
       btn.disabled = false;
+      btn.innerHTML = "Generate Report";
       m.className = "message error"; m.innerHTML = esc((e && e.message) || "Something went wrong.");
     });
   });
