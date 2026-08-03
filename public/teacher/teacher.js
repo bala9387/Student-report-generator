@@ -177,6 +177,7 @@
   if (loginForm) {
     loginForm.addEventListener("submit", function (e) {
       e.preventDefault();
+      var submitBtn = $("#loginSubmitBtn");
       var u = $("#loginUser").value.trim().toLowerCase();
       var p = $("#loginPass").value.trim();
       loginMsg.style.display = "none";
@@ -187,6 +188,11 @@
         return;
       }
 
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Signing In\u2026";
+      }
+
       fetch("/api/teacher/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -194,6 +200,10 @@
       })
       .then(function (r) {
         return r.text().then(function (text) {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Sign In";
+          }
           var d;
           try { d = JSON.parse(text); } catch(e) { d = { error: "Server returned non-JSON: " + text.substring(0, 200) }; }
           if (r.ok && d.ok && d.token) {
@@ -212,6 +222,10 @@
         });
       })
       .catch(function (err) {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Sign In";
+        }
         loginMsg.textContent = "Network error: " + err.message;
         loginMsg.style.display = "block";
       });
