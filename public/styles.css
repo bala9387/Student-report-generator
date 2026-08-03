@@ -59,8 +59,9 @@ body{
 .field select{cursor:pointer;appearance:auto}
 .field input:focus,.field select:focus{outline:none;border-color:var(--red);
   box-shadow:0 0 0 2px rgba(183,22,28,.15)}
-.field input{text-transform:uppercase}
+#roll{text-transform:uppercase}
 .field input::placeholder{text-transform:none;color:#9aa0aa}
+#loginOverlay input{text-transform:none !important}
 
 .btn-primary{
   width:100%;display:inline-flex;align-items:center;justify-content:center;gap:8px;
