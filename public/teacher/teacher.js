@@ -17,7 +17,7 @@
   var converterOn   = false;   // converter toggle state
 
   /* ── Auth State & Helper ── */
-  var PORTAL_VERSION = "35"; // bump this when allowedStreams/allowedCodes change
+  var PORTAL_VERSION = "36"; // bump this when allowedStreams/allowedCodes change
   if (localStorage.getItem("teacher_portal_version") !== PORTAL_VERSION) {
     localStorage.removeItem("teacher_info"); // force re-login with fresh permissions
     localStorage.removeItem("teacher_token");
