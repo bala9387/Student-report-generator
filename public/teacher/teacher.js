@@ -17,7 +17,7 @@
   var converterOn   = false;   // converter toggle state
 
   /* ── Auth State & Helper ── */
-  var PORTAL_VERSION = "36"; // bump this when allowedStreams/allowedCodes change
+  var PORTAL_VERSION = "37"; // bump this when allowedStreams/allowedCodes change
   if (localStorage.getItem("teacher_portal_version") !== PORTAL_VERSION) {
     localStorage.removeItem("teacher_info"); // force re-login with fresh permissions
     localStorage.removeItem("teacher_token");
@@ -414,14 +414,6 @@
       if (!silent) showMsg("Network error during refresh.", "error");
     });
   }
-
-  // Auto-refresh every 60 seconds if no unsaved changes and user is not active in an input
-  setInterval(function() {
-    var activeTag = document.activeElement ? document.activeElement.tagName : "";
-    if (token && Object.keys(dirtyRolls).length === 0 && activeTag !== "INPUT") {
-      refreshFromSheet(true);
-    }
-  }, 60000);
 
   function autoSelectTeacherStream() {
     var info = getTeacherInfo();
@@ -1507,19 +1499,28 @@
   }
 
   /* ═══════════ Save to server ═══════════ */
+  var isSaving = false;
+
   function saveAll(silent) {
+    if (isSaving) {
+      // If a save is already in flight, schedule another save after it completes
+      scheduleAutoSave();
+      return;
+    }
+
     var keys = Object.keys(dirtyRolls);
     if (!keys.length) {
       if (!silent) showMsg("Nothing to save — no changes detected.", "info");
       return;
     }
 
+    isSaving = true;
     var max = getOutOfMax();
     var doConvert = converterOn && max !== 100;
 
     var updates = keys.map(function (roll) {
       if (currentStream === "PE - Analysis" || currentStream === "Rankwise") {
-        return { rollNo: roll, exams: dirtyRolls[roll].exams || dirtyRolls[roll] };
+        return { rollNo: roll, exams: Object.assign({}, dirtyRolls[roll].exams || dirtyRolls[roll]) };
       }
       // When converter is ON, convert dirty marks to /100 before saving
       if (doConvert) {
@@ -1530,7 +1531,7 @@
         }
         return { rollNo: roll, marks: convertedMarks };
       }
-      return { rollNo: roll, marks: dirtyRolls[roll] };
+      return { rollNo: roll, marks: Object.assign({}, dirtyRolls[roll]) };
     });
 
     if (!silent && saveBtn) {
@@ -1559,8 +1560,13 @@
       });
     })
     .then(function (d) {
+      isSaving = false;
       if (saveBtn) { saveBtn.classList.remove("saving"); saveBtn.innerHTML = '<svg viewBox="0 0 24 24" class="btn-ic"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save All Marks'; }
-      if (d.error) { showMsg("Error: " + d.error, "error"); return; }
+      if (d.error) {
+        showMsg("Error: " + d.error, "error");
+        updateSaveState();
+        return;
+      }
 
       if (silent) {
         showMsg("Auto-saved " + d.count + " student(s)", "ok");
@@ -1576,14 +1582,34 @@
         setTimeout(function () { inp.classList.remove("saved"); }, 1500);
       });
 
-      resetDirty();
-      // Keep DOM elements intact; recalculate totals and stats locally
+      // Clear only the keys/subjects that were saved in this batch
+      updates.forEach(function (upd) {
+        var roll = upd.rollNo;
+        if (dirtyRolls[roll]) {
+          if (upd.marks) {
+            for (var s in upd.marks) {
+              if (dirtyRolls[roll][s] === upd.marks[s]) {
+                delete dirtyRolls[roll][s];
+              }
+            }
+            if (Object.keys(dirtyRolls[roll]).length === 0) {
+              delete dirtyRolls[roll];
+            }
+          } else {
+            delete dirtyRolls[roll];
+          }
+        }
+      });
+
+      updateSaveState();
       recountFilled();
       renderSubjectStats();
     })
     .catch(function (e) {
+      isSaving = false;
       if (saveBtn) { saveBtn.classList.remove("saving"); saveBtn.innerHTML = '<svg viewBox="0 0 24 24" class="btn-ic"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save All Marks'; }
       showMsg("Network error: " + e.message, "error");
+      updateSaveState();
     });
   }
 
