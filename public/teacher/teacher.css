@@ -537,17 +537,24 @@ td.conv-td {
 
 /* Editable Mark Cells */
 .mark-input {
-  width: 55px;
-  padding: .4rem .35rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 4px;
-  background: #fff;
+  width: 72px;
+  height: 44px;
+  padding: 6px 8px;
+  border: 1.5px solid #94a3b8;
+  border-radius: 8px;
+  background: #ffffff;
   color: var(--fg);
-  font-size: .88rem;
+  font-size: 1.05rem;
   text-align: center;
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
   font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
   transition: all .15s;
+  box-sizing: border-box;
+}
+.pe-mark-input {
+  width: 80px;
+  height: 44px;
 }
 .mentor-input {
   display: block;
@@ -557,14 +564,14 @@ td.conv-td {
   font-family: inherit;
   font-weight: 400;
   padding: .6rem .8rem;
-  font-size: .88rem;
+  font-size: .92rem;
   border-radius: 8px;
 }
 .mark-input:focus {
   outline: none;
   border: 2px solid var(--accent);
   background: #fff;
-  box-shadow: 0 0 0 2px rgba(26,115,232,.14);
+  box-shadow: 0 0 0 3px rgba(26,115,232,.18);
 }
 .mark-input:disabled,
 .mark-input.disabled-input {
@@ -970,18 +977,22 @@ td.conv-td {
     box-shadow: 3px 0 6px rgba(0,0,0,0.12);
   }
 
-  /* Prevent iOS Safari input focus auto-zoom by enforcing 16px font-size */
+  /* Mobile mark input sizing: large, touch-friendly, high contrast */
   .mark-input {
-    width: 48px;
-    height: 38px;
-    font-size: 16px !important;
-    padding: 4px 2px;
-    border-radius: 6px;
+    width: 68px;
+    height: 46px;
+    font-size: 1.1rem !important;
+    padding: 6px 4px;
+    border: 1.5px solid #94a3b8;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    font-weight: 700;
   }
 
   .mentor-input {
     font-size: 16px !important;
-    padding: 8px 10px;
+    padding: 10px 12px;
+    min-height: 44px;
   }
 
   .view-mode-toggle {
@@ -1079,15 +1090,19 @@ td.conv-td {
   }
   .card-subj-field .mark-input {
     width: 100% !important;
-    height: 42px;
-    font-size: 16px !important;
+    height: 48px;
+    font-size: 1.15rem !important;
+    border: 1.5px solid #94a3b8;
+    border-radius: 10px;
     box-sizing: border-box;
     text-align: center;
+    font-weight: 700;
   }
   .card-subj-field .mentor-input {
     width: 100% !important;
     font-size: 16px !important;
-    padding: 8px 10px;
+    padding: 10px 12px;
+    min-height: 46px;
   }
 
   .card-subj-grid {
