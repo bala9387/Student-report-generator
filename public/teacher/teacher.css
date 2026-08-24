@@ -460,11 +460,11 @@ td.conv-td {
 .entry-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: .82rem;
+  font-size: .98rem;
 }
 .entry-table th,
 .entry-table td {
-  padding: .5rem .6rem;
+  padding: .65rem .75rem;
   border: 1px solid var(--border);
   text-align: center;
   white-space: nowrap;
@@ -474,11 +474,11 @@ td.conv-td {
   top: 0;
   z-index: 2;
   background: #f8fafd;
-  font-weight: 700;
-  font-size: .72rem;
+  font-weight: 800;
+  font-size: .88rem;
   text-transform: uppercase;
-  letter-spacing: .06em;
-  color: #5f6368;
+  letter-spacing: .05em;
+  color: #475569;
   border-bottom: 2px solid var(--border);
 }
 .entry-table th:first-child,
@@ -489,26 +489,31 @@ td.conv-td {
   left: 0;
   z-index: 3;
   background: var(--card);
-  min-width: 45px;
+  min-width: 50px;
+  font-size: 0.92rem;
 }
 .entry-table th:nth-child(2),
 .entry-table td:nth-child(2) {
   text-align: left;
   position: sticky;
-  left: 45px;
+  left: 50px;
   z-index: 3;
   background: var(--card);
-  min-width: 85px;
+  min-width: 95px;
+  font-size: 0.98rem;
+  font-weight: 700;
 }
 .entry-table th:nth-child(3),
 .entry-table td:nth-child(3) {
   text-align: left;
   position: sticky;
-  left: 130px;
+  left: 145px;
   z-index: 3;
   background: var(--card);
-  min-width: 150px;
-  max-width: 180px;
+  min-width: 170px;
+  max-width: 220px;
+  font-size: 1.05rem;
+  font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -537,24 +542,26 @@ td.conv-td {
 
 /* Editable Mark Cells */
 .mark-input {
-  width: 72px;
-  height: 44px;
+  width: 82px;
+  height: 48px;
   padding: 6px 8px;
-  border: 1.5px solid #94a3b8;
+  border: 2px solid #94a3b8;
   border-radius: 8px;
   background: #ffffff;
   color: var(--fg);
-  font-size: 1.05rem;
+  font-size: 1.25rem;
   text-align: center;
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-weight: 700;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  font-weight: 800;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   transition: all .15s;
   box-sizing: border-box;
 }
 .pe-mark-input {
-  width: 80px;
-  height: 44px;
+  width: 88px;
+  height: 48px;
+  font-size: 1.25rem;
+  font-weight: 800;
 }
 .mentor-input {
   display: block;
@@ -563,8 +570,8 @@ td.conv-td {
   text-align: left;
   font-family: inherit;
   font-weight: 400;
-  padding: .6rem .8rem;
-  font-size: .92rem;
+  padding: .65rem .85rem;
+  font-size: 1rem;
   border-radius: 8px;
 }
 .mark-input:focus {
@@ -644,19 +651,19 @@ td.conv-td {
   background: rgba(239,68,68,.06);
 }
 
-/* Student Number */
-.sno { color: var(--muted); font-weight: 600; font-size: .72rem; }
+/* Student Number & IDs */
+.sno { color: #475569; font-weight: 700; font-size: .95rem; }
 
 /* PE Analysis cells */
 .pe-total {
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-weight: 700;
-  font-size: .85rem;
+  font-weight: 800;
+  font-size: 1.1rem;
 }
 .pe-rank {
-  font-size: .65rem;
+  font-size: .82rem;
   color: var(--muted);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 /* Subject Stats Rows (tfoot) */
@@ -664,8 +671,8 @@ td.conv-td {
   border-top: 2.5px solid var(--border);
 }
 .stat-row td {
-  padding: .4rem .6rem;
-  font-size: .75rem;
+  padding: .5rem .75rem;
+  font-size: .88rem;
   font-weight: 700;
   color: #dc2626;
   background: var(--card);
@@ -979,20 +986,20 @@ td.conv-td {
 
   /* Mobile mark input sizing: large, touch-friendly, high contrast */
   .mark-input {
-    width: 68px;
-    height: 46px;
-    font-size: 1.1rem !important;
+    width: 76px;
+    height: 50px;
+    font-size: 1.3rem !important;
     padding: 6px 4px;
-    border: 1.5px solid #94a3b8;
+    border: 2px solid #94a3b8;
     border-radius: 8px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
-    font-weight: 700;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    font-weight: 800;
   }
 
   .mentor-input {
     font-size: 16px !important;
     padding: 10px 12px;
-    min-height: 44px;
+    min-height: 48px;
   }
 
   .view-mode-toggle {
@@ -1053,21 +1060,21 @@ td.conv-td {
     min-width: 0;
   }
   .card-student-name {
-    font-size: 0.98rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: var(--fg);
   }
   .card-student-roll {
-    font-size: 0.76rem;
+    font-size: 0.88rem;
     color: var(--muted);
     font-weight: 600;
   }
   .card-student-total {
     background: #e8f0fe;
     color: #1967d2;
-    font-size: 0.85rem;
-    font-weight: 700;
-    padding: 6px 12px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    padding: 6px 14px;
     border-radius: 16px;
     white-space: nowrap;
   }
@@ -1082,27 +1089,27 @@ td.conv-td {
     gap: 4px;
   }
   .card-subj-label {
-    font-size: 0.72rem;
+    font-size: 0.85rem;
     font-weight: 700;
-    color: #64748b;
+    color: #475569;
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
   .card-subj-field .mark-input {
     width: 100% !important;
-    height: 48px;
-    font-size: 1.15rem !important;
-    border: 1.5px solid #94a3b8;
+    height: 52px;
+    font-size: 1.35rem !important;
+    border: 2px solid #94a3b8;
     border-radius: 10px;
     box-sizing: border-box;
     text-align: center;
-    font-weight: 700;
+    font-weight: 800;
   }
   .card-subj-field .mentor-input {
     width: 100% !important;
     font-size: 16px !important;
     padding: 10px 12px;
-    min-height: 46px;
+    min-height: 48px;
   }
 
   .card-subj-grid {
@@ -1110,7 +1117,7 @@ td.conv-td {
   }
 
   .entry-table {
-    font-size: 0.75rem;
+    font-size: 0.88rem;
   }
 }
 
