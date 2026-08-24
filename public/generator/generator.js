@@ -9,6 +9,28 @@
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
     });
   }
+  // Browser Back button returns to parent directory (cd ..)
+  if (typeof history !== "undefined" && history.pushState) {
+    var _genHistoryReady = false;
+    setTimeout(function() { _genHistoryReady = true; }, 500);
+    history.pushState({ ksr: true }, "", window.location.href);
+    window.addEventListener("popstate", function () {
+      if (!_genHistoryReady) return;
+      var resultWrap = $("#genResultWrap");
+      var genCard = $("#genCard");
+      if (resultWrap && !resultWrap.hidden) {
+        resultWrap.hidden = true;
+        if (genCard) genCard.hidden = false;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (typeof history !== "undefined" && history.pushState) {
+          history.pushState({ ksr: true }, "", window.location.href);
+        }
+      } else {
+        window.location.href = "/";
+      }
+    });
+  }
+
   function num(n) { return (n == null || isNaN(n)) ? "\u2014" : (Math.round(n * 100) / 100); }
 
   // ---------- Vercel serverless API mode ----------

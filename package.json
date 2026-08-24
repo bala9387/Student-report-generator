@@ -4,6 +4,7 @@
   "description": "A website where a parent enters **1) Roll Number** and **2) Mode of Exam** and gets an accurate performance report on screen plus a downloadable **PDF**. Each report also shows the **highest mark in every subject across the whole class**.",
   "main": "app.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,6 +16,7 @@
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "googleapis": "^173.0.0",
+    "isomorphic-git": "^1.41.9",
     "jsdom": "^29.1.1",
     "nodemailer": "^9.0.3",
     "xlsx": "^0.18.5"

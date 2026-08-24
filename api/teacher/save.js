@@ -1,4 +1,5 @@
 const teacherApi = require('../../lib/teacherApi.js');
+const api = require('../../lib/reportApi.js');
 const authToken = require('../../lib/authToken.js');
 const teacherAccounts = require('../../lib/teacherAccounts.js');
 
@@ -9,7 +10,11 @@ function requireAuth(req) {
 }
 
 module.exports = async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const origin = req.headers.origin || '';
+  const allowed = origin === 'https://ksraksharaacademy.vercel.app'
+    || origin.endsWith('.vercel.app')
+    || origin.startsWith('http://localhost');
+  res.setHeader('Access-Control-Allow-Origin', allowed ? origin : 'https://ksraksharaacademy.vercel.app');
   res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
@@ -29,9 +34,22 @@ module.exports = async (req, res) => {
     if (typeof body === 'string') {
       try { body = JSON.parse(body); } catch(e) {}
     }
-    const grade = body.grade || '12';
-    let result;
+    const grade = body.grade || (req.query && req.query.grade) || '12';
 
+    // --- Force-refresh action: bust cache and re-fetch fresh data from Google Sheets ---
+    if (body.action === 'refresh') {
+      api.bustCache(grade);
+      await api.getData(grade);
+      return res.status(200).json({
+        ok: true,
+        message: 'Data refreshed from Google Sheets successfully.',
+        grade,
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    // --- Normal save action ---
+    let result;
     if (body.stream === 'PE - Analysis' || body.stream === 'Rankwise') {
       result = await teacherApi.updatePeTotals(body.updates, grade);
     } else if (body.stream === 'Mentor Report') {
@@ -40,6 +58,7 @@ module.exports = async (req, res) => {
       result = await teacherApi.updateStudentMarks(body.stream, body.exam, body.updates, allowedCodes, allowedStreams, grade);
     }
 
+    api.bustCache(grade);
     return res.status(200).json(result);
   } catch (err) {
     return res.status(400).json({ error: err.message });

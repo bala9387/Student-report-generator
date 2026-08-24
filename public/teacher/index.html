@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=5.0, user-scalable=yes" />
   <title>Teacher Portal &middot; KSR Akshara Academy</title>
   <link rel="stylesheet" href="/styles.css?v=37" />
   <link rel="stylesheet" href="/teacher/teacher.css?v=5" />
@@ -21,7 +21,8 @@
       </div>
       <div class="hero-actions">
         <span id="teacherBadge" class="teacher-badge" style="display:none;"></span>
-        <button id="changePassNavBtn" class="topbar-link" style="display:none;background:none;border:none;cursor:pointer;color:var(--primary,#1d4ed8);font-weight:600;">🔑 Change Password</button>
+        <button id="changePassNavBtn" class="topbar-link" style="display:none;background:none;border:none;cursor:pointer;color:var(--primary,#1d4ed8);font-weight:600;">Change Password</button>
+        <a href="/generator/api-manager.html" class="topbar-link">API Spend</a>
         <a href="/" class="topbar-link">Student portal</a>
         <button id="logoutBtn" class="logout-pill" style="display:none;">Log out</button>
       </div>
@@ -32,7 +33,7 @@
       <div class="login-modal-card">
         <h2>Admin &amp; Staff Login</h2>
         <p class="login-sub">Please enter credentials to access teacher mark entry portal.</p>
-        <form id="loginForm" action="javascript:void(0);" method="POST" onsubmit="return false;">
+        <form id="loginForm">
           <div class="field">
             <label for="loginUser">Staff Email ID / Username</label>
             <input type="text" id="loginUser" required placeholder="e.g. aksharaacademy or teacher@ksrakshara.org" style="text-transform:lowercase !important" />
@@ -63,7 +64,7 @@
       <div class="login-modal-card">
         <h2>Reset Password</h2>
         <p class="login-sub">Enter your registered staff email address to receive password instructions.</p>
-        <form id="forgotForm" action="javascript:void(0);" method="POST" onsubmit="return false;">
+        <form id="forgotForm">
           <div class="field">
             <label for="forgotEmail">Staff Email ID / Username</label>
             <input type="text" id="forgotEmail" required placeholder="e.g. anthony@ksrakshara.org" style="text-transform:lowercase !important" />
@@ -82,7 +83,7 @@
       <div class="login-modal-card">
         <h2>Change Your Password</h2>
         <p class="login-sub">Update your Staff Portal account password.</p>
-        <form id="changePassForm" action="javascript:void(0);" method="POST" onsubmit="return false;">
+        <form id="changePassForm">
           <div class="field">
             <label for="currPassInput">Current Password</label>
             <input type="password" id="currPassInput" required placeholder="Enter current password" />
@@ -109,12 +110,12 @@
       
       <!-- Sidebar -->
       <aside class="teacher-sidebar no-print">
-        <div class="grade-switcher" id="gradeSwitcher">
-          <h2 class="stream-heading">Grade / Class</h2>
-          <div class="grade-pill-group">
-            <button class="grade-btn active" data-grade="12">Grade 12 (XII)</button>
-            <button class="grade-btn" data-grade="11">Grade 11 (XI)</button>
-            <button class="grade-btn" data-grade="10">Grade 10 (X)</button>
+        <div class="grade-switcher" id="gradeSwitcher" style="margin-bottom:18px;">
+          <h2 class="stream-heading">Select Grade</h2>
+          <div class="grade-pill-group" style="display:flex;gap:6px;margin-bottom:12px;">
+            <button class="grade-btn" data-grade="10" style="flex:1;padding:6px 4px;font-size:0.78rem;font-weight:700;border-radius:6px;cursor:pointer;">Grade 10</button>
+            <button class="grade-btn" data-grade="11" style="flex:1;padding:6px 4px;font-size:0.78rem;font-weight:700;border-radius:6px;cursor:pointer;">Grade 11</button>
+            <button class="grade-btn active" data-grade="12" style="flex:1;padding:6px 4px;font-size:0.78rem;font-weight:700;border-radius:6px;cursor:pointer;">Grade 12</button>
           </div>
         </div>
 
@@ -196,13 +197,9 @@
           </div>
           <div class="exam-bar-right">
             <input type="text" id="searchInput" class="search-box" placeholder="Search by name or roll no..." />
-            <button id="exportExcelBtn" class="btn-ghost" style="background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd;padding:8px 14px;border-radius:6px;font-weight:600;display:inline-flex;align-items:center;gap:6px;cursor:pointer;">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-              Export Excel
-            </button>
-            <button id="saveMarksBtn" class="save-btn">
-              <svg viewBox="0 0 24 24" class="btn-ic"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-              Save All Marks
+            <button id="saveBtn" class="save-all-btn">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-ic"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              <span>Save All Marks</span>
             </button>
           </div>
         </div>
@@ -217,14 +214,29 @@
               <p class="control-label">GRADEBOOK</p>
               <h2 id="tableTitle">Bio - Maths &mdash; CU 1</h2>
             </div>
-            <div class="entry-stats">
-              <span class="stat-pill" id="studentCount">0 students</span>
-              <span class="stat-pill stat-filled" id="filledCount">0 filled</span>
-              <span class="stat-pill stat-empty" id="emptyCount">0 empty</span>
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <div class="out-of-box" style="display:inline-flex;align-items:center;gap:6px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;padding:4px 10px;font-size:0.82rem;font-weight:600;color:#334155;">
+                <label for="outOfInput" style="white-space:nowrap;cursor:pointer;">Test Max Marks:</label>
+                <input type="number" id="outOfInput" value="100" min="50" max="100" style="width:58px;padding:3px 6px;border:1px solid #94a3b8;border-radius:4px;font-weight:700;font-size:0.88rem;text-align:center;background:#ffffff;color:#0f172a;" title="Enter the test max marks (50 to 100)." />
+                <span style="font-size:0.76rem;color:#2563eb;font-weight:600;">Show Conversion</span>
+                <label class="converter-toggle" title="Toggle between raw entered mark and converted mark (/100)">
+                  <input type="checkbox" id="converterToggle" />
+                  <span class="converter-slider"></span>
+                </label>
+              </div>
+              <div class="entry-stats">
+                <span class="stat-pill" id="studentCount">0 students</span>
+                <span class="stat-pill stat-filled" id="filledCount">0 filled</span>
+                <span class="stat-pill stat-empty" id="emptyCount">0 empty</span>
+              </div>
             </div>
           </div>
 
-          <div class="tbl-scroll">
+          <!-- Mobile Cards Container -->
+          <div class="mobile-cards-container" id="mobileCardsContainer" style="display:none;"></div>
+
+          <!-- Spreadsheet Table -->
+          <div class="tbl-scroll" id="tableScrollWrapper">
             <table class="entry-table" id="marksTable">
               <thead id="tableHead"></thead>
               <tbody id="tableBody"></tbody>
@@ -242,6 +254,6 @@
     </div>
   </div>
 
-  <script src="teacher.js?v=10"></script>
+  <script src="teacher.js?v=26"></script>
 </body>
 </html>

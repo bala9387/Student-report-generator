@@ -102,9 +102,7 @@
             host.appendChild(notice);
             appendMentorSection(host);
             $("#downloadBtn").hidden = true;
-            $("#lookupCard").hidden = true;
-            $("#reportWrap").hidden = false;
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            showView("report");
           } else {
             showMsg("info", "Exam <b>" + esc(mode) + "</b> has not been conducted yet." +
               (resp.availableExams.length ? " Available: <b>" + resp.availableExams.map(esc).join(", ") + "</b>." : ""));
@@ -121,11 +119,68 @@
 
   function showMsg(kind, html) { msg.className = "message " + kind; msg.innerHTML = html; }
 
+  function showView(name) {
+    var grid = $("#portalGridContainer");
+    var lookup = $("#lookupCard");
+    var report = $("#reportWrap");
+    if (grid) grid.hidden = (name !== "portals");
+    if (lookup) lookup.hidden = (name !== "lookup");
+    if (report) report.hidden = (name !== "report");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // Parent-Directory "cd .." Navigation Function
+  function navigateUp() {
+    var lookup = $("#lookupCard");
+    var report = $("#reportWrap");
+
+    if (report && !report.hidden) {
+      showView("lookup");
+    } else if (lookup && !lookup.hidden) {
+      showView("portals");
+    } else {
+      showView("portals");
+    }
+  }
+
+  if (typeof window !== "undefined") {
+    var _appHistoryReady = false;
+    setTimeout(function() { _appHistoryReady = true; }, 500);
+
+    window.addEventListener("popstate", function () {
+      if (!_appHistoryReady) return;
+      navigateUp();
+      // Re-push so subsequent back presses continue to navigate up
+      if (typeof history !== "undefined" && history.pushState) {
+        history.pushState({ ksr: true }, "", window.location.href);
+      }
+    });
+
+    if (typeof history !== "undefined" && history.pushState) {
+      history.pushState({ ksr: true }, "", window.location.href);
+    }
+  }
+
+  var navStudentCard = $("#navStudentCard");
+  if (navStudentCard) {
+    navStudentCard.addEventListener("click", function (e) {
+      e.preventDefault();
+      showView("lookup");
+      var rollInput = $("#roll");
+      if (rollInput) rollInput.focus();
+    });
+  }
+
+  var closeLookupBtn = $("#closeLookupBtn");
+  if (closeLookupBtn) {
+    closeLookupBtn.addEventListener("click", function () {
+      showView("portals");
+    });
+  }
+
   $("#backBtn").addEventListener("click", function () {
     currentMentorUrl = null;
-    $("#reportWrap").hidden = true;
-    $("#lookupCard").hidden = false;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    showView("lookup");
   });
   $("#printBtn").addEventListener("click", function () { window.print(); });
 $("#downloadBtn").addEventListener("click", function () {
@@ -164,9 +219,7 @@ $("#downloadBtn").addEventListener("click", function () {
     if (m.type === "group") renderGroup(host, m, student);
     else renderAnalysis(host, m, student);
     appendMentorSection(host);
-    $("#lookupCard").hidden = true;
-    $("#reportWrap").hidden = false;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    showView("report");
   }
 
   function infoGrid(pairs) {
@@ -298,9 +351,7 @@ if (isSchoolTopper) {
     host.appendChild(cards);
 
     appendMentorSection(host);
-    $("#lookupCard").hidden = true;
-    $("#reportWrap").hidden = false;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    showView("report");
   }
 
   // ----- ANALYSIS report (totals + ranks) -----
@@ -469,9 +520,7 @@ if (isSchoolTopper) {
     host.innerHTML = "";
     host.appendChild(el("p", "lb-asof", "Loading&hellip;"));
     $("#downloadBtn").hidden = false;
-    $("#lookupCard").hidden = true;
-    $("#reportWrap").hidden = false;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    showView("report");
     apiGet("/api/leaderboard?scope=" + scope + "&n=5")
       .then(function (resp) {
         absorbMeta(resp);
@@ -1006,6 +1055,10 @@ if (isSchoolTopper) {
 
   function load(isRefresh) {
     var grade = $("#grade") ? $("#grade").value : "12";
+    if (grade === "10" || grade === "X") BANNER = "Grade X · Academic Session 2026-27";
+    else if (grade === "11" || grade === "XI") BANNER = "Grade XI · Academic Session 2026-27";
+    else BANNER = "Grade XII · Team Elevate 2027";
+
     setStatus("loading", isRefresh ? "Refreshing..." : "Connecting...", "Contacting the server");
     return apiGet("/api/meta?grade=" + encodeURIComponent(grade)).then(applyData).catch(function (e) {
       setStatus("offline", "Data unavailable", String(e && e.message || e));

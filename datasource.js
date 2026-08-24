@@ -8,8 +8,8 @@
   "use strict";
 
   var GRADE_SHEETS = {
-    "10": "1U3O31VXCi-713KVDbshSN-huM4lUVkTHaOwmcgBZgsk",
-    "11": "1p4JweOss5DNn1Ywg4P76jpYi6FgHJtcLlmxAQzdAVj8",
+    "10": "1am96_5JYsPAzLM4XZ-J4pIiUCizvInuk0AqxO1PAyUY",
+    "11": "1cDEw2sfKvxHNol-o4ZNrXZmapM75iHYzHIi71plO-7Y",
     "12": "16TMqtxp-U9BU6w8Zn6anHD9mdHvD23BOyf38nZa7f50"
   };
   var currentGrade = "12";
@@ -216,6 +216,24 @@
       classSize: peRows.length, topper: peTopper, students: peStudents
     };
 
+    var DEFAULT_SUBJECTS = {
+      "Bio - Maths": ["PHY", "CHE", "MAT", "BIO", "ENG", "PED"],
+      "Bio - CS": ["PHY", "CHE", "CS", "BIO", "ENG", "PED"],
+      "Maths - CS": ["PHY", "CHE", "MAT", "CS", "ENG", "PED"],
+      "Applied Math": ["PHY", "CHE", "A.Math", "ENG", "PED", "CS"],
+      "CS": ["Acc", "Bs", "CS", "ENG", "PED", "Eco"],
+      "PCBM": ["PHY", "CHE", "MAT", "BIO", "ENG", "PED"],
+      "PCCM": ["PHY", "CHE", "MAT", "CS", "ENG", "PED"],
+      "PCBC": ["PHY", "CHE", "CS", "BIO", "ENG", "PED"],
+      "A.Math": ["PHY", "CHE", "A.Math", "ENG", "PED", "CS"],
+      "X Harmony": ["TAM", "ENG", "MAT", "SCI", "SOC", "AI"],
+      "X Melody": ["TAM", "ENG", "MAT", "SCI", "SOC", "AI"],
+      "X Symphony": ["TAM", "ENG", "MAT", "SCI", "SOC", "AI"],
+      "10 H": ["TAM", "ENG", "MAT", "SCI", "SOC", "AI"],
+      "10 M": ["TAM", "ENG", "MAT", "SCI", "SOC", "AI"],
+      "10 S": ["TAM", "ENG", "MAT", "SCI", "SOC", "AI"]
+    };
+
     // ---- group tabs ----
     groups.forEach(function (g) {
       var rows = sheets[g];
@@ -226,17 +244,25 @@
         if (isNum(cell(rows[r], 0)) && String(cell(rows[r], 1)).trim() !== "") { firstIdx = r; break; }
       }
       var header = rows[firstIdx - 1] || rows[0];
+      var modeLabel = STREAM_ALIAS[g] || g;
+      var defaultSubs = DEFAULT_SUBJECTS[modeLabel] || DEFAULT_SUBJECTS[g] || [];
       var subjects = [];
-      for (var c = BLOCK_START["CU 1"]; c < BLOCK_START["CU 1"] + 6; c++) {
-        subjects.push(String(cell(header, c)).trim().split(/\s+/).pop());
+      if (defaultSubs && defaultSubs.length > 0) {
+        subjects = defaultSubs.slice();
+      } else {
+        for (var c = BLOCK_START["CU 1"]; c < BLOCK_START["CU 1"] + 6; c++) {
+          var rawCell = cell(header, c);
+          var rawSub = (rawCell == null || rawCell === undefined) ? "" : String(rawCell).trim().split(/\s+/).pop();
+          var subIdx = c - BLOCK_START["CU 1"];
+          var subName = (rawSub && rawSub !== "undefined" && rawSub !== "null") ? rawSub : (defaultSubs[subIdx] || ("SUB" + (subIdx + 1)));
+          subjects.push(subName);
+        }
       }
 
       var srows = studentRows(rows);
       var students = {};
       var dist = {}, distTotal = {};
       EXAMS.forEach(function (ex) { dist[ex] = {}; subjects.forEach(function (s) { dist[ex][s] = []; }); distTotal[ex] = []; });
-
-      var modeLabel = STREAM_ALIAS[g] || g;
 
       srows.forEach(function (row) {
         var roll = String(cell(row, 1)).trim();

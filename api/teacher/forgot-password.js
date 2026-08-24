@@ -21,7 +21,12 @@ module.exports = async (req, res) => {
 
     const account = teacherAccounts.getTeacherAccount(email);
     if (!account) {
-      return res.status(404).json({ error: 'No staff account found with this email address. Please check spelling.' });
+      // Return generic success to prevent user enumeration
+      return res.status(200).json({
+        ok: true,
+        emailSent: false,
+        message: 'If an account with this email exists, password reset instructions will be sent. Please contact the school administrator.'
+      });
     }
 
     const recipientEmail = account.email || (email.includes('@') ? email : (email + '@ksrakshara.org'));
@@ -49,7 +54,7 @@ module.exports = async (req, res) => {
               <h2 style="color:#1d4ed8;">KSR Akshara Academy</h2>
               <p>Hello <strong>${account.name}</strong>,</p>
               <p>We received a password reset request for your Teacher Portal account (<code>${recipientEmail}</code>).</p>
-              <p>Your current standard login password is: <strong>Akshara@123</strong></p>
+              <p>A password reset has been requested. Please contact your administrator for assistance.</p>
               <p style="font-size:0.85rem;color:#64748b;margin-top:20px;">If you did not request this, please contact the administrator.</p>
             </div>
           `
@@ -65,7 +70,7 @@ module.exports = async (req, res) => {
       emailSent: emailSent,
       message: emailSent
         ? `Password instructions have been emailed to ${recipientEmail}. Please check your inbox.`
-        : `Reset instructions processed for ${account.name} (${recipientEmail}). Please contact Administrator or use default password Akshara@123.`
+        : 'Password reset request processed for ' + account.name + '. Please contact the school administrator to reset your password.'
     });
   } catch (e) {
     return res.status(500).json({ error: 'Server error: ' + e.message });

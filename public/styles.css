@@ -3,19 +3,213 @@
   --muted:#6b7280;
   --line:#dcdfe4;
   --line-soft:#eceef1;
-  --bg:#f2f3f5;
-  --header:#273043;      /* flat slate header */
+  --bg:#f8fafc;          /* Soft light background */
+  --header:#1e3a8a;      /* Deep royal blue header */
   --red:#b7161c;         /* school accent — matches the printed report */
   --red-dark:#8f1015;
   --good:#127a44;
   --gold:#c99a1e;
+  --blue-primary:#2563eb;
+  --blue-dark:#1d4ed8;
 }
 *{box-sizing:border-box}
-html,body{margin:0}
+html,body{margin:0;padding:0}
 body{
   font-family:"Segoe UI",Arial,system-ui,-apple-system,Roboto,sans-serif;
-  color:var(--ink);background:var(--bg);min-height:100vh;font-size:15px;
+  color:var(--ink);
+  background: #f8fafc;
+  min-height: 100vh;
+  font-size: 15px;
 }
+
+.landing-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px 60px;
+}
+
+/* ---------- Executive Landing Hero (Royal Blue) ---------- */
+.landing-hero {
+  background: #1e3a8a;
+  color: #ffffff;
+  padding: 32px 36px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(30, 58, 138, 0.3);
+  margin: 24px 0 36px;
+  border: 1px solid #1d4ed8;
+}
+.landing-hero-content {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.landing-crest {
+  height: 64px;
+  width: auto;
+  object-fit: contain;
+  background: #ffffff;
+  padding: 6px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+}
+.landing-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #dbeafe;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  margin-bottom: 6px;
+}
+.landing-titles h1 {
+  margin: 0;
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+.landing-titles p {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+  color: #bfdbfe;
+  font-weight: 500;
+}
+
+/* ---------- 3 Portal Cards Grid ---------- */
+.portal-grid-container {
+  margin-bottom: 40px;
+}
+.portal-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.portal-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px 24px 24px;
+  text-decoration: none;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+  border: 1px solid #e2e8f0;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.portal-card.card-student { border-top: 4px solid #2563eb; }
+.portal-card.card-ai { border-top: 4px solid #7c3aed; }
+.portal-card.card-teacher { border-top: 4px solid #059669; }
+
+.portal-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
+}
+.portal-card.card-student:hover { border-color: #93c5fd; }
+.portal-card.card-ai:hover { border-color: #c4b5fd; }
+.portal-card.card-teacher:hover { border-color: #6ee7b7; }
+
+.portal-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.portal-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.portal-card-icon.student-icon { background: #eff6ff; color: #2563eb; }
+.portal-card-icon.ai-icon { background: #f5f3ff; color: #7c3aed; }
+.portal-card-icon.teacher-icon { background: #ecfdf5; color: #059669; }
+
+.portal-tag {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.portal-tag.tag-blue { background: #eff6ff; color: #1d4ed8; }
+.portal-tag.tag-purple { background: #f5f3ff; color: #6d28d9; }
+.portal-tag.tag-green { background: #ecfdf5; color: #047857; }
+
+.portal-card-body h3 {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+.portal-card-body p {
+  margin: 0 0 24px;
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.portal-card-btn {
+  width: 100%;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: opacity 0.2s, background 0.2s;
+}
+.portal-card-btn.btn-blue { background: #2563eb; color: #ffffff; }
+.portal-card-btn.btn-purple { background: #7c3aed; color: #ffffff; }
+.portal-card-btn.btn-green { background: #059669; color: #ffffff; }
+
+.portal-card:hover .portal-card-btn { opacity: 0.94; }
+.portal-card:hover .btn-arrow { transform: translateX(4px); }
+.btn-arrow { transition: transform 0.2s ease; }
+
+.landing-footer {
+  text-align: center;
+  padding: 24px 0 10px;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 40px;
+}
+.landing-footer p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* Responsiveness for Landing Page */
+@media (max-width: 900px) {
+  .portal-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .landing-hero {
+    padding: 24px 20px;
+    border-radius: 14px;
+    margin: 16px 0 24px;
+  }
+  .landing-titles h1 {
+    font-size: 1.4rem;
+  }
+}
+
 .page{max-width:880px;margin:0 auto;padding:0 16px 56px}
 
 /* ---------- header ---------- */
@@ -103,9 +297,9 @@ body{
 .rank-badge.rank-bronze{color:#8a4a1f}
 .rank-badge.rank-top10{color:var(--ink)}
 .card.card-rank{border-width:1.5px}
-.card.card-rank-1{border-color:#d4af37;background:linear-gradient(180deg,#fff9e8,#fbfbfc)}
-.card.card-rank-2{border-color:#a8adb4;background:linear-gradient(180deg,#f6f7f8,#fbfbfc)}
-.card.card-rank-3{border-color:#c98a54;background:linear-gradient(180deg,#fdf3ea,#fbfbfc)}
+.card.card-rank-1{border-color:#d4af37;background:#fff9e8}
+.card.card-rank-2{border-color:#a8adb4;background:#f6f7f8}
+.card.card-rank-3{border-color:#c98a54;background:#fdf3ea}
 
 /* ---------- mentor report embed ---------- */
 .mentor-report-wrap{border-top:1px solid var(--line);margin-top:4px}
@@ -212,25 +406,172 @@ table.grid tr.total-row td{background:#faf6ea;font-weight:700}
 
 .foot{text-align:center;color:var(--muted);font-size:.8rem;margin-top:28px;line-height:1.5}
 
-/* ---------- mobile ---------- */
-@media (max-width:600px){
-  .hero{flex-wrap:wrap;gap:10px;padding:14px 16px}
-  .crest{height:40px;width:auto}
-  .hero-text h1{font-size:1.1rem}
-  .status-pill{order:3;width:100%;justify-content:center}
-  .lookup-card{padding:18px 15px 16px}
-  .lb-btns{flex-direction:column}
-  .field input,.field select{font-size:16px}   /* stop iOS zoom */
-  .report-toolbar .btn-primary,.report-toolbar .btn-ghost{flex:1 1 100%}
-  .rep-head h2{font-size:1.12rem}
-  .info .k{width:114px;font-size:.8rem}
-  table.grid th,table.grid td{padding:8px 6px;font-size:.82rem}
-  table.perf .pending-col{display:none}
-  .subj small{display:none}
-  .cards{grid-template-columns:1fr 1fr;gap:9px;padding:14px 12px}
-  .card .num{font-size:1.2rem}
+/* ---------- Mobile Phone & Tablet Responsive System ---------- */
+@media (max-width: 680px) {
+  .page {
+    padding: 0 10px 40px;
+  }
+  .hero {
+    margin: 0 -10px 16px;
+    padding: 14px 16px;
+    border-radius: 0 0 14px 14px;
+    gap: 12px;
+  }
+  .crest {
+    height: 38px;
+  }
+  .hero-text h1 {
+    font-size: 1.1rem;
+  }
+  .hero-text p {
+    font-size: 0.78rem;
+  }
+
+  .lookup-card {
+    padding: 18px 14px 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .lookup-card h2 {
+    font-size: 1.1rem;
+  }
+  .lookup-card .hint {
+    font-size: 0.85rem;
+    margin-bottom: 14px;
+  }
+
+  .field {
+    margin-bottom: 14px;
+  }
+  .field label {
+    font-size: 0.82rem;
+    margin-bottom: 4px;
+  }
+  .field input,
+  .field select {
+    font-size: 16px !important; /* Prevents auto-zoom on iOS & Android */
+    padding: 12px;
+    border-radius: 8px;
+    min-height: 46px;
+  }
+
+  .btn-primary,
+  .btn-ghost {
+    min-height: 46px;
+    font-size: 0.98rem;
+    border-radius: 8px;
+  }
+  .btn-primary {
+    padding: 12px 16px;
+  }
+
+  .lb-links {
+    margin-top: 14px;
+    padding-top: 12px;
+  }
+  .lb-btns {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .lb-btns .btn-ghost {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .report-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .report-toolbar .btn-primary,
+  .report-toolbar .btn-ghost {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .report {
+    border-radius: 12px;
+  }
+  .rep-head {
+    padding: 14px 14px 12px;
+  }
+  .rep-head h2 {
+    font-size: 1.15rem;
+  }
+
+  /* Info Key-Value List on Mobile */
+  .info {
+    grid-template-columns: 1fr;
+  }
+  .info .cell {
+    border-right: none;
+    padding: 10px 14px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .info .k {
+    width: auto;
+    background: transparent;
+    border-right: none;
+    padding: 0;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .info .v {
+    padding: 0;
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-align: right;
+  }
+
+  /* Scrollable Grid Table for Mobile */
+  .tbl-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  table.grid th,
+  table.grid td {
+    padding: 8px 6px;
+    font-size: 0.8rem;
+  }
+  table.grid td.subj {
+    min-width: 110px;
+    white-space: normal;
+  }
+
+  /* Summary Cards for Mobile */
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 10px;
+  }
+  .card {
+    padding: 10px 8px;
+    border-radius: 8px;
+  }
+  .card .num {
+    font-size: 1.18rem;
+  }
+  .card .lbl {
+    font-size: 0.72rem;
+  }
+
+  /* Login Card for Mobile */
+  .login-card {
+    padding: 20px 16px;
+    max-width: 92vw;
+    border-radius: 14px;
+  }
 }
-@media (max-width:380px){.cards{grid-template-columns:1fr}}
+
+@media (max-width: 380px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+  .hero-text h1 {
+    font-size: 1rem;
+  }
+}
 
 @media print{
   .no-print{display:none !important}

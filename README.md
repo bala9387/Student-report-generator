@@ -8,7 +8,7 @@ The data is read **live from the Google Sheet**, so any change made in the sheet
 reflected on the site automatically (just reload, or click the status pill to refresh).
 The portal is **read-only** — it never writes to the sheet.
 
-- Sheet: `https://docs.google.com/spreadsheets/d/1C3p9hipQLxe4YbfA14s_0zF5seHISiL1fdKquWaMdJk/`
+- Sheet: `https://docs.google.com/spreadsheets/d/16TMqtxp-U9BU6w8Zn6anHD9mdHvD23BOyf38nZa7f50/`
 - Tabs used: `PE - Analysis`, `Bio - Maths`, `Bio - CS`, `Maths - CS`
 
 ## How to run

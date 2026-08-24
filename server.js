@@ -1,5 +1,5 @@
 // Load .env into process.env (Node 20+ built-in; fallback for older versions)
-try { require('fs').readFileSync('.env','utf8').split(/\r?\n/).forEach(l=>{const m=l.match(/^\s*([\w]+)\s*=\s*(.*)\s*$/);if(m&&!process.env[m[1]])process.env[m[1]]=m[2].replace(/^['"]|['"]$/g,'');}); } catch(e){}
+try { require('fs').readFileSync('.env','utf8').split(/\r?\n/).forEach(l=>{const m=l.match(/^\s*([\w]+)\s*=\s*(.*)\s*$/);if(m)process.env[m[1]]=m[2].replace(/^['"]|['"]$/g,'');}); } catch(e){}
 
 /* Local dev server for the Student Performance Report site. */
 const express = require('express');
@@ -56,6 +56,24 @@ app.use('/vendor', express.static(path.join(PUBLIC_DIR, 'vendor')));
 app.use('/generator', express.static(path.join(PUBLIC_DIR, 'generator')));
 app.use('/teacher', express.static(path.join(PUBLIC_DIR, 'teacher')));
 
+const apiTracker = require('./lib/apiTracker.js');
+
+app.get('/api/api-usage', (req, res) => {
+  res.json(apiTracker.getUsageData());
+});
+
+app.post('/api/api-usage', (req, res) => {
+  const body = req.body || {};
+  if (body.action === 'updateCap') {
+    apiTracker.updateSpendCap(body.cap);
+  } else if (body.action === 'updateSpend') {
+    apiTracker.updateCurrentSpend(body.spend);
+  } else if (body.action === 'record') {
+    apiTracker.recordApiCall(body);
+  }
+  res.json({ ok: true, data: apiTracker.getUsageData() });
+});
+
 app.get('/api/meta', async (req, res) => {
   const r = await api.getMeta(req.query.grade);
   res.status(r.status).json(r.body);
@@ -72,6 +90,9 @@ app.get('/api/leaderboard', async (req, res) => {
 // ---------- Teacher Portal Endpoints ----------
 app.get('/api/teacher/marks', requireAuth, async (req, res) => {
   try {
+    if (req.query.stream === "Rankwise" && req.teacherUser !== "aksharaacademy") {
+      return res.status(403).json({ error: "Access denied: Rankwise view is restricted to Master Administrator." });
+    }
     const data = await teacherApi.getTeacherData(req.query.stream, req.query.exam, req.query.grade);
     res.json(data);
   } catch (err) {
@@ -90,15 +111,24 @@ app.get('/api/teacher/pe-analysis', requireAuth, async (req, res) => {
 
 app.post('/api/teacher/save', requireAuth, express.json({ limit: '10mb' }), async (req, res) => {
   try {
-    let result;
-    const grade = req.body.grade || req.query.grade;
-    if (req.body.stream === "PE - Analysis" || req.body.stream === "Rankwise") {
-      result = await teacherApi.updatePeTotals(req.body.updates, grade);
-    } else if (req.body.stream === "Mentor Report") {
-      result = await teacherApi.updateMentorLinks(req.body.exam, req.body.updates, grade);
-    } else {
-      result = await teacherApi.updateStudentMarks(req.body.stream, req.body.exam, req.body.updates, req.allowedCodes, req.allowedStreams, grade);
+    const body = req.body || {};
+    const grade = body.grade || req.query.grade || '12';
+
+    if (body.action === 'refresh') {
+      api.bustCache(grade);
+      await api.getData(grade);
+      return res.json({ ok: true, message: 'Data refreshed from Google Sheets successfully.', grade });
     }
+
+    let result;
+    if (body.stream === "PE - Analysis" || body.stream === "Rankwise") {
+      result = await teacherApi.updatePeTotals(body.updates, grade);
+    } else if (body.stream === "Mentor Report") {
+      result = await teacherApi.updateMentorLinks(body.exam, body.updates, grade);
+    } else {
+      result = await teacherApi.updateStudentMarks(body.stream, body.exam, body.updates, req.allowedCodes, req.allowedStreams, grade);
+    }
+    api.bustCache(grade);
     res.json(result);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -111,6 +141,19 @@ app.post('/api/teacher/upload-excel', requireAuth, express.json({ limit: '20mb' 
     res.json(result);
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+});
+
+// Force-refresh endpoint — busts cache so next request fetches fresh Google Sheet data
+app.post('/api/teacher/refresh', requireAuth, async (req, res) => {
+  try {
+    const grade = req.query.grade || req.body && req.body.grade || '12';
+    api.bustCache(grade);
+    // Immediately pre-fetch fresh data
+    const freshData = await api.getData(grade);
+    res.json({ ok: true, message: 'Data refreshed from Google Sheets successfully.', grade });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
   }
 });
 
@@ -132,5 +175,6 @@ app.post('/api/generate-report', express.json({ limit: '20mb' }), async (req, re
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Secure Server running on http://localhost:${PORT}`);
-  api.getData().catch(console.error); // prime the cache
+  api.getData().then(() => console.log('[Cache Primed] Grade 12 data loaded.')).catch(console.error);
 });
+setInterval(() => {}, 1000 * 60 * 60); // keep process alive

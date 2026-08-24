@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(\\(Get-Content \"C:\\\\Users\\\\balac\\\\Documents\\\\my code\\\\my code\\\\Darkskoll website\\\\index.html\" -Raw\\) -replace 'stroke=\"#33333c\"','stroke=\"#4a4a58\"' -replace 'stroke=\"#2c2c34\"','stroke=\"#3e3e4a\"' -replace 'stroke=\"#26262e\"','stroke=\"#383842\"' | Set-Content \"C:\\\\Users\\\\balac\\\\Documents\\\\my code\\\\my code\\\\Darkskoll website\\\\index.html\" -Encoding utf8 -NoNewline)"
+    ]
+  }
+}

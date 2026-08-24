@@ -14,19 +14,42 @@
   var studentRows   = [];      // data returned by API
   var subjectCols   = [];      // subject short codes
   var dirtyRolls    = {};      // rollNo → { marks: { subj: val } }
+  var converterOn   = false;   // converter toggle state
 
   /* ── Auth State & Helper ── */
-  var PORTAL_VERSION = "20"; // bump this when allowedStreams/allowedCodes change
+  var PORTAL_VERSION = "35"; // bump this when allowedStreams/allowedCodes change
   if (localStorage.getItem("teacher_portal_version") !== PORTAL_VERSION) {
     localStorage.removeItem("teacher_info"); // force re-login with fresh permissions
     localStorage.removeItem("teacher_token");
     localStorage.setItem("teacher_portal_version", PORTAL_VERSION);
   }
+
+  function isSubjectAllowed(subj) {
+    if (!subj || typeof subj !== "string" || !subj.trim()) return false;
+    var info = getTeacherInfo();
+    if (!info || info.isAdmin) return true; // Admin has full edit access
+    var codes = info.allowedCodes;
+    if (!codes || !Array.isArray(codes) || codes.length === 0) return true; // Default allow if unrestricted
+    var target = String(subj).toLowerCase().trim();
+    return codes.some(function (c) {
+      var codeStr = String(c).toLowerCase().trim();
+      if (!codeStr) return false;
+      return codeStr === target || target.indexOf(codeStr) >= 0 || codeStr.indexOf(target) >= 0;
+    });
+  }
   var token = localStorage.getItem("teacher_token") || "";
 
-  // Clean trailing ? query param from address bar if present
-  if (window.location.search && window.history && window.history.replaceState) {
-    window.history.replaceState({}, document.title, window.location.pathname);
+  // Browser Back button returns to Portals Page (/)
+  if (typeof history !== "undefined" && history.pushState) {
+    // Use a flag to avoid popstate firing on load
+    var _historyReady = false;
+    setTimeout(function() { _historyReady = true; }, 500);
+    history.pushState({ page: "teacher" }, "", window.location.href);
+    window.addEventListener("popstate", function (e) {
+      if (_historyReady) {
+        window.location.href = "/";
+      }
+    });
   }
 
   function getAuthHeaders() {
@@ -34,31 +57,76 @@
   }
 
   /* ── DOM refs ── */
-  var tHead         = $("#tableHead");
-  var tBody         = $("#tableBody");
-  var tFoot         = $("#tableFoot");
-  var titleEl       = $("#tableTitle");
-  var msgEl         = $("#teacherMsg");
-  var saveBtn       = $("#saveMarksBtn");
-  var searchBox     = $("#searchInput");
-  var countEl       = $("#studentCount");
-  var filledEl      = $("#filledCount");
-  var emptyEl       = $("#emptyCount");
-  var loginModal    = $("#loginModal");
-  var loginForm     = $("#loginForm");
-  var loginMsg      = $("#loginMsg");
-  var logoutBtn     = $("#logoutBtn");
-  var saveStatusText = $("#saveStatusText");
-  var saveStatus     = document.querySelector(".save-status");
-  var exportExcelBtn = $("#exportExcelBtn");
+  var tHead              = $("#tableHead");
+  var tBody              = $("#tableBody");
+  var tFoot              = $("#tableFoot");
+  var titleEl            = $("#tableTitle");
+  var msgEl              = $("#teacherMsg");
+  var saveBtn            = $("#saveBtn") || $("#saveMarksBtn");
+  var searchBox          = $("#searchInput");
+  var countEl            = $("#studentCount");
+  var filledEl           = $("#filledCount");
+  var emptyEl            = $("#emptyCount");
+  var loginModal         = $("#loginModal");
+  var loginForm          = $("#loginForm");
+  var loginMsg           = $("#loginMsg");
+  var logoutBtn          = $("#logoutBtn");
+  var saveStatusText     = $("#saveStatusText");
+  var saveStatus         = document.querySelector(".save-status");
+  var exportExcelBtn     = $("#exportExcelBtn"); // may be null if removed
+  var mobileCardsEl      = $("#mobileCardsContainer");
+  var tableWrapper       = $("#tableScrollWrapper");
+  var tableViewBtn       = $("#tableViewBtn");
+  var cardViewBtn        = $("#cardViewBtn");
+
+  var autoSaveTimer      = null;  // debounce timer for auto-save
+  var AUTO_SAVE_DELAY    = 3000; // 3 seconds after last change
+  var converterToggle    = $("#converterToggle");
+  var outOfInput         = $("#outOfInput");
+
+  // Wire converter toggle & max marks input
+  if (converterToggle) {
+    converterToggle.addEventListener("change", function () {
+      converterOn = this.checked;
+      renderTable();
+    });
+  }
+  if (outOfInput) {
+    outOfInput.addEventListener("input", function () {
+      if (converterOn) renderTable();
+    });
+    outOfInput.addEventListener("change", function () {
+      var v = parseFloat(this.value);
+      if (isNaN(v) || v > 100) this.value = 100;
+      else if (v < 50) this.value = 50;
+      if (converterOn) renderTable();
+    });
+  }
+
+  /* ── View Mode ── */
+  var currentViewMode = "table"; // Default: table view
+
+  function setViewMode(mode) {
+    currentViewMode = mode;
+    if (mode === "cards") {
+      if (mobileCardsEl) mobileCardsEl.style.display = "flex";
+      if (tableWrapper)  tableWrapper.style.display  = "none";
+    } else {
+      if (mobileCardsEl) mobileCardsEl.style.display = "none";
+      if (tableWrapper)  tableWrapper.style.display  = "";
+    }
+  }
+
+  // Init to table view
+  setViewMode(currentViewMode);
 
   /* ═══════════ Init ═══════════ */
   wireGradeButtons();
   wireStreamCards();
   wireExamTabs();
-  saveBtn.addEventListener("click", saveAll);
+  if (saveBtn) saveBtn.addEventListener("click", saveAll);
   if (exportExcelBtn) exportExcelBtn.addEventListener("click", exportToExcel);
-  searchBox.addEventListener("input", filterRows);
+  if (searchBox) searchBox.addEventListener("input", filterRows);
   if (logoutBtn) logoutBtn.addEventListener("click", logout);
 
   function exportToExcel() {
@@ -102,7 +170,37 @@
     showMsg("Exported " + filename + " successfully!", "ok");
   }
 
+  function updateGradeButtonVisibility() {
+    var info = getTeacherInfo();
+    var btns = document.querySelectorAll(".grade-btn");
+
+    if (!info || info.isAdmin || !Array.isArray(info.allowedStreams)) {
+      btns.forEach(function (b) { b.style.display = ""; });
+      return;
+    }
+
+    var streams = info.allowedStreams.map(function(s) { return String(s).toLowerCase(); });
+    var hasG10 = streams.some(function(s) {
+      return s.indexOf("10") >= 0 || s.indexOf("harmony") >= 0 || s.indexOf("melody") >= 0 || s.indexOf("symphony") >= 0;
+    });
+    var hasG1112 = streams.some(function(s) {
+      return s === "bio - maths" || s === "bio - cs" || s === "maths - cs" || s === "applied math" || s === "cs";
+    });
+
+    btns.forEach(function (b) {
+      var g = b.dataset.grade;
+      if (g === "10") {
+        b.style.display = hasG10 ? "" : "none";
+      } else if (g === "11" || g === "12") {
+        b.style.display = hasG1112 ? "" : "none";
+      } else {
+        b.style.display = "";
+      }
+    });
+  }
+
   function updateGradeStreamVisibility() {
+    updateGradeButtonVisibility();
     var cards = document.querySelectorAll(".stream-card");
     var g = String(currentGrade);
     var info = getTeacherInfo();
@@ -122,14 +220,15 @@
         gradeOk = !isG10Stream;
       }
 
-      // Check teacher stream permission (PE-Analysis/Rankwise/Mentor always visible as read-only)
-      var specialStream = (st === "PE - Analysis" || st === "Rankwise" || st === "Mentor Report");
-      var streamOk = !allowedStreams || specialStream ||
-        allowedStreams.some(function (s) { return String(s).toLowerCase() === String(st).toLowerCase(); });
+      // Rankwise and PE Analysis are ONLY accessible by Master Administrator
+      if ((st === "Rankwise" || st === "PE - Analysis") && (!info || !info.isAdmin)) {
+        c.style.display = "none";
+        return;
+      }
 
-      if (gradeOk && streamOk) {
+      if (gradeOk) {
         c.style.display = "";
-        if (!firstVisibleCard && (isG1112Stream || isG10Stream || specialStream)) {
+        if (!firstVisibleCard && (isG1112Stream || isG10Stream)) {
           firstVisibleCard = c;
         }
       } else {
@@ -179,63 +278,76 @@
     });
   }
 
-  if (loginForm) {
-    loginForm.addEventListener("submit", function (e) {
+  function handleLoginSubmit(e) {
+    if (e) {
       e.preventDefault();
-      var submitBtn = $("#loginSubmitBtn");
-      var u = $("#loginUser").value.trim().toLowerCase();
-      var p = $("#loginPass").value.trim();
-      loginMsg.style.display = "none";
+      e.stopPropagation();
+    }
+    var submitBtn = $("#loginSubmitBtn");
+    var u = ($("#loginUser") ? $("#loginUser").value : "").trim().toLowerCase();
+    var p = ($("#loginPass") ? $("#loginPass").value : "").trim();
+    if (loginMsg) loginMsg.style.display = "none";
 
-      if (!u || !p) {
+    if (!u || !p) {
+      if (loginMsg) {
         loginMsg.textContent = "Please enter both username and password.";
         loginMsg.style.display = "block";
-        return;
       }
+      return;
+    }
 
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Signing In\u2026";
-      }
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Signing In\u2026";
+    }
 
-      fetch("/api/teacher/auth", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user: u, pass: p })
-      })
-      .then(function (r) {
-        return r.text().then(function (text) {
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = "Sign In";
-          }
-          var d;
-          try { d = JSON.parse(text); } catch(e) { d = { error: "Server returned non-JSON: " + text.substring(0, 200) }; }
-          if (r.ok && d.ok && d.token) {
-            token = d.token;
-            localStorage.setItem("teacher_token", token);
-            if (d.teacher) {
-              localStorage.setItem("teacher_info", JSON.stringify(d.teacher));
-            } else {
-              localStorage.removeItem("teacher_info");
-            }
-            checkAuth();
-          } else {
-            loginMsg.textContent = d.error || ("Login failed (HTTP " + r.status + ")");
-            loginMsg.style.display = "block";
-          }
-        });
-      })
-      .catch(function (err) {
+    fetch("/api/teacher/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ user: u, pass: p })
+    })
+    .then(function (r) {
+      return r.text().then(function (text) {
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.textContent = "Sign In";
         }
+        var d;
+        try { d = JSON.parse(text); } catch(err) { d = { error: "Server error: " + text.substring(0, 200) }; }
+        if (r.ok && d.ok && d.token) {
+          token = d.token;
+          localStorage.setItem("teacher_token", token);
+          if (d.teacher) {
+            localStorage.setItem("teacher_info", JSON.stringify(d.teacher));
+          } else {
+            localStorage.removeItem("teacher_info");
+          }
+          checkAuth();
+        } else {
+          if (loginMsg) {
+            loginMsg.textContent = d.error || ("Login failed (HTTP " + r.status + ")");
+            loginMsg.style.display = "block";
+          }
+        }
+      });
+    })
+    .catch(function (err) {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Sign In";
+      }
+      if (loginMsg) {
         loginMsg.textContent = "Network error: " + err.message;
         loginMsg.style.display = "block";
-      });
+      }
     });
   }
+
+  if (loginForm) {
+    loginForm.addEventListener("submit", handleLoginSubmit);
+  }
+  // NOTE: Do NOT add a click listener to loginSubmitBtn — form submit handles it already.
+  // Adding both causes double-firing which triggers popstate and redirects to /.
 
   function getTeacherInfo() {
     try {
@@ -244,21 +356,13 @@
     } catch(e) { return null; }
   }
 
-  function isSubjectAllowed(subj) {
-    var info = getTeacherInfo();
-    if (!info || info.isAdmin || !info.allowedCodes) return true; // Admin has full edit access
-    var codes = info.allowedCodes;
-    if (!Array.isArray(codes)) return true;
-    var target = String(subj).toLowerCase();
-    return codes.some(function (c) {
-      return String(c).toLowerCase() === target;
-    });
-  }
-
   function isStreamAllowed(streamName) {
     var info = getTeacherInfo();
+    if (streamName === "Rankwise") {
+      return !!(info && info.isAdmin); // Only Master Administrator can view Rankwise
+    }
     if (!info || info.isAdmin || !info.allowedStreams) return true; // Admin or full access
-    if (streamName === "PE - Analysis" || streamName === "Rankwise" || streamName === "Mentor Report") return true; // Read-only viewing allowed
+    if (streamName === "PE - Analysis" || streamName === "Mentor Report") return true; // Read-only viewing allowed
     var streams = info.allowedStreams;
     if (!Array.isArray(streams)) return true;
     var target = String(streamName).toLowerCase();
@@ -274,9 +378,80 @@
     checkAuth();
   }
 
+  /* ── Refresh from Google Sheets ── */
+  function refreshFromSheet(silent) {
+    if (!token) return;
+    var activeTag = document.activeElement ? document.activeElement.tagName : "";
+    if (activeTag === "INPUT" || activeTag === "TEXTAREA" || Object.keys(dirtyRolls).length > 0) {
+      return; // Do not refresh while user is typing or has unsaved edits
+    }
+    
+    if (!silent) {
+      showMsg("Fetching latest data from Google Sheets…", "info");
+    }
+
+    fetch("/api/teacher/save", {
+      method: "POST",
+      headers: Object.assign({ "Content-Type": "application/json" }, getAuthHeaders()),
+      body: JSON.stringify({ action: "refresh", grade: currentGrade || "12" })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.ok) {
+        if (!silent) showMsg("Data refreshed! Reloading view…", "success");
+        // Reload the current stream/exam view only if no active editing
+        var curTag = document.activeElement ? document.activeElement.tagName : "";
+        if (curTag !== "INPUT" && Object.keys(dirtyRolls).length === 0) {
+          setTimeout(function() {
+            loadData(silent);
+          }, 800);
+        }
+      } else {
+        if (!silent) showMsg("Refresh failed: " + (data.error || "Unknown error"), "error");
+      }
+    })
+    .catch(function(err) {
+      if (!silent) showMsg("Network error during refresh.", "error");
+    });
+  }
+
+  // Auto-refresh every 60 seconds if no unsaved changes and user is not active in an input
+  setInterval(function() {
+    var activeTag = document.activeElement ? document.activeElement.tagName : "";
+    if (token && Object.keys(dirtyRolls).length === 0 && activeTag !== "INPUT") {
+      refreshFromSheet(true);
+    }
+  }, 60000);
+
   function autoSelectTeacherStream() {
-    updateGradeStreamVisibility();
     var info = getTeacherInfo();
+
+    // Auto-detect grade preference from teacher profile
+    if (info && !info.isAdmin && Array.isArray(info.allowedStreams) && info.allowedStreams.length > 0) {
+      var streams = info.allowedStreams.map(function(s) { return String(s).toLowerCase(); });
+      var hasG10 = streams.some(function(s) {
+        return s.indexOf("10") >= 0 || s.indexOf("harmony") >= 0 || s.indexOf("melody") >= 0 || s.indexOf("symphony") >= 0;
+      });
+      var hasG1112 = streams.some(function(s) {
+        return s === "bio - maths" || s === "bio - cs" || s === "maths - cs" || s === "applied math" || s === "cs";
+      });
+
+      // If teacher is dedicated to Class 10 (or has Class 10 subjects), default directly to Grade 10
+      if (hasG10 && !hasG1112) {
+        currentGrade = "10";
+        localStorage.setItem("teacher_grade", "10");
+      }
+    }
+
+    // Sync grade button active UI states
+    var btns = document.querySelectorAll(".grade-btn");
+    btns.forEach(function (b) {
+      if (b.dataset.grade === currentGrade) b.classList.add("active");
+      else b.classList.remove("active");
+    });
+
+    updateGradeStreamVisibility();
+
     if (!info || info.isAdmin || !info.allowedStreams) return;
     var cards = document.querySelectorAll(".stream-card");
     var firstAllowed = null;
@@ -287,7 +462,7 @@
       }
     });
 
-    if (firstAllowed && (!isStreamAllowed(currentStream) || currentStream === "PE - Analysis" || currentStream === "Rankwise")) {
+    if (firstAllowed && (!isStreamAllowed(currentStream) || currentStream === "PE - Analysis" || currentStream === "Rankwise" || (currentGrade === "10" && (currentStream === "Bio - Maths" || currentStream === "Bio - CS" || currentStream === "Maths - CS" || currentStream === "Applied Math" || currentStream === "CS")))) {
       cards.forEach(function (x) { x.classList.remove("active"); });
       firstAllowed.classList.add("active");
       currentStream = firstAllowed.dataset.stream;
@@ -317,7 +492,7 @@
       
       if (badge && info && info.name) {
         var subText = info.subjects ? (" &middot; <span style='font-weight:normal;opacity:0.85;'>" + esc(info.subjects) + "</span>") : "";
-        badge.innerHTML = "👤 <strong>" + esc(info.name) + "</strong>" + subText;
+        badge.innerHTML = "<strong>" + esc(info.name) + "</strong>" + subText;
         badge.style.display = "inline-flex";
       } else if (badge) {
         badge.style.display = "none";
@@ -535,11 +710,12 @@
   }
 
   /* ═══════════ Load data from server ═══════════ */
-  function loadData() {
-    showMsg("Loading...", "info");
+  function loadData(silent) {
+    updateOutOfBoxVisibility();
+    if (!silent) showMsg("Loading...", "info");
 
     if (currentStream === "PE - Analysis" || currentStream === "Rankwise") {
-      loadPeAnalysis();
+      loadPeAnalysis(silent);
       return;
     }
 
@@ -549,24 +725,33 @@
       headers: getAuthHeaders()
     })
       .then(function (r) {
-        if (r.status === 401) { logout(); throw new Error("Session expired. Please log in again."); }
-        return r.json();
+        return r.text().then(function (text) {
+          if (r.status === 401) { logout(); throw new Error("Session expired. Please log in again."); }
+          var d;
+          try {
+            d = JSON.parse(text);
+          } catch (err) {
+            var cleanTxt = text.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+            d = { error: cleanTxt.substring(0, 150) || ("Server error (HTTP " + r.status + ")") };
+          }
+          return d;
+        });
       })
       .then(function (d) {
-        if (d.error) { showMsg(d.error, "error"); return; }
+        if (d.error) { if (!silent) showMsg(d.error, "error"); return; }
         subjectCols = d.subjects || [];
         studentRows = (d.students || []).slice().sort(function (a, b) {
           return (a.sNo || 0) - (b.sNo || 0);
         });
         titleEl.textContent = "Grade " + currentGrade + " — " + currentStream + " (" + currentExam + ")";
         renderTable();
-        hideMsg();
+        if (!silent) hideMsg();
       })
-      .catch(function (e) { showMsg("Network error: " + e.message, "error"); });
+      .catch(function (e) { if (!silent) showMsg("Network error: " + e.message, "error"); });
   }
 
   /* ═══════════ PE Analysis view ═══════════ */
-  function loadPeAnalysis() {
+  function loadPeAnalysis(silent) {
     fetch("/api/teacher/pe-analysis?grade=" + encodeURIComponent(currentGrade), {
       headers: getAuthHeaders()
     })
@@ -575,11 +760,11 @@
         return r.json();
       })
       .then(function (d) {
-        if (d.error) { showMsg(d.error, "error"); return; }
+        if (d.error) { if (!silent) showMsg(d.error, "error"); return; }
         renderPeTable(d);
-        hideMsg();
+        if (!silent) hideMsg();
       })
-      .catch(function (e) { showMsg("Network error: " + e.message, "error"); });
+      .catch(function (e) { if (!silent) showMsg("Network error: " + e.message, "error"); });
   }
 
   function renderPeTable(d) {
@@ -631,9 +816,9 @@
     // Wire up input events for PE editable cells
     var inputs = tBody.querySelectorAll(".pe-mark-input");
     inputs.forEach(function (inp) {
+      inp.addEventListener("focus", onMarkFocus);
       inp.addEventListener("input", onPeMarkInput);
       inp.addEventListener("keydown", onMarkKeydown);
-      inp.addEventListener("focus", function () { this.select(); });
     });
   }
 
@@ -709,6 +894,18 @@
     inp.classList.remove("invalid");
     inp.classList.add("changed");
 
+    var initialVal = inp.dataset.initialVal !== undefined ? inp.dataset.initialVal : "";
+    if (initialVal !== raw) {
+      recordUndoAction({
+        type: 'pe',
+        roll: roll,
+        exam: exam,
+        oldVal: initialVal,
+        newVal: raw
+      });
+      inp.dataset.initialVal = raw;
+    }
+
     if (!dirtyRolls[roll]) dirtyRolls[roll] = { exams: {} };
     if (!dirtyRolls[roll].exams) dirtyRolls[roll].exams = {};
     dirtyRolls[roll].exams[exam] = raw;
@@ -721,22 +918,29 @@
   function renderTable() {
     var isMentor = (currentStream === "Mentor Report");
     var info = getTeacherInfo();
+    var isMaster = !!(info && info.isAdmin === true);
     var isAdmin = !info || info.isAdmin || !info.allowedCodes;
+    var showTotalCol = !isMentor && isMaster;
 
-    // For non-admin teachers, only show their subject columns (+ always show Total)
+    // For non-admin teachers, only show their handling subject columns (+ always show all for Admin/Mentor)
     var visibleCols = subjectCols.filter(function (s) {
       if (isAdmin || isMentor) return true;
       return isSubjectAllowed(s);
     });
-    // If no matching cols (shouldn't happen), fallback to all
+    // Fallback to all if no filter match
     if (visibleCols.length === 0) visibleCols = subjectCols;
+
+    // Converter state
+    var maxMarks = getOutOfMax();
+    var showConv = converterOn && maxMarks !== 100 && !isMentor;
 
     // Header
     var thRow = "<tr><th>S.No</th><th>Roll No</th><th>Student Name</th>";
     visibleCols.forEach(function (s) {
-      thRow += "<th" + (isMentor ? ' style="width:100%;"' : '') + ">" + esc(s) + "</th>";
+      var hSub = esc(s) + (converterOn && maxMarks !== 100 ? ' <span style="font-size:0.75rem;color:#2563eb;font-weight:700;">(/100)</span>' : '');
+      thRow += "<th" + (isMentor ? ' style="width:100%;"' : '') + ">" + hSub + "</th>";
     });
-    if (!isMentor) thRow += "<th>Total</th>";
+    if (showTotalCol) thRow += "<th>Total</th>";
     thRow += "</tr>";
     tHead.innerHTML = thRow;
 
@@ -751,8 +955,20 @@
       html += '<td title="' + esc(st.rollNo) + '">' + esc(st.name) + '</td>';
 
       visibleCols.forEach(function (s) {
-        var val = st.marks[s];
-        var display = (val === null || val === undefined || val === "") ? "" : val;
+        var baseMark = (st.marks[s] != null && st.marks[s] !== "") ? st.marks[s] : "";
+        var display = baseMark;
+
+        if (maxMarks !== 100 && baseMark !== "" && String(baseMark).toLowerCase() !== "ab") {
+          if (converterOn) {
+            display = baseMark;
+          } else {
+            display = (st.rawMarks && st.rawMarks[s] !== undefined)
+              ? st.rawMarks[s]
+              : getOriginalMark(String(baseMark), maxMarks);
+          }
+        }
+        display = (display === null || display === undefined) ? "" : display;
+
         totalCells++;
         if (display !== "") filledCells++;
         
@@ -770,8 +986,8 @@
                 'autocomplete="off" /></td>';
       });
 
-      // Total column (auto-computed for exams)
-      if (!isMentor) {
+      // Total column (auto-computed for exams) — ONLY visible to Master Administrator
+      if (showTotalCol) {
         html += '<td class="sno" id="total-' + esc(st.rollNo) + '">' + computeTotal(st.marks) + '</td>';
       }
       html += '</tr>';
@@ -785,9 +1001,108 @@
     // Wire up input events
     var inputs = tBody.querySelectorAll(".mark-input");
     inputs.forEach(function (inp) {
+      inp.addEventListener("focus", onMarkFocus);
       inp.addEventListener("input", onMarkInput);
+      inp.addEventListener("blur", onMarkBlur);
       inp.addEventListener("keydown", onMarkKeydown);
-      inp.addEventListener("focus", function () { this.select(); });
+    });
+
+    // Also render mobile cards if in card view
+    if (currentViewMode === "cards") renderMobileCards();
+  }
+
+  /* ═══════════ Mobile Card View ═══════════ */
+  function renderMobileCards() {
+    if (!mobileCardsEl) return;
+    var isMentor = (currentStream === "Mentor Report");
+    var info = getTeacherInfo();
+    var isAdmin = !info || info.isAdmin || !info.allowedCodes;
+    var visibleCols = subjectCols.filter(function(s) {
+      if (isAdmin || isMentor) return true;
+      return isSubjectAllowed(s);
+    });
+    if (visibleCols.length === 0) visibleCols = subjectCols;
+
+    var q = searchBox ? searchBox.value.trim().toLowerCase() : "";
+    var html = "";
+    var filledCells = 0, totalCells = 0;
+
+    studentRows.forEach(function(st, idx) {
+      // Search filter
+      var roll = (st.rollNo || "").toLowerCase();
+      var name = (st.name || "").toLowerCase();
+      var hidden = q && roll.indexOf(q) < 0 && name.indexOf(q) < 0;
+      var hiddenAttr = hidden ? ' style="display:none;"' : '';
+
+      var total = computeTotal(st.marks);
+
+      html += '<div class="student-card-item" data-roll="' + esc(st.rollNo) + '"' + hiddenAttr + '>';
+
+      // Card header: Name + Total
+      html += '<div class="card-header-row">';
+      html += '<div class="card-student-info">';
+      html += '<span class="card-student-name">' + esc(st.name) + '</span>';
+      html += '<span class="card-student-roll">Roll No: ' + esc(st.rollNo) + ' &nbsp;|&nbsp; #' + (st.sNo || idx + 1) + '</span>';
+      html += '</div>';
+      var info = getTeacherInfo();
+      var isMaster = !!(info && info.isAdmin === true);
+      var showTotalCol = !isMentor && isMaster;
+      if (showTotalCol) {
+        html += '<span class="card-student-total" id="card-total-' + esc(st.rollNo) + '">' + (total || 0) + '</span>';
+      }
+      html += '</div>';
+
+      // Subject fields grid
+      html += '<div class="card-subj-grid">';
+      visibleCols.forEach(function(s) {
+        var val = st.marks[s];
+        var display = (val === null || val === undefined || val === "") ? "" : val;
+        totalCells++;
+        if (display !== "") filledCells++;
+        var canEdit = isMentor ? true : isSubjectAllowed(s);
+        var modeStr = isMentor ? 'type="url" inputmode="url" placeholder="Drive link..."' : 'type="text" inputmode="decimal"';
+        var clsStr = isMentor ? 'mark-input mentor-input' : (canEdit ? 'mark-input' : 'mark-input disabled-input');
+        var disabledAttr = canEdit ? '' : 'disabled';
+
+        html += '<div class="card-subj-field">';
+        html += '<span class="card-subj-label">' + esc(s) + '</span>';
+        html += '<input ' + modeStr + ' class="' + clsStr + '" '
+              + 'data-roll="' + esc(st.rollNo) + '" '
+              + 'data-subj="' + esc(s) + '" '
+              + 'value="' + esc(String(display)) + '" '
+              + disabledAttr + ' autocomplete="off" />';
+        html += '</div>';
+      });
+      html += '</div>';
+      html += '</div>';
+    });
+
+    mobileCardsEl.innerHTML = html;
+    updateStats(filledCells, totalCells);
+
+    // Wire events on card inputs
+    var cardInputs = mobileCardsEl.querySelectorAll(".mark-input");
+    cardInputs.forEach(function(inp) {
+      inp.addEventListener("blur", onMarkBlur);
+      inp.addEventListener("input", function(e) {
+        onMarkInput(e);
+        // Update card total badge
+        var roll = inp.dataset.roll;
+        var card = mobileCardsEl.querySelector('[data-roll="' + roll + '"]');
+        if (card) {
+          var totalBadge = document.getElementById("card-total-" + roll);
+          if (totalBadge) {
+            var allInputs = card.querySelectorAll(".mark-input");
+            var sum = 0;
+            allInputs.forEach(function(i) {
+              var v = parseFloat(i.value);
+              if (!isNaN(v)) sum += v;
+            });
+            totalBadge.textContent = sum;
+          }
+        }
+      });
+      inp.addEventListener("focus", function() { this.select(); });
     });
   }
 
@@ -872,11 +1187,175 @@
         footHtml += '<td class="stat-val">' + val + '</td>';
       });
 
-      footHtml += '<td class="stat-val"></td>'; // Total column
+      var isMaster = !!(info && info.isAdmin === true);
+      if (!isMentor && isMaster) {
+        footHtml += '<td class="stat-val"></td>'; // Total column
+      }
       footHtml += '</tr>';
     });
 
     tFoot.innerHTML = footHtml;
+  }
+
+  /* ═══════════ Out-Of Mark Conversion ═══════════ */
+  function updateOutOfBoxVisibility() {
+    var outBox = document.querySelector(".out-of-box");
+    if (!outBox) return;
+    if (currentStream === "PE - Analysis" || currentStream === "Rankwise" || currentStream === "Mentor Report") {
+      outBox.style.display = "none";
+    } else {
+      outBox.style.display = "inline-flex";
+    }
+  }
+
+  function getOutOfMax() {
+    if (currentStream === "PE - Analysis" || currentStream === "Rankwise" || currentStream === "Mentor Report") {
+      return 100;
+    }
+    var outEl = $("#outOfInput");
+    if (!outEl) return 100;
+    var v = parseFloat(outEl.value);
+    if (isNaN(v)) return 100;
+    if (v < 50) return 50;
+    if (v > 100) return 100;
+    return v;
+  }
+
+  function getOriginalMark(raw, max) {
+    if (raw === "" || raw === null || raw === undefined || String(raw).toLowerCase() === "ab") return raw;
+    var num = parseFloat(raw);
+    if (isNaN(num)) return raw;
+    if (!max || max === 100) return raw;
+    var orig = (num * max) / 100;
+    orig = Math.round(orig * 10) / 10;
+    if (orig % 1 === 0) orig = Math.round(orig);
+    return String(orig);
+  }
+
+  function convertMarkValue(raw, max) {
+    if (raw === "" || raw.toLowerCase() === "ab") return raw;
+    var num = parseFloat(raw);
+    if (isNaN(num)) return raw;
+    if (!max || max === 100) return raw;
+    var converted = (num / max) * 100;
+    if (converted > 100) converted = 100;
+    converted = Math.round(converted * 10) / 10;
+    if (converted % 1 === 0) converted = Math.round(converted);
+    return String(converted);
+  }
+
+  function onMarkBlur(e) {
+    var inp = e.target;
+    var roll = inp.dataset.roll;
+    var subj = inp.dataset.subj;
+    var raw  = inp.value.trim();
+
+    if (raw === "" || raw.toLowerCase() === "ab") return;
+    var num = parseFloat(raw);
+    if (isNaN(num)) return;
+
+    var max = getOutOfMax();
+
+    // When converter is ON, show converted value in input on blur; if OFF, show raw entered mark
+    if (converterOn && max !== 100) {
+      inp.value = convertMarkValue(raw, max);
+    } else {
+      inp.value = raw;
+    }
+  }
+
+  /* ═══════════ Undo / Redo System (Ctrl + Z / Ctrl + Y) ═══════════ */
+  var undoStack = [];
+  var redoStack = [];
+
+  function recordUndoAction(action) {
+    if (action.oldVal === action.newVal) return;
+    undoStack.push(action);
+    if (undoStack.length > 100) undoStack.shift();
+    redoStack = [];
+  }
+
+  function applyCellChange(action, isUndo) {
+    var valToApply = isUndo ? action.oldVal : action.newVal;
+    var roll = action.roll;
+
+    if (action.type === 'mark') {
+      var subj = action.subj;
+      var inp = document.querySelector('input[data-roll="' + roll + '"][data-subj="' + subj + '"]');
+      if (inp) {
+        inp.value = valToApply;
+        inp.dataset.initialVal = valToApply;
+        inp.classList.remove("invalid");
+        inp.classList.add("changed");
+      }
+      if (!dirtyRolls[roll]) dirtyRolls[roll] = {};
+      dirtyRolls[roll][subj] = valToApply;
+      recalcRowTotal(roll);
+      recountFilled();
+      renderSubjectStats();
+    } else if (action.type === 'pe') {
+      var exam = action.exam;
+      var inp = document.querySelector('input[data-roll="' + roll + '"][data-exam="' + exam + '"]');
+      if (inp) {
+        inp.value = valToApply;
+        inp.dataset.initialVal = valToApply;
+        inp.classList.remove("invalid");
+        inp.classList.add("changed");
+      }
+      if (!dirtyRolls[roll]) dirtyRolls[roll] = { exams: {} };
+      if (!dirtyRolls[roll].exams) dirtyRolls[roll].exams = {};
+      dirtyRolls[roll].exams[exam] = valToApply;
+      renderPeSubjectStats(["CU 1", "TE 1", "CU 2", "TE 2"], {});
+    }
+    updateSaveState();
+  }
+
+  function doUndo() {
+    if (!undoStack.length) {
+      showMsg("Nothing to undo.", "info");
+      return;
+    }
+    var action = undoStack.pop();
+    redoStack.push(action);
+    applyCellChange(action, true);
+    showMsg("Undo applied (Ctrl + Z).", "info");
+  }
+
+  function doRedo() {
+    if (!redoStack.length) {
+      showMsg("Nothing to redo.", "info");
+      return;
+    }
+    var action = redoStack.pop();
+    undoStack.push(action);
+    applyCellChange(action, false);
+    showMsg("Redo applied (Ctrl + Y).", "info");
+  }
+
+  document.addEventListener("keydown", function (e) {
+    var isCtrl = e.ctrlKey || e.metaKey;
+    if (!isCtrl) return;
+
+    if (e.key === "z" || e.key === "Z") {
+      if (e.shiftKey) {
+        e.preventDefault();
+        doRedo();
+      } else {
+        e.preventDefault();
+        doUndo();
+      }
+    } else if (e.key === "y" || e.key === "Y") {
+      e.preventDefault();
+      doRedo();
+    }
+  });
+
+  function onMarkFocus(e) {
+    var inp = e.target;
+    if (inp.dataset.initialVal === undefined) {
+      inp.dataset.initialVal = inp.value;
+    }
+    inp.select();
   }
 
   /* ═══════════ Cell input handler ═══════════ */
@@ -894,9 +1373,43 @@
     inp.classList.remove("invalid");
     inp.classList.add("changed");
 
+    var max = getOutOfMax();
+    var valToSave = raw;
+    var rawValue = raw;
+
+    if (raw !== "" && raw.toLowerCase() !== "ab" && !isNaN(parseFloat(raw)) && max !== 100) {
+      if (converterOn) {
+        valToSave = raw;
+        rawValue = getOriginalMark(raw, max);
+      } else {
+        valToSave = convertMarkValue(raw, max);
+        rawValue = raw;
+      }
+    }
+
+    var st = studentRows.find(function(r) { return String(r.rollNo) === String(roll); });
+    if (st) {
+      if (!st.rawMarks) st.rawMarks = Object.assign({}, st.marks || {});
+      st.rawMarks[subj] = rawValue;
+      st.marks[subj] = valToSave;
+    }
+    inp.dataset.rawVal = rawValue;
+
+    var initialVal = inp.dataset.initialVal !== undefined ? inp.dataset.initialVal : "";
+    if (initialVal !== valToSave) {
+      recordUndoAction({
+        type: 'mark',
+        roll: roll,
+        subj: subj,
+        oldVal: initialVal,
+        newVal: valToSave
+      });
+      inp.dataset.initialVal = valToSave;
+    }
+
     // Track dirty
     if (!dirtyRolls[roll]) dirtyRolls[roll] = {};
-    dirtyRolls[roll][subj] = raw;
+    dirtyRolls[roll][subj] = valToSave;
     updateSaveState();
 
     // Update total in the row
@@ -970,33 +1483,62 @@
   /* ═══════════ Search / filter ═══════════ */
   function filterRows() {
     var q = searchBox.value.trim().toLowerCase();
+    // Filter table rows
     var rows = tBody.querySelectorAll("tr");
     rows.forEach(function (r) {
       var roll = (r.dataset.roll || "").toLowerCase();
-      var name = (r.children[1] ? r.children[1].textContent : "").toLowerCase();
+      var name = (r.children[2] ? r.children[2].textContent : "").toLowerCase();
       if (!q || roll.indexOf(q) >= 0 || name.indexOf(q) >= 0) {
         r.classList.remove("hidden-row");
       } else {
         r.classList.add("hidden-row");
       }
     });
+    // Filter mobile cards
+    if (mobileCardsEl) {
+      var cards = mobileCardsEl.querySelectorAll(".student-card-item");
+      cards.forEach(function(card) {
+        var roll = (card.dataset.roll || "").toLowerCase();
+        var nameEl = card.querySelector(".card-student-name");
+        var name = nameEl ? nameEl.textContent.toLowerCase() : "";
+        card.style.display = (!q || roll.indexOf(q) >= 0 || name.indexOf(q) >= 0) ? "" : "none";
+      });
+    }
   }
 
   /* ═══════════ Save to server ═══════════ */
-  function saveAll() {
+  function saveAll(silent) {
     var keys = Object.keys(dirtyRolls);
-    if (!keys.length) { showMsg("Nothing to save — no changes detected.", "info"); return; }
+    if (!keys.length) {
+      if (!silent) showMsg("Nothing to save — no changes detected.", "info");
+      return;
+    }
+
+    var max = getOutOfMax();
+    var doConvert = converterOn && max !== 100;
 
     var updates = keys.map(function (roll) {
-      if (currentStream === "PE - Analysis") {
+      if (currentStream === "PE - Analysis" || currentStream === "Rankwise") {
         return { rollNo: roll, exams: dirtyRolls[roll].exams || dirtyRolls[roll] };
+      }
+      // When converter is ON, convert dirty marks to /100 before saving
+      if (doConvert) {
+        var convertedMarks = {};
+        var raw = dirtyRolls[roll];
+        for (var subj in raw) {
+          convertedMarks[subj] = convertMarkValue(String(raw[subj]), max);
+        }
+        return { rollNo: roll, marks: convertedMarks };
       }
       return { rollNo: roll, marks: dirtyRolls[roll] };
     });
 
-    saveBtn.classList.add("saving");
-    saveBtn.textContent = "Saving…";
-    showMsg("Saving " + updates.length + " student(s)…", "info");
+    if (!silent && saveBtn) {
+      saveBtn.classList.add("saving");
+      saveBtn.textContent = "Saving\u2026";
+    }
+    if (saveStatusText) saveStatusText.textContent = "Auto-saving…";
+    showMsg((silent ? "Auto-saving " : "Saving ") + updates.length + " student(s)…", "info");
 
     fetch("/api/teacher/save", {
       method: "POST",
@@ -1004,15 +1546,28 @@
       body: JSON.stringify({ stream: currentStream, exam: currentExam, updates: updates, grade: currentGrade })
     })
     .then(function (r) {
-      if (r.status === 401) { logout(); throw new Error("Session expired. Please log in again."); }
-      return r.json();
+      return r.text().then(function (text) {
+        if (r.status === 401) { logout(); throw new Error("Session expired. Please log in again."); }
+        var d;
+        try {
+          d = JSON.parse(text);
+        } catch (err) {
+          var cleanTxt = text.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+          d = { error: cleanTxt.substring(0, 150) || ("Server error (HTTP " + r.status + ")") };
+        }
+        return d;
+      });
     })
     .then(function (d) {
-      saveBtn.classList.remove("saving");
-      saveBtn.innerHTML = '<svg viewBox="0 0 24 24" class="btn-ic"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save All Marks';
+      if (saveBtn) { saveBtn.classList.remove("saving"); saveBtn.innerHTML = '<svg viewBox="0 0 24 24" class="btn-ic"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save All Marks'; }
       if (d.error) { showMsg("Error: " + d.error, "error"); return; }
 
-      showMsg("Saved " + d.count + " student(s) successfully!", "ok");
+      if (silent) {
+        showMsg("Auto-saved " + d.count + " student(s)", "ok");
+        setTimeout(hideMsg, 3000);
+      } else {
+        showMsg("Saved " + d.count + " student(s) successfully!", "ok");
+      }
 
       // Flash saved cells green
       tBody.querySelectorAll(".mark-input.changed").forEach(function (inp) {
@@ -1022,18 +1577,28 @@
       });
 
       resetDirty();
-      // Reload to sync totals from server
-      setTimeout(loadData, 1200);
+      // Keep DOM elements intact; recalculate totals and stats locally
+      recountFilled();
+      renderSubjectStats();
     })
     .catch(function (e) {
-      saveBtn.classList.remove("saving");
-      saveBtn.innerHTML = '<svg viewBox="0 0 24 24" class="btn-ic"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save All Marks';
+      if (saveBtn) { saveBtn.classList.remove("saving"); saveBtn.innerHTML = '<svg viewBox="0 0 24 24" class="btn-ic"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save All Marks'; }
       showMsg("Network error: " + e.message, "error");
     });
   }
 
+  function scheduleAutoSave() {
+    if (autoSaveTimer) clearTimeout(autoSaveTimer);
+    if (saveStatusText) saveStatusText.textContent = "Auto-save in 3s…";
+    autoSaveTimer = setTimeout(function () {
+      autoSaveTimer = null;
+      saveAll(true); // silent auto-save
+    }, AUTO_SAVE_DELAY);
+  }
+
   /* ═══════════ Helpers ═══════════ */
   function resetDirty() {
+    if (autoSaveTimer) { clearTimeout(autoSaveTimer); autoSaveTimer = null; }
     dirtyRolls = {};
     updateSaveState();
   }
@@ -1042,13 +1607,15 @@
     var changed = Object.keys(dirtyRolls).length;
     if (!saveStatusText || !saveStatus) return;
     if (changed) {
-      saveStatusText.textContent = changed + " student" + (changed === 1 ? "" : "s") + " with unsaved changes";
+      saveStatusText.textContent = changed + " student" + (changed === 1 ? "" : "s") + " with unsaved changes — auto-saving shortly";
       saveStatus.classList.add("has-changes");
-      saveBtn.setAttribute("aria-label", "Save changes for " + changed + " student" + (changed === 1 ? "" : "s"));
+      if (saveBtn) saveBtn.setAttribute("aria-label", "Save changes for " + changed + " student" + (changed === 1 ? "" : "s"));
+      scheduleAutoSave();
     } else {
+      if (autoSaveTimer) clearTimeout(autoSaveTimer);
       saveStatusText.textContent = "All changes saved";
       saveStatus.classList.remove("has-changes");
-      saveBtn.setAttribute("aria-label", "Save all marks");
+      if (saveBtn) saveBtn.setAttribute("aria-label", "Save all marks");
     }
   }
 
@@ -1062,9 +1629,9 @@
   }
 
   function updateStats(filled, total) {
-    countEl.textContent = studentRows.length + " students";
-    filledEl.textContent = filled + " filled";
-    emptyEl.textContent = (total - filled) + " empty";
+    if (countEl) countEl.textContent = studentRows.length + " students";
+    if (filledEl) filledEl.textContent = filled + " filled";
+    if (emptyEl) emptyEl.textContent = (total - filled) + " empty";
   }
 
   function recountFilled() {

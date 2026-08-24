@@ -9,7 +9,11 @@ function requireAuth(req) {
 }
 
 module.exports = async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const origin = req.headers.origin || '';
+  const allowed = origin === 'https://ksraksharaacademy.vercel.app'
+    || origin.endsWith('.vercel.app')
+    || origin.startsWith('http://localhost');
+  res.setHeader('Access-Control-Allow-Origin', allowed ? origin : 'https://ksraksharaacademy.vercel.app');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
@@ -28,6 +32,9 @@ module.exports = async (req, res) => {
   try {
     const stream = q.stream;
     const exam = q.exam;
+    if (stream === "Rankwise" && teacherUser !== "aksharaacademy") {
+      return res.status(403).json({ error: "Access denied: Rankwise view is restricted to Master Administrator." });
+    }
     const data = await teacherApi.getTeacherData(stream, exam, grade);
     return res.status(200).json(data);
   } catch (err) {

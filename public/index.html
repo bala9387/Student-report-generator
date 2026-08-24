@@ -2,25 +2,113 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=5.0, user-scalable=yes" />
   <title>Student Performance Report</title>
-  <link rel="stylesheet" href="styles.css?v=36" />
+  <link rel="stylesheet" href="styles.css?v=38" />
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body>
-  <div class="page">
-    <!-- ===================== HERO ===================== -->
-    <header class="hero">
-      <img class="crest" src="logo.jpg" alt="KSR Logo" />
-      <div class="hero-text">
-        <h1>Student Performance Report</h1>
-        <p>Grade XII &middot; Team Elevate 2027 &middot; Parent Portal</p>
+<body class="landing-body">
+  <div class="landing-page">
+    
+    <!-- ===================== LANDING HERO ===================== -->
+    <header class="landing-hero">
+      <div class="landing-hero-content">
+        <img class="landing-crest" src="logo.jpg" alt="KSR Logo" />
+        <div class="landing-titles">
+          <div class="landing-badge">OFFICIAL PORTAL &middot; ACADEMIC SESSION 2026&ndash;27</div>
+          <h1>KSR AKSHARA ACADEMY</h1>
+          <p>Student Performance & Evaluation System &middot; Grades X, XI & XII</p>
+        </div>
       </div>
     </header>
 
+    <!-- ===================== 3 PORTAL ACTION CARDS ===================== -->
+    <main class="portal-grid-container" id="portalGridContainer">
+      <div class="portal-cards-grid">
+        
+        <!-- CARD 1: Student Report -->
+        <a href="#lookupCard" id="navStudentCard" class="portal-card card-student">
+          <div>
+            <div class="portal-card-header">
+              <div class="portal-card-icon student-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                  <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                </svg>
+              </div>
+              <span class="portal-tag tag-blue">STUDENT PORTAL</span>
+            </div>
+            <div class="portal-card-body">
+              <h3>Student Report</h3>
+              <p>View individual student marks, performance analytics, exam results, and progress breakdown across all terms.</p>
+            </div>
+          </div>
+          <button type="button" class="portal-card-btn btn-blue">
+            <span>View Student Report</span>
+            <svg class="btn-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+        </a>
+
+        <!-- CARD 2: AI Report Generator -->
+        <a href="/generator/" class="portal-card card-ai">
+          <div>
+            <div class="portal-card-header">
+              <div class="portal-card-icon ai-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
+                  <path d="M12 12L2.5 7.5"></path>
+                  <path d="M12 12v10"></path>
+                </svg>
+              </div>
+              <span class="portal-tag tag-purple">AI EVALUATOR</span>
+            </div>
+            <div class="portal-card-body">
+              <h3>AI Report Generator</h3>
+              <p>Evaluate student answer sheets automatically using Gemini AI. Upload question papers and answer sheets for instant grading.</p>
+            </div>
+          </div>
+          <button type="button" class="portal-card-btn btn-purple">
+            <span>AI Report Generator</span>
+            <svg class="btn-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+        </a>
+
+        <!-- CARD 3: Teacher Portal -->
+        <a href="/teacher/" class="portal-card card-teacher">
+          <div>
+            <div class="portal-card-header">
+              <div class="portal-card-icon teacher-icon">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+              <span class="portal-tag tag-green">STAFF & GRADEBOOK</span>
+            </div>
+            <div class="portal-card-body">
+              <h3>Teacher Portal</h3>
+              <p>Dedicated gradebook portal for teachers to enter marks, manage student rosters, and view section performance analysis.</p>
+            </div>
+          </div>
+          <button type="button" class="portal-card-btn btn-green">
+            <span>Teacher Portal</span>
+            <svg class="btn-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+        </a>
+
+      </div>
+    </main>
+
+    <div class="page" style="padding:0;">
+
     <!-- ===================== LOOKUP ===================== -->
-    <section class="lookup-card" id="lookupCard">
-      <h2>View your child&rsquo;s report</h2>
+    <section class="lookup-card" id="lookupCard" hidden>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h2 style="margin:0;">View your child&rsquo;s report</h2>
+        <button type="button" id="closeLookupBtn" class="btn-ghost" style="padding:6px 12px;font-size:0.85rem;">&larr; Back to Portals</button>
+      </div>
       <p class="hint">Enter the student&rsquo;s Roll Number and choose the exam mode.</p>
 
       <form id="lookupForm" autocomplete="off">
@@ -83,8 +171,12 @@
       <div id="report" class="report"></div>
     </section>
 
+    <footer class="landing-footer">
+      <p>&copy; 2026 KSR Akshara Academy &middot; Official Student Evaluation & Gradebook Portal &middot; Confidential & Restricted Access</p>
+    </footer>
 
   </div>
+</div>
 
   <!-- LOGIN MODAL -->
   <div id="loginOverlay" class="login-overlay" hidden>
@@ -118,6 +210,6 @@
   <!-- data.js / datasource.js are backend-only now (see server.js) — the browser
        never talks to Google Sheets directly and never sees the sheet ID. -->
   <script src="vendor/jspdf.umd.min.js"></script>
-  <script src="app.js?v=36"></script>
+  <script src="app.js?v=37"></script>
 </body>
 </html>
