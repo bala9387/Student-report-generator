@@ -23,6 +23,53 @@
   }
   function normRoll(s) { return String(s || "").trim().toUpperCase().replace(/\s+/g, ""); }
 
+  var SUBJECT_FULL_MAP = {
+    PHY: "Physics", CHE: "Chemistry", MAT: "Mathematics", BIO: "Biology",
+    CS: "Computer Science", ENG: "English", PED: "Physical Education",
+    Acc: "Accountancy", Bs: "Business Studies", Eco: "Economics",
+    "A.Math": "Applied Mathematics", Eng: "English", PE: "Physical Education", Cs: "Computer Science",
+    Tam: "Tamil", Math: "Mathematics", Sci: "Science", Sco: "Social Science", AI: "Artificial Intelligence",
+    TAM: "Tamil", MATH: "Mathematics", Maths: "Mathematics", SCI: "Science", SOC: "Social Science",
+    HIN: "Hindi", Hin: "Hindi", Hindi: "Hindi", Tamil: "Tamil", Physics: "Physics", Chemistry: "Chemistry",
+    Biology: "Biology", Mathematics: "Mathematics", "Physical Education": "Physical Education",
+    Accountancy: "Accountancy", "Business Studies": "Business Studies", Economics: "Economics",
+    ACC: "Accountancy", BS: "Business Studies", BST: "Business Studies", ECO: "Economics",
+    "A.MATH": "Applied Mathematics", "APP. MATH": "Applied Mathematics", "App. Math": "Applied Mathematics",
+    "Applied Math": "Applied Mathematics", "Applied Mathematics": "Applied Mathematics",
+    SST: "Social Science", Social: "Social Science", FRE: "French", French: "French",
+    Total: "Total Score", Rank: "Class Rank", Link: "Google Drive URL"
+  };
+
+  function getSubjectFullName(code) {
+    if (!code) return "";
+    var str = String(code).trim();
+    if (SUBJECT_FULL_MAP[str]) return SUBJECT_FULL_MAP[str];
+    var upper = str.toUpperCase();
+    if (SUBJECT_FULL_MAP[upper]) return SUBJECT_FULL_MAP[upper];
+    var clean = upper.replace(/[^A-Z0-9.]/g, "");
+    if (SUBJECT_FULL_MAP[clean]) return SUBJECT_FULL_MAP[clean];
+
+    if (/^PHY(\b|S|\.|\s)/i.test(str) || upper === "PHY") return "Physics";
+    if (/^CHE(\b|M|\.|\s)/i.test(str) || upper === "CHE") return "Chemistry";
+    if (/^BIO(\b|L|\.|\s)/i.test(str) || upper === "BIO") return "Biology";
+    if (/^MAT(\b|H|\.|\s)/i.test(str) || /^MATH/i.test(str) || upper === "MAT") return "Mathematics";
+    if (/^ENG(\b|L|\.|\s)/i.test(str) || upper === "ENG") return "English";
+    if (/^(PED|PE\b|PHY.*EDU)/i.test(str)) return "Physical Education";
+    if (/^(CS|COMP)/i.test(str)) return "Computer Science";
+    if (/^ACC/i.test(str)) return "Accountancy";
+    if (/^(BS|BST|BUS)/i.test(str)) return "Business Studies";
+    if (/^ECO/i.test(str)) return "Economics";
+    if (/^A.*MAT/i.test(str)) return "Applied Mathematics";
+    if (/^TAM/i.test(str)) return "Tamil";
+    if (/^HIN/i.test(str)) return "Hindi";
+    if (/^SCI/i.test(str)) return "Science";
+    if (/^(SOC|SCO|SST|SOCIAL)/i.test(str)) return "Social Science";
+    if (/^AI\b|ARTIFICIAL/i.test(str)) return "Artificial Intelligence";
+    if (/^FRE/i.test(str)) return "French";
+
+    return str;
+  }
+
   // fetch JSON from our backend; throws with a readable message on failure
   function apiGet(path) {
     return fetch(path).then(function (r) {
@@ -79,7 +126,7 @@
 
     var submitBtn = $("#submitBtn");
     submitBtn.disabled = true;
-    apiGet("/api/lookup?mode=" + encodeURIComponent(mode) + "&roll=" + encodeURIComponent(roll) + "&grade=" + encodeURIComponent(grade))
+    apiGet("/api/lookup?mode=" + encodeURIComponent(mode) + "&roll=" + encodeURIComponent(roll) + "&grade=" + encodeURIComponent(grade) + "&fresh=1&_t=" + Date.now())
       .then(function (resp) {
         absorbMeta(resp);
         if (resp.found && resp.kind === "analysis") {
@@ -234,8 +281,7 @@ $("#downloadBtn").addEventListener("click", function () {
   }
 
   function markCell(val, absent, isTop) {
-    if (absent) return '<span class="mark-abs">AB</span>';
-    if (val == null) return "&mdash;";
+    if (val == null || absent || val === "AB" || val === "ab" || val === "") return '<span class="your-mark">0</span>';
     return '<span class="your-mark' + (isTop ? " is-top" : "") + '">' + val + "</span>";
   }
   // percentage of marks obtained (one decimal, no trailing .0) e.g. 56, 63.5, 50.7
@@ -273,8 +319,8 @@ $("#downloadBtn").addEventListener("click", function () {
     currentPDF = { type: "exam", mode: m, student: s, exam: exam };
     
     var overallEx = s.overall && s.overall[exam];
-var isSchoolTopper = !!(overallEx && overallEx.rank === 1);
-    var isStreamTopper = !!(overallEx && overallEx.domainRank === 1);
+    var isSchoolTopper = !!(overallEx && overallEx.rank === 1 && overallEx.total > 0);
+    var isStreamTopper = !!(overallEx && overallEx.domainRank === 1 && overallEx.total > 0 && !isSchoolTopper);
     var topperHtml = "";
     if (isSchoolTopper) {
       topperHtml = "<div class='topper-badge' style='background:#ffd700; color:#5c4000; font-size:1.05em; font-weight:800; border:1px solid #cca100; box-shadow:0 2px 8px rgba(255,215,0,0.4)'>OVERALL SCHOOL TOPPER</div>";
@@ -289,13 +335,13 @@ var isSchoolTopper = !!(overallEx && overallEx.rank === 1);
       esc(m.label) + " &middot; " + esc(exam) + " &middot; Academic Year " + esc(DATA.meta.academicYear) + "</div>";
     host.appendChild(head);
 
-if (isSchoolTopper) {
+    if (isSchoolTopper) {
       host.appendChild(el("p", "note-top",
         "<b>Outstanding Achievement!</b> " + esc(s.name) + " holds Rank 1 out of the entire school (" + DATA.modes["PE - Analysis"].classSize + " students) in " + esc(exam) + "."));
     } else if (isStreamTopper) {
       host.appendChild(el("p", "note-top",
         "<b>Congratulations.</b> " + esc(s.name) + " holds Rank 1 in their stream (" +
-        DATA.modes["PE - Analysis"].classSize + " students in " + esc(exam) + ")."));
+        (overallEx.domainSize || m.classSize) + " students in " + esc(exam) + ")."));
     }
 
     host.appendChild(el("div", "sec-title", "1. Student Information"));
@@ -315,15 +361,15 @@ if (isSchoolTopper) {
     var body = "<tbody>";
     
     m.subjects.forEach(function (code) {
-      var full = m.subjectFull[code] || code;
+      var full = (m.subjectFull && m.subjectFull[code] && m.subjectFull[code] !== code) ? m.subjectFull[code] : getSubjectFullName(code);
       body += "<tr><td class='subj'>" + esc(full) + " <small style='color:#8a93a3'>(" + esc(code) + ")</small></td>";
-      var val = s.marks[exam][code];
-      var abs = (val == null);
-      var cs = m.classStats[exam].subjects[code];
-      var isTop = cs && val != null && val === cs.max;
-      body += "<td>" + markCell(val, abs, isTop) + "</td>";
-      body += "<td>" + (cs ? "<b>" + cs.max + "</b>" : "&mdash;") + "</td>";
-      body += "<td>" + pctCell(val != null ? pctObtained(val, MAXSUB) : null) + "</td></tr>";
+      var rawVal = s.marks[exam][code];
+      var val = (rawVal == null || rawVal === "AB" || rawVal === "ab" || rawVal === "") ? 0 : rawVal;
+      var cs = m.classStats[exam] && m.classStats[exam].subjects[code];
+      var isTop = cs && val > 0 && val === cs.max;
+      body += "<td>" + markCell(val, false, isTop) + "</td>";
+      body += "<td>" + (cs && cs.max != null ? "<b>" + cs.max + "</b>" : "&mdash;") + "</td>";
+      body += "<td>" + pctCell(pctObtained(val, MAXSUB)) + "</td></tr>";
     });
     
     body += "<tr class='total-row'><td class='subj'>Total</td>";
@@ -358,8 +404,8 @@ if (isSchoolTopper) {
   function renderAnalysis(host, m, s) {
     var latest = latestConductedExam(m);
     var latestEx = s.exams[latest];
-    var isSchoolTopper = !!(latestEx && latestEx.rank === 1);
-    var isStreamTopper = !!(latestEx && latestEx.domainRank === 1);
+    var isSchoolTopper = !!(latestEx && latestEx.rank === 1 && latestEx.total > 0);
+    var isStreamTopper = !!(latestEx && latestEx.domainRank === 1 && latestEx.total > 0 && !isSchoolTopper);
     var topperHtml = "";
     if (isSchoolTopper) {
       topperHtml = "<div class='topper-badge' style='background:#ffd700; color:#5c4000; font-size:1.05em; font-weight:800; border:1px solid #cca100; box-shadow:0 2px 8px rgba(255,215,0,0.4)'>OVERALL SCHOOL TOPPER</div>";
@@ -521,7 +567,7 @@ if (isSchoolTopper) {
     host.appendChild(el("p", "lb-asof", "Loading&hellip;"));
     $("#downloadBtn").hidden = false;
     showView("report");
-    apiGet("/api/leaderboard?scope=" + scope + "&n=5")
+    apiGet("/api/leaderboard?scope=" + scope + "&n=5&fresh=1&_t=" + Date.now())
       .then(function (resp) {
         absorbMeta(resp);
         host.innerHTML = "";
@@ -639,8 +685,8 @@ if (isSchoolTopper) {
     var GOLD = [201, 154, 30];
 
     var overallEx = s.overall && s.overall[exam];
-    var isSchoolTopper = !!(overallEx && overallEx.rank === 1);
-    var isStreamTopper = !!(overallEx && overallEx.domainRank === 1);
+    var isSchoolTopper = !!(overallEx && overallEx.rank === 1 && overallEx.total > 0);
+    var isStreamTopper = !!(overallEx && overallEx.domainRank === 1 && overallEx.total > 0 && !isSchoolTopper);
 
     doc.setFillColor(209, 213, 219); doc.rect(0, 0, W, 8, "F");
     doc.setFillColor(183, 22, 28); doc.rect(0, 0, W, 6, "F");
@@ -699,13 +745,15 @@ if (isSchoolTopper) {
     var head = ["Subject", "Marks Obtained", "Class Highest", "Percentage"];
     var rows = [];
     m.subjects.forEach(function (code) {
-      var r = [(m.subjectFull[code] || code) + " (" + code + ")"];
-      var v = s.marks[exam][code];
+      var full = (m.subjectFull && m.subjectFull[code] && m.subjectFull[code] !== code) ? m.subjectFull[code] : getSubjectFullName(code);
+      var r = [(full || code) + " (" + code + ")"];
+      var rawVal = s.marks[exam][code];
+      var v = (rawVal == null || rawVal === "AB" || rawVal === "ab" || rawVal === "") ? 0 : rawVal;
       var cs = m.classStats[exam] && m.classStats[exam].subjects[code];
-      var isTop = cs && v != null && v === cs.max;
-      r.push(v == null ? "AB" : (isTop ? { text: String(v), isTop: true } : String(v)));
-      r.push(cs ? String(cs.max) : "-");
-      r.push(v == null ? "-" : Math.round(v / MAXSUB * 1000)/10 + "%");
+      var isTop = cs && v > 0 && v === cs.max;
+      r.push(isTop ? { text: String(v), isTop: true } : String(v));
+      r.push((cs && cs.max != null) ? String(cs.max) : "-");
+      r.push(Math.round(v / MAXSUB * 1000)/10 + "%");
       rows.push(r);
     });
     var totRow = ["Total"];
@@ -814,8 +862,8 @@ if (isSchoolTopper) {
     
     var latest = latestConductedExam(m);
     var latestEx = student.exams[latest];
-    var isSchoolTopper = !!(latestEx && latestEx.rank === 1);
-    var isStreamTopper = !!(latestEx && latestEx.domainRank === 1);
+    var isSchoolTopper = !!(latestEx && latestEx.rank === 1 && latestEx.total > 0);
+    var isStreamTopper = !!(latestEx && latestEx.domainRank === 1 && latestEx.total > 0 && !isSchoolTopper);
 
     doc.setFillColor(209, 213, 219); doc.rect(0, 0, W, 8, "F");
     doc.setFillColor(183, 22, 28); doc.rect(0, 0, W, 6, "F");
@@ -1060,7 +1108,7 @@ if (isSchoolTopper) {
     else BANNER = "Grade XII · Team Elevate 2027";
 
     setStatus("loading", isRefresh ? "Refreshing..." : "Connecting...", "Contacting the server");
-    return apiGet("/api/meta?grade=" + encodeURIComponent(grade)).then(applyData).catch(function (e) {
+    return apiGet("/api/meta?grade=" + encodeURIComponent(grade) + "&_t=" + Date.now() + (isRefresh ? "&fresh=1" : "")).then(applyData).catch(function (e) {
       setStatus("offline", "Data unavailable", String(e && e.message || e));
     });
   }

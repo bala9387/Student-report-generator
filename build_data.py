@@ -15,7 +15,14 @@ SUBJECT_FULL = {
     "BIO": "Biology", "CS": "Computer Science", "ENG": "English",
     "PED": "Physical Education", "Acc": "Accountancy", "Bs": "Business Studies",
     "Eco": "Economics", "A.Math": "Applied Mathematics", "Eng": "English",
-    "PE": "Physical Education", "Cs": "Computer Science"
+    "PE": "Physical Education", "Cs": "Computer Science",
+    "TAM": "Tamil", "Tam": "Tamil", "Tamil": "Tamil",
+    "SCI": "Science", "Sci": "Science", "Science": "Science",
+    "SOC": "Social Science", "Soc": "Social Science", "Sco": "Social Science", "Social": "Social Science",
+    "AI": "Artificial Intelligence", "Ai": "Artificial Intelligence",
+    "HIN": "Hindi", "Hin": "Hindi", "Hindi": "Hindi",
+    "Math": "Mathematics", "MATH": "Mathematics", "Maths": "Mathematics",
+    "BS": "Business Studies", "BST": "Business Studies", "ACC": "Accountancy", "ECO": "Economics"
 }
 
 GROUPS = ["Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"]
@@ -111,15 +118,12 @@ for g in GROUPS:
             row_marks = {}
             row_abs = {}
             for i, s in enumerate(subjects):
-                v = ws.cell(r, base + i).value
                 if is_num(v):
                     row_marks[s] = v
                     dist[ex][s].append(v)
-                elif is_absent(v):
-                    row_marks[s] = None
-                    row_abs[s] = True
                 else:
-                    row_marks[s] = None
+                    row_marks[s] = 0
+                    dist[ex][s].append(0)
             tot = ws.cell(r, base + 6).value
             row_marks["Total"] = tot if is_num(tot) else 0
             marks[ex] = row_marks

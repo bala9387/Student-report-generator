@@ -62,8 +62,47 @@
     CS: "Computer Science", ENG: "English", PED: "Physical Education",
     Acc: "Accountancy", Bs: "Business Studies", Eco: "Economics",
     "A.Math": "Applied Mathematics", Eng: "English", PE: "Physical Education", Cs: "Computer Science",
-    Tam: "Tamil", Math: "Mathematics", Sci: "Science", Sco: "Social Science", AI: "Artificial Intelligence"
+    Tam: "Tamil", Math: "Mathematics", Sci: "Science", Sco: "Social Science", AI: "Artificial Intelligence",
+    TAM: "Tamil", MATH: "Mathematics", Maths: "Mathematics", SCI: "Science", SOC: "Social Science",
+    HIN: "Hindi", Hin: "Hindi", Hindi: "Hindi", Tamil: "Tamil", Physics: "Physics", Chemistry: "Chemistry",
+    Biology: "Biology", Mathematics: "Mathematics", "Physical Education": "Physical Education",
+    Accountancy: "Accountancy", "Business Studies": "Business Studies", Economics: "Economics",
+    ACC: "Accountancy", BS: "Business Studies", BST: "Business Studies", ECO: "Economics",
+    "A.MATH": "Applied Mathematics", "APP. MATH": "Applied Mathematics", "App. Math": "Applied Mathematics",
+    "Applied Math": "Applied Mathematics", "Applied Mathematics": "Applied Mathematics",
+    SST: "Social Science", Social: "Social Science", FRE: "French", French: "French",
+    Total: "Total Score", Rank: "Class Rank", Link: "Google Drive URL"
   };
+
+  function getSubjectFullName(code) {
+    if (!code) return "";
+    var str = String(code).trim();
+    if (SUBJECT_FULL[str]) return SUBJECT_FULL[str];
+    var upper = str.toUpperCase();
+    if (SUBJECT_FULL[upper]) return SUBJECT_FULL[upper];
+    var clean = upper.replace(/[^A-Z0-9.]/g, "");
+    if (SUBJECT_FULL[clean]) return SUBJECT_FULL[clean];
+
+    if (/^PHY(\b|S|\.|\s)/i.test(str) || upper === "PHY") return "Physics";
+    if (/^CHE(\b|M|\.|\s)/i.test(str) || upper === "CHE") return "Chemistry";
+    if (/^BIO(\b|L|\.|\s)/i.test(str) || upper === "BIO") return "Biology";
+    if (/^MAT(\b|H|\.|\s)/i.test(str) || /^MATH/i.test(str) || upper === "MAT") return "Mathematics";
+    if (/^ENG(\b|L|\.|\s)/i.test(str) || upper === "ENG") return "English";
+    if (/^(PED|PE\b|PHY.*EDU)/i.test(str)) return "Physical Education";
+    if (/^(CS|COMP)/i.test(str)) return "Computer Science";
+    if (/^ACC/i.test(str)) return "Accountancy";
+    if (/^(BS|BST|BUS)/i.test(str)) return "Business Studies";
+    if (/^ECO/i.test(str)) return "Economics";
+    if (/^A.*MAT/i.test(str)) return "Applied Mathematics";
+    if (/^TAM/i.test(str)) return "Tamil";
+    if (/^HIN/i.test(str)) return "Hindi";
+    if (/^SCI/i.test(str)) return "Science";
+    if (/^(SOC|SCO|SST|SOCIAL)/i.test(str)) return "Social Science";
+    if (/^AI\b|ARTIFICIAL/i.test(str)) return "Artificial Intelligence";
+    if (/^FRE/i.test(str)) return "French";
+
+    return str;
+  }
 
   function tabUrl(name, grade) {
     var sid = getSheetId(grade);
@@ -184,6 +223,7 @@
     });
 
     EXAMS.forEach(function (exn) {
+      // 1. Domain (stream) ranks per exam
       Object.keys(domainGroups).forEach(function (dom) {
         var arr = domainGroups[dom].filter(function (st) {
           return st.exams[exn] && st.exams[exn].total > 0;
@@ -199,6 +239,31 @@
           st.exams[exn].domainRank = prevRk;
           st.exams[exn].domainSize = domainGroups[dom].length;
         });
+      });
+
+      // 2. School-wide overall ranks per exam calculated directly from total marks
+      var allStudents = Object.keys(peStudents).map(function(r) { return peStudents[r]; });
+      var validStudents = allStudents.filter(function (st) {
+        return st.exams[exn] && st.exams[exn].total > 0;
+      });
+      validStudents.sort(function (a, b) { return b.exams[exn].total - a.exams[exn].total; });
+      var sPrevTot = -1, sPrevRk = 1;
+      validStudents.forEach(function (st, i) {
+        var tot = st.exams[exn].total;
+        if (tot !== sPrevTot) {
+          sPrevRk = i + 1;
+          sPrevTot = tot;
+        }
+        st.exams[exn].rank = sPrevRk;
+      });
+
+      allStudents.forEach(function (st) {
+        if (!st.exams[exn] || !st.exams[exn].total || st.exams[exn].total <= 0) {
+          if (st.exams[exn]) {
+            st.exams[exn].rank = null;
+            st.exams[exn].domainRank = null;
+          }
+        }
       });
     });
     // -------------------------------------
@@ -220,18 +285,18 @@
       "Bio - Maths": ["PHY", "CHE", "MAT", "BIO", "ENG", "PED"],
       "Bio - CS": ["PHY", "CHE", "CS", "BIO", "ENG", "PED"],
       "Maths - CS": ["PHY", "CHE", "MAT", "CS", "ENG", "PED"],
-      "Applied Math": ["PHY", "CHE", "A.Math", "ENG", "PED", "CS"],
-      "CS": ["Acc", "Bs", "CS", "ENG", "PED", "Eco"],
+      "Applied Math": ["Acc", "Bs", "Eco", "A.Math", "ENG", "PED"],
+      "CS": ["Acc", "Bs", "Eco", "CS", "ENG", "PED"],
       "PCBM": ["PHY", "CHE", "MAT", "BIO", "ENG", "PED"],
       "PCCM": ["PHY", "CHE", "MAT", "CS", "ENG", "PED"],
       "PCBC": ["PHY", "CHE", "CS", "BIO", "ENG", "PED"],
-      "A.Math": ["PHY", "CHE", "A.Math", "ENG", "PED", "CS"],
-      "X Harmony": ["TAM", "ENG", "MAT", "SCI", "SOC", "AI"],
-      "X Melody": ["TAM", "ENG", "MAT", "SCI", "SOC", "AI"],
-      "X Symphony": ["TAM", "ENG", "MAT", "SCI", "SOC", "AI"],
-      "10 H": ["TAM", "ENG", "MAT", "SCI", "SOC", "AI"],
-      "10 M": ["TAM", "ENG", "MAT", "SCI", "SOC", "AI"],
-      "10 S": ["TAM", "ENG", "MAT", "SCI", "SOC", "AI"]
+      "A.Math": ["Acc", "Bs", "Eco", "A.Math", "ENG", "PED"],
+      "X Harmony": ["ENG", "TAM", "MAT", "SCI", "SOC", "AI"],
+      "X Melody": ["ENG", "TAM", "MAT", "SCI", "SOC", "AI"],
+      "X Symphony": ["ENG", "TAM", "MAT", "SCI", "SOC", "AI"],
+      "10 H": ["ENG", "TAM", "MAT", "SCI", "SOC", "AI"],
+      "10 M": ["ENG", "TAM", "MAT", "SCI", "SOC", "AI"],
+      "10 S": ["ENG", "TAM", "MAT", "SCI", "SOC", "AI"]
     };
 
     // ---- group tabs ----
@@ -272,10 +337,13 @@
           var base = BLOCK_START[ex]; var rm = {};
           var sumSubject = 0, hasSubjectMark = false;
           subjects.forEach(function (s, i) {
-            var v = num(cell(row, base + i));
+            var rawCell = cell(row, base + i);
+            var isAB = String(rawCell || "").trim().toLowerCase() === "ab";
+            var v = (isAB || rawCell === "" || rawCell == null) ? 0 : num(rawCell);
+            if (v == null) v = 0;
             rm[s] = v;
-            if (v != null) {
-              dist[ex][s].push(v);
+            dist[ex][s].push(v);
+            if (v > 0) {
               sumSubject += v;
               hasSubjectMark = true;
             }
@@ -329,7 +397,7 @@
           "CU 2": pe.exams["CU 2"], "TE 2": pe.exams["TE 2"] } : null;
       });
 
-      var subjectFull = {}; subjects.forEach(function (s) { subjectFull[s] = SUBJECT_FULL[s] || s; });
+      var subjectFull = {}; subjects.forEach(function (s) { subjectFull[s] = getSubjectFullName(s); });
       modes[modeLabel] = { type: "group", label: modeLabel, subjects: subjects, subjectFull: subjectFull,
         exams: EXAMS, conducted: conducted, classSize: srows.length,
         classStats: classStats, students: students };

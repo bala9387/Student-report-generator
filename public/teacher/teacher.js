@@ -13,8 +13,56 @@
   var currentExam   = "CU 1";
   var studentRows   = [];      // data returned by API
   var subjectCols   = [];      // subject short codes
+  var currentSubjectFull = {}; // subject short code -> full name
   var dirtyRolls    = {};      // rollNo → { marks: { subj: val } }
   var converterOn   = false;   // converter toggle state
+
+  var SUBJECT_FULL_MAP = {
+    PHY: "Physics", CHE: "Chemistry", MAT: "Mathematics", BIO: "Biology",
+    CS: "Computer Science", ENG: "English", PED: "Physical Education",
+    Acc: "Accountancy", Bs: "Business Studies", Eco: "Economics",
+    "A.Math": "Applied Mathematics", Eng: "English", PE: "Physical Education", Cs: "Computer Science",
+    Tam: "Tamil", Math: "Mathematics", Sci: "Science", Sco: "Social Science", AI: "Artificial Intelligence",
+    TAM: "Tamil", MATH: "Mathematics", Maths: "Mathematics", SCI: "Science", SOC: "Social Science",
+    HIN: "Hindi", Hin: "Hindi", Hindi: "Hindi", Tamil: "Tamil", Physics: "Physics", Chemistry: "Chemistry",
+    Biology: "Biology", Mathematics: "Mathematics", "Physical Education": "Physical Education",
+    Accountancy: "Accountancy", "Business Studies": "Business Studies", Economics: "Economics",
+    ACC: "Accountancy", BS: "Business Studies", BST: "Business Studies", ECO: "Economics",
+    "A.MATH": "Applied Mathematics", "APP. MATH": "Applied Mathematics", "App. Math": "Applied Mathematics",
+    "Applied Math": "Applied Mathematics", "Applied Mathematics": "Applied Mathematics",
+    SST: "Social Science", Social: "Social Science", FRE: "French", French: "French",
+    Total: "Total Score", Rank: "Class Rank", Link: "Google Drive URL"
+  };
+
+  function getSubjectFullName(code) {
+    if (!code) return "";
+    var str = String(code).trim();
+    if (SUBJECT_FULL_MAP[str]) return SUBJECT_FULL_MAP[str];
+    var upper = str.toUpperCase();
+    if (SUBJECT_FULL_MAP[upper]) return SUBJECT_FULL_MAP[upper];
+    var clean = upper.replace(/[^A-Z0-9.]/g, "");
+    if (SUBJECT_FULL_MAP[clean]) return SUBJECT_FULL_MAP[clean];
+
+    if (/^PHY(\b|S|\.|\s)/i.test(str) || upper === "PHY") return "Physics";
+    if (/^CHE(\b|M|\.|\s)/i.test(str) || upper === "CHE") return "Chemistry";
+    if (/^BIO(\b|L|\.|\s)/i.test(str) || upper === "BIO") return "Biology";
+    if (/^MAT(\b|H|\.|\s)/i.test(str) || /^MATH/i.test(str) || upper === "MAT") return "Mathematics";
+    if (/^ENG(\b|L|\.|\s)/i.test(str) || upper === "ENG") return "English";
+    if (/^(PED|PE\b|PHY.*EDU)/i.test(str)) return "Physical Education";
+    if (/^(CS|COMP)/i.test(str)) return "Computer Science";
+    if (/^ACC/i.test(str)) return "Accountancy";
+    if (/^(BS|BST|BUS)/i.test(str)) return "Business Studies";
+    if (/^ECO/i.test(str)) return "Economics";
+    if (/^A.*MAT/i.test(str)) return "Applied Mathematics";
+    if (/^TAM/i.test(str)) return "Tamil";
+    if (/^HIN/i.test(str)) return "Hindi";
+    if (/^SCI/i.test(str)) return "Science";
+    if (/^(SOC|SCO|SST|SOCIAL)/i.test(str)) return "Social Science";
+    if (/^AI\b|ARTIFICIAL/i.test(str)) return "Artificial Intelligence";
+    if (/^FRE/i.test(str)) return "French";
+
+    return str;
+  }
 
   /* ── Auth State & Helper ── */
   var PORTAL_VERSION = "37"; // bump this when allowedStreams/allowedCodes change
@@ -125,6 +173,12 @@
   wireStreamCards();
   wireExamTabs();
   if (saveBtn) saveBtn.addEventListener("click", saveAll);
+  var refreshBtn = $("#refreshBtn");
+  if (refreshBtn) {
+    refreshBtn.addEventListener("click", function () {
+      refreshFromSheet(false);
+    });
+  }
   if (exportExcelBtn) exportExcelBtn.addEventListener("click", exportToExcel);
   if (searchBox) searchBox.addEventListener("input", filterRows);
   if (logoutBtn) logoutBtn.addEventListener("click", logout);
@@ -713,7 +767,8 @@
 
     fetch("/api/teacher/marks?stream=" + encodeURIComponent(currentStream) +
           "&exam=" + encodeURIComponent(currentExam) +
-          "&grade=" + encodeURIComponent(currentGrade), {
+          "&grade=" + encodeURIComponent(currentGrade) +
+          "&fresh=1&_t=" + Date.now(), {
       headers: getAuthHeaders()
     })
       .then(function (r) {
@@ -732,6 +787,7 @@
       .then(function (d) {
         if (d.error) { if (!silent) showMsg(d.error, "error"); return; }
         subjectCols = d.subjects || [];
+        currentSubjectFull = d.subjectFull || {};
         studentRows = (d.students || []).slice().sort(function (a, b) {
           return (a.sNo || 0) - (b.sNo || 0);
         });
@@ -744,7 +800,8 @@
 
   /* ═══════════ PE Analysis view ═══════════ */
   function loadPeAnalysis(silent) {
-    fetch("/api/teacher/pe-analysis?grade=" + encodeURIComponent(currentGrade), {
+    fetch("/api/teacher/pe-analysis?grade=" + encodeURIComponent(currentGrade) +
+          "&fresh=1&_t=" + Date.now(), {
       headers: getAuthHeaders()
     })
       .then(function (r) {
@@ -879,7 +936,18 @@
     var exam = inp.dataset.exam;
     var raw  = inp.value.trim();
 
-    if (raw !== "" && raw.toLowerCase() !== "ab" && isNaN(parseFloat(raw))) {
+    // Strip any alphabets / non-numeric characters (only allow 0-9 and at most one decimal dot)
+    var clean = raw.replace(/[^0-9.]/g, '');
+    var parts = clean.split('.');
+    if (parts.length > 2) {
+      clean = parts[0] + '.' + parts.slice(1).join('');
+    }
+    if (raw !== clean) {
+      raw = clean;
+      inp.value = clean;
+    }
+
+    if (raw !== "" && isNaN(parseFloat(raw))) {
       inp.classList.add("invalid");
       return;
     }
@@ -929,8 +997,9 @@
     // Header
     var thRow = "<tr><th>S.No</th><th>Roll No</th><th>Student Name</th>";
     visibleCols.forEach(function (s) {
+      var fullName = (currentSubjectFull && currentSubjectFull[s]) || getSubjectFullName(s);
       var hSub = esc(s) + (converterOn && maxMarks !== 100 ? ' <span style="font-size:0.75rem;color:#2563eb;font-weight:700;">(/100)</span>' : '');
-      thRow += "<th" + (isMentor ? ' style="width:100%;"' : '') + ">" + hSub + "</th>";
+      thRow += "<th" + (isMentor ? ' style="width:100%;"' : '') + " title='" + esc(fullName || s) + "'>" + hSub + "</th>";
     });
     if (showTotalCol) thRow += "<th>Total</th>";
     thRow += "</tr>";
@@ -1057,7 +1126,8 @@
         var disabledAttr = canEdit ? '' : 'disabled';
 
         html += '<div class="card-subj-field">';
-        html += '<span class="card-subj-label">' + esc(s) + '</span>';
+        var fullName = (currentSubjectFull && currentSubjectFull[s]) || getSubjectFullName(s);
+        html += '<span class="card-subj-label" title="' + esc(fullName || s) + '">' + esc(s) + '</span>';
         html += '<input ' + modeStr + ' class="' + clsStr + '" '
               + 'data-roll="' + esc(st.rollNo) + '" '
               + 'data-subj="' + esc(s) + '" '
@@ -1120,8 +1190,8 @@
         var subj = inp.dataset.subj;
         var raw = inp.value.trim();
         if (!stats[subj]) stats[subj] = [];
-        if (raw === "" || raw.toLowerCase() === "ab") {
-          stats[subj].push(null); // absent
+        if (raw === "") {
+          stats[subj].push(null); // empty
         } else {
           var v = parseFloat(raw);
           stats[subj].push(isNaN(v) ? null : v);
@@ -1214,7 +1284,7 @@
   }
 
   function getOriginalMark(raw, max) {
-    if (raw === "" || raw === null || raw === undefined || String(raw).toLowerCase() === "ab") return raw;
+    if (raw === "" || raw === null || raw === undefined) return raw;
     var num = parseFloat(raw);
     if (isNaN(num)) return raw;
     if (!max || max === 100) return raw;
@@ -1225,7 +1295,7 @@
   }
 
   function convertMarkValue(raw, max) {
-    if (raw === "" || raw.toLowerCase() === "ab") return raw;
+    if (raw === "") return raw;
     var num = parseFloat(raw);
     if (isNaN(num)) return raw;
     if (!max || max === 100) return raw;
@@ -1242,7 +1312,7 @@
     var subj = inp.dataset.subj;
     var raw  = inp.value.trim();
 
-    if (raw === "" || raw.toLowerCase() === "ab") return;
+    if (raw === "") return;
     var num = parseFloat(raw);
     if (isNaN(num)) return;
 
@@ -1357,8 +1427,22 @@
     var subj = inp.dataset.subj;
     var raw  = inp.value.trim();
 
-    // Validate: empty, "ab", or a number
-    if (raw !== "" && raw.toLowerCase() !== "ab" && isNaN(parseFloat(raw))) {
+    var isMentor = (currentStream === "Mentor Report");
+    if (!isMentor) {
+      // Strip any alphabets / non-numeric characters (only allow 0-9 and at most one decimal dot)
+      var clean = raw.replace(/[^0-9.]/g, '');
+      var parts = clean.split('.');
+      if (parts.length > 2) {
+        clean = parts[0] + '.' + parts.slice(1).join('');
+      }
+      if (raw !== clean) {
+        raw = clean;
+        inp.value = clean;
+      }
+    }
+
+    // Validate: empty or a number
+    if (raw !== "" && !isMentor && isNaN(parseFloat(raw))) {
       inp.classList.add("invalid");
       return;
     }
@@ -1369,7 +1453,7 @@
     var valToSave = raw;
     var rawValue = raw;
 
-    if (raw !== "" && raw.toLowerCase() !== "ab" && !isNaN(parseFloat(raw)) && max !== 100) {
+    if (raw !== "" && !isMentor && !isNaN(parseFloat(raw)) && max !== 100) {
       if (converterOn) {
         valToSave = raw;
         rawValue = getOriginalMark(raw, max);
@@ -1413,6 +1497,16 @@
   /* ═══════════ Keyboard navigation ═══════════ */
   function onMarkKeydown(e) {
     var inp = e.target;
+    var isMentor = (currentStream === "Mentor Report");
+
+    // Strictly block alphabetic keystrokes on mark input fields (except shortcut keys like Ctrl+C, Ctrl+V, Ctrl+Z, Ctrl+A)
+    if (!isMentor && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      if (e.key && e.key.length === 1 && !/[0-9.]/.test(e.key)) {
+        e.preventDefault();
+        return;
+      }
+    }
+
     var row = inp.closest("tr");
     var rowInputs = Array.from(row.querySelectorAll(".mark-input"));
     var colIdx = rowInputs.indexOf(inp);
@@ -1429,12 +1523,17 @@
       }
     } else if (e.key === "Enter") {
       e.preventDefault();
-      // Move to next visible row, first subject cell
+      // Move to next visible row, SAME subject column (or first available input)
       var next = row.nextElementSibling;
       while (next && next.classList.contains("hidden-row")) next = next.nextElementSibling;
       if (next) {
-        var firstInput = next.querySelector(".mark-input");
-        if (firstInput) firstInput.focus();
+        var nextInputs = Array.from(next.querySelectorAll(".mark-input"));
+        if (nextInputs[colIdx]) {
+          nextInputs[colIdx].focus();
+        } else {
+          var firstInput = next.querySelector(".mark-input");
+          if (firstInput) firstInput.focus();
+        }
       }
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
@@ -1683,4 +1782,15 @@
     d.appendChild(document.createTextNode(s));
     return d.innerHTML;
   }
+
+  /* ═══════════ Background Real-Time Auto-Sync ═══════════ */
+  // Seamlessly polls Google Sheet every 8s when user is not actively editing
+  setInterval(function () {
+    if (!token) return;
+    var activeTag = document.activeElement ? document.activeElement.tagName : "";
+    if (activeTag === "INPUT" || activeTag === "TEXTAREA" || Object.keys(dirtyRolls).length > 0 || isSaving) {
+      return; // Do not reload while user is actively typing or has unsaved edits
+    }
+    loadData(true);
+  }, 8000);
 })();

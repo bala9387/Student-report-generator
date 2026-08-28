@@ -75,16 +75,34 @@ app.post('/api/api-usage', (req, res) => {
 });
 
 app.get('/api/meta', async (req, res) => {
-  const r = await api.getMeta(req.query.grade);
+  const fresh = req.query.fresh === '1' || !!req.query._t;
+  const r = await api.getMeta(req.query.grade, fresh);
   res.status(r.status).json(r.body);
 });
 app.get('/api/lookup', async (req, res) => {
-  const r = await api.getLookup(req.query.mode, req.query.roll, req.query.grade);
+  const fresh = req.query.fresh === '1' || !!req.query._t;
+  const r = await api.getLookup(req.query.mode, req.query.roll, req.query.grade, fresh);
   res.status(r.status).json(r.body);
 });
 app.get('/api/leaderboard', async (req, res) => {
-  const r = await api.getLeaderboard(req.query.scope, req.query.n, req.query.grade);
+  const fresh = req.query.fresh === '1' || !!req.query._t;
+  const r = await api.getLeaderboard(req.query.scope, req.query.n, req.query.grade, fresh);
   res.status(r.status).json(r.body);
+});
+
+app.all(['/api/refresh', '/api/force-refresh'], async (req, res) => {
+  try {
+    const grade = req.query.grade || (req.body && req.body.grade) || null;
+    api.bustCache(grade);
+    if (grade) {
+      await api.getData(grade, true);
+    } else {
+      await Promise.all(['10', '11', '12'].map(g => api.getData(g, true)));
+    }
+    res.json({ ok: true, message: 'Google Sheets data refreshed successfully.' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // ---------- Teacher Portal Endpoints ----------
@@ -93,7 +111,8 @@ app.get('/api/teacher/marks', requireAuth, async (req, res) => {
     if (req.query.stream === "Rankwise" && req.teacherUser !== "aksharaacademy") {
       return res.status(403).json({ error: "Access denied: Rankwise view is restricted to Master Administrator." });
     }
-    const data = await teacherApi.getTeacherData(req.query.stream, req.query.exam, req.query.grade);
+    const fresh = req.query.fresh === '1' || !!req.query._t;
+    const data = await teacherApi.getTeacherData(req.query.stream, req.query.exam, req.query.grade, fresh);
     res.json(data);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -102,7 +121,8 @@ app.get('/api/teacher/marks', requireAuth, async (req, res) => {
 
 app.get('/api/teacher/pe-analysis', requireAuth, async (req, res) => {
   try {
-    const data = await teacherApi.getPeAnalysis(req.query.grade);
+    const fresh = req.query.fresh === '1' || !!req.query._t;
+    const data = await teacherApi.getPeAnalysis(req.query.grade, fresh);
     res.json(data);
   } catch (err) {
     res.status(400).json({ error: err.message });
