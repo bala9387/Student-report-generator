@@ -1078,7 +1078,14 @@ td.conv-td {
   }
 
   .entry-header {
-    padding: 14px 16px;
+    padding: 12px 12px;
+  }
+
+  .out-of-box {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    padding: 6px 8px !important;
+    font-size: 0.78rem !important;
   }
 
   .exam-bar-right {
@@ -1111,7 +1118,13 @@ td.conv-td {
     touch-action: pan-x pan-y pinch-zoom;
     position: relative;
     max-width: 100%;
-    scroll-padding-left: 140px; /* CRITICAL: prevents browser auto-scroll from placing mark inputs under the sticky name column */
+    scroll-padding-left: 120px;
+  }
+
+  .tbl-scroll.single-subject,
+  .tbl-scroll.two-subjects {
+    overflow-x: hidden !important;
+    scroll-padding-left: 0 !important;
   }
 
   .entry-table {
@@ -1143,7 +1156,7 @@ td.conv-td {
     display: none !important;
   }
 
-  /* Sticky Student Name column (pinned at left: 0) */
+  /* Sticky Student Name column (pinned at left: 0 for multi-subject view) */
   .entry-table th:nth-child(3),
   .entry-table td:nth-child(3),
   .entry-table th.col-name,
@@ -1152,13 +1165,13 @@ td.conv-td {
     position: sticky !important;
     left: 0 !important;
     z-index: 15 !important;
-    min-width: 135px !important;
-    max-width: 160px !important;
-    width: auto !important;
+    min-width: 110px !important;
+    max-width: 135px !important;
+    width: 120px !important;
     background: #ffffff !important;
     border-right: 2px solid #cbd5e1 !important;
     box-shadow: 3px 0 8px -2px rgba(0, 0, 0, 0.12) !important;
-    padding: 8px 10px !important;
+    padding: 8px 8px !important;
     text-align: left !important;
     vertical-align: middle;
   }
@@ -1260,52 +1273,95 @@ td.conv-td {
   }
 
   /* ══ Single-Subject Mobile Layout (e.g. English teacher, Tamil teacher) ══ */
-  /* Expands student name to full width and docks the mark box cleanly on the right */
+  /* Expands student name compactly and places mark box directly on screen with ZERO horizontal scroll */
   .entry-table.single-subject {
     width: 100% !important;
     min-width: 100% !important;
+    max-width: 100% !important;
     table-layout: fixed !important;
   }
   .entry-table.single-subject th:nth-child(3),
-  .entry-table.single-subject td:nth-child(3) {
-    width: calc(100% - 90px) !important;
+  .entry-table.single-subject td:nth-child(3),
+  .entry-table.single-subject th.col-name,
+  .entry-table.single-subject td.col-student-name {
+    width: 58% !important;
     min-width: 0 !important;
-    max-width: none !important;
+    max-width: 58% !important;
     position: static !important;
     box-shadow: none !important;
     border-right: 1px solid var(--border) !important;
+    padding: 8px 8px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
   }
   .entry-table.single-subject th:nth-child(4),
   .entry-table.single-subject td:nth-child(4) {
-    width: 90px !important;
-    min-width: 90px !important;
-    max-width: 90px !important;
-    padding: 6px 6px !important;
+    width: 42% !important;
+    min-width: 0 !important;
+    max-width: 42% !important;
+    padding: 6px 4px !important;
     text-align: center !important;
+    box-sizing: border-box !important;
+  }
+  .entry-table.single-subject .mark-input {
+    width: 66px !important;
+    height: 42px !important;
+    font-size: 1.15rem !important;
+    margin: 0 auto !important;
+    display: block !important;
   }
 
   /* ══ Two-Subjects Mobile Layout ══ */
   .entry-table.two-subjects {
     width: 100% !important;
     min-width: 100% !important;
+    max-width: 100% !important;
     table-layout: fixed !important;
   }
   .entry-table.two-subjects th:nth-child(3),
-  .entry-table.two-subjects td:nth-child(3) {
-    width: calc(100% - 176px) !important;
+  .entry-table.two-subjects td:nth-child(3),
+  .entry-table.two-subjects th.col-name,
+  .entry-table.two-subjects td.col-student-name {
+    width: 46% !important;
     min-width: 0 !important;
-    max-width: none !important;
+    max-width: 46% !important;
     position: static !important;
     box-shadow: none !important;
     border-right: 1px solid var(--border) !important;
+    padding: 8px 6px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
   }
   .entry-table.two-subjects th:nth-child(n+4),
   .entry-table.two-subjects td:nth-child(n+4) {
-    width: 88px !important;
-    min-width: 88px !important;
-    max-width: 88px !important;
-    padding: 6px 4px !important;
+    width: 27% !important;
+    min-width: 0 !important;
+    max-width: 27% !important;
+    padding: 6px 3px !important;
     text-align: center !important;
+    box-sizing: border-box !important;
+  }
+  .entry-table.two-subjects .mark-input {
+    width: 58px !important;
+    height: 40px !important;
+    font-size: 1.05rem !important;
+    margin: 0 auto !important;
+    display: block !important;
+  }
+
+  .entry-table tfoot td.stat-label {
+    font-size: 0.74rem !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    padding: 6px 8px !important;
+    white-space: normal !important;
+    line-height: 1.25 !important;
+  }
+  .entry-table tfoot td.stat-val {
+    font-size: 0.85rem !important;
+    font-weight: 800 !important;
+    text-align: center !important;
+    padding: 6px 4px !important;
   }
 
   .mentor-input {

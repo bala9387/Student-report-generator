@@ -1280,12 +1280,20 @@
     thRow += "</tr>";
     tHead.innerHTML = thRow;
 
-    // Toggle responsive column layout classes on table
+    // Toggle responsive column layout classes on table and scroll wrapper
     var tableEl = tHead.closest("table") || document.querySelector(".entry-table");
+    var scrollWrap = document.getElementById("tableScrollWrapper");
+    var isSingleSubj = (visibleCols.length === 1 && !showTotalCol);
+    var isTwoSubj = (visibleCols.length === 2 && !showTotalCol);
     if (tableEl) {
-      tableEl.classList.toggle("single-subject", visibleCols.length === 1 && !showTotalCol);
-      tableEl.classList.toggle("two-subjects", visibleCols.length === 2 && !showTotalCol);
+      tableEl.classList.toggle("single-subject", isSingleSubj);
+      tableEl.classList.toggle("two-subjects", isTwoSubj);
     }
+    if (scrollWrap) {
+      scrollWrap.classList.toggle("single-subject", isSingleSubj);
+      scrollWrap.classList.toggle("two-subjects", isTwoSubj);
+    }
+
 
     // Allow Admin to click a subject header to select that subject in the Max Mark toolbar
     if (isMaster && !isMentor) {
@@ -1533,7 +1541,8 @@
     labels.forEach(function (row) {
       footHtml += '<tr class="stat-row stat-' + row.key + '">';
       footHtml += '<td></td>'; // S.No column
-      footHtml += '<td class="stat-label">' + row.label + '</td>';
+      footHtml += '<td></td>'; // Roll No column
+      footHtml += '<td class="stat-label col-student-name">' + row.label + '</td>'; // Student Name column
 
       var totalVal = 0;
       var totalCount = 0;
