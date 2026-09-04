@@ -337,15 +337,8 @@
         showMsg("Class " + currentGrade + " full Excel workbook downloaded successfully!", "ok");
         return;
       } catch (err) {
-        console.warn("API export error, using direct Google Sheet export:", err);
-        var gSheets = {
-          "10": "1am96_5JYsPAzLM4XZ-J4pIiUCizvInuk0AqxO1PAyUY",
-          "11": "1cDEw2sfKvxHNol-o4ZNrXZmapM75iHYzHIi71plO-7Y",
-          "12": "16TMqtxp-U9BU6w8Zn6anHD9mdHvD23BOyf38nZa7f50"
-        };
-        var sId = gSheets[currentGrade] || gSheets["12"];
-        window.open("https://docs.google.com/spreadsheets/d/" + sId + "/export?format=xlsx", "_blank");
-        showMsg("Full Class " + currentGrade + " Excel workbook download started.", "ok");
+        console.error("Excel generation error:", err);
+        showMsg("Failed to generate Excel file: " + (err.message || "Server error"), "error");
         return;
       }
     }
