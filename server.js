@@ -146,7 +146,9 @@ app.post('/api/teacher/save', requireAuth, express.json({ limit: '10mb' }), asyn
     } else if (body.stream === "Mentor Report") {
       result = await teacherApi.updateMentorLinks(body.exam, body.updates, grade);
     } else {
-      result = await teacherApi.updateStudentMarks(body.stream, body.exam, body.updates, req.allowedCodes, req.allowedStreams, grade);
+      const acc = req.teacherUser && teacherAccounts.ACCOUNTS[req.teacherUser];
+      const allowedCodes = acc ? teacherAccounts.getTeacherAllowedCodes(acc, grade) : req.allowedCodes;
+      result = await teacherApi.updateStudentMarks(body.stream, body.exam, body.updates, allowedCodes, req.allowedStreams, grade);
     }
     api.bustCache(grade);
     res.json(result);
@@ -161,6 +163,43 @@ app.post('/api/teacher/upload-excel', requireAuth, express.json({ limit: '20mb' 
     res.json(result);
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+});
+
+const GRADE_SHEETS = {
+  "10": "1am96_5JYsPAzLM4XZ-J4pIiUCizvInuk0AqxO1PAyUY",
+  "11": "1cDEw2sfKvxHNol-o4ZNrXZmapM75iHYzHIi71plO-7Y",
+  "12": "16TMqtxp-U9BU6w8Zn6anHD9mdHvD23BOyf38nZa7f50"
+};
+
+// Export full class Excel sheet endpoint
+app.get('/api/teacher/export-excel', requireAuth, async (req, res) => {
+  try {
+    const rawGrade = String(req.query.grade || '12').trim();
+    let grade = '12';
+    if (rawGrade === '10' || rawGrade === 'X') grade = '10';
+    else if (rawGrade === '11' || rawGrade === 'XI') grade = '11';
+
+    const sheetId = GRADE_SHEETS[grade];
+    if (!sheetId) {
+      return res.status(404).json({ error: `Sheet not found for Grade ${grade}` });
+    }
+
+    const exportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=xlsx`;
+    const response = await fetch(exportUrl);
+    if (!response.ok) {
+      throw new Error(`Google Sheets export returned status ${response.status}`);
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', `attachment; filename="Class_${grade}_Complete_Mark_Sheet.xlsx"`);
+    res.send(buffer);
+  } catch (err) {
+    console.error('Export Excel error:', err);
+    res.status(500).json({ error: 'Failed to export class Excel sheet: ' + err.message });
   }
 });
 

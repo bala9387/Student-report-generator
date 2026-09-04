@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=5.0, user-scalable=yes" />
   <title>Teacher Portal &middot; KSR Akshara Academy</title>
   <link rel="stylesheet" href="/styles.css?v=37" />
-  <link rel="stylesheet" href="/teacher/teacher.css?v=8" />
+  <link rel="stylesheet" href="/teacher/teacher.css?v=9" />
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -201,6 +201,10 @@
               <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
               <span>Refresh Sheet</span>
             </button>
+            <button id="exportExcelBtn" class="btn-export-excel" style="display:none;" title="Download complete Excel marks workbook (.xlsx) of this class">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Download Full Excel</span>
+            </button>
             <button id="saveBtn" class="save-all-btn">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-ic"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
               <span>Save All Marks</span>
@@ -219,9 +223,21 @@
               <h2 id="tableTitle">Bio - Maths &mdash; CU 1</h2>
             </div>
             <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-            <div class="out-of-box" style="display:inline-flex;align-items:center;gap:6px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;padding:4px 10px;font-size:0.82rem;font-weight:600;color:#334155;">
-                <label for="outOfInput" style="white-space:nowrap;cursor:pointer;">Test Max Marks:</label>
-                <input type="number" id="outOfInput" value="100" min="50" max="100" style="width:58px;padding:3px 6px;border:1px solid #94a3b8;border-radius:4px;font-weight:700;font-size:0.88rem;text-align:center;background:#ffffff;color:#0f172a;" title="Enter the test max marks (50 to 100)." />
+              <div class="out-of-box" style="display:inline-flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;padding:4px 10px;font-size:0.82rem;font-weight:600;color:#334155;">
+                <div id="adminSubjectSelectorWrap" style="display:none;align-items:center;gap:6px;border-right:1px solid #cbd5e1;padding-right:8px;margin-right:2px;">
+                  <span style="font-size:0.75rem;color:#475569;font-weight:700;">Subject:</span>
+                  <select id="maxMarkSubjectSelect" class="max-mark-subj-select" title="Select subject to set max marks">
+                    <option value="__ALL__">All Subjects</option>
+                  </select>
+                </div>
+                <span style="white-space:nowrap;">Test Max Marks:</span>
+                <div class="max-mark-btn-group" id="maxMarkBtnGroup">
+                  <button type="button" class="max-mark-btn" data-marks="50" title="Set max marks to 50">50</button>
+                  <button type="button" class="max-mark-btn" data-marks="70" title="Set max marks to 70">70</button>
+                  <button type="button" class="max-mark-btn" data-marks="80" title="Set max marks to 80">80</button>
+                </div>
+                <span class="current-max-badge" id="currentMaxBadge" title="Current Test Max Marks">100</span>
+                <input type="hidden" id="outOfInput" value="100" />
                 <span style="font-size:0.76rem;color:#2563eb;font-weight:600;">Show Conversion</span>
                 <label class="converter-toggle" title="Toggle between raw entered mark and converted mark (/100)">
                   <input type="checkbox" id="converterToggle" />
@@ -258,6 +274,6 @@
     </div>
   </div>
 
-  <script src="teacher.js?v=30"></script>
+  <script src="teacher.js?v=32"></script>
 </body>
 </html>

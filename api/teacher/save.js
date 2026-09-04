@@ -26,7 +26,6 @@ module.exports = async (req, res) => {
 
   const teacherUser = authInfo.user || '';
   const accInfo = teacherUser && teacherAccounts.ACCOUNTS && teacherAccounts.ACCOUNTS[teacherUser];
-  const allowedCodes = accInfo ? accInfo.allowedCodes : null;
   const allowedStreams = accInfo ? accInfo.allowedStreams : null;
 
   try {
@@ -35,6 +34,7 @@ module.exports = async (req, res) => {
       try { body = JSON.parse(body); } catch(e) {}
     }
     const grade = body.grade || (req.query && req.query.grade) || '12';
+    const allowedCodes = accInfo ? teacherAccounts.getTeacherAllowedCodes(accInfo, grade) : null;
 
     // --- Force-refresh action: bust cache and re-fetch fresh data from Google Sheets ---
     if (body.action === 'refresh') {

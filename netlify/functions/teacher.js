@@ -78,9 +78,45 @@ exports.handler = async (event) => {
       } else if (body.stream === 'Mentor Report') {
         result = await teacherApi.updateMentorLinks(body.exam, body.updates, targetGrade);
       } else {
-        result = await teacherApi.updateStudentMarks(body.stream, body.exam, body.updates, allowedCodes, allowedStreams, targetGrade);
-      }
+        const targetCodes = accInfo ? teacherAccounts.getTeacherAllowedCodes(accInfo, targetGrade) : allowedCodes;
+        result = await teacherApi.updateStudentMarks(body.stream, body.exam, body.updates, targetCodes, allowedStreams, targetGrade);
       return { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(result) };
+    }
+
+    if (path.endsWith('/teacher/export-excel')) {
+      const GRADE_SHEETS = {
+        "10": "1am96_5JYsPAzLM4XZ-J4pIiUCizvInuk0AqxO1PAyUY",
+        "11": "1cDEw2sfKvxHNol-o4ZNrXZmapM75iHYzHIi71plO-7Y",
+        "12": "16TMqtxp-U9BU6w8Zn6anHD9mdHvD23BOyf38nZa7f50"
+      };
+      const rawGrade = String(grade || '12').trim();
+      let g = '12';
+      if (rawGrade === '10' || rawGrade === 'X') g = '10';
+      else if (rawGrade === '11' || rawGrade === 'XI') g = '11';
+
+      const sheetId = GRADE_SHEETS[g];
+      if (!sheetId) {
+        return { statusCode: 404, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: `Sheet not found for Grade ${g}` }) };
+      }
+
+      const exportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=xlsx`;
+      const response = await fetch(exportUrl);
+      if (!response.ok) {
+        throw new Error(`Google Sheets export returned status ${response.status}`);
+      }
+
+      const arrayBuffer = await response.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+
+      return {
+        statusCode: 200,
+        isBase64Encoded: true,
+        headers: {
+          'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'Content-Disposition': `attachment; filename="Class_${g}_Complete_Mark_Sheet.xlsx"`
+        },
+        body: buffer.toString('base64')
+      };
     }
 
     return { statusCode: 404, body: JSON.stringify({ error: 'Endpoint not found' }) };

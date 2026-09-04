@@ -64,8 +64,33 @@
     return str;
   }
 
+  function toCanonicalSubject(subj) {
+    if (!subj) return "";
+    var s = String(subj).trim();
+    var u = s.toUpperCase().replace(/[^A-Z0-9.]/g, "");
+
+    if (u === "ENG" || u === "ENGLISH") return "ENG";
+    if (u === "PED" || u === "PE" || /^PHY.*ED/i.test(s) || s.toLowerCase() === "phy. edu") return "PED";
+    if (u === "PHY" || u === "PHYSICS") return "PHY";
+    if (u === "CHE" || u === "CHEMISTRY") return "CHE";
+    if (u === "A.MATH" || u === "AMATH" || /^APP.*MAT/i.test(s) || s.toLowerCase() === "applied math" || s.toLowerCase() === "applied mathematics") return "A.Math";
+    if (u === "MAT" || u === "MATH" || u === "MATHS" || u === "MATHEMATICS") return "MAT";
+    if (u === "BIO" || u === "BIOLOGY" || /^BIO.*SCI/i.test(s)) return "BIO";
+    if (u === "CS" || u === "COMP" || u === "COMPUTERSCIENCE" || s.toLowerCase() === "computer science") return "CS";
+    if (u === "AI" || s.toLowerCase() === "artificial intelligence") return "AI";
+    if (u === "ACC" || u === "ACCOUNTANCY") return "Acc";
+    if (u === "BS" || u === "BST" || u === "BUSINESS" || s.toLowerCase() === "business studies") return "Bs";
+    if (u === "ECO" || u === "ECONOMICS") return "Eco";
+    if (u === "TAM" || u === "TAMIL" || u === "L2") return "TAM";
+    if (u === "HIN" || u === "HINDI") return "TAM"; // In Class 10 sheet, Hindi is entered under Language 2 (TAM) column
+    if (u === "SOC" || u === "SCO" || u === "SST" || /^SOC.*SCI/i.test(s) || s.toLowerCase() === "social science" || s.toLowerCase() === "social") return "SOC";
+    if (u === "SCI" || u === "SCIENCE" || /^PHY.*SCI/i.test(s) || s.toLowerCase() === "physical science" || s.toLowerCase() === "biological science") return "SCI";
+
+    return s;
+  }
+
   /* ── Auth State & Helper ── */
-  var PORTAL_VERSION = "37"; // bump this when allowedStreams/allowedCodes change
+  var PORTAL_VERSION = "38"; // bump this when allowedStreams/allowedCodes change
   if (localStorage.getItem("teacher_portal_version") !== PORTAL_VERSION) {
     localStorage.removeItem("teacher_info"); // force re-login with fresh permissions
     localStorage.removeItem("teacher_token");
@@ -77,12 +102,16 @@
     var info = getTeacherInfo();
     if (!info || info.isAdmin) return true; // Admin has full edit access
     var codes = info.allowedCodes;
+    if (info.gradeCodes) {
+      var g = String(currentGrade || "12").trim();
+      if ((g === "10" || g === "X") && info.gradeCodes["10"]) codes = info.gradeCodes["10"];
+      else if ((g === "11" || g === "XI") && info.gradeCodes["11"]) codes = info.gradeCodes["11"];
+      else if (info.gradeCodes["12"]) codes = info.gradeCodes["12"];
+    }
     if (!codes || !Array.isArray(codes) || codes.length === 0) return true; // Default allow if unrestricted
-    var target = String(subj).toLowerCase().trim();
+    var targetCanon = toCanonicalSubject(subj);
     return codes.some(function (c) {
-      var codeStr = String(c).toLowerCase().trim();
-      if (!codeStr) return false;
-      return codeStr === target || target.indexOf(codeStr) >= 0 || codeStr.indexOf(target) >= 0;
+      return toCanonicalSubject(c) === targetCanon;
     });
   }
   var token = localStorage.getItem("teacher_token") || "";
@@ -132,22 +161,120 @@
   var converterToggle    = $("#converterToggle");
   var outOfInput         = $("#outOfInput");
 
-  // Wire converter toggle & max marks input
+  // Per-subject max marks map: e.g. { PHY: 70, CHE: 70, MAT: 80 }
+  var subjectMaxMarks    = {};
+  var maxMarkSubjectSelect = $("#maxMarkSubjectSelect");
+  var maxMarkBtns        = document.querySelectorAll(".max-mark-btn");
+  var currentMaxBadge    = $("#currentMaxBadge");
+
+  function getSelectedSubject() {
+    var info = getTeacherInfo();
+    var isMaster = !!(info && info.isAdmin === true);
+    if (!isMaster || !maxMarkSubjectSelect) return "__ALL__";
+    return maxMarkSubjectSelect.value || "__ALL__";
+  }
+
+  function updateMaxMarkButtonsUI() {
+    var selectedSubj = getSelectedSubject();
+    var currentVal = 100;
+
+    if (selectedSubj && selectedSubj !== "__ALL__") {
+      currentVal = subjectMaxMarks[selectedSubj] || 100;
+    } else {
+      if (subjectCols && subjectCols.length > 0) {
+        var first = subjectMaxMarks[subjectCols[0]] || 100;
+        var allSame = subjectCols.every(function (s) {
+          return (subjectMaxMarks[s] || 100) === first;
+        });
+        currentVal = allSame ? first : 100;
+      } else {
+        currentVal = getOutOfMax();
+      }
+    }
+
+    if (currentMaxBadge) currentMaxBadge.textContent = currentVal;
+
+    maxMarkBtns.forEach(function (btn) {
+      if (parseInt(btn.dataset.marks, 10) === currentVal && currentVal !== 100) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+
+    // Update active highlight on table headers
+    var headers = document.querySelectorAll("th.clickable-subj-th");
+    headers.forEach(function (th) {
+      if (selectedSubj !== "__ALL__" && th.dataset.subjHeader === selectedSubj) {
+        th.classList.add("active-subj-th");
+      } else {
+        th.classList.remove("active-subj-th");
+      }
+    });
+  }
+
+  function setSubjectMaxMark(subj, val) {
+    var v = parseInt(val, 10);
+    if (isNaN(v) || (v !== 50 && v !== 70 && v !== 80)) {
+      v = 100;
+    }
+
+    if (!subj || subj === "__ALL__") {
+      var colsToUpdate = (subjectCols && subjectCols.length > 0) ? subjectCols : [];
+      colsToUpdate.forEach(function (s) {
+        if (v === 100) {
+          delete subjectMaxMarks[s];
+        } else {
+          subjectMaxMarks[s] = v;
+        }
+      });
+      if (outOfInput) outOfInput.value = v;
+    } else {
+      if (v === 100) {
+        delete subjectMaxMarks[subj];
+      } else {
+        subjectMaxMarks[subj] = v;
+      }
+    }
+
+    updateMaxMarkButtonsUI();
+    renderTable();
+  }
+
+  maxMarkBtns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var val = parseInt(this.dataset.marks, 10);
+      var selectedSubj = getSelectedSubject();
+      var currentVal = (selectedSubj && selectedSubj !== "__ALL__")
+        ? (subjectMaxMarks[selectedSubj] || 100)
+        : (function () {
+            if (subjectCols && subjectCols.length > 0) {
+              var first = subjectMaxMarks[subjectCols[0]] || 100;
+              var allSame = subjectCols.every(function (s) { return (subjectMaxMarks[s] || 100) === first; });
+              return allSame ? first : 100;
+            }
+            return getOutOfMax();
+          })();
+
+      // If the same mark button is clicked again, turn it off -> reverts to 100 as normal
+      if (currentVal === val && this.classList.contains("active")) {
+        setSubjectMaxMark(selectedSubj, 100);
+      } else {
+        setSubjectMaxMark(selectedSubj, val);
+      }
+    });
+  });
+
+  if (maxMarkSubjectSelect) {
+    maxMarkSubjectSelect.addEventListener("change", function () {
+      updateMaxMarkButtonsUI();
+    });
+  }
+
   if (converterToggle) {
     converterToggle.addEventListener("change", function () {
       converterOn = this.checked;
       renderTable();
-    });
-  }
-  if (outOfInput) {
-    outOfInput.addEventListener("input", function () {
-      if (converterOn) renderTable();
-    });
-    outOfInput.addEventListener("change", function () {
-      var v = parseFloat(this.value);
-      if (isNaN(v) || v > 100) this.value = 100;
-      else if (v < 50) this.value = 50;
-      if (converterOn) renderTable();
     });
   }
 
@@ -183,24 +310,75 @@
   if (searchBox) searchBox.addEventListener("input", filterRows);
   if (logoutBtn) logoutBtn.addEventListener("click", logout);
 
-  function exportToExcel() {
+  async function exportToExcel() {
+    var info = getTeacherInfo();
+    var isMaster = !!(info && info.isAdmin === true);
+
+    // If Master Administrator, download the FULL multi-stream class Excel workbook (.xlsx)
+    if (isMaster) {
+      showMsg("Downloading complete Excel workbook for Class " + currentGrade + "...", "info");
+      try {
+        var token = localStorage.getItem("teacher_token") || "";
+        var res = await fetch("/api/teacher/export-excel?grade=" + encodeURIComponent(currentGrade), {
+          headers: { "Authorization": "Bearer " + token }
+        });
+        if (!res.ok) {
+          throw new Error("Server export returned status " + res.status);
+        }
+        var blob = await res.blob();
+        var url = window.URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "Class_" + currentGrade + "_Complete_Mark_Sheet.xlsx";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        showMsg("Class " + currentGrade + " full Excel workbook downloaded successfully!", "ok");
+        return;
+      } catch (err) {
+        console.warn("API export error, using direct Google Sheet export:", err);
+        var gSheets = {
+          "10": "1am96_5JYsPAzLM4XZ-J4pIiUCizvInuk0AqxO1PAyUY",
+          "11": "1cDEw2sfKvxHNol-o4ZNrXZmapM75iHYzHIi71plO-7Y",
+          "12": "16TMqtxp-U9BU6w8Zn6anHD9mdHvD23BOyf38nZa7f50"
+        };
+        var sId = gSheets[currentGrade] || gSheets["12"];
+        window.open("https://docs.google.com/spreadsheets/d/" + sId + "/export?format=xlsx", "_blank");
+        showMsg("Full Class " + currentGrade + " Excel workbook download started.", "ok");
+        return;
+      }
+    }
+
+    // For subject teachers, export their current assigned subject marks
     if (!studentRows || !studentRows.length) {
       showMsg("No student data available to export.", "info");
       return;
     }
 
     var isMentor = (currentStream === "Mentor Report");
-    var headers = ["S.No", "Roll No", "Student Name"].concat(subjectCols);
-    if (!isMentor) headers.push("Total");
+    var isAdmin = !info || info.isAdmin || !info.allowedCodes;
+    var visibleCols = subjectCols.filter(function (s) {
+      if (isAdmin || isMentor) return true;
+      return isSubjectAllowed(s);
+    });
+    if (visibleCols.length === 0) {
+      showMsg("No assigned subjects available to export for this stream.", "info");
+      return;
+    }
+
+    var showTotalCol = !isMentor && isMaster;
+    var headers = ["S.No", "Roll No", "Student Name"].concat(visibleCols);
+    if (showTotalCol) headers.push("Total");
 
     var rows = [headers];
     studentRows.forEach(function (st, idx) {
       var r = [st.sNo || (idx + 1), st.rollNo, st.name];
-      subjectCols.forEach(function (s) {
+      visibleCols.forEach(function (s) {
         var v = st.marks[s];
         r.push((v === null || v === undefined) ? "" : v);
       });
-      if (!isMentor) r.push(computeTotal(st.marks));
+      if (showTotalCol) r.push(computeTotal(st.marks));
       rows.push(r);
     });
 
@@ -280,7 +458,8 @@
         return;
       }
 
-      if (gradeOk) {
+      var streamAllowed = isStreamAllowed(st);
+      if (gradeOk && streamAllowed) {
         c.style.display = "";
         if (!firstVisibleCard && (isG1112Stream || isG10Stream)) {
           firstVisibleCard = c;
@@ -530,12 +709,26 @@
       if (logoutBtn) logoutBtn.style.display = "none";
       if (badge) badge.style.display = "none";
       if (changeNavBtn) changeNavBtn.style.display = "none";
+      if (exportExcelBtn) exportExcelBtn.style.display = "none";
+      var adminSubjWrap = $("#adminSubjectSelectorWrap");
+      if (adminSubjWrap) adminSubjWrap.style.display = "none";
     } else {
       if (loginModal) loginModal.style.display = "none";
       if (layout) layout.style.display = "";
       if (logoutBtn) logoutBtn.style.display = "inline-block";
       if (changeNavBtn) changeNavBtn.style.display = "inline-block";
       
+      // "Download Full Excel" button is ONLY visible in the admin portal
+      if (exportExcelBtn) {
+        exportExcelBtn.style.display = (info && info.isAdmin === true) ? "inline-flex" : "none";
+      }
+
+      // Subject selector for setting max marks is ONLY visible in the admin portal
+      var adminSubjWrap = $("#adminSubjectSelectorWrap");
+      if (adminSubjWrap) {
+        adminSubjWrap.style.display = (info && info.isAdmin === true) ? "inline-flex" : "none";
+      }
+
       if (badge && info && info.name) {
         var subText = info.subjects ? (" &middot; <span style='font-weight:normal;opacity:0.85;'>" + esc(info.subjects) + "</span>") : "";
         badge.innerHTML = "<strong>" + esc(info.name) + "</strong>" + subText;
@@ -837,18 +1030,19 @@
       html += '<tr data-roll="' + esc(st.rollNo) + '">';
       html += '<td class="sno">' + (st.sNo || idx + 1) + '</td>';
       html += '<td class="sno" style="font-weight:600;color:var(--fg);">' + esc(st.rollNo) + '</td>';
-      html += '<td title="' + esc(st.rollNo) + '">' + esc(st.name) + '</td>';
+      html += '<td class="col-student-name" title="' + esc(st.rollNo) + '"><div class="student-name-box"><span class="student-name-text">' + esc(st.name) + '</span><span class="student-roll-sub">' + esc(st.rollNo) + '</span></div></td>';
       html += '<td class="sno">' + esc(st.stream) + '</td>';
       exams.forEach(function (ex) {
         var tot = st.exams[ex] ? st.exams[ex].total : 0;
         var rank = st.exams[ex] ? st.exams[ex].domainRank : null;
         var display = tot > 0 ? tot : "";
         var rankTxt = rank ? " (#" + rank + ")" : "";
-        html += '<td><input type="text" class="mark-input pe-mark-input" ' +
+        var isAb = String(display).trim().toUpperCase() === "AB";
+        html += '<td><input type="text" class="mark-input pe-mark-input' + (isAb ? ' is-absent' : '') + '" ' +
                 'data-roll="' + esc(st.rollNo) + '" ' +
                 'data-exam="' + esc(ex) + '" ' +
                 'value="' + esc(String(display)) + '" ' +
-                'inputmode="decimal" autocomplete="off" />' +
+                'inputmode="text" autocomplete="off" />' +
                 '<span class="pe-rank">' + rankTxt + '</span></td>';
       });
       html += '</tr>';
@@ -936,39 +1130,58 @@
     var exam = inp.dataset.exam;
     var raw  = inp.value.trim();
 
-    // Strip any alphabets / non-numeric characters (only allow 0-9 and at most one decimal dot)
-    var clean = raw.replace(/[^0-9.]/g, '');
-    var parts = clean.split('.');
-    if (parts.length > 2) {
-      clean = parts[0] + '.' + parts.slice(1).join('');
-    }
-    if (raw !== clean) {
-      raw = clean;
-      inp.value = clean;
+    var up = raw.toUpperCase();
+    var isAb = false;
+    if (up === "AB" || up === "B") {
+      raw = "AB";
+      inp.value = "AB";
+      isAb = true;
+    } else if (up === "A") {
+      raw = "A";
+      inp.value = "A";
+    } else {
+      // Strip any non-numeric characters (only allow 0-9 and at most one decimal dot)
+      var clean = raw.replace(/[^0-9.]/g, '');
+      var parts = clean.split('.');
+      if (parts.length > 2) {
+        clean = parts[0] + '.' + parts.slice(1).join('');
+      }
+      if (raw !== clean) {
+        raw = clean;
+        inp.value = clean;
+      }
     }
 
-    if (raw !== "" && isNaN(parseFloat(raw))) {
+    if (isAb) {
+      inp.classList.add("is-absent");
+    } else {
+      inp.classList.remove("is-absent");
+    }
+
+    if (raw !== "" && !isAb && raw.toUpperCase() !== "A" && isNaN(parseFloat(raw))) {
       inp.classList.add("invalid");
       return;
     }
     inp.classList.remove("invalid");
     inp.classList.add("changed");
 
+    var valToSave = isAb ? "AB" : raw;
+
     var initialVal = inp.dataset.initialVal !== undefined ? inp.dataset.initialVal : "";
-    if (initialVal !== raw) {
+    if (initialVal !== valToSave) {
       recordUndoAction({
         type: 'pe',
         roll: roll,
         exam: exam,
         oldVal: initialVal,
-        newVal: raw
+        newVal: valToSave
       });
-      inp.dataset.initialVal = raw;
+      inp.dataset.initialVal = valToSave;
     }
 
     if (!dirtyRolls[roll]) dirtyRolls[roll] = { exams: {} };
     if (!dirtyRolls[roll].exams) dirtyRolls[roll].exams = {};
-    dirtyRolls[roll].exams[exam] = raw;
+    dirtyRolls[roll].exams[exam] = valToSave;
     updateSaveState();
 
     renderPeSubjectStats(["CU 1", "TE 1", "CU 2", "TE 2"], {});
@@ -987,23 +1200,77 @@
       if (isAdmin || isMentor) return true;
       return isSubjectAllowed(s);
     });
-    // Fallback to all if no filter match
-    if (visibleCols.length === 0) visibleCols = subjectCols;
 
-    // Converter state
-    var maxMarks = getOutOfMax();
-    var showConv = converterOn && maxMarks !== 100 && !isMentor;
+    if (!isAdmin && !isMentor && visibleCols.length === 0) {
+      tHead.innerHTML = "<tr><th>S.No</th><th>Roll No</th><th>Student Name</th><th>Status</th></tr>";
+      tBody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;color:var(--text-muted);font-weight:600;">You do not have any assigned subjects in ' + esc(currentStream) + '. Please select your assigned stream from the sidebar.</td></tr>';
+      tFoot.innerHTML = "";
+      updateStats(0, 0);
+      if (currentViewMode === "cards" && mobileCardsEl) {
+        mobileCardsEl.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted);font-weight:600;">You do not have any assigned subjects in ' + esc(currentStream) + '.</div>';
+      }
+      return;
+    }
+
+    // Update subject select options if admin
+    var selectEl = $("#maxMarkSubjectSelect");
+    if (selectEl && isMaster) {
+      var prevSelected = selectEl.value;
+      var optsHtml = '<option value="__ALL__">All Subjects</option>';
+      visibleCols.forEach(function (s) {
+        optsHtml += '<option value="' + esc(s) + '">' + esc(s) + '</option>';
+      });
+      selectEl.innerHTML = optsHtml;
+      if (prevSelected && (prevSelected === "__ALL__" || visibleCols.indexOf(prevSelected) >= 0)) {
+        selectEl.value = prevSelected;
+      } else {
+        selectEl.value = "__ALL__";
+      }
+    }
+    updateMaxMarkButtonsUI();
 
     // Header
+    var selectedSubj = getSelectedSubject();
     var thRow = "<tr><th>S.No</th><th>Roll No</th><th>Student Name</th>";
     visibleCols.forEach(function (s) {
       var fullName = (currentSubjectFull && currentSubjectFull[s]) || getSubjectFullName(s);
-      var hSub = esc(s) + (converterOn && maxMarks !== 100 ? ' <span style="font-size:0.75rem;color:#2563eb;font-weight:700;">(/100)</span>' : '');
-      thRow += "<th" + (isMentor ? ' style="width:100%;"' : '') + " title='" + esc(fullName || s) + "'>" + hSub + "</th>";
+      if (s === "TAM" && currentGrade === "10") {
+        var tInfo = getTeacherInfo();
+        if (tInfo && tInfo.subjects && /hindi/i.test(tInfo.subjects)) {
+          fullName = "Hindi (Second Language)";
+        }
+      }
+      var sMax = getSubjectMaxMark(s);
+      var maxBadgeHtml = "";
+      if (sMax !== 100) {
+        if (converterOn) {
+          maxBadgeHtml = ' <span style="font-size:0.75rem;color:#2563eb;font-weight:700;">(/100)</span>';
+        } else {
+          maxBadgeHtml = ' <span style="font-size:0.75rem;color:#0284c7;font-weight:700;">(/' + sMax + ')</span>';
+        }
+      }
+      var hSub = esc(s) + maxBadgeHtml;
+      var thClasses = (isMaster && !isMentor) ? ' class="clickable-subj-th' + (selectedSubj === s ? ' active-subj-th' : '') + '"' : '';
+      var thTitle = esc(fullName || s) + (isMaster && !isMentor ? ' (Click to select for Max Marks)' : '');
+      thRow += "<th" + (isMentor ? ' style="width:100%;"' : '') + thClasses + " data-subj-header='" + esc(s) + "' title='" + thTitle + "'>" + hSub + "</th>";
     });
     if (showTotalCol) thRow += "<th>Total</th>";
     thRow += "</tr>";
     tHead.innerHTML = thRow;
+
+    // Allow Admin to click a subject header to select that subject in the Max Mark toolbar
+    if (isMaster && !isMentor) {
+      var thList = tHead.querySelectorAll("th.clickable-subj-th");
+      thList.forEach(function (th) {
+        th.addEventListener("click", function () {
+          var clickedSubj = this.dataset.subjHeader;
+          if (selectEl && clickedSubj) {
+            selectEl.value = clickedSubj;
+            updateMaxMarkButtonsUI();
+          }
+        });
+      });
+    }
 
     // Body
     var html = "";
@@ -1013,19 +1280,20 @@
       html += '<tr data-roll="' + esc(st.rollNo) + '">';
       html += '<td class="sno">' + (st.sNo || idx + 1) + '</td>';
       html += '<td class="sno" style="font-weight:600;color:var(--fg);">' + esc(st.rollNo) + '</td>';
-      html += '<td title="' + esc(st.rollNo) + '">' + esc(st.name) + '</td>';
+      html += '<td class="col-student-name" title="' + esc(st.rollNo) + '"><div class="student-name-box"><span class="student-name-text">' + esc(st.name) + '</span><span class="student-roll-sub">' + esc(st.rollNo) + '</span></div></td>';
 
       visibleCols.forEach(function (s) {
+        var sMax = getSubjectMaxMark(s);
         var baseMark = (st.marks[s] != null && st.marks[s] !== "") ? st.marks[s] : "";
         var display = baseMark;
 
-        if (maxMarks !== 100 && baseMark !== "" && String(baseMark).toLowerCase() !== "ab") {
+        if (sMax !== 100 && baseMark !== "" && String(baseMark).toLowerCase() !== "ab") {
           if (converterOn) {
             display = baseMark;
           } else {
             display = (st.rawMarks && st.rawMarks[s] !== undefined)
               ? st.rawMarks[s]
-              : getOriginalMark(String(baseMark), maxMarks);
+              : getOriginalMark(String(baseMark), sMax);
           }
         }
         display = (display === null || display === undefined) ? "" : display;
@@ -1035,8 +1303,9 @@
         
         var canEdit = isMentor ? true : isSubjectAllowed(s);
 
-        var modeStr = isMentor ? 'type="url" inputmode="url" placeholder="Paste Google Drive link here..."' : 'type="text" inputmode="decimal"';
-        var clsStr = isMentor ? 'mark-input mentor-input' : (canEdit ? 'mark-input' : 'mark-input disabled-input');
+        var isAb = String(display).trim().toUpperCase() === "AB";
+        var modeStr = isMentor ? 'type="url" inputmode="url" placeholder="Paste Google Drive link here..."' : 'type="text" inputmode="text"';
+        var clsStr = isMentor ? 'mark-input mentor-input' : (canEdit ? ('mark-input' + (isAb ? ' is-absent' : '')) : ('mark-input disabled-input' + (isAb ? ' is-absent' : '')));
         var disabledAttr = canEdit ? '' : 'disabled title="Only authorized subject teacher can edit ' + esc(s) + '"';
 
         html += '<td' + (isMentor ? ' style="width:100%;padding:4px 8px;"' : '') + '><input ' + modeStr + ' class="' + clsStr + '" ' +
@@ -1082,7 +1351,10 @@
       if (isAdmin || isMentor) return true;
       return isSubjectAllowed(s);
     });
-    if (visibleCols.length === 0) visibleCols = subjectCols;
+    if (!isAdmin && !isMentor && visibleCols.length === 0) {
+      mobileCardsEl.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-muted);font-weight:600;">You do not have any assigned subjects in ' + esc(currentStream) + '.</div>';
+      return;
+    }
 
     var q = searchBox ? searchBox.value.trim().toLowerCase() : "";
     var html = "";
@@ -1116,18 +1388,31 @@
       // Subject fields grid
       html += '<div class="card-subj-grid">';
       visibleCols.forEach(function(s) {
-        var val = st.marks[s];
-        var display = (val === null || val === undefined || val === "") ? "" : val;
+        var sMax = getSubjectMaxMark(s);
+        var baseMark = (st.marks[s] != null && st.marks[s] !== "") ? st.marks[s] : "";
+        var display = baseMark;
+        if (sMax !== 100 && baseMark !== "" && String(baseMark).toLowerCase() !== "ab") {
+          if (converterOn) {
+            display = baseMark;
+          } else {
+            display = (st.rawMarks && st.rawMarks[s] !== undefined)
+              ? st.rawMarks[s]
+              : getOriginalMark(String(baseMark), sMax);
+          }
+        }
+        display = (display === null || display === undefined) ? "" : display;
         totalCells++;
         if (display !== "") filledCells++;
         var canEdit = isMentor ? true : isSubjectAllowed(s);
-        var modeStr = isMentor ? 'type="url" inputmode="url" placeholder="Drive link..."' : 'type="text" inputmode="decimal"';
-        var clsStr = isMentor ? 'mark-input mentor-input' : (canEdit ? 'mark-input' : 'mark-input disabled-input');
+        var isAb = String(display).trim().toUpperCase() === "AB";
+        var modeStr = isMentor ? 'type="url" inputmode="url" placeholder="Drive link..."' : 'type="text" inputmode="text"';
+        var clsStr = isMentor ? 'mark-input mentor-input' : (canEdit ? ('mark-input' + (isAb ? ' is-absent' : '')) : ('mark-input disabled-input' + (isAb ? ' is-absent' : '')));
         var disabledAttr = canEdit ? '' : 'disabled';
 
         html += '<div class="card-subj-field">';
         var fullName = (currentSubjectFull && currentSubjectFull[s]) || getSubjectFullName(s);
-        html += '<span class="card-subj-label" title="' + esc(fullName || s) + '">' + esc(s) + '</span>';
+        var maxBadge = (sMax !== 100) ? (converterOn ? ' (/100)' : ' (/' + sMax + ')') : '';
+        html += '<span class="card-subj-label" title="' + esc(fullName || s) + '">' + esc(s) + maxBadge + '</span>';
         html += '<input ' + modeStr + ' class="' + clsStr + '" '
               + 'data-roll="' + esc(st.rollNo) + '" '
               + 'data-subj="' + esc(s) + '" '
@@ -1177,7 +1462,10 @@
       if (isAdmin || isMentor) return true;
       return isSubjectAllowed(s);
     });
-    if (visibleCols.length === 0) visibleCols = subjectCols;
+    if (!isAdmin && !isMentor && visibleCols.length === 0) {
+      tFoot.innerHTML = "";
+      return;
+    }
 
     // Gather all mark values per subject from the current inputs
     var stats = {};
@@ -1277,10 +1565,19 @@
     var outEl = $("#outOfInput");
     if (!outEl) return 100;
     var v = parseFloat(outEl.value);
-    if (isNaN(v)) return 100;
-    if (v < 50) return 50;
-    if (v > 100) return 100;
-    return v;
+    if (v === 50 || v === 70 || v === 80) return v;
+    return 100;
+  }
+
+  function getSubjectMaxMark(subj) {
+    if (currentStream === "PE - Analysis" || currentStream === "Rankwise" || currentStream === "Mentor Report") {
+      return 100;
+    }
+    if (subj && subjectMaxMarks[subj]) {
+      var v = subjectMaxMarks[subj];
+      if (v === 50 || v === 70 || v === 80) return v;
+    }
+    return getOutOfMax();
   }
 
   function getOriginalMark(raw, max) {
@@ -1312,11 +1609,36 @@
     var subj = inp.dataset.subj;
     var raw  = inp.value.trim();
 
-    if (raw === "") return;
+    if (raw === "") {
+      inp.classList.remove("is-absent");
+      return;
+    }
+
+    var up = raw.toUpperCase();
+    if (up === "AB" || up === "A" || up === "B") {
+      inp.value = "AB";
+      inp.classList.add("is-absent");
+      var st = studentRows.find(function(r) { return String(r.rollNo) === String(roll); });
+      if (st) {
+        if (!st.rawMarks) st.rawMarks = Object.assign({}, st.marks || {});
+        st.rawMarks[subj] = "AB";
+        st.marks[subj] = "AB";
+      }
+      inp.dataset.rawVal = "AB";
+      if (!dirtyRolls[roll]) dirtyRolls[roll] = {};
+      dirtyRolls[roll][subj] = "AB";
+      updateSaveState();
+      recalcRowTotal(roll);
+      recountFilled();
+      renderSubjectStats();
+      return;
+    }
+    inp.classList.remove("is-absent");
+
     var num = parseFloat(raw);
     if (isNaN(num)) return;
 
-    var max = getOutOfMax();
+    var max = getSubjectMaxMark(subj);
 
     // When converter is ON, show converted value in input on blur; if OFF, show raw entered mark
     if (converterOn && max !== 100) {
@@ -1428,32 +1750,49 @@
     var raw  = inp.value.trim();
 
     var isMentor = (currentStream === "Mentor Report");
-    if (!isMentor) {
-      // Strip any alphabets / non-numeric characters (only allow 0-9 and at most one decimal dot)
-      var clean = raw.replace(/[^0-9.]/g, '');
-      var parts = clean.split('.');
-      if (parts.length > 2) {
-        clean = parts[0] + '.' + parts.slice(1).join('');
-      }
-      if (raw !== clean) {
-        raw = clean;
-        inp.value = clean;
+
+    // Check if user is typing AB (absent)
+    var up = raw.toUpperCase();
+    var isAb = false;
+    if (!isMentor && (up === "AB" || up === "B")) {
+      raw = "AB";
+      inp.value = "AB";
+      isAb = true;
+      inp.classList.add("is-absent");
+    } else if (!isMentor && up === "A") {
+      // User has typed just "A" — partial AB, allow it to continue
+      inp.classList.remove("is-absent");
+      inp.classList.remove("invalid");
+      return; // Wait for the next keystroke
+    } else {
+      inp.classList.remove("is-absent");
+      if (!isMentor) {
+        // Strip any non-numeric characters (only allow 0-9 and at most one decimal dot)
+        var clean = raw.replace(/[^0-9.]/g, '');
+        var parts = clean.split('.');
+        if (parts.length > 2) {
+          clean = parts[0] + '.' + parts.slice(1).join('');
+        }
+        if (raw !== clean) {
+          raw = clean;
+          inp.value = clean;
+        }
       }
     }
 
-    // Validate: empty or a number
-    if (raw !== "" && !isMentor && isNaN(parseFloat(raw))) {
+    // Validate: empty, AB, or a number
+    if (raw !== "" && !isMentor && !isAb && isNaN(parseFloat(raw))) {
       inp.classList.add("invalid");
       return;
     }
     inp.classList.remove("invalid");
     inp.classList.add("changed");
 
-    var max = getOutOfMax();
-    var valToSave = raw;
-    var rawValue = raw;
+    var max = getSubjectMaxMark(subj);
+    var valToSave = isAb ? "AB" : raw;
+    var rawValue = isAb ? "AB" : raw;
 
-    if (raw !== "" && !isMentor && !isNaN(parseFloat(raw)) && max !== 100) {
+    if (!isAb && raw !== "" && !isMentor && !isNaN(parseFloat(raw)) && max !== 100) {
       if (converterOn) {
         valToSave = raw;
         rawValue = getOriginalMark(raw, max);
@@ -1499,9 +1838,10 @@
     var inp = e.target;
     var isMentor = (currentStream === "Mentor Report");
 
-    // Strictly block alphabetic keystrokes on mark input fields (except shortcut keys like Ctrl+C, Ctrl+V, Ctrl+Z, Ctrl+A)
+    // Block alphabetic keystrokes on mark input fields — except A and B (for "AB" absent marking)
+    // Also allow shortcut keys like Ctrl+C, Ctrl+V, Ctrl+Z, Ctrl+A
     if (!isMentor && !e.ctrlKey && !e.metaKey && !e.altKey) {
-      if (e.key && e.key.length === 1 && !/[0-9.]/.test(e.key)) {
+      if (e.key && e.key.length === 1 && !/[0-9.aAbB]/.test(e.key)) {
         e.preventDefault();
         return;
       }
