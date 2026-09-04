@@ -1253,7 +1253,7 @@
 
     // Header
     var selectedSubj = getSelectedSubject();
-    var thRow = "<tr><th>S.No</th><th>Roll No</th><th>Student Name</th>";
+    var thRow = "<tr><th>S.No</th><th>Roll No</th><th class=\"col-name\">Student Name</th>";
     visibleCols.forEach(function (s) {
       var fullName = (currentSubjectFull && currentSubjectFull[s]) || getSubjectFullName(s);
       if (s === "TAM" && currentGrade === "10") {
@@ -1279,6 +1279,13 @@
     if (showTotalCol) thRow += "<th>Total</th>";
     thRow += "</tr>";
     tHead.innerHTML = thRow;
+
+    // Toggle responsive column layout classes on table
+    var tableEl = tHead.closest("table") || document.querySelector(".entry-table");
+    if (tableEl) {
+      tableEl.classList.toggle("single-subject", visibleCols.length === 1 && !showTotalCol);
+      tableEl.classList.toggle("two-subjects", visibleCols.length === 2 && !showTotalCol);
+    }
 
     // Allow Admin to click a subject header to select that subject in the Max Mark toolbar
     if (isMaster && !isMentor) {
