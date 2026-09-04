@@ -197,6 +197,33 @@
   transform: translateY(1px);
 }
 
+/* Open Google Sheet Button (Admin Only) */
+.btn-open-sheet {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  background: #0f9d58;
+  color: #ffffff !important;
+  border: 1px solid #0b8043;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(15, 157, 88, 0.25);
+  transition: all 0.15s ease-in-out;
+  white-space: nowrap;
+}
+.btn-open-sheet:hover {
+  background: #0b8043 !important;
+  border-color: #075b30 !important;
+  box-shadow: 0 4px 8px rgba(11, 128, 67, 0.35);
+  transform: translateY(-1px);
+}
+.btn-open-sheet:active {
+  transform: translateY(1px);
+}
+
 /* Desktop default for student-roll-sub */
 .student-roll-sub {
   display: none;
@@ -986,6 +1013,8 @@ td.conv-td {
   .save-all-btn,
   #exportExcelBtn,
   .btn-export-excel,
+  #openSheetBtn,
+  .btn-open-sheet,
   .btn-refresh-sheet {
     width: 100%;
     justify-content: center;

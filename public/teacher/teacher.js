@@ -151,6 +151,7 @@
   var saveStatusText     = $("#saveStatusText");
   var saveStatus         = document.querySelector(".save-status");
   var exportExcelBtn     = $("#exportExcelBtn"); // may be null if removed
+  var openSheetBtn       = $("#openSheetBtn");
   var mobileCardsEl      = $("#mobileCardsContainer");
   var tableWrapper       = $("#tableScrollWrapper");
   var tableViewBtn       = $("#tableViewBtn");
@@ -307,6 +308,30 @@
     });
   }
   if (exportExcelBtn) exportExcelBtn.addEventListener("click", exportToExcel);
+  if (openSheetBtn) {
+    openSheetBtn.addEventListener("click", async function () {
+      var info = getTeacherInfo();
+      if (!info || info.isAdmin !== true) {
+        showMsg("Only Master Administrator can access live Google Sheet.", "error");
+        return;
+      }
+      var token = localStorage.getItem("teacher_token") || "";
+      try {
+        showMsg("Authenticating access to Google Sheet...", "info");
+        var res = await fetch("/api/teacher/sheet-link?grade=" + encodeURIComponent(currentGrade), {
+          headers: { "Authorization": "Bearer " + token }
+        });
+        var data = await res.json();
+        if (!res.ok || !data.ok || !data.url) {
+          throw new Error(data.error || "Access denied");
+        }
+        window.open(data.url, "_blank");
+        showMsg("Opened live Google Sheet for Grade " + currentGrade + " securely.", "ok");
+      } catch (err) {
+        showMsg("Unable to open sheet: " + err.message, "error");
+      }
+    });
+  }
   if (searchBox) searchBox.addEventListener("input", filterRows);
   if (logoutBtn) logoutBtn.addEventListener("click", logout);
 
@@ -703,6 +728,7 @@
       if (badge) badge.style.display = "none";
       if (changeNavBtn) changeNavBtn.style.display = "none";
       if (exportExcelBtn) exportExcelBtn.style.display = "none";
+      if (openSheetBtn) openSheetBtn.style.display = "none";
       var adminSubjWrap = $("#adminSubjectSelectorWrap");
       if (adminSubjWrap) adminSubjWrap.style.display = "none";
     } else {
@@ -711,9 +737,12 @@
       if (logoutBtn) logoutBtn.style.display = "inline-block";
       if (changeNavBtn) changeNavBtn.style.display = "inline-block";
       
-      // "Download Full Excel" button is ONLY visible in the admin portal
+      // Admin-only tools: "Download Full Excel" & "Open Google Sheet"
       if (exportExcelBtn) {
         exportExcelBtn.style.display = (info && info.isAdmin === true) ? "inline-flex" : "none";
+      }
+      if (openSheetBtn) {
+        openSheetBtn.style.display = (info && info.isAdmin === true) ? "inline-flex" : "none";
       }
 
       // Subject selector for setting max marks is ONLY visible in the admin portal

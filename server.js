@@ -172,9 +172,13 @@ const GRADE_SHEETS = {
   "12": "16TMqtxp-U9BU6w8Zn6anHD9mdHvD23BOyf38nZa7f50"
 };
 
-// Export full class Excel sheet endpoint
+// Export full class Excel sheet endpoint — Master Admin only
 app.get('/api/teacher/export-excel', requireAuth, async (req, res) => {
   try {
+    if ((req.teacherUser || '').toLowerCase() !== 'aksharaacademy') {
+      return res.status(403).json({ error: 'Access denied: Only Master Administrator can export full class marks.' });
+    }
+
     const rawGrade = String(req.query.grade || '12').trim();
     let grade = '12';
     if (rawGrade === '10' || rawGrade === 'X') grade = '10';
@@ -196,11 +200,36 @@ app.get('/api/teacher/export-excel', requireAuth, async (req, res) => {
 
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     res.setHeader('Content-Disposition', `attachment; filename="Class_${grade}_Complete_Mark_Sheet.xlsx"`);
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
     res.send(buffer);
   } catch (err) {
     console.error('Export Excel error:', err);
     res.status(500).json({ error: 'Failed to export class Excel sheet: ' + err.message });
   }
+});
+
+// Secure Google Sheet link endpoint — Master Admin only
+app.get('/api/teacher/sheet-link', requireAuth, (req, res) => {
+  if ((req.teacherUser || '').toLowerCase() !== 'aksharaacademy') {
+    return res.status(403).json({ error: 'Access denied: Only Master Administrator can access live Google Sheet.' });
+  }
+
+  const rawGrade = String(req.query.grade || '12').trim();
+  let grade = '12';
+  if (rawGrade === '10' || rawGrade === 'X') grade = '10';
+  else if (rawGrade === '11' || rawGrade === 'XI') grade = '11';
+
+  const sheetId = GRADE_SHEETS[grade];
+  if (!sheetId) {
+    return res.status(404).json({ error: `Sheet not found for Grade ${grade}` });
+  }
+
+  res.json({
+    ok: true,
+    grade: grade,
+    url: `https://docs.google.com/spreadsheets/d/${sheetId}/edit`
+  });
 });
 
 // Force-refresh endpoint — busts cache so next request fetches fresh Google Sheet data
