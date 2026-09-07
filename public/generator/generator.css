@@ -353,6 +353,48 @@
 
 .ai-note{margin:24px 0 0;font-size:.78rem;color:#9aa1ac;font-style:italic}
 
+/* Spin animation for PDF download indicator */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spin-icon {
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* PDF Export Container — ensures cloned element renders at desktop A4 dimensions on all devices */
+.pdf-export-container {
+  box-sizing: border-box;
+}
+.pdf-export-container #genReport {
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+.pdf-export-container .pdf-p-row {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  border-bottom: 1px dotted #cbd5e1 !important;
+  padding-bottom: 10px !important;
+}
+.pdf-export-container .pdf-p-cell {
+  width: 48% !important;
+  display: flex !important;
+  align-items: center !important;
+}
+.pdf-export-container .tbl-scroll {
+  overflow: visible !important;
+  width: 100% !important;
+}
+.pdf-export-container .pdf-table {
+  width: 100% !important;
+  table-layout: auto !important;
+}
+
 @media(max-width:600px){
   .gen-card{padding:18px 15px 16px}
   #genReport{padding:20px 16px}
@@ -364,6 +406,11 @@
 /* ==========================================================================
    PRINT STYLES — ensures full report prints/saves as PDF properly
    ========================================================================== */
+@page {
+  size: A4 portrait;
+  margin: 12mm 10mm 12mm 10mm;
+}
+
 @media print {
   /* Hide everything except the report */
   body, html {
@@ -372,6 +419,7 @@
     background: #fff !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
   .page {
@@ -388,25 +436,58 @@
   #genMsg,
   .gen-busy,
   footer,
-  nav {
+  nav,
+  .bg-shape {
     display: none !important;
   }
 
   /* Show the report result wrapper */
+  .report-wrap,
   #genResultWrap {
     display: block !important;
     margin: 0 !important;
     padding: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
   }
 
   /* Report container */
   #genReport {
-    padding: 20px 24px !important;
+    padding: 10px 0 !important;
     border: none !important;
     box-shadow: none !important;
     overflow: visible !important;
     max-height: none !important;
     height: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  /* Override mobile row stacking when printing */
+  .pdf-p-row {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .pdf-p-cell {
+    width: 48% !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .tbl-scroll {
+    overflow: visible !important;
+    width: 100% !important;
+  }
+
+  .pdf-table {
+    width: 100% !important;
+    table-layout: auto !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 
   /* Allow page breaks between sections, avoid breaking inside */
@@ -429,11 +510,6 @@
     break-inside: avoid;
   }
 
-  .pdf-table {
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }
-
   .pdf-profile-grid {
     page-break-inside: avoid;
     break-inside: avoid;
@@ -446,6 +522,7 @@
   .pdf-score-pill {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 
   /* AI note at the bottom */
@@ -454,4 +531,5 @@
     margin-top: 16px;
   }
 }
+
 

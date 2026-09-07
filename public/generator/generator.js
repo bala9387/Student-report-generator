@@ -511,11 +511,118 @@
     });
   });
 
+  var currentReportData = null;
+
+  function downloadReportPDF() {
+    var host = $("#genReport");
+    if (!host || !host.innerHTML.trim()) return;
+
+    var studentName = (currentReportData && currentReportData.studentName) ? currentReportData.studentName : "Student";
+    var subject = (currentReportData && currentReportData.subject) ? currentReportData.subject : "Evaluation";
+    var safeStudent = studentName.replace(/[^a-zA-Z0-9_-]/g, "_");
+    var safeSubject = subject.replace(/[^a-zA-Z0-9_-]/g, "_");
+    var filename = "Akshara_Report_" + safeStudent + "_" + safeSubject + ".pdf";
+
+    var btn = $("#downloadGenPdfBtn");
+    var origHtml = btn ? btn.innerHTML : "";
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<svg class="btn-ic spin-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" stroke-dasharray="28" stroke-dashoffset="10" fill="none"/></svg><span>Saving PDF\u2026</span>';
+    }
+
+    function resetBtn() {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = origHtml;
+      }
+    }
+
+    if (typeof html2pdf === "undefined") {
+      console.warn("html2pdf library not available, falling back to window.print()");
+      resetBtn();
+      window.print();
+      return;
+    }
+
+    // Create a styled clone container rendered at 820px width (standard desktop A4 layout)
+    // to ensure mobile screens do not collapse the PDF into a narrow column!
+    var cloneWrapper = document.createElement("div");
+    cloneWrapper.className = "pdf-export-container";
+    cloneWrapper.style.position = "fixed";
+    cloneWrapper.style.top = "0";
+    cloneWrapper.style.left = "-9999px";
+    cloneWrapper.style.width = "820px";
+    cloneWrapper.style.background = "#ffffff";
+    cloneWrapper.style.zIndex = "-1000";
+    cloneWrapper.style.padding = "24px 28px";
+    cloneWrapper.style.boxSizing = "border-box";
+    cloneWrapper.style.fontFamily = "'Segoe UI', Arial, system-ui, -apple-system, Roboto, sans-serif";
+    cloneWrapper.style.color = "#334155";
+
+    var cloneContent = host.cloneNode(true);
+    // Remove any mobile-specific scrolling constraints on tables
+    var scrollWraps = cloneContent.querySelectorAll(".tbl-scroll");
+    scrollWraps.forEach(function (w) {
+      w.style.overflow = "visible";
+      w.style.maxWidth = "none";
+    });
+
+    cloneWrapper.appendChild(cloneContent);
+    document.body.appendChild(cloneWrapper);
+
+    var opt = {
+      margin: [10, 10, 12, 10], // mm
+      filename: filename,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        scrollY: 0,
+        windowWidth: 1024
+      },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      pagebreak: {
+        mode: ["avoid-all", "css", "legacy"],
+        avoid: [".pdf-sec-bar", ".pdf-profile-grid", "tr", ".pdf-bullet-list li", ".ai-note"]
+      }
+    };
+
+    html2pdf()
+      .set(opt)
+      .from(cloneWrapper)
+      .save()
+      .then(function () {
+        if (cloneWrapper.parentNode) cloneWrapper.parentNode.removeChild(cloneWrapper);
+        resetBtn();
+      })
+      .catch(function (err) {
+        console.error("PDF download error:", err);
+        if (cloneWrapper.parentNode) cloneWrapper.parentNode.removeChild(cloneWrapper);
+        resetBtn();
+        window.print();
+      });
+  }
+
   $("#genBackBtn").addEventListener("click", function () {
     $("#genResultWrap").hidden = true; $("#genCard").hidden = false;
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
-  $("#printGenBtn").addEventListener("click", function () { window.print(); });
+
+  if ($("#downloadGenPdfBtn")) {
+    $("#downloadGenPdfBtn").addEventListener("click", downloadReportPDF);
+  }
+
+  if ($("#printGenBtn")) {
+    $("#printGenBtn").addEventListener("click", function () {
+      try {
+        window.print();
+      } catch (e) {
+        console.warn("window.print failed, downloading PDF instead:", e);
+        downloadReportPDF();
+      }
+    });
+  }
 
   // ---------- render ----------
   function today() {
@@ -524,6 +631,7 @@
 
   function renderReport(rep, model) {
     rep = rep || {};
+    currentReportData = rep;
     var host = $("#genReport");
 
     var studentName = rep.studentName || "\u2014";

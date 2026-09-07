@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
   <title>AI Report Generator &middot; Akshara Academy</title>
-  <link rel="stylesheet" href="/styles.css?v=38" />
-  <link rel="stylesheet" href="/generator/generator.css?v=7" />
+  <link rel="stylesheet" href="/styles.css?v=39" />
+  <link rel="stylesheet" href="/generator/generator.css?v=8" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>if (window.pdfjsLib) window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+  <script src="/vendor/html2pdf.bundle.min.js"></script>
+  <script>if (!window.html2pdf) document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\\/script>');</script>
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -50,15 +52,15 @@
               <span>Upload Photo / Camera</span>
             </label>
           </div>
-          <div id="syllabusFileBadge" class="file-selected-badge">
+          <div id="syllabusFileBadge" class="file-chosen-badge" style="display:none;">
             <span class="file-name-text"></span>
-            <button type="button" class="btn-remove-file" aria-label="Remove file">&times;</button>
+            <button type="button" class="btn-remove-file" title="Remove file">&times;</button>
           </div>
         </div>
 
         <div class="gen-block">
           <label class="gen-label">2. Question Paper <span class="req">(required)</span></label>
-          <textarea class="gen-text" id="questionText" rows="2" placeholder="Paste question paper text&hellip;"></textarea>
+          <textarea class="gen-text" id="questionText" rows="3" placeholder="Paste question paper text&hellip;"></textarea>
           <div class="gen-file-row">
             <label class="gen-upload-btn btn-pdf">
               <input type="file" id="questionFile" accept="application/pdf,.pdf" />
@@ -71,15 +73,15 @@
               <span>Upload Photo / Camera</span>
             </label>
           </div>
-          <div id="questionFileBadge" class="file-selected-badge">
+          <div id="questionFileBadge" class="file-chosen-badge" style="display:none;">
             <span class="file-name-text"></span>
-            <button type="button" class="btn-remove-file" aria-label="Remove file">&times;</button>
+            <button type="button" class="btn-remove-file" title="Remove file">&times;</button>
           </div>
         </div>
 
         <div class="gen-block">
-          <label class="gen-label">3. Written Answer Sheet <span class="req">(required)</span></label>
-          <textarea class="gen-text" id="answerText" rows="2" placeholder="Paste typed answers, or upload a scan/photo below&hellip;"></textarea>
+          <label class="gen-label">3. Student&rsquo;s Written Answers <span class="req">(required)</span></label>
+          <textarea class="gen-text" id="answerText" rows="3" placeholder="Paste student's answers text&hellip;"></textarea>
           <div class="gen-file-row">
             <label class="gen-upload-btn btn-pdf">
               <input type="file" id="answerFile" accept="application/pdf,.pdf" />
@@ -92,20 +94,31 @@
               <span>Upload Photo / Camera</span>
             </label>
           </div>
-          <div id="answerFileBadge" class="file-selected-badge">
+          <div id="answerFileBadge" class="file-chosen-badge" style="display:none;">
             <span class="file-name-text"></span>
-            <button type="button" class="btn-remove-file" aria-label="Remove file">&times;</button>
+            <button type="button" class="btn-remove-file" title="Remove file">&times;</button>
           </div>
         </div>
 
         <div class="gen-block">
-          <label class="gen-label">Extra instructions <span class="opt">(optional)</span></label>
-          <textarea class="gen-text" id="notesText" rows="2" placeholder="e.g. Total is 100 marks, be lenient on spelling&hellip;"></textarea>
+          <label class="gen-label">Teacher&rsquo;s Notes / Rubric <span class="opt">(optional)</span></label>
+          <textarea class="gen-text" id="notesText" rows="2" placeholder="e.g. 'Grade 12 Physics Pre-Board. Student Name: Ananya. Focus on electrostatics.'"></textarea>
         </div>
 
         <button type="submit" id="genBtn" class="btn-primary">Generate Report</button>
-
       </form>
+
+      <div id="genBusy" class="gen-busy" hidden>
+        <div class="gen-spinner" aria-hidden="true"></div>
+        <div class="gen-busy-text">
+          <strong id="genBusyStatus">Analyzing answer sheet &amp; question paper&hellip;</strong>
+          <span id="genBusySub">Extracting student name, marks grid, and question breakdown</span>
+        </div>
+        <div class="gen-progress-track">
+          <div id="genProgressBar" class="gen-progress-bar"></div>
+        </div>
+        <span id="genProgressPct" class="gen-progress-pct">0%</span>
+      </div>
 
       <div id="genMsg" class="message" role="status"></div>
     </section>
@@ -113,11 +126,15 @@
     <!-- ===================== RESULT ===================== -->
     <section id="genResultWrap" class="report-wrap" hidden>
       <div class="report-toolbar no-print">
-        <button id="printGenBtn" class="btn-ghost">
-          <svg viewBox="0 0 24 24" class="btn-ic"><path d="M6 9V3h12v6"/><rect x="5" y="9" width="14" height="7" rx="1"/><path d="M8 16h8v5H8z"/></svg>
-          <span>Print / Save PDF</span>
+        <button id="downloadGenPdfBtn" class="btn-primary" type="button">
+          <svg viewBox="0 0 24 24" class="btn-ic"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+          <span>Download PDF</span>
         </button>
-        <button id="genBackBtn" class="btn-ghost">
+        <button id="printGenBtn" class="btn-ghost" type="button">
+          <svg viewBox="0 0 24 24" class="btn-ic"><path d="M6 9V3h12v6"/><rect x="5" y="9" width="14" height="7" rx="1"/><path d="M8 16h8v5H8z"/></svg>
+          <span>Print</span>
+        </button>
+        <button id="genBackBtn" class="btn-ghost" type="button">
           <svg viewBox="0 0 24 24" class="btn-ic"><path d="M15 5l-7 7 7 7"/></svg>
           <span>New Evaluation</span>
         </button>
@@ -128,6 +145,6 @@
 
 
 
-  <script src="/generator/generator.js?v=7"></script>
+  <script src="/generator/generator.js?v=8"></script>
 </body>
 </html>
