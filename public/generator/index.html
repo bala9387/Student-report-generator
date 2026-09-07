@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
   <title>AI Report Generator &middot; Akshara Academy</title>
-  <link rel="stylesheet" href="/styles.css?v=37" />
-  <link rel="stylesheet" href="/generator/generator.css?v=5" />
+  <link rel="stylesheet" href="/styles.css?v=38" />
+  <link rel="stylesheet" href="/generator/generator.css?v=7" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>if (window.pdfjsLib) window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
   <script defer src="/_vercel/insights/script.js"></script>
@@ -38,19 +38,64 @@
         <div class="gen-block">
           <label class="gen-label">1. Syllabus <span class="opt">(optional)</span></label>
           <textarea class="gen-text" id="syllabusText" rows="2" placeholder="Paste syllabus text&hellip;"></textarea>
-          <label class="gen-file"><input type="file" id="syllabusFile" accept=".pdf,image/*" /><span>or choose a file</span></label>
+          <div class="gen-file-row">
+            <label class="gen-upload-btn btn-pdf">
+              <input type="file" id="syllabusFile" accept="application/pdf,.pdf" />
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              <span>Choose PDF / File</span>
+            </label>
+            <label class="gen-upload-btn btn-photo">
+              <input type="file" id="syllabusPhoto" accept="image/*" />
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              <span>Upload Photo / Camera</span>
+            </label>
+          </div>
+          <div id="syllabusFileBadge" class="file-selected-badge">
+            <span class="file-name-text"></span>
+            <button type="button" class="btn-remove-file" aria-label="Remove file">&times;</button>
+          </div>
         </div>
 
         <div class="gen-block">
           <label class="gen-label">2. Question Paper <span class="req">(required)</span></label>
           <textarea class="gen-text" id="questionText" rows="2" placeholder="Paste question paper text&hellip;"></textarea>
-          <label class="gen-file"><input type="file" id="questionFile" accept=".pdf,image/*" /><span>or choose a file</span></label>
+          <div class="gen-file-row">
+            <label class="gen-upload-btn btn-pdf">
+              <input type="file" id="questionFile" accept="application/pdf,.pdf" />
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              <span>Choose PDF / File</span>
+            </label>
+            <label class="gen-upload-btn btn-photo">
+              <input type="file" id="questionPhoto" accept="image/*" multiple />
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              <span>Upload Photo / Camera</span>
+            </label>
+          </div>
+          <div id="questionFileBadge" class="file-selected-badge">
+            <span class="file-name-text"></span>
+            <button type="button" class="btn-remove-file" aria-label="Remove file">&times;</button>
+          </div>
         </div>
 
         <div class="gen-block">
           <label class="gen-label">3. Written Answer Sheet <span class="req">(required)</span></label>
           <textarea class="gen-text" id="answerText" rows="2" placeholder="Paste typed answers, or upload a scan/photo below&hellip;"></textarea>
-          <label class="gen-file"><input type="file" id="answerFile" accept=".pdf,image/*" /><span>or choose a file</span></label>
+          <div class="gen-file-row">
+            <label class="gen-upload-btn btn-pdf">
+              <input type="file" id="answerFile" accept="application/pdf,.pdf" />
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              <span>Choose PDF / File</span>
+            </label>
+            <label class="gen-upload-btn btn-photo">
+              <input type="file" id="answerPhoto" accept="image/*" multiple />
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              <span>Upload Photo / Camera</span>
+            </label>
+          </div>
+          <div id="answerFileBadge" class="file-selected-badge">
+            <span class="file-name-text"></span>
+            <button type="button" class="btn-remove-file" aria-label="Remove file">&times;</button>
+          </div>
         </div>
 
         <div class="gen-block">
@@ -83,6 +128,6 @@
 
 
 
-  <script src="/generator/generator.js?v=5"></script>
+  <script src="/generator/generator.js?v=7"></script>
 </body>
 </html>

@@ -54,6 +54,94 @@
 .gen-file input[type=file] { font-size: .82rem; max-width: 100%; cursor: pointer; }
 .gen-file span { white-space: nowrap; }
 
+/* Dual-button PDF / Photo row */
+.gen-file-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+.gen-upload-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+.gen-upload-btn input[type=file] {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  font-size: 0;
+}
+.gen-upload-btn.btn-pdf {
+  color: #1e3a8a;
+  background: #eff6ff;
+  border: 1.5px solid #bfdbfe;
+}
+.gen-upload-btn.btn-pdf:hover {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+.gen-upload-btn.btn-photo {
+  color: #065f46;
+  background: #ecfdf5;
+  border: 1.5px solid #a7f3d0;
+}
+.gen-upload-btn.btn-photo:hover {
+  background: #d1fae5;
+  border-color: #6ee7b7;
+}
+.file-selected-badge {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  color: #15803d;
+  margin-top: 6px;
+  font-weight: 600;
+  width: fit-content;
+  max-width: 100%;
+  word-break: break-all;
+}
+.file-selected-badge .file-name-text {
+  display: inline-block;
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.file-selected-badge .btn-remove-file {
+  background: none;
+  border: none;
+  color: #dc2626;
+  cursor: pointer;
+  padding: 2px 4px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1;
+  border-radius: 4px;
+}
+.file-selected-badge .btn-remove-file:hover {
+  background: #fee2e2;
+}
+
 .gen-busy{display:inline-block;margin-left:8px;color:var(--muted);font-size:.85rem}
 
 .spinner-sm {
@@ -366,3 +454,4 @@
     margin-top: 16px;
   }
 }
+

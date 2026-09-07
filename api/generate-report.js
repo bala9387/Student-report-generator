@@ -5,12 +5,14 @@ const authToken = require('../lib/authToken.js');
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Credentials', true);
   const origin = req.headers.origin || '';
-  const allowed = origin === 'https://ksraksharaacademy.vercel.app'
+  const allowed = !origin
+    || origin === 'https://ksraksharaacademy.vercel.app'
     || origin.endsWith('.vercel.app')
-    || origin.startsWith('http://localhost');
-  res.setHeader('Access-Control-Allow-Origin', allowed ? origin : 'https://ksraksharaacademy.vercel.app');
+    || origin.startsWith('http://localhost')
+    || origin.startsWith('http://127.0.0.1');
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST,PUT');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -27,11 +29,13 @@ module.exports = async (req, res) => {
       try { body = JSON.parse(body); } catch(e) {}
     }
 
-    // Require auth for ALL POST actions (admin + AI generation)
-    const authHeader = (req.headers['authorization'] || '').replace(/^Bearer\s+/i, '').trim();
-    const authInfo = authToken.verify(authHeader);
-    if (!authInfo) {
-      return res.status(401).json({ error: 'Authentication required. Please log in to the Teacher Portal first.' });
+    // Only administrative tracking actions require teacher/admin auth
+    if (body.action) {
+      const authHeader = (req.headers['authorization'] || '').replace(/^Bearer\s+/i, '').trim();
+      const authInfo = authToken.verify(authHeader);
+      if (!authInfo) {
+        return res.status(401).json({ error: 'Admin authentication required.' });
+      }
     }
 
     if (body.action === 'updateCap') {

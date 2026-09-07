@@ -251,8 +251,44 @@
   }
 
   function readFile(input) {
-    var f = input.files && input.files[0];
-    if (!f) return Promise.resolve(null);
+    if (!input || !input.files || input.files.length === 0) return Promise.resolve(null);
+
+    // If multiple files selected (e.g. multi-page photos of answer sheet)
+    if (input.files.length > 1) {
+      var promises = [];
+      for (var i = 0; i < input.files.length; i++) {
+        (function (file) {
+          if (file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")) {
+            promises.push(extractPdfText(file).then(function (t) {
+              return t ? { text: t, name: file.name } : renderPdfPagesToJpegs(file);
+            }));
+          } else if (file.type && file.type.startsWith("image/")) {
+            promises.push(compressImage(file));
+          } else {
+            promises.push(readAsBase64(file));
+          }
+        })(input.files[i]);
+      }
+      return Promise.all(promises).then(function (results) {
+        var allImgs = [];
+        var allTexts = [];
+        results.forEach(function (r) {
+          if (!r) return;
+          if (r.text) allTexts.push(r.text);
+          else if (r.data && r.mimeType) allImgs.push(r);
+          else if (Array.isArray(r.images)) allImgs = allImgs.concat(r.images);
+        });
+        if (allImgs.length > 0) {
+          return { images: allImgs, name: input.files[0].name + " (" + input.files.length + " pages)" };
+        }
+        if (allTexts.length > 0) {
+          return { text: allTexts.join("\n\n"), name: input.files[0].name };
+        }
+        return results[0];
+      });
+    }
+
+    var f = input.files[0];
 
     // If PDF, try text extraction first. If text content is substantial (> 120 chars), send text.
     // If text is minimal/empty (scanned PDF), render pages as JPEGs so even 30MB PDFs compress to ~800KB!
@@ -293,10 +329,20 @@
     });
   }
 
-  function collect(textSel, fileSel) {
-    var t = $(textSel).value.trim();
+  function collect(textSel, pdfSel, photoSel) {
+    var t = $(textSel) ? $(textSel).value.trim() : "";
     if (t) return Promise.resolve({ text: t });
-    return readFile($(fileSel));
+
+    var pdfInp = $(pdfSel);
+    var photoInp = $(photoSel);
+
+    if (pdfInp && pdfInp.files && pdfInp.files.length > 0) {
+      return readFile(pdfInp);
+    }
+    if (photoInp && photoInp.files && photoInp.files.length > 0) {
+      return readFile(photoInp);
+    }
+    return Promise.resolve(null);
   }
 
   // ---------- build Gemini request parts ----------
@@ -350,16 +396,18 @@
 
     return fetch("/api/generate-report", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: payloadStr
     }).then(function (res) {
       return res.text().then(function (raw) {
         var b;
         try { b = JSON.parse(raw); }
         catch (e) { b = { error: raw || ("HTTP " + res.status + " Server Error") }; }
-        
+
         if (!res.ok || b.error) {
-          throw new Error(b.error || "Server failed to process request.");
+          throw new Error(b.error || ("Evaluation request failed (HTTP " + res.status + "). Please try again."));
         }
         return b;
       });
@@ -382,9 +430,9 @@
                   '</div>';
 
     Promise.all([
-      collect("#syllabusText", "#syllabusFile"),
-      collect("#questionText", "#questionFile"),
-      collect("#answerText", "#answerFile")
+      collect("#syllabusText", "#syllabusFile", "#syllabusPhoto"),
+      collect("#questionText", "#questionFile", "#questionPhoto"),
+      collect("#answerText", "#answerFile", "#answerPhoto")
     ]).then(function (parts) {
       var question = parts[1];
       var answer = parts[2];
@@ -591,4 +639,63 @@
     html += "</ul>";
     return html;
   }
+
+  // Bind PDF & Photo file selection feedback badges
+  function bindFilePair(pdfId, photoId, badgeId) {
+    var pdfInp = document.getElementById(pdfId);
+    var photoInp = document.getElementById(photoId);
+    var badge = document.getElementById(badgeId);
+    if (!badge) return;
+
+    var nameSpan = badge.querySelector(".file-name-text");
+    var removeBtn = badge.querySelector(".btn-remove-file");
+
+    function updateBadge(input, isPhoto) {
+      if (!input || !input.files || input.files.length === 0) return;
+      var count = input.files.length;
+      var text = "";
+      if (count === 1) {
+        var file = input.files[0];
+        var sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+        var sizeTxt = sizeMb > 0.1 ? (" (" + sizeMb + " MB)") : (" (" + Math.round(file.size / 1024) + " KB)");
+        text = (isPhoto ? "📷 " : "📄 ") + file.name + sizeTxt;
+      } else {
+        text = (isPhoto ? "📷 " : "📄 ") + count + " photos selected";
+      }
+      if (nameSpan) nameSpan.textContent = text;
+      badge.style.display = "inline-flex";
+    }
+
+    if (pdfInp) {
+      pdfInp.addEventListener("change", function () {
+        if (pdfInp.files && pdfInp.files.length > 0) {
+          if (photoInp) photoInp.value = "";
+          updateBadge(pdfInp, false);
+        }
+      });
+    }
+
+    if (photoInp) {
+      photoInp.addEventListener("change", function () {
+        if (photoInp.files && photoInp.files.length > 0) {
+          if (pdfInp) pdfInp.value = "";
+          updateBadge(photoInp, true);
+        }
+      });
+    }
+
+    if (removeBtn) {
+      removeBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        if (pdfInp) pdfInp.value = "";
+        if (photoInp) photoInp.value = "";
+        badge.style.display = "none";
+        if (nameSpan) nameSpan.textContent = "";
+      });
+    }
+  }
+
+  bindFilePair("syllabusFile", "syllabusPhoto", "syllabusFileBadge");
+  bindFilePair("questionFile", "questionPhoto", "questionFileBadge");
+  bindFilePair("answerFile", "answerPhoto", "answerFileBadge");
 })();

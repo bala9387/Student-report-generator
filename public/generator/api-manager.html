@@ -321,6 +321,13 @@
         tbody.innerHTML = html;
       }
 
+      function getAuthHeaders() {
+        var token = localStorage.getItem('teacher_token') || '';
+        var h = { 'Content-Type': 'application/json' };
+        if (token) h['Authorization'] = 'Bearer ' + token;
+        return h;
+      }
+
       var editCapBtn = document.getElementById('editCapBtn');
       if (editCapBtn) {
         editCapBtn.addEventListener('click', function() {
@@ -330,7 +337,7 @@
             if (!isNaN(val) && val >= 0) {
               fetch('/api/generate-report', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getAuthHeaders(),
                 body: JSON.stringify({ action: 'updateCap', cap: val })
               }).then(function() { loadApiData(); });
             }
@@ -347,7 +354,7 @@
             if (!isNaN(val) && val >= 0) {
               fetch('/api/generate-report', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getAuthHeaders(),
                 body: JSON.stringify({ action: 'updateSpend', spend: val })
               }).then(function() { loadApiData(); });
             }
@@ -364,7 +371,7 @@
             if (!isNaN(val) && val >= 0) {
               fetch('/api/generate-report', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getAuthHeaders(),
                 body: JSON.stringify({ action: 'updateTotal', total: val })
               }).then(function() { loadApiData(); });
             }
@@ -378,7 +385,7 @@
           if (confirm("Are you sure you want to clear evaluation history logs?")) {
             fetch('/api/generate-report', {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
+              headers: getAuthHeaders(),
               body: JSON.stringify({ action: 'clearLogs' })
             }).then(function() { loadApiData(); });
           }

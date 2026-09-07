@@ -245,7 +245,7 @@ app.post('/api/teacher/refresh', requireAuth, async (req, res) => {
   }
 });
 
-// AI Report Generator
+// AI Report Generator (Open for students & parents)
 app.post('/api/generate-report', express.json({ limit: '20mb' }), async (req, res) => {
   try {
     const result = await gemini.generateReport({

@@ -1251,9 +1251,16 @@
     }
     updateMaxMarkButtonsUI();
 
+    // Check if mobile viewport
+    var isMobile = (window.innerWidth <= 768);
+
     // Header
     var selectedSubj = getSelectedSubject();
-    var thRow = "<tr><th>S.No</th><th>Roll No</th><th class=\"col-name\">Student Name</th>";
+    var thRow = "<tr>";
+    if (!isMobile) {
+      thRow += '<th class="col-sno">S.No</th><th class="col-roll">Roll No</th>';
+    }
+    thRow += '<th class="col-name">Student Name</th>';
     visibleCols.forEach(function (s) {
       var fullName = (currentSubjectFull && currentSubjectFull[s]) || getSubjectFullName(s);
       if (s === "TAM" && currentGrade === "10") {
@@ -1272,11 +1279,11 @@
         }
       }
       var hSub = esc(s) + maxBadgeHtml;
-      var thClasses = (isMaster && !isMentor) ? ' class="clickable-subj-th' + (selectedSubj === s ? ' active-subj-th' : '') + '"' : '';
+      var thClasses = ' class="col-mark-th' + ((isMaster && !isMentor) ? ' clickable-subj-th' + (selectedSubj === s ? ' active-subj-th' : '') : '') + '"';
       var thTitle = esc(fullName || s) + (isMaster && !isMentor ? ' (Click to select for Max Marks)' : '');
       thRow += "<th" + (isMentor ? ' style="width:100%;"' : '') + thClasses + " data-subj-header='" + esc(s) + "' title='" + thTitle + "'>" + hSub + "</th>";
     });
-    if (showTotalCol) thRow += "<th>Total</th>";
+    if (showTotalCol) thRow += '<th class="col-total">Total</th>';
     thRow += "</tr>";
     tHead.innerHTML = thRow;
 
@@ -1315,8 +1322,10 @@
 
     studentRows.forEach(function (st, idx) {
       html += '<tr data-roll="' + esc(st.rollNo) + '">';
-      html += '<td class="sno">' + (st.sNo || idx + 1) + '</td>';
-      html += '<td class="sno" style="font-weight:600;color:var(--fg);">' + esc(st.rollNo) + '</td>';
+      if (!isMobile) {
+        html += '<td class="col-sno sno">' + (st.sNo || idx + 1) + '</td>';
+        html += '<td class="col-roll sno" style="font-weight:600;color:var(--fg);">' + esc(st.rollNo) + '</td>';
+      }
       html += '<td class="col-student-name" title="' + esc(st.rollNo) + '"><div class="student-name-box"><span class="student-name-text">' + esc(st.name) + '</span><span class="student-roll-sub">' + esc(st.rollNo) + '</span></div></td>';
 
       visibleCols.forEach(function (s) {
@@ -1345,7 +1354,7 @@
         var clsStr = isMentor ? 'mark-input mentor-input' : (canEdit ? ('mark-input' + (isAb ? ' is-absent' : '')) : ('mark-input disabled-input' + (isAb ? ' is-absent' : '')));
         var disabledAttr = canEdit ? '' : 'disabled title="Only authorized subject teacher can edit ' + esc(s) + '"';
 
-        html += '<td' + (isMentor ? ' style="width:100%;padding:4px 8px;"' : '') + '><input ' + modeStr + ' class="' + clsStr + '" ' +
+        html += '<td class="col-mark-cell"' + (isMentor ? ' style="width:100%;padding:4px 8px;"' : '') + '><input ' + modeStr + ' class="' + clsStr + '" ' +
                 'data-roll="' + esc(st.rollNo) + '" ' +
                 'data-subj="' + esc(s) + '" ' +
                 'value="' + esc(String(display)) + '" ' +
@@ -1355,7 +1364,7 @@
 
       // Total column (auto-computed for exams) — ONLY visible to Master Administrator
       if (showTotalCol) {
-        html += '<td class="sno" id="total-' + esc(st.rollNo) + '">' + computeTotal(st.marks) + '</td>';
+        html += '<td class="col-total sno" id="total-' + esc(st.rollNo) + '">' + computeTotal(st.marks) + '</td>';
       }
       html += '</tr>';
     });
@@ -1537,11 +1546,14 @@
       { key: "min",      label: "Minimum Mark" }
     ];
 
+    var isMobile = (window.innerWidth <= 768);
     var footHtml = "";
     labels.forEach(function (row) {
       footHtml += '<tr class="stat-row stat-' + row.key + '">';
-      footHtml += '<td></td>'; // S.No column
-      footHtml += '<td></td>'; // Roll No column
+      if (!isMobile) {
+        footHtml += '<td class="col-sno"></td>'; // S.No column
+        footHtml += '<td class="col-roll"></td>'; // Roll No column
+      }
       footHtml += '<td class="stat-label col-student-name">' + row.label + '</td>'; // Student Name column
 
       var totalVal = 0;
@@ -1572,12 +1584,12 @@
           val = present.length > 0 ? Math.min.apply(null, present) : 0;
         }
 
-        footHtml += '<td class="stat-val">' + val + '</td>';
+        footHtml += '<td class="stat-val col-mark-cell">' + val + '</td>';
       });
 
       var isMaster = !!(info && info.isAdmin === true);
       if (!isMentor && isMaster) {
-        footHtml += '<td class="stat-val"></td>'; // Total column
+        footHtml += '<td class="stat-val col-total"></td>'; // Total column
       }
       footHtml += '</tr>';
     });
@@ -2171,4 +2183,18 @@
     }
     loadData(true);
   }, 8000);
+
+  /* ═══════════ Responsive Window Resize Handler ═══════════ */
+  var resizeTimer;
+  var lastWasMobile = (window.innerWidth <= 768);
+  window.addEventListener("resize", function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      var nowMobile = (window.innerWidth <= 768);
+      if (nowMobile !== lastWasMobile) {
+        lastWasMobile = nowMobile;
+        renderTable();
+      }
+    }, 150);
+  });
 })();
