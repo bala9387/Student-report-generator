@@ -512,16 +512,21 @@
   });
 
   var currentReportData = null;
+  var currentReportModel = "Gemini";
 
   function downloadReportPDF() {
-    var host = $("#genReport");
-    if (!host || !host.innerHTML.trim()) return;
+    var rep = currentReportData;
+    if (!rep) {
+      window.print();
+      return;
+    }
 
-    var studentName = (currentReportData && currentReportData.studentName) ? currentReportData.studentName : "Student";
-    var subject = (currentReportData && currentReportData.subject) ? currentReportData.subject : "Evaluation";
-    var safeStudent = studentName.replace(/[^a-zA-Z0-9_-]/g, "_");
-    var safeSubject = subject.replace(/[^a-zA-Z0-9_-]/g, "_");
-    var filename = "Akshara_Report_" + safeStudent + "_" + safeSubject + ".pdf";
+    var jsPDF = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+    if (!jsPDF) {
+      console.warn("jsPDF not loaded, falling back to window.print()");
+      window.print();
+      return;
+    }
 
     var btn = $("#downloadGenPdfBtn");
     var origHtml = btn ? btn.innerHTML : "";
@@ -537,71 +542,241 @@
       }
     }
 
-    if (typeof html2pdf === "undefined") {
-      console.warn("html2pdf library not available, falling back to window.print()");
+    try {
+      var doc = new jsPDF({ unit: "pt", format: "a4" });
+      var W = doc.internal.pageSize.getWidth();
+      var H = doc.internal.pageSize.getHeight();
+      var margin = 40;
+      var contentW = W - margin * 2;
+      var y = 88;
+
+      function checkPageBreak(neededH) {
+        if (y + neededH > H - 45) {
+          doc.addPage();
+          drawPageHeader(true);
+        }
+      }
+
+      function drawPageHeader(isContinuation) {
+        doc.setFillColor(209, 213, 219); doc.rect(0, 0, W, 8, "F");
+        doc.setFillColor(183, 22, 28); doc.rect(0, 0, W, 6, "F");
+        doc.setFont("helvetica", "bold"); doc.setFontSize(10); doc.setTextColor(20, 30, 48);
+        doc.text("KSR AKSHARA ACADEMY \u00B7 SENIOR SECONDARY CBSE", W / 2, 26, { align: "center" });
+
+        if (!isContinuation) {
+          doc.setFont("helvetica", "bold"); doc.setFontSize(18); doc.setTextColor(35, 123, 189);
+          doc.text("STUDENT PERFORMANCE REPORT", W / 2, 50, { align: "center" });
+
+          doc.setFont("helvetica", "italic"); doc.setFontSize(9.5); doc.setTextColor(107, 114, 128);
+          var sub = "KSR Akshara Academy \u2014 " + (rep.examTitle || "Cumulative Examination 2026-27");
+          doc.text(sub, W / 2, 65, { align: "center" });
+
+          doc.setDrawColor(35, 123, 189); doc.setLineWidth(2);
+          doc.line(margin, 74, W - margin, 74);
+          y = 88;
+        } else {
+          y = 42;
+        }
+      }
+
+      drawPageHeader(false);
+
+      function drawSectionBar(title) {
+        checkPageBreak(30);
+        doc.setFillColor(241, 245, 249);
+        doc.rect(margin, y, contentW, 20, "F");
+        doc.setFillColor(35, 123, 189);
+        doc.rect(margin, y, 5, 20, "F");
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(10.5);
+        doc.setTextColor(15, 23, 42);
+        doc.text(title, margin + 12, y + 14);
+        y += 26;
+      }
+
+      // 1. Profile
+      drawSectionBar("1. Student & Examination Profile");
+      var obtainedMarksDisp = (rep.totalMarksObtained != null ? rep.totalMarksObtained : (rep.evaluatedTotalMarks || 0));
+      var maxMarksDisp = rep.totalMaxMarks != null ? rep.totalMaxMarks : 70;
+
+      var profileRows = [
+        [{ lbl: "Student Name:", val: rep.studentName || "\u2014" }, { lbl: "Grade / Section:", val: rep.gradeSection || "Grade XII" }],
+        [{ lbl: "Subject:", val: rep.subject || "Subject" }, { lbl: "Date of Exam:", val: rep.dateOfExam || today() }],
+        [{ lbl: "Maximum Marks:", val: String(maxMarksDisp) }, { lbl: "Marks Obtained:", val: obtainedMarksDisp + " / " + maxMarksDisp, isPill: true }]
+      ];
+
+      profileRows.forEach(function (row, rIdx) {
+        var halfW = contentW / 2;
+        doc.setFont("helvetica", "bold"); doc.setFontSize(9.5); doc.setTextColor(35, 123, 189);
+        doc.text(row[0].lbl, margin + 4, y + 11);
+        doc.setFont("helvetica", "normal"); doc.setTextColor(51, 65, 85);
+        doc.text(String(row[0].val), margin + 105, y + 11);
+
+        doc.setFont("helvetica", "bold"); doc.setTextColor(35, 123, 189);
+        doc.text(row[1].lbl, margin + halfW + 4, y + 11);
+        if (row[1].isPill) {
+          var pillText = String(row[1].val);
+          doc.setFont("helvetica", "bold"); doc.setFontSize(9);
+          var pTw = doc.getTextWidth(pillText) + 16;
+          doc.setFillColor(32, 160, 82);
+          doc.roundedRect(margin + halfW + 110, y + 1, pTw, 15, 3, 3, "F");
+          doc.setTextColor(255, 255, 255);
+          doc.text(pillText, margin + halfW + 110 + pTw / 2, y + 11.5, { align: "center" });
+        } else {
+          doc.setFont("helvetica", "normal"); doc.setTextColor(51, 65, 85);
+          doc.text(String(row[1].val), margin + halfW + 110, y + 11);
+        }
+
+        if (rIdx < profileRows.length - 1) {
+          doc.setDrawColor(203, 213, 225);
+          doc.line(margin + 4, y + 18, margin + contentW - 4, y + 18);
+        }
+        y += 24;
+      });
+      y += 6;
+
+      // 2. Sections Table
+      drawSectionBar("2. Section-Wise Performance Breakdown");
+      var colW = [85, 155, 80, 80, 115.28];
+      var colAlign = ["left", "left", "center", "center", "left"];
+      var headCols = ["Section", "Question Type", "Total Marks", "Obtained", "Performance Level"];
+
+      doc.setFillColor(35, 123, 189);
+      doc.rect(margin, y, contentW, 20, "F");
+      doc.setFont("helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(255, 255, 255);
+      var curX = margin;
+      headCols.forEach(function (hTitle, idx) {
+        var tx = colAlign[idx] === "center" ? (curX + colW[idx] / 2) : (curX + 6);
+        doc.text(hTitle, tx, y + 13.5, { align: colAlign[idx] === "center" ? "center" : "left" });
+        curX += colW[idx];
+      });
+      y += 20;
+
+      var sections = rep.sections || [];
+      var sumTotal = 0, sumObtained = 0;
+      sections.forEach(function (s, sIdx) {
+        checkPageBreak(22);
+        var tm = s.totalMarks != null ? s.totalMarks : (s.maxMarks || 0);
+        var om = s.obtainedMarks != null ? s.obtainedMarks : (s.marksAwarded || 0);
+        sumTotal += tm; sumObtained += om;
+
+        doc.setFillColor(sIdx % 2 === 0 ? 255 : 248, sIdx % 2 === 0 ? 255 : 250, sIdx % 2 === 0 ? 255 : 252);
+        doc.rect(margin, y, contentW, 19, "F");
+        doc.setDrawColor(203, 213, 225); doc.setLineWidth(0.5);
+        doc.rect(margin, y, contentW, 19, "S");
+
+        var rowVals = [
+          s.sectionName || s.section || s.number || "\u2014",
+          s.questionType || s.question || "\u2014",
+          String(tm),
+          String(om),
+          s.performanceLevel || s.remarks || "\u2014"
+        ];
+        curX = margin;
+        rowVals.forEach(function (val, cIdx) {
+          doc.setFont("helvetica", cIdx === 0 ? "bold" : "normal");
+          doc.setFontSize(8.5);
+          doc.setTextColor(30, 41, 59);
+          var tx = colAlign[cIdx] === "center" ? (curX + colW[cIdx] / 2) : (curX + 6);
+          doc.text(val, tx, y + 13, { align: colAlign[cIdx] === "center" ? "center" : "left" });
+          curX += colW[cIdx];
+        });
+        y += 19;
+      });
+
+      // Total Row
+      checkPageBreak(22);
+      doc.setFillColor(226, 239, 250);
+      doc.rect(margin, y, contentW, 20, "F");
+      doc.setDrawColor(35, 123, 189); doc.setLineWidth(1);
+      doc.rect(margin, y, contentW, 20, "S");
+      doc.setFont("helvetica", "bold"); doc.setFontSize(8.5); doc.setTextColor(15, 23, 42);
+
+      var totalObtainedDisp = rep.evaluatedTotalMarks != null ? String(rep.evaluatedTotalMarks) : String(sumObtained || rep.totalMarksObtained || 0);
+      var overallPerf = rep.summaryPerformanceLevel || "Good with targeted gaps";
+
+      var totVals = [
+        "Total Evaluation",
+        "",
+        String(sumTotal || maxMarksDisp),
+        totalObtainedDisp + (rep.footnote ? "*" : ""),
+        overallPerf
+      ];
+      curX = margin;
+      totVals.forEach(function (val, cIdx) {
+        var tx = colAlign[cIdx] === "center" ? (curX + colW[cIdx] / 2) : (curX + 6);
+        doc.text(val, tx, y + 13.5, { align: colAlign[cIdx] === "center" ? "center" : "left" });
+        curX += colW[cIdx];
+      });
+      y += 26;
+
+      if (rep.footnote) {
+        doc.setFont("helvetica", "italic"); doc.setFontSize(8); doc.setTextColor(100, 116, 139);
+        doc.text("*" + rep.footnote, margin + 4, y);
+        y += 14;
+      }
+
+      // Bullet Sections
+      function drawBulletSection(secTitle, list) {
+        if (!list || !list.length) return;
+        drawSectionBar(secTitle);
+        list.forEach(function (item) {
+          var rawText = typeof item === "string" ? item : ((item.title ? (item.title + ": ") : "") + (item.detail || item.text || item.description || ""));
+          if (!rawText.trim()) return;
+          var wrapped = doc.splitTextToSize(rawText, contentW - 20);
+          var blockH = wrapped.length * 13 + 6;
+          checkPageBreak(blockH);
+          doc.setFillColor(35, 123, 189);
+          doc.circle(margin + 8, y + 6, 2, "F");
+          doc.setFont("helvetica", "normal"); doc.setFontSize(9); doc.setTextColor(51, 65, 85);
+          wrapped.forEach(function (line, lineIdx) {
+            doc.text(line, margin + 18, y + 9 + lineIdx * 13);
+          });
+          y += blockH;
+        });
+        y += 6;
+      }
+
+      drawBulletSection("3. Key Strengths", rep.strengths);
+      drawBulletSection("4. Key Areas for Improvement", rep.areasForImprovement);
+      drawBulletSection("5. Core Concepts Assessed", rep.coreConcepts);
+      drawBulletSection("6. Actionable Study Tips", rep.studyTips || rep.actionableRecommendations);
+
+      // Page numbers & confidential footer
+      var totalPages = doc.internal.getNumberOfPages();
+      for (var p = 1; p <= totalPages; p++) {
+        doc.setPage(p);
+        doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.setTextColor(150);
+        doc.text("Page " + p + " of " + totalPages, W - margin, H - 20, { align: "right" });
+        doc.text("Confidential \u00B7 KSR Akshara Academy Official Performance Report", margin, H - 20);
+      }
+
+      var safeStudent = (rep.studentName || "Student").replace(/[^a-zA-Z0-9_-]/g, "_");
+      var safeSubject = (rep.subject || "Evaluation").replace(/[^a-zA-Z0-9_-]/g, "_");
+      var filename = "Akshara_Report_" + safeStudent + "_" + safeSubject + ".pdf";
+
+      try {
+        doc.save(filename);
+      } catch (saveErr) {
+        var blob = doc.output("blob");
+        var blobUrl = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.style.display = "none";
+        a.href = blobUrl;
+        a.setAttribute("download", filename);
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function () {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(blobUrl);
+        }, 2000);
+      }
+      resetBtn();
+    } catch (pdfErr) {
+      console.error("PDF generation error:", pdfErr);
       resetBtn();
       window.print();
-      return;
     }
-
-    // Create a styled clone container rendered at 820px width (standard desktop A4 layout)
-    // to ensure mobile screens do not collapse the PDF into a narrow column!
-    var cloneWrapper = document.createElement("div");
-    cloneWrapper.className = "pdf-export-container";
-    cloneWrapper.style.position = "fixed";
-    cloneWrapper.style.top = "0";
-    cloneWrapper.style.left = "-9999px";
-    cloneWrapper.style.width = "820px";
-    cloneWrapper.style.background = "#ffffff";
-    cloneWrapper.style.zIndex = "-1000";
-    cloneWrapper.style.padding = "24px 28px";
-    cloneWrapper.style.boxSizing = "border-box";
-    cloneWrapper.style.fontFamily = "'Segoe UI', Arial, system-ui, -apple-system, Roboto, sans-serif";
-    cloneWrapper.style.color = "#334155";
-
-    var cloneContent = host.cloneNode(true);
-    // Remove any mobile-specific scrolling constraints on tables
-    var scrollWraps = cloneContent.querySelectorAll(".tbl-scroll");
-    scrollWraps.forEach(function (w) {
-      w.style.overflow = "visible";
-      w.style.maxWidth = "none";
-    });
-
-    cloneWrapper.appendChild(cloneContent);
-    document.body.appendChild(cloneWrapper);
-
-    var opt = {
-      margin: [10, 10, 12, 10], // mm
-      filename: filename,
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        scrollY: 0,
-        windowWidth: 1024
-      },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-      pagebreak: {
-        mode: ["avoid-all", "css", "legacy"],
-        avoid: [".pdf-sec-bar", ".pdf-profile-grid", "tr", ".pdf-bullet-list li", ".ai-note"]
-      }
-    };
-
-    html2pdf()
-      .set(opt)
-      .from(cloneWrapper)
-      .save()
-      .then(function () {
-        if (cloneWrapper.parentNode) cloneWrapper.parentNode.removeChild(cloneWrapper);
-        resetBtn();
-      })
-      .catch(function (err) {
-        console.error("PDF download error:", err);
-        if (cloneWrapper.parentNode) cloneWrapper.parentNode.removeChild(cloneWrapper);
-        resetBtn();
-        window.print();
-      });
   }
 
   $("#genBackBtn").addEventListener("click", function () {
@@ -632,6 +807,7 @@
   function renderReport(rep, model) {
     rep = rep || {};
     currentReportData = rep;
+    currentReportModel = model || "Gemini";
     var host = $("#genReport");
 
     var studentName = rep.studentName || "\u2014";
