@@ -252,6 +252,12 @@
 
   function readFile(input) {
     if (!input || !input.files || input.files.length === 0) return Promise.resolve(null);
+    var maxBytes = 100 * 1024 * 1024;
+    for (var fi = 0; fi < input.files.length; fi++) {
+      if (input.files[fi].size > maxBytes) {
+        return Promise.reject(new Error("File \"" + input.files[fi].name + "\" exceeds the 100 MB size limit (" + (input.files[fi].size / (1024 * 1024)).toFixed(1) + " MB)."));
+      }
+    }
 
     // If multiple files selected (e.g. multi-page photos of answer sheet)
     if (input.files.length > 1) {
@@ -380,8 +386,11 @@
     };
     var payloadStr = JSON.stringify(payloadObj);
 
-    // Auto-trim page images if total payload approaches serverless gateway limit (2.6 MB max)
-    while (payloadStr.length > 2.6 * 1024 * 1024) {
+    // Auto-trim page images only on serverless gateways (Vercel/Netlify) to avoid FUNCTION_INVOCATION_FAILED.
+    // On local/standalone servers, allow up to 100 MB.
+    var isServerless = window.location.hostname.endsWith(".vercel.app") || window.location.hostname.endsWith(".netlify.app");
+    var maxGatewaySize = isServerless ? (2.6 * 1024 * 1024) : (100 * 1024 * 1024);
+    while (payloadStr.length > maxGatewaySize) {
       var trimmed = false;
       if (payloadObj.answerPaper && Array.isArray(payloadObj.answerPaper.images) && payloadObj.answerPaper.images.length > 1) {
         payloadObj.answerPaper.images.pop();
@@ -937,6 +946,16 @@
     function updateBadge(input, isPhoto) {
       if (!input || !input.files || input.files.length === 0) return;
       var count = input.files.length;
+      var maxBytes = 100 * 1024 * 1024;
+      for (var fi = 0; fi < input.files.length; fi++) {
+        if (input.files[fi].size > maxBytes) {
+          alert("File \"" + input.files[fi].name + "\" is too large (" + (input.files[fi].size / (1024 * 1024)).toFixed(1) + " MB). Maximum allowed file upload is 100 MB.");
+          input.value = "";
+          badge.style.display = "none";
+          if (nameSpan) nameSpan.textContent = "";
+          return;
+        }
+      }
       var text = "";
       if (count === 1) {
         var file = input.files[0];
