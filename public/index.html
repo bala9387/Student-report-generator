@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=5.0, user-scalable=yes" />
   <title>Student Performance Report</title>
-  <link rel="stylesheet" href="styles.css?v=38" />
+  <link rel="stylesheet" href="styles.css?v=39" />
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="landing-body">
@@ -163,10 +163,23 @@
           <svg viewBox="0 0 24 24" class="btn-ic"><path d="M6 9V3h12v6"/><rect x="5" y="9" width="14" height="7" rx="1"/><path d="M8 16h8v5H8z"/></svg>
           <span>Print</span>
         </button>
-<button id="backBtn" class="btn-ghost">
+        <button id="backBtn" class="btn-ghost">
           <svg viewBox="0 0 24 24" class="btn-ic"><path d="M15 5l-7 7 7 7"/></svg>
           <span>New Search</span>
         </button>
+        <div class="toolbar-mode-wrap" id="toolbarModeWrap">
+          <svg class="mode-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6h16M4 12h16m-7 6h7"/>
+          </svg>
+          <span class="mode-label">Mode:</span>
+          <select id="reportModeSelect" class="report-mode-select" aria-label="Select Mode">
+            <option value="PE - Analysis">PE - Analysis</option>
+            <option value="CU 1">CU 1</option>
+            <option value="TE 1" selected>TE 1</option>
+            <option value="CU 2">CU 2</option>
+            <option value="TE 2">TE 2</option>
+          </select>
+        </div>
       </div>
       <div id="report" class="report"></div>
     </section>
@@ -210,6 +223,6 @@
   <!-- data.js / datasource.js are backend-only now (see server.js) — the browser
        never talks to Google Sheets directly and never sees the sheet ID. -->
   <script src="vendor/jspdf.umd.min.js"></script>
-  <script src="app.js?v=37"></script>
+  <script src="app.js?v=38"></script>
 </body>
 </html>

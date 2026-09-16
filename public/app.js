@@ -112,21 +112,46 @@
     host.appendChild(wrap);
   }
 
-  // ---------- form handling ----------
+  // ---------- form handling & report state ----------
+  var currentStudentRoll = null;
+  var currentStudentGrade = "12";
+  var currentMode = "TE 1";
+  var currentLeaderboardScope = null;
+  var currentLeaderboardRenderFn = null;
+  var currentLeaderboardBtn = null;
 
-  var form = $("#lookupForm"), msg = $("#message");
-  form.addEventListener("submit", function (ev) {
-    ev.preventDefault();
-    if (!DATA) { showMsg("info", "Loading data, please wait a moment&hellip;"); return; }
-    var roll = normRoll($("#roll").value);
-    var mode = $("#mode").value;
-    var grade = $("#grade") ? $("#grade").value : "12";
-    msg.className = "message"; msg.innerHTML = "";
-    if (!roll) { showMsg("error", "Please enter a Roll Number."); return; }
+  function updateToolbarModeOptions(isStudentReport, activeMode) {
+    var sel = $("#reportModeSelect");
+    if (!sel) return;
+    sel.innerHTML = "";
+    var modes = isStudentReport
+      ? ["PE - Analysis", "CU 1", "TE 1", "CU 2", "TE 2"]
+      : ["CU 1", "TE 1", "CU 2", "TE 2"];
+    modes.forEach(function (m) {
+      var opt = document.createElement("option");
+      opt.value = m;
+      opt.textContent = m;
+      if (m === activeMode) opt.selected = true;
+      sel.appendChild(opt);
+    });
+    sel.value = activeMode;
+  }
+
+  function fetchStudentReport(roll, mode, grade) {
+    if (!DATA) { showMsg("info", "Loading data, please wait a moment&hellip;"); return Promise.resolve(); }
+    if (!roll) { showMsg("error", "Please enter a Roll Number."); return Promise.resolve(); }
+
+    currentStudentRoll = roll;
+    currentStudentGrade = grade || ($("#grade") ? $("#grade").value : "12");
+    currentMode = mode;
+    currentLeaderboardScope = null;
 
     var submitBtn = $("#submitBtn");
-    submitBtn.disabled = true;
-    apiGet("/api/lookup?mode=" + encodeURIComponent(mode) + "&roll=" + encodeURIComponent(roll) + "&grade=" + encodeURIComponent(grade) + "&fresh=1&_t=" + Date.now())
+    if (submitBtn) submitBtn.disabled = true;
+
+    updateToolbarModeOptions(true, mode);
+
+    return apiGet("/api/lookup?mode=" + encodeURIComponent(mode) + "&roll=" + encodeURIComponent(roll) + "&grade=" + encodeURIComponent(currentStudentGrade) + "&fresh=1&_t=" + Date.now())
       .then(function (resp) {
         absorbMeta(resp);
         if (resp.found && resp.kind === "analysis") {
@@ -152,7 +177,7 @@
             showView("report");
           } else {
             showMsg("info", "Exam <b>" + esc(mode) + "</b> has not been conducted yet." +
-              (resp.availableExams.length ? " Available: <b>" + resp.availableExams.map(esc).join(", ") + "</b>." : ""));
+              (resp.availableExams && resp.availableExams.length ? " Available: <b>" + resp.availableExams.map(esc).join(", ") + "</b>." : ""));
           }
         } else {
           showMsg("error", "No student found with Roll Number <b>" + esc(roll) + "</b>.");
@@ -161,7 +186,17 @@
       .catch(function (e) {
         showMsg("error", "Could not reach the server. " + esc(e.message));
       })
-      .then(function () { submitBtn.disabled = false; });
+      .then(function () { if (submitBtn) submitBtn.disabled = false; });
+  }
+
+  var form = $("#lookupForm"), msg = $("#message");
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var roll = normRoll($("#roll").value);
+    var mode = $("#mode").value;
+    var grade = $("#grade") ? $("#grade").value : "12";
+    msg.className = "message"; msg.innerHTML = "";
+    fetchStudentReport(roll, mode, grade);
   });
 
   function showMsg(kind, html) { msg.className = "message " + kind; msg.innerHTML = html; }
@@ -261,6 +296,8 @@ $("#downloadBtn").addEventListener("click", function () {
   function renderReport(mode, student) {
     var m = DATA.modes[mode];
     currentPDF = { mode: mode, student: student };
+    currentMode = mode;
+    updateToolbarModeOptions(true, mode);
     var host = $("#report");
     host.innerHTML = "";
     if (m.type === "group") renderGroup(host, m, student);
@@ -317,6 +354,8 @@ $("#downloadBtn").addEventListener("click", function () {
     var host = $("#report");
     host.innerHTML = "";
     currentPDF = { type: "exam", mode: m, student: s, exam: exam };
+    currentMode = exam;
+    updateToolbarModeOptions(true, exam);
     
     var overallEx = s.overall && s.overall[exam];
     var isSchoolTopper = !!(overallEx && overallEx.rank === 1 && overallEx.total > 0);
@@ -512,8 +551,25 @@ $("#downloadBtn").addEventListener("click", function () {
       "<h2>Top Performers</h2><div class='school'>School-wide &middot; Academic Year " +
       esc(DATA.meta.academicYear) + "</div>";
     host.appendChild(head);
-    host.appendChild(el("p", "lb-asof",
-      "Ranking as of <b>" + esc(top.exam) + "</b> &middot; out of " + top.classSize + " students"));
+
+    var examList = top.availableExams || ["CU 1", "TE 1", "CU 2", "TE 2"];
+    var modeRow = el("div", "lb-mode-row");
+    var pillsHtml = examList.map(function (ex) {
+      return '<button type="button" class="btn-mode-pill' + (ex === top.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(ex) + '</button>';
+    }).join("");
+    modeRow.innerHTML = '<span class="lb-asof-text">Ranking as of <b>' + esc(top.exam) + '</b> &middot; out of ' + top.classSize + ' students</span>' +
+      '<div class="lb-mode-pill-group">' + pillsHtml + '</div>';
+    host.appendChild(modeRow);
+
+    var pills = modeRow.querySelectorAll(".btn-mode-pill");
+    pills.forEach(function (p) {
+      p.addEventListener("click", function () {
+        var m = this.getAttribute("data-mode");
+        if (m && m !== top.exam) {
+          showLeaderboard("school", renderSchoolTop, $("#topSchoolBtn"), m);
+        }
+      });
+    });
 
     var scroll = el("div", "tbl-scroll");
     var tbl = el("table", "grid");
@@ -540,7 +596,25 @@ $("#downloadBtn").addEventListener("click", function () {
       "<h2>Top Performers by Stream</h2><div class='school'>Academic Year " +
       esc(DATA.meta.academicYear) + "</div>";
     host.appendChild(head);
-    host.appendChild(el("p", "lb-asof", "Ranking as of <b>" + esc(top.exam) + "</b>"));
+
+    var examList = top.availableExams || ["CU 1", "TE 1", "CU 2", "TE 2"];
+    var modeRow = el("div", "lb-mode-row");
+    var pillsHtml = examList.map(function (ex) {
+      return '<button type="button" class="btn-mode-pill' + (ex === top.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(ex) + '</button>';
+    }).join("");
+    modeRow.innerHTML = '<span class="lb-asof-text">Ranking as of <b>' + esc(top.exam) + '</b></span>' +
+      '<div class="lb-mode-pill-group">' + pillsHtml + '</div>';
+    host.appendChild(modeRow);
+
+    var pills = modeRow.querySelectorAll(".btn-mode-pill");
+    pills.forEach(function (p) {
+      p.addEventListener("click", function () {
+        var m = this.getAttribute("data-mode");
+        if (m && m !== top.exam) {
+          showLeaderboard("stream", renderStreamTop, $("#topStreamBtn"), m);
+        }
+      });
+    });
 
     top.groups.forEach(function (g) {
       host.appendChild(el("div", "lb-stream-heading", esc(domainLabel(g.domain)) + " &middot; " + g.size + " students"));
@@ -559,25 +633,55 @@ $("#downloadBtn").addEventListener("click", function () {
     });
   }
 
-  function showLeaderboard(scope, renderFn, btn) {
-    btn.disabled = true;
+  function showLeaderboard(scope, renderFn, btn, requestedMode) {
+    if (btn) btn.disabled = true;
+    currentLeaderboardScope = scope;
+    currentLeaderboardRenderFn = renderFn;
+    currentLeaderboardBtn = btn;
+    currentStudentRoll = null;
     currentMentorUrl = null;
+
+    var examMode = requestedMode || currentMode || "TE 1";
+    if (examMode === "PE - Analysis") examMode = "TE 1";
+    currentMode = examMode;
+    updateToolbarModeOptions(false, examMode);
+
     var host = $("#report");
     host.innerHTML = "";
     host.appendChild(el("p", "lb-asof", "Loading&hellip;"));
     $("#downloadBtn").hidden = false;
     showView("report");
-    apiGet("/api/leaderboard?scope=" + scope + "&n=5&fresh=1&_t=" + Date.now())
+
+    var grade = ($("#grade") ? $("#grade").value : "12");
+    apiGet("/api/leaderboard?scope=" + scope + "&n=5&grade=" + encodeURIComponent(grade) + "&mode=" + encodeURIComponent(examMode) + "&fresh=1&_t=" + Date.now())
       .then(function (resp) {
         absorbMeta(resp);
         host.innerHTML = "";
+        if (resp.exam) {
+          currentMode = resp.exam;
+          updateToolbarModeOptions(false, resp.exam);
+        }
         renderFn(host, resp);
       })
       .catch(function (e) {
         host.innerHTML = "";
         host.appendChild(el("p", "note-pending", "Could not load rankings. " + esc(e.message)));
       })
-      .then(function () { btn.disabled = false; });
+      .then(function () { if (btn) btn.disabled = false; });
+  }
+
+  var reportModeSelect = $("#reportModeSelect");
+  if (reportModeSelect) {
+    reportModeSelect.addEventListener("change", function () {
+      var newMode = this.value;
+      if (currentLeaderboardScope) {
+        var renderFn = currentLeaderboardScope === "school" ? renderSchoolTop : renderStreamTop;
+        var btn = currentLeaderboardScope === "school" ? $("#topSchoolBtn") : $("#topStreamBtn");
+        showLeaderboard(currentLeaderboardScope, renderFn, btn, newMode);
+      } else if (currentStudentRoll) {
+        fetchStudentReport(currentStudentRoll, newMode, currentStudentGrade);
+      }
+    });
   }
   // ---------- Auth / Login ----------
   var SESSION_KEY = "akshara_lb_auth";
