@@ -70,6 +70,14 @@
     return str;
   }
 
+  function isPhysicalEducation(code) {
+    if (!code) return false;
+    var c = String(code).trim().toUpperCase();
+    if (c === "PED" || c === "PE") return true;
+    var full = getSubjectFullName(code);
+    return full === "Physical Education" || /^(PED|PE\b|PHY.*EDU)/i.test(full);
+  }
+
   // fetch JSON from our backend; throws with a readable message on failure
   function apiGet(path) {
     return fetch(path).then(function (r) {
@@ -125,8 +133,8 @@
     if (!sel) return;
     sel.innerHTML = "";
     var modes = isStudentReport
-      ? ["PE - Analysis", "CU 1", "TE 1", "CU 2", "TE 2"]
-      : ["CU 1", "TE 1", "CU 2", "TE 2"];
+      ? ["PE - Analysis", "CU 1", "TE 1", "TE 2"]
+      : ["CU 1", "TE 1", "TE 2"];
     modes.forEach(function (m) {
       var opt = document.createElement("option");
       opt.value = m;
@@ -135,6 +143,13 @@
       sel.appendChild(opt);
     });
     sel.value = activeMode;
+  }
+
+  function updateToolbarGradeOptions(activeGrade) {
+    var sel = $("#reportGradeSelect");
+    if (!sel) return;
+    var g = activeGrade || currentStudentGrade || ($("#grade") ? $("#grade").value : "12");
+    sel.value = g;
   }
 
   function fetchStudentReport(roll, mode, grade) {
@@ -150,6 +165,7 @@
     if (submitBtn) submitBtn.disabled = true;
 
     updateToolbarModeOptions(true, mode);
+    updateToolbarGradeOptions(currentStudentGrade);
 
     return apiGet("/api/lookup?mode=" + encodeURIComponent(mode) + "&roll=" + encodeURIComponent(roll) + "&grade=" + encodeURIComponent(currentStudentGrade) + "&fresh=1&_t=" + Date.now())
       .then(function (resp) {
@@ -270,6 +286,7 @@ $("#downloadBtn").addEventListener("click", function () {
     if (currentPDF.type === "exam") buildExamPDF(currentPDF.mode, currentPDF.student, currentPDF.exam);
     else if (currentPDF.type === "top-school") buildSchoolTopPDF();
     else if (currentPDF.type === "top-stream") buildStreamTopPDF();
+    else if (currentPDF.type === "slow-learners") buildSlowLearnersPDF();
     else buildPDF(currentPDF.mode, currentPDF.student);
   });
 
@@ -280,7 +297,7 @@ $("#downloadBtn").addEventListener("click", function () {
   function pendingExams(m) {
     return m.exams.filter(function (ex) { return !m.conducted[ex]; });
   }
-  // most recent exam period with marks entered (CU 1 -> TE 1 -> CU 2 -> TE 2), so the
+  // most recent exam period with marks entered (CU 1 -> TE 1 -> TE 2), so the
   // "current standing" (topper badge, summary cards) always reflects the latest sheet data
   function latestConductedExam(m) {
     var conducted = conductedExams(m);
@@ -298,6 +315,7 @@ $("#downloadBtn").addEventListener("click", function () {
     currentPDF = { mode: mode, student: student };
     currentMode = mode;
     updateToolbarModeOptions(true, mode);
+    updateToolbarGradeOptions(currentStudentGrade);
     var host = $("#report");
     host.innerHTML = "";
     if (m.type === "group") renderGroup(host, m, student);
@@ -356,6 +374,7 @@ $("#downloadBtn").addEventListener("click", function () {
     currentPDF = { type: "exam", mode: m, student: s, exam: exam };
     currentMode = exam;
     updateToolbarModeOptions(true, exam);
+    updateToolbarGradeOptions(currentStudentGrade);
     
     var overallEx = s.overall && s.overall[exam];
     var isSchoolTopper = !!(overallEx && overallEx.rank === 1 && overallEx.total > 0);
@@ -411,12 +430,28 @@ $("#downloadBtn").addEventListener("click", function () {
       body += "<td>" + pctCell(pctObtained(val, MAXSUB)) + "</td></tr>";
     });
     
+    var isClass12 = (currentStudentGrade === "12" || currentStudentGrade === "XII" || !currentStudentGrade) ||
+                    (typeof $("#grade") !== "undefined" && $("#grade") && ($("#grade").value === "12" || $("#grade").value === "XII"));
+    var hasPE = m.subjects.some(function (code) { return isPhysicalEducation(code); });
+    var isTEWithPE = isClass12 && (exam === "TE 1" || exam === "TE 2") && hasPE;
+    var maxTotal = isTEWithPE ? 500 : (m.subjects.length * MAXSUB);
+
+    var tot = 0;
+    var hasAnyMark = false;
+    m.subjects.forEach(function (code) {
+      if (isTEWithPE && isPhysicalEducation(code)) return;
+      var rawVal = s.marks[exam] ? s.marks[exam][code] : null;
+      var val = (rawVal == null || rawVal === "AB" || rawVal === "ab" || rawVal === "") ? 0 : rawVal;
+      if (rawVal != null && rawVal !== "") hasAnyMark = true;
+      tot += (parseFloat(val) || 0);
+    });
+    if (!hasAnyMark) tot = (s.marks[exam] && s.marks[exam].Total != null) ? s.marks[exam].Total : null;
+
     body += "<tr class='total-row'><td class='subj'>Total</td>";
-    var tot = s.marks[exam].Total;
     body += "<td>" + (tot != null ? tot : "&mdash;") + "</td>";
     var totMax = m.classStats[exam].total ? m.classStats[exam].total.max : null;
     body += "<td>" + (totMax != null ? totMax : "&mdash;") + "</td>";
-    body += "<td>" + pctCell(tot != null ? pctObtained(tot, m.subjects.length * MAXSUB) : null) + "</td></tr>";
+    body += "<td>" + pctCell(tot != null ? pctObtained(tot, maxTotal) : null) + "</td></tr>";
     
     body += "</tbody>";
     tbl.innerHTML = thead + body;
@@ -424,7 +459,6 @@ $("#downloadBtn").addEventListener("click", function () {
     host.appendChild(scroll);
 
     var cards = el("div", "cards");
-    var maxTotal = m.subjects.length * MAXSUB;
     cards.appendChild(card((tot != null ? tot : "—") + " / " + maxTotal, "Total Marks"));
     
     if (overallEx && overallEx.domainRank) {
@@ -539,7 +573,7 @@ $("#downloadBtn").addEventListener("click", function () {
 
   // cached copies of the last-fetched leaderboard, reused by the PDF builders
   // so downloading doesn't need a second round trip
-  var lastSchoolTop = null, lastStreamTop = null;
+  var lastSchoolTop = null, lastStreamTop = null, lastSlowLearners = null;
 
   function renderSchoolTop(host, top) {
     lastSchoolTop = top;
@@ -552,7 +586,7 @@ $("#downloadBtn").addEventListener("click", function () {
       esc(DATA.meta.academicYear) + "</div>";
     host.appendChild(head);
 
-    var examList = top.availableExams || ["CU 1", "TE 1", "CU 2", "TE 2"];
+    var examList = top.availableExams || ["CU 1", "TE 1", "TE 2"];
     var modeRow = el("div", "lb-mode-row");
     var pillsHtml = examList.map(function (ex) {
       return '<button type="button" class="btn-mode-pill' + (ex === top.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(ex) + '</button>';
@@ -597,7 +631,7 @@ $("#downloadBtn").addEventListener("click", function () {
       esc(DATA.meta.academicYear) + "</div>";
     host.appendChild(head);
 
-    var examList = top.availableExams || ["CU 1", "TE 1", "CU 2", "TE 2"];
+    var examList = top.availableExams || ["CU 1", "TE 1", "TE 2"];
     var modeRow = el("div", "lb-mode-row");
     var pillsHtml = examList.map(function (ex) {
       return '<button type="button" class="btn-mode-pill' + (ex === top.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(ex) + '</button>';
@@ -633,6 +667,63 @@ $("#downloadBtn").addEventListener("click", function () {
     });
   }
 
+  function renderSlowLearners(host, data) {
+    lastSlowLearners = data;
+    currentPDF = { type: "slow-learners" };
+    var maxTot = maxTotalMarks();
+
+    var head = el("div", "rep-head");
+    head.innerHTML = "<div class='rep-banner'>" + esc(BANNER) + "</div>" +
+      "<h2>Slow Learners</h2><div class='school'>Students who failed in more than 3 subjects (&lt; 30) &middot; Academic Year " +
+      esc(DATA.meta.academicYear) + "</div>";
+    host.appendChild(head);
+
+    var examList = data.availableExams || ["CU 1", "TE 1", "TE 2"];
+    var modeRow = el("div", "lb-mode-row");
+    var pillsHtml = examList.map(function (ex) {
+      return '<button type="button" class="btn-mode-pill' + (ex === data.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(ex) + '</button>';
+    }).join("");
+    modeRow.innerHTML = '<span class="lb-asof-text">Exam: <b>' + esc(data.exam) + '</b> &middot; ' + data.list.length + ' student' + (data.list.length === 1 ? '' : 's') + '</span>' +
+      '<div class="lb-mode-pill-group">' + pillsHtml + '</div>';
+    host.appendChild(modeRow);
+
+    var pills = modeRow.querySelectorAll(".btn-mode-pill");
+    pills.forEach(function (p) {
+      p.addEventListener("click", function () {
+        var m = this.getAttribute("data-mode");
+        if (m && m !== data.exam) {
+          showLeaderboard("slow", renderSlowLearners, $("#slowLearnersBtn"), m);
+        }
+      });
+    });
+
+    if (!data.list || data.list.length === 0) {
+      host.appendChild(el("p", "note-top", "<b>No slow learners found</b> for <b>" + esc(data.exam) + "</b> (no students failed in more than 3 subjects)."));
+      return;
+    }
+
+    var scroll = el("div", "tbl-scroll");
+    var tbl = el("table", "grid");
+    var h = "<thead><tr><th>#</th><th>Name</th><th>Roll No</th><th>Stream</th><th>Failed Subjects (&lt; 30)</th><th>Fails</th><th>Total Marks</th></tr></thead><tbody>";
+    data.list.forEach(function (s, idx) {
+      var failedTags = (s.failedSubjects || []).map(function (f) {
+        return '<span style="display:inline-block;margin:2px 4px;padding:2px 6px;background:rgba(220,38,38,0.1);color:#dc2626;border-radius:4px;font-weight:600;font-size:0.85em;">' +
+          esc(f.code) + ' (' + f.mark + ')</span>';
+      }).join("");
+      h += "<tr><td style='text-align:center;'>" + (idx + 1) + "</td>" +
+        "<td class='lb-name'>" + esc(s.name) + "</td>" +
+        "<td style='text-align:center;'>" + esc(s.rollNo) + "</td>" +
+        "<td style='text-align:center;'>" + esc(domainLabel(s.domainName)) + "</td>" +
+        "<td>" + failedTags + "</td>" +
+        "<td style='text-align:center;font-weight:700;color:#dc2626;'>" + s.failedCount + "</td>" +
+        "<td style='text-align:center;font-weight:600;'>" + s.total + "</td></tr>";
+    });
+    h += "</tbody>";
+    tbl.innerHTML = h;
+    scroll.appendChild(tbl);
+    host.appendChild(scroll);
+  }
+
   function showLeaderboard(scope, renderFn, btn, requestedMode) {
     if (btn) btn.disabled = true;
     currentLeaderboardScope = scope;
@@ -652,7 +743,11 @@ $("#downloadBtn").addEventListener("click", function () {
     $("#downloadBtn").hidden = false;
     showView("report");
 
-    var grade = ($("#grade") ? $("#grade").value : "12");
+    var grade = currentStudentGrade || ($("#grade") ? $("#grade").value : "12");
+    updateToolbarGradeOptions(grade);
+    if (grade === "10" || grade === "X") BANNER = "Grade X · Academic Session 2026-27";
+    else if (grade === "11" || grade === "XI") BANNER = "Grade XI · Academic Session 2026-27";
+    else BANNER = "Grade XII · Team Elevate 2027";
     apiGet("/api/leaderboard?scope=" + scope + "&n=5&grade=" + encodeURIComponent(grade) + "&mode=" + encodeURIComponent(examMode) + "&fresh=1&_t=" + Date.now())
       .then(function (resp) {
         absorbMeta(resp);
@@ -675,11 +770,32 @@ $("#downloadBtn").addEventListener("click", function () {
     reportModeSelect.addEventListener("change", function () {
       var newMode = this.value;
       if (currentLeaderboardScope) {
-        var renderFn = currentLeaderboardScope === "school" ? renderSchoolTop : renderStreamTop;
-        var btn = currentLeaderboardScope === "school" ? $("#topSchoolBtn") : $("#topStreamBtn");
+        var renderFn = currentLeaderboardScope === "school" ? renderSchoolTop : (currentLeaderboardScope === "stream" ? renderStreamTop : renderSlowLearners);
+        var btn = currentLeaderboardScope === "school" ? $("#topSchoolBtn") : (currentLeaderboardScope === "stream" ? $("#topStreamBtn") : $("#slowLearnersBtn"));
         showLeaderboard(currentLeaderboardScope, renderFn, btn, newMode);
       } else if (currentStudentRoll) {
         fetchStudentReport(currentStudentRoll, newMode, currentStudentGrade);
+      }
+    });
+  }
+
+  var reportGradeSelect = $("#reportGradeSelect");
+  if (reportGradeSelect) {
+    reportGradeSelect.addEventListener("change", function () {
+      var newGrade = this.value;
+      currentStudentGrade = newGrade;
+      if ($("#grade")) $("#grade").value = newGrade;
+
+      if (newGrade === "10" || newGrade === "X") BANNER = "Grade X · Academic Session 2026-27";
+      else if (newGrade === "11" || newGrade === "XI") BANNER = "Grade XI · Academic Session 2026-27";
+      else BANNER = "Grade XII · Team Elevate 2027";
+
+      if (currentLeaderboardScope) {
+        var renderFn = currentLeaderboardScope === "school" ? renderSchoolTop : (currentLeaderboardScope === "stream" ? renderStreamTop : renderSlowLearners);
+        var btn = currentLeaderboardScope === "school" ? $("#topSchoolBtn") : (currentLeaderboardScope === "stream" ? $("#topStreamBtn") : $("#slowLearnersBtn"));
+        showLeaderboard(currentLeaderboardScope, renderFn, btn, currentMode);
+      } else if (currentStudentRoll) {
+        fetchStudentReport(currentStudentRoll, currentMode, newGrade);
       }
     });
   }
@@ -757,6 +873,7 @@ $("#downloadBtn").addEventListener("click", function () {
           closeLogin();
           if (scope === "school") showLeaderboard("school", renderSchoolTop, $("#topSchoolBtn"));
           else if (scope === "stream") showLeaderboard("stream", renderStreamTop, $("#topStreamBtn"));
+          else if (scope === "slow") showLeaderboard("slow", renderSlowLearners, $("#slowLearnersBtn"));
         } else {
           msgEl.className = "message error";
           msgEl.innerHTML = esc(res.body.error || "Invalid credentials");
@@ -780,6 +897,10 @@ $("#downloadBtn").addEventListener("click", function () {
 
   $("#topSchoolBtn").addEventListener("click", function (ev) { guardedLeaderboard("school", renderSchoolTop, ev.currentTarget); });
   $("#topStreamBtn").addEventListener("click", function (ev) { guardedLeaderboard("stream", renderStreamTop, ev.currentTarget); });
+  var slowLearnersBtn = $("#slowLearnersBtn");
+  if (slowLearnersBtn) {
+    slowLearnersBtn.addEventListener("click", function (ev) { guardedLeaderboard("slow", renderSlowLearners, ev.currentTarget); });
+  }
 
   // ---------- PDF export (jsPDF) ----------
   function buildExamPDF(m, s, exam) {
@@ -860,10 +981,25 @@ $("#downloadBtn").addEventListener("click", function () {
       r.push(Math.round(v / MAXSUB * 1000)/10 + "%");
       rows.push(r);
     });
+    var isClass12 = (currentStudentGrade === "12" || currentStudentGrade === "XII" || !currentStudentGrade) ||
+                    (typeof $("#grade") !== "undefined" && $("#grade") && ($("#grade").value === "12" || $("#grade").value === "XII"));
+    var hasPE = m.subjects.some(function (code) { return isPhysicalEducation(code); });
+    var isTEWithPE = isClass12 && (exam === "TE 1" || exam === "TE 2") && hasPE;
+    var maxTotal = isTEWithPE ? 500 : (m.subjects.length * MAXSUB);
+
     var totRow = ["Total"];
-    var tot = s.marks[exam].Total;
+    var tot = 0;
+    var hasAnyMark = false;
+    m.subjects.forEach(function (code) {
+      if (isTEWithPE && isPhysicalEducation(code)) return;
+      var rawVal = s.marks[exam] ? s.marks[exam][code] : null;
+      var val = (rawVal == null || rawVal === "AB" || rawVal === "ab" || rawVal === "") ? 0 : rawVal;
+      if (rawVal != null && rawVal !== "") hasAnyMark = true;
+      tot += (parseFloat(val) || 0);
+    });
+    if (!hasAnyMark) tot = (s.marks[exam] && s.marks[exam].Total != null) ? s.marks[exam].Total : null;
+
     totRow.push(tot != null ? String(tot) : "-");
-    var maxTotal = m.subjects.length * MAXSUB;
     totRow.push(m.classStats[exam].total ? String(m.classStats[exam].total.max) : "-");
     var tp = tot != null ? Math.round(tot / maxTotal * 1000)/10 : null;
     totRow.push(tp == null ? "-" : tp + "%");
@@ -955,6 +1091,29 @@ $("#downloadBtn").addEventListener("click", function () {
     });
 
     doc.save("Top_Performers_by_Stream_" + top.exam.replace(/\s+/g, "") + ".pdf");
+  }
+
+  function buildSlowLearnersPDF() {
+    if (!lastSlowLearners) return;
+    var jsPDF = window.jspdf.jsPDF;
+    var doc = new jsPDF({ unit: "pt", format: "a4" });
+    var data = lastSlowLearners;
+    var y = pdfHeader(doc, "Slow Learners", "Academic Year " + DATA.meta.academicYear);
+    doc.setFont("helvetica", "italic"); doc.setFontSize(9); doc.setTextColor(120);
+    doc.text("Students who failed in more than 3 subjects (< 30) as of " + data.exam + " · " + data.list.length + " students", doc.internal.pageSize.getWidth() / 2, y, { align: "center" });
+    y += 16;
+
+    var rows = data.list.map(function (s, idx) {
+      var fails = (s.failedSubjects || []).map(function (f) { return f.code + " (" + f.mark + ")"; }).join(", ");
+      return [String(idx + 1), s.name, s.rollNo, domainLabel(s.domainName), fails, String(s.failedCount), String(s.total)];
+    });
+    drawTable(doc, {
+      startY: y, colWidths: [30, 115, 75, 95, 145, 40, 50],
+      aligns: ["center", "left", "center", "center", "left", "center", "center"],
+      fontSize: 8.5, head: ["#", "Name", "Roll No", "Stream", "Failed Subjects (<30)", "Fails", "Total"], body: rows
+    });
+
+    doc.save("Slow_Learners_" + data.exam.replace(/\s+/g, "") + ".pdf");
   }
 
   function buildPDF(mode, student) {
@@ -1197,6 +1356,7 @@ $("#downloadBtn").addEventListener("click", function () {
     $("#submitBtn").disabled = false;
     $("#topSchoolBtn").disabled = false;
     $("#topStreamBtn").disabled = false;
+    if ($("#slowLearnersBtn")) $("#slowLearnersBtn").disabled = false;
     if (res.live) {
       setStatus("live", "Live · " + fmtTime(new Date(res.when)), "Loaded live from Google Sheets.");
     } else {

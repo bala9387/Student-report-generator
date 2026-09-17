@@ -25,7 +25,6 @@ const html = `<!DOCTYPE html><html><body>
             <option value="PE - Analysis">PE - Analysis (Consolidated)</option>
             <option value="CU 1">CU 1</option>
             <option value="TE 1">TE 1</option>
-            <option value="CU 2">CU 2</option>
             <option value="TE 2">TE 2</option>
           </select>
         </div>

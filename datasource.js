@@ -52,11 +52,11 @@
     return ["PE - Analysis", "Rankwise", "Sheet1", "Mentor Report"].concat(getGradeGroups(grade));
   }
 
-  var EXAMS = ["CU 1", "TE 1", "CU 2", "TE 2"];
+  var EXAMS = ["CU 1", "TE 1", "TE 2"];
   // 0-indexed start column of each exam block in a group tab (6 subjects + Total)
-  var BLOCK_START = { "CU 1": 3, "TE 1": 10, "CU 2": 17, "TE 2": 24 };
+  var BLOCK_START = { "CU 1": 3, "TE 1": 10, "TE 2": 24 };
   // 0-indexed (total, rank) columns per exam in the PE - Analysis tab
-  var PE_COLS = { "CU 1": [6, 7], "TE 1": [8, 9], "CU 2": [10, 11], "TE 2": [12, 13] };
+  var PE_COLS = { "CU 1": [6, 7], "TE 1": [8, 9], "TE 2": [12, 13] };
   var SUBJECT_FULL = {
     PHY: "Physics", CHE: "Chemistry", MAT: "Mathematics", BIO: "Biology",
     CS: "Computer Science", ENG: "English", PED: "Physical Education",
@@ -102,6 +102,14 @@
     if (/^FRE/i.test(str)) return "French";
 
     return str;
+  }
+
+  function isPhysicalEducation(code) {
+    if (!code) return false;
+    var c = String(code).trim().toUpperCase();
+    if (c === "PED" || c === "PE") return true;
+    var full = getSubjectFullName(code);
+    return full === "Physical Education" || /^(PED|PE\b|PHY.*EDU)/i.test(full);
   }
 
   function tabUrl(name, grade) {
@@ -335,7 +343,9 @@
         var marks = {};
         EXAMS.forEach(function (ex) {
           var base = BLOCK_START[ex]; var rm = {};
-          var sumSubject = 0, hasSubjectMark = false;
+          var sumSubject = 0;
+          var sumNonPE = 0;
+          var hasSubjectMark = false;
           subjects.forEach(function (s, i) {
             var rawCell = cell(row, base + i);
             var isAB = String(rawCell || "").trim().toLowerCase() === "ab";
@@ -347,9 +357,20 @@
               sumSubject += v;
               hasSubjectMark = true;
             }
+            if (!isPhysicalEducation(s)) {
+              sumNonPE += v;
+            }
           });
+          var isClass12 = (String(grade || "").trim() === "12" || String(grade || "").trim() === "XII" || !grade);
+          var isClass11 = (String(grade || "").trim() === "11" || String(grade || "").trim() === "XI");
+          var isTE = (ex === "TE 1" || ex === "TE 2");
+          var hasPE = subjects.some(function (subj) { return isPhysicalEducation(subj); });
           var tot = num(cell(row, base + 6));
-          if ((tot == null || tot === 0) && hasSubjectMark) {
+          if (isClass12 && isTE && hasPE) {
+            tot = sumNonPE;
+          } else if (isClass11) {
+            tot = hasSubjectMark ? sumSubject : (tot != null ? tot : 0);
+          } else if ((tot == null || tot === 0) && hasSubjectMark) {
             tot = sumSubject;
           }
           rm.Total = tot == null ? 0 : tot;
@@ -394,7 +415,7 @@
         });
         var pe = peStudents[roll];
         st.overall = pe ? { "CU 1": pe.exams["CU 1"], "TE 1": pe.exams["TE 1"],
-          "CU 2": pe.exams["CU 2"], "TE 2": pe.exams["TE 2"] } : null;
+          "TE 2": pe.exams["TE 2"] } : null;
       });
 
       var subjectFull = {}; subjects.forEach(function (s) { subjectFull[s] = getSubjectFullName(s); });
@@ -422,7 +443,7 @@
 
     return {
       meta: { source: "Google Sheets (live)", academicYear: "2026 - 2027", maxPerSubject: 100,
-        note: "Only CU 1 has been conducted; TE 1 / CU 2 / TE 2 are pending." },
+        note: "Only CU 1 has been conducted; TE 1 / TE 2 are pending." },
       modeOrder: ["PE - Analysis", "Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"],
       modes: modes, rollIndex: rollIndex, mentorLinks: mentorLinks
     };

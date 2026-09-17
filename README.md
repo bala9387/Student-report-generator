@@ -47,12 +47,12 @@ refresh time. Click it to re-pull the latest data from the sheet.
 ## What the report shows
 
 - **Student Information** — name, roll, group/stream, class strength, academic year.
-- **Academic Performance** — marks per exam (CU 1 / TE 1 / CU 2 / TE 2), the class-highest
+- **Academic Performance** — marks per exam (CU 1 / TE 1 / TE 2), the class-highest
   mark per subject, and the student's percentile.
 - **Highest mark in each subject** across the whole class.
 - **Summary cards** — total marks, rank in the cohort, percentile.
 
-> Only **CU 1** currently has marks in the sheet. `TE 1`, `CU 2`, `TE 2` show as *Pending*
+> Only **CU 1** currently has marks in the sheet. `TE 1`, `TE 2` show as *Pending*
 > and populate automatically once their marks are entered in the sheet.
 
 ## Keeping the offline snapshot in sync (optional)

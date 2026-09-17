@@ -26,9 +26,9 @@ SUBJECT_FULL = {
 }
 
 GROUPS = ["Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"]
-EXAMS = ["CU 1", "TE 1", "CU 2", "TE 2"]
+EXAMS = ["CU 1", "TE 1", "TE 2"]
 # Each exam block spans 7 columns (6 subjects + Total). Start column (1-indexed).
-BLOCK_START = {"CU 1": 4, "TE 1": 11, "CU 2": 18, "TE 2": 25}
+BLOCK_START = {"CU 1": 4, "TE 1": 11, "TE 2": 25}
 
 warnings = []
 
@@ -59,7 +59,7 @@ def midrank_pct(values, x):
 
 # ---------------- PE - Analysis ----------------
 wsa = wb["PE - Analysis"]
-PE_COLS = {"CU 1": (7, 8), "TE 1": (9, 10), "CU 2": (11, 12), "TE 2": (13, 14)}
+PE_COLS = {"CU 1": (7, 8), "TE 1": (9, 10), "TE 2": (13, 14)}
 pe_students = {}
 pe_class = {ex: [] for ex in EXAMS}
 for r in student_rows(wsa):
@@ -195,7 +195,7 @@ data = {
     "meta": {"source": "Students Analysis Report (1).xlsx",
              "academicYear": "2026 - 2027",
              "maxPerSubject": 100,
-             "note": "Only CU 1 has been conducted; TE 1 / CU 2 / TE 2 are pending."},
+             "note": "Only CU 1 has been conducted; TE 1 / TE 2 are pending."},
     "modeOrder": ["PE - Analysis", "Bio - Maths", "Bio - CS", "Maths - CS", "Applied Math", "CS"],
     "modes": modes,
     "rollIndex": roll_index,

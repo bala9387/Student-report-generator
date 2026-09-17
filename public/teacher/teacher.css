@@ -445,6 +445,59 @@ td.conv-td {
   display: none; /* Hide subtitle to keep it clean */
 }
 
+/* Series / Section Filter */
+.series-selector {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border, #e2e8f0);
+}
+.series-cards {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
+.series-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .62rem .75rem;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: all .2s;
+  font-family: inherit;
+  color: var(--fg);
+  text-align: left;
+}
+.series-card:hover {
+  background: #f1f3f4;
+}
+.series-card.active {
+  background: #e8f0fe;
+  color: #1967d2;
+  font-weight: 700;
+  border-color: transparent;
+}
+.series-name {
+  font-weight: 600;
+  font-size: .86rem;
+}
+.series-badge {
+  font-size: .70rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: #f1f5f9;
+  color: #64748b;
+  letter-spacing: 0.02em;
+}
+.series-card.active .series-badge {
+  background: #d2e3fc;
+  color: #185abc;
+}
+
 /* Exam Bar */
 .workspace-banner {
   border-radius: 12px;
@@ -948,6 +1001,49 @@ td.conv-td {
     color: #ffffff;
     border-color: #1a73e8;
     box-shadow: 0 2px 8px rgba(26,115,232,0.3);
+  }
+  .series-selector {
+    margin-top: 10px;
+    padding-top: 8px;
+  }
+  .series-cards {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y pinch-zoom;
+    gap: 8px;
+    padding-bottom: 8px;
+    padding-right: 8px;
+    scrollbar-width: none;
+    width: 100%;
+  }
+  .series-cards::-webkit-scrollbar {
+    display: none;
+  }
+  .series-card {
+    flex: 0 0 auto;
+    width: auto;
+    white-space: nowrap;
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: #f8fafd;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #374151;
+    transition: all 0.15s;
+    gap: 6px;
+  }
+  .series-card.active {
+    background: #1a73e8;
+    color: #ffffff;
+    border-color: #1a73e8;
+    box-shadow: 0 2px 8px rgba(26,115,232,0.3);
+  }
+  .series-card.active .series-badge {
+    background: rgba(255,255,255,0.25);
+    color: #ffffff;
   }
 }
 

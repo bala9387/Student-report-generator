@@ -133,7 +133,6 @@
             <option value="PE - Analysis">PE - Analysis</option>
             <option value="CU 1" selected>CU 1</option>
             <option value="TE 1">TE 1</option>
-            <option value="CU 2">CU 2</option>
             <option value="TE 2">TE 2</option>
           </select>
         </div>
@@ -148,6 +147,7 @@
         <div class="lb-btns">
           <button type="button" id="topSchoolBtn" class="btn-ghost" disabled>Top Performers</button>
           <button type="button" id="topStreamBtn" class="btn-ghost" disabled>Top Performers by Stream</button>
+          <button type="button" id="slowLearnersBtn" class="btn-ghost" disabled>Slow Learners</button>
         </div>
       </div>
     </section>
@@ -167,18 +167,31 @@
           <svg viewBox="0 0 24 24" class="btn-ic"><path d="M15 5l-7 7 7 7"/></svg>
           <span>New Search</span>
         </button>
-        <div class="toolbar-mode-wrap" id="toolbarModeWrap">
-          <svg class="mode-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 6h16M4 12h16m-7 6h7"/>
-          </svg>
-          <span class="mode-label">Mode:</span>
-          <select id="reportModeSelect" class="report-mode-select" aria-label="Select Mode">
-            <option value="PE - Analysis">PE - Analysis</option>
-            <option value="CU 1">CU 1</option>
-            <option value="TE 1" selected>TE 1</option>
-            <option value="CU 2">CU 2</option>
-            <option value="TE 2">TE 2</option>
-          </select>
+        <div class="toolbar-selectors" id="toolbarSelectors">
+          <div class="toolbar-mode-wrap" id="toolbarGradeWrap">
+            <svg class="mode-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+            <span class="mode-label">Class:</span>
+            <select id="reportGradeSelect" class="report-mode-select" aria-label="Select Class">
+              <option value="12" selected>Class 12</option>
+              <option value="11">Class 11</option>
+              <option value="10">Class 10</option>
+            </select>
+          </div>
+          <div class="toolbar-mode-wrap" id="toolbarModeWrap">
+            <svg class="mode-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 6h16M4 12h16m-7 6h7"/>
+            </svg>
+            <span class="mode-label">Mode:</span>
+            <select id="reportModeSelect" class="report-mode-select" aria-label="Select Mode">
+              <option value="PE - Analysis">PE - Analysis</option>
+              <option value="CU 1">CU 1</option>
+              <option value="TE 1" selected>TE 1</option>
+              <option value="TE 2">TE 2</option>
+            </select>
+          </div>
         </div>
       </div>
       <div id="report" class="report"></div>
@@ -223,6 +236,6 @@
   <!-- data.js / datasource.js are backend-only now (see server.js) — the browser
        never talks to Google Sheets directly and never sees the sheet ID. -->
   <script src="vendor/jspdf.umd.min.js"></script>
-  <script src="app.js?v=38"></script>
+  <script src="app.js?v=45"></script>
 </body>
 </html>

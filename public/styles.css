@@ -346,6 +346,18 @@ table.grid td.lb-name{text-align:left;font-weight:600}
 .report-toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
 .report-toolbar .btn-primary{width:auto}
 
+/* Toolbar Selectors Group */
+.toolbar-selectors {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.toolbar-selectors .toolbar-mode-wrap {
+  margin-left: 0;
+}
+
 /* Toolbar Mode Selector Button */
 .toolbar-mode-wrap {
   display: inline-flex;
@@ -585,6 +597,11 @@ table.grid tr.total-row td{background:#faf6ea;font-weight:700}
   .report-toolbar .btn-ghost {
     width: 100%;
     justify-content: center;
+  }
+  .toolbar-selectors {
+    width: 100%;
+    margin-left: 0;
+    gap: 8px;
   }
   .toolbar-mode-wrap {
     width: 100%;

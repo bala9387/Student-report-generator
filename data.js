@@ -4,7 +4,7 @@ window.REPORT_DATA = {
   "source": "Students Analysis Report (1).xlsx",
   "academicYear": "2026 - 2027",
   "maxPerSubject": 100,
-  "note": "Only CU 1 has been conducted; TE 1 / CU 2 / TE 2 are pending."
+  "note": "Only CU 1 has been conducted; TE 1 / TE 2 are pending."
  },
  "modeOrder": [
   "PE - Analysis",
@@ -37,13 +37,11 @@ window.REPORT_DATA = {
    "exams": [
     "CU 1",
     "TE 1",
-    "CU 2",
     "TE 2"
    ],
    "conducted": {
     "CU 1": true,
     "TE 1": false,
-    "CU 2": false,
     "TE 2": false
    },
    "classSize": 21,
@@ -85,7 +83,7 @@ window.REPORT_DATA = {
       "ENG": {
        "max": 89,
        "min": 48,
-       "avg": 71.0,
+       "avg": 71,
        "present": 21,
        "topperRoll": "26M11338",
        "topperName": "Shynthavi.S"
@@ -122,22 +120,6 @@ window.REPORT_DATA = {
       "present": 21
      }
     },
-    "CU 2": {
-     "subjects": {
-      "PHY": null,
-      "CHE": null,
-      "MAT": null,
-      "BIO": null,
-      "ENG": null,
-      "PED": null
-     },
-     "total": {
-      "max": 0,
-      "topperRoll": "26H1301",
-      "topperName": "Ahalya.R",
-      "present": 21
-     }
-    },
     "TE 2": {
      "subjects": {
       "PHY": null,
@@ -158,7 +140,7 @@ window.REPORT_DATA = {
    "students": {
     "26H1301": {
      "rollNo": "26H1301",
-     "sNo": 1.0,
+     "sNo": 1,
      "name": "Ahalya.R",
      "marks": {
       "CU 1": {
@@ -171,15 +153,6 @@ window.REPORT_DATA = {
        "Total": 304
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -201,7 +174,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -224,10 +196,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -236,7 +204,7 @@ window.REPORT_DATA = {
     },
     "26H1302": {
      "rollNo": "26H1302",
-     "sNo": 2.0,
+     "sNo": 2,
      "name": "Asswin.R.S",
      "marks": {
       "CU 1": {
@@ -249,15 +217,6 @@ window.REPORT_DATA = {
        "Total": 311
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -279,7 +238,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -302,10 +260,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -314,7 +268,7 @@ window.REPORT_DATA = {
     },
     "26H1303": {
      "rollNo": "26H1303",
-     "sNo": 3.0,
+     "sNo": 3,
      "name": "Dharunraja.M.S",
      "marks": {
       "CU 1": {
@@ -327,15 +281,6 @@ window.REPORT_DATA = {
        "Total": 374
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -357,7 +302,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -380,10 +324,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -392,7 +332,7 @@ window.REPORT_DATA = {
     },
     "26H1304": {
      "rollNo": "26H1304",
-     "sNo": 4.0,
+     "sNo": 4,
      "name": "Jaisree.A",
      "marks": {
       "CU 1": {
@@ -405,15 +345,6 @@ window.REPORT_DATA = {
        "Total": 496
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -435,7 +366,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -458,10 +388,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -470,7 +396,7 @@ window.REPORT_DATA = {
     },
     "26H1305": {
      "rollNo": "26H1305",
-     "sNo": 5.0,
+     "sNo": 5,
      "name": "Rethika.S",
      "marks": {
       "CU 1": {
@@ -483,15 +409,6 @@ window.REPORT_DATA = {
        "Total": 458
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -513,7 +430,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -536,10 +452,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -548,7 +460,7 @@ window.REPORT_DATA = {
     },
     "26H1306": {
      "rollNo": "26H1306",
-     "sNo": 6.0,
+     "sNo": 6,
      "name": "Rubhan.S",
      "marks": {
       "CU 1": {
@@ -561,15 +473,6 @@ window.REPORT_DATA = {
        "Total": 268
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -591,7 +494,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -614,10 +516,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -626,7 +524,7 @@ window.REPORT_DATA = {
     },
     "26H1307": {
      "rollNo": "26H1307",
-     "sNo": 7.0,
+     "sNo": 7,
      "name": "Sakthi Jeevanes.G.A",
      "marks": {
       "CU 1": {
@@ -639,15 +537,6 @@ window.REPORT_DATA = {
        "Total": 410
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -669,7 +558,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -692,10 +580,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -704,7 +588,7 @@ window.REPORT_DATA = {
     },
     "26H1308": {
      "rollNo": "26H1308",
-     "sNo": 8.0,
+     "sNo": 8,
      "name": "Sharvesh.S.P",
      "marks": {
       "CU 1": {
@@ -717,15 +601,6 @@ window.REPORT_DATA = {
        "Total": 301
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -747,7 +622,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -770,10 +644,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -782,7 +652,7 @@ window.REPORT_DATA = {
     },
     "26M11329": {
      "rollNo": "26M11329",
-     "sNo": 9.0,
+     "sNo": 9,
      "name": "Anu Varshini.K.M",
      "marks": {
       "CU 1": {
@@ -795,15 +665,6 @@ window.REPORT_DATA = {
        "Total": 514
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -825,7 +686,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -848,10 +708,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -860,7 +716,7 @@ window.REPORT_DATA = {
     },
     "26M11330": {
      "rollNo": "26M11330",
-     "sNo": 10.0,
+     "sNo": 10,
      "name": "Hemasri.S.S",
      "marks": {
       "CU 1": {
@@ -873,15 +729,6 @@ window.REPORT_DATA = {
        "Total": 424
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -903,7 +750,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -926,10 +772,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -938,7 +780,7 @@ window.REPORT_DATA = {
     },
     "26M11331": {
      "rollNo": "26M11331",
-     "sNo": 11.0,
+     "sNo": 11,
      "name": "Hemavaashini.S",
      "marks": {
       "CU 1": {
@@ -951,15 +793,6 @@ window.REPORT_DATA = {
        "Total": 400
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -981,7 +814,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -1004,10 +836,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -1016,7 +844,7 @@ window.REPORT_DATA = {
     },
     "26M11332": {
      "rollNo": "26M11332",
-     "sNo": 12.0,
+     "sNo": 12,
      "name": "Naveen.C.S",
      "marks": {
       "CU 1": {
@@ -1029,15 +857,6 @@ window.REPORT_DATA = {
        "Total": 345
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -1059,7 +878,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -1082,10 +900,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -1094,7 +908,7 @@ window.REPORT_DATA = {
     },
     "26M11333": {
      "rollNo": "26M11333",
-     "sNo": 13.0,
+     "sNo": 13,
      "name": "Nela",
      "marks": {
       "CU 1": {
@@ -1107,15 +921,6 @@ window.REPORT_DATA = {
        "Total": 406
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -1137,7 +942,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -1160,10 +964,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -1172,7 +972,7 @@ window.REPORT_DATA = {
     },
     "26M11334": {
      "rollNo": "26M11334",
-     "sNo": 14.0,
+     "sNo": 14,
      "name": "Nikhil Shriram.J",
      "marks": {
       "CU 1": {
@@ -1185,15 +985,6 @@ window.REPORT_DATA = {
        "Total": 310
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -1215,7 +1006,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -1238,10 +1028,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -1250,7 +1036,7 @@ window.REPORT_DATA = {
     },
     "26M11335": {
      "rollNo": "26M11335",
-     "sNo": 15.0,
+     "sNo": 15,
      "name": "Pritika.S.R",
      "marks": {
       "CU 1": {
@@ -1263,15 +1049,6 @@ window.REPORT_DATA = {
        "Total": 258
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -1296,7 +1073,6 @@ window.REPORT_DATA = {
        "PED": true
       },
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -1319,10 +1095,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -1331,7 +1103,7 @@ window.REPORT_DATA = {
     },
     "26M11336": {
      "rollNo": "26M11336",
-     "sNo": 16.0,
+     "sNo": 16,
      "name": "Rethika.S",
      "marks": {
       "CU 1": {
@@ -1344,15 +1116,6 @@ window.REPORT_DATA = {
        "Total": 329
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -1374,7 +1137,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -1397,10 +1159,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -1409,7 +1167,7 @@ window.REPORT_DATA = {
     },
     "26M11337": {
      "rollNo": "26M11337",
-     "sNo": 17.0,
+     "sNo": 17,
      "name": "Samritha.K",
      "marks": {
       "CU 1": {
@@ -1422,15 +1180,6 @@ window.REPORT_DATA = {
        "Total": 390
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -1452,7 +1201,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -1475,10 +1223,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -1487,7 +1231,7 @@ window.REPORT_DATA = {
     },
     "26M11338": {
      "rollNo": "26M11338",
-     "sNo": 18.0,
+     "sNo": 18,
      "name": "Shynthavi.S",
      "marks": {
       "CU 1": {
@@ -1500,15 +1244,6 @@ window.REPORT_DATA = {
        "Total": 452
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -1530,7 +1265,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -1553,10 +1287,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -1565,7 +1295,7 @@ window.REPORT_DATA = {
     },
     "26M11339": {
      "rollNo": "26M11339",
-     "sNo": 19.0,
+     "sNo": 19,
      "name": "Tara.R",
      "marks": {
       "CU 1": {
@@ -1578,15 +1308,6 @@ window.REPORT_DATA = {
        "Total": 333
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -1608,7 +1329,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -1631,10 +1351,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -1643,7 +1359,7 @@ window.REPORT_DATA = {
     },
     "26M11340": {
      "rollNo": "26M11340",
-     "sNo": 20.0,
+     "sNo": 20,
      "name": "Veka",
      "marks": {
       "CU 1": {
@@ -1656,15 +1372,6 @@ window.REPORT_DATA = {
        "Total": 303
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -1686,7 +1393,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -1709,10 +1415,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -1721,7 +1423,7 @@ window.REPORT_DATA = {
     },
     "26M11341": {
      "rollNo": "26M11341",
-     "sNo": 21.0,
+     "sNo": 21,
      "name": "Vinusha.P.S",
      "marks": {
       "CU 1": {
@@ -1734,15 +1436,6 @@ window.REPORT_DATA = {
        "Total": 505
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -1764,7 +1457,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -1784,10 +1476,6 @@ window.REPORT_DATA = {
        "rank": 4
       },
       "TE 1": {
-       "total": 0,
-       "rank": 1
-      },
-      "CU 2": {
        "total": 0,
        "rank": 1
       },
@@ -1821,13 +1509,11 @@ window.REPORT_DATA = {
    "exams": [
     "CU 1",
     "TE 1",
-    "CU 2",
     "TE 2"
    ],
    "conducted": {
     "CU 1": true,
     "TE 1": false,
-    "CU 2": false,
     "TE 2": false
    },
    "classSize": 4,
@@ -1845,7 +1531,7 @@ window.REPORT_DATA = {
       "CHE": {
        "max": 57,
        "min": 46,
-       "avg": 50.0,
+       "avg": 50,
        "present": 4,
        "topperRoll": "26H3328",
        "topperName": "Narmadhavarshini.G"
@@ -1869,7 +1555,7 @@ window.REPORT_DATA = {
       "ENG": {
        "max": 78,
        "min": 54,
-       "avg": 64.0,
+       "avg": 64,
        "present": 4,
        "topperRoll": "26H3328",
        "topperName": "Narmadhavarshini.G"
@@ -1877,7 +1563,7 @@ window.REPORT_DATA = {
       "PED": {
        "max": 75,
        "min": 57,
-       "avg": 64.0,
+       "avg": 64,
        "present": 4,
        "topperRoll": "26H3328",
        "topperName": "Narmadhavarshini.G"
@@ -1891,22 +1577,6 @@ window.REPORT_DATA = {
      }
     },
     "TE 1": {
-     "subjects": {
-      "PHY": null,
-      "CHE": null,
-      "CS": null,
-      "BIO": null,
-      "ENG": null,
-      "PED": null
-     },
-     "total": {
-      "max": 0,
-      "topperRoll": "26H3328",
-      "topperName": "Narmadhavarshini.G",
-      "present": 4
-     }
-    },
-    "CU 2": {
      "subjects": {
       "PHY": null,
       "CHE": null,
@@ -1942,7 +1612,7 @@ window.REPORT_DATA = {
    "students": {
     "26H3328": {
      "rollNo": "26H3328",
-     "sNo": 1.0,
+     "sNo": 1,
      "name": "Narmadhavarshini.G",
      "marks": {
       "CU 1": {
@@ -1955,15 +1625,6 @@ window.REPORT_DATA = {
        "Total": 281
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "CS": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "CS": null,
@@ -1988,7 +1649,6 @@ window.REPORT_DATA = {
        "CS": true
       },
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -2011,10 +1671,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -2023,7 +1679,7 @@ window.REPORT_DATA = {
     },
     "26M13352": {
      "rollNo": "26M13352",
-     "sNo": 2.0,
+     "sNo": 2,
      "name": "Girishanth.S.G",
      "marks": {
       "CU 1": {
@@ -2036,15 +1692,6 @@ window.REPORT_DATA = {
        "Total": 325
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "CS": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "CS": null,
@@ -2066,7 +1713,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -2089,10 +1735,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -2101,7 +1743,7 @@ window.REPORT_DATA = {
     },
     "26M13353": {
      "rollNo": "26M13353",
-     "sNo": 3.0,
+     "sNo": 3,
      "name": "Nandita.T.P",
      "marks": {
       "CU 1": {
@@ -2114,15 +1756,6 @@ window.REPORT_DATA = {
        "Total": 296
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "CS": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "CS": null,
@@ -2144,7 +1777,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -2167,10 +1799,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -2179,7 +1807,7 @@ window.REPORT_DATA = {
     },
     "26M13354": {
      "rollNo": "26M13354",
-     "sNo": 4.0,
+     "sNo": 4,
      "name": "Shruthisha.S.N",
      "marks": {
       "CU 1": {
@@ -2192,15 +1820,6 @@ window.REPORT_DATA = {
        "Total": 286
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "CS": null,
-       "BIO": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "CS": null,
@@ -2222,7 +1841,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -2242,10 +1860,6 @@ window.REPORT_DATA = {
        "rank": 67
       },
       "TE 1": {
-       "total": 0,
-       "rank": 1
-      },
-      "CU 2": {
        "total": 0,
        "rank": 1
       },
@@ -2279,13 +1893,11 @@ window.REPORT_DATA = {
    "exams": [
     "CU 1",
     "TE 1",
-    "CU 2",
     "TE 2"
    ],
    "conducted": {
     "CU 1": true,
     "TE 1": false,
-    "CU 2": false,
     "TE 2": false
    },
    "classSize": 53,
@@ -2364,22 +1976,6 @@ window.REPORT_DATA = {
       "present": 53
      }
     },
-    "CU 2": {
-     "subjects": {
-      "PHY": null,
-      "CHE": null,
-      "MAT": null,
-      "CS": null,
-      "ENG": null,
-      "PED": null
-     },
-     "total": {
-      "max": 0,
-      "topperRoll": "26H2309",
-      "topperName": "Aaradhana.R",
-      "present": 53
-     }
-    },
     "TE 2": {
      "subjects": {
       "PHY": null,
@@ -2400,7 +1996,7 @@ window.REPORT_DATA = {
    "students": {
     "26H2309": {
      "rollNo": "26H2309",
-     "sNo": 1.0,
+     "sNo": 1,
      "name": "Aaradhana.R",
      "marks": {
       "CU 1": {
@@ -2413,15 +2009,6 @@ window.REPORT_DATA = {
        "Total": 381
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -2443,7 +2030,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -2466,10 +2052,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -2478,7 +2060,7 @@ window.REPORT_DATA = {
     },
     "26H2310": {
      "rollNo": "26H2310",
-     "sNo": 2.0,
+     "sNo": 2,
      "name": "Abhinav Shrihari.N",
      "marks": {
       "CU 1": {
@@ -2491,15 +2073,6 @@ window.REPORT_DATA = {
        "Total": 383
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -2521,7 +2094,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -2544,10 +2116,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -2556,7 +2124,7 @@ window.REPORT_DATA = {
     },
     "26H2311": {
      "rollNo": "26H2311",
-     "sNo": 3.0,
+     "sNo": 3,
      "name": "Akash.R",
      "marks": {
       "CU 1": {
@@ -2569,15 +2137,6 @@ window.REPORT_DATA = {
        "Total": 317
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -2599,7 +2158,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -2622,10 +2180,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -2634,7 +2188,7 @@ window.REPORT_DATA = {
     },
     "26H2312": {
      "rollNo": "26H2312",
-     "sNo": 4.0,
+     "sNo": 4,
      "name": "Danish.M",
      "marks": {
       "CU 1": {
@@ -2647,15 +2201,6 @@ window.REPORT_DATA = {
        "Total": 368
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -2677,7 +2222,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -2700,10 +2244,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -2712,7 +2252,7 @@ window.REPORT_DATA = {
     },
     "26H2313": {
      "rollNo": "26H2313",
-     "sNo": 5.0,
+     "sNo": 5,
      "name": "Dharaniish.R.S",
      "marks": {
       "CU 1": {
@@ -2725,15 +2265,6 @@ window.REPORT_DATA = {
        "Total": 302
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -2755,7 +2286,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -2778,10 +2308,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -2790,7 +2316,7 @@ window.REPORT_DATA = {
     },
     "26H2314": {
      "rollNo": "26H2314",
-     "sNo": 6.0,
+     "sNo": 6,
      "name": "Jovith Vinayaka.M.V",
      "marks": {
       "CU 1": {
@@ -2803,15 +2329,6 @@ window.REPORT_DATA = {
        "Total": 292
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -2835,7 +2352,6 @@ window.REPORT_DATA = {
        "PHY": true
       },
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -2858,10 +2374,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -2870,7 +2382,7 @@ window.REPORT_DATA = {
     },
     "26H2315": {
      "rollNo": "26H2315",
-     "sNo": 7.0,
+     "sNo": 7,
      "name": "Kanimitha.M",
      "marks": {
       "CU 1": {
@@ -2883,15 +2395,6 @@ window.REPORT_DATA = {
        "Total": 536
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -2913,7 +2416,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -2936,10 +2438,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -2948,7 +2446,7 @@ window.REPORT_DATA = {
     },
     "26H2316": {
      "rollNo": "26H2316",
-     "sNo": 8.0,
+     "sNo": 8,
      "name": "Kanishkaa.V",
      "marks": {
       "CU 1": {
@@ -2961,15 +2459,6 @@ window.REPORT_DATA = {
        "Total": 272
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -2991,7 +2480,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -3014,10 +2502,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -3026,7 +2510,7 @@ window.REPORT_DATA = {
     },
     "26H2317": {
      "rollNo": "26H2317",
-     "sNo": 9.0,
+     "sNo": 9,
      "name": "Nikesh.S.S",
      "marks": {
       "CU 1": {
@@ -3039,15 +2523,6 @@ window.REPORT_DATA = {
        "Total": 304
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -3069,7 +2544,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -3092,10 +2566,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -3104,7 +2574,7 @@ window.REPORT_DATA = {
     },
     "26H2318": {
      "rollNo": "26H2318",
-     "sNo": 10.0,
+     "sNo": 10,
      "name": "Perinban.M",
      "marks": {
       "CU 1": {
@@ -3117,15 +2587,6 @@ window.REPORT_DATA = {
        "Total": 222
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -3147,7 +2608,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -3170,10 +2630,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -3182,7 +2638,7 @@ window.REPORT_DATA = {
     },
     "26H2319": {
      "rollNo": "26H2319",
-     "sNo": 11.0,
+     "sNo": 11,
      "name": "Prakalya.K.S",
      "marks": {
       "CU 1": {
@@ -3195,15 +2651,6 @@ window.REPORT_DATA = {
        "Total": 531
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -3225,7 +2672,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -3248,10 +2694,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -3260,7 +2702,7 @@ window.REPORT_DATA = {
     },
     "26H2320": {
      "rollNo": "26H2320",
-     "sNo": 12.0,
+     "sNo": 12,
      "name": "Praveen Kumaran.T",
      "marks": {
       "CU 1": {
@@ -3273,15 +2715,6 @@ window.REPORT_DATA = {
        "Total": 348
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -3303,7 +2736,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -3326,10 +2758,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -3338,7 +2766,7 @@ window.REPORT_DATA = {
     },
     "26H2321": {
      "rollNo": "26H2321",
-     "sNo": 13.0,
+     "sNo": 13,
      "name": "Ram Prasath.K",
      "marks": {
       "CU 1": {
@@ -3351,15 +2779,6 @@ window.REPORT_DATA = {
        "Total": 211
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -3381,7 +2800,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -3404,10 +2822,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -3416,7 +2830,7 @@ window.REPORT_DATA = {
     },
     "26H2322": {
      "rollNo": "26H2322",
-     "sNo": 14.0,
+     "sNo": 14,
      "name": "Sri Hari.A.S",
      "marks": {
       "CU 1": {
@@ -3429,15 +2843,6 @@ window.REPORT_DATA = {
        "Total": 354
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -3459,7 +2864,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -3482,10 +2886,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -3494,7 +2894,7 @@ window.REPORT_DATA = {
     },
     "26H2323": {
      "rollNo": "26H2323",
-     "sNo": 15.0,
+     "sNo": 15,
      "name": "Srinika.J.S",
      "marks": {
       "CU 1": {
@@ -3507,15 +2907,6 @@ window.REPORT_DATA = {
        "Total": 227
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -3540,7 +2931,6 @@ window.REPORT_DATA = {
        "MAT": true
       },
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -3563,10 +2953,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -3575,7 +2961,7 @@ window.REPORT_DATA = {
     },
     "26H2324": {
      "rollNo": "26H2324",
-     "sNo": 16.0,
+     "sNo": 16,
      "name": "Suvekshaya.V.S",
      "marks": {
       "CU 1": {
@@ -3588,15 +2974,6 @@ window.REPORT_DATA = {
        "Total": 420
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -3618,7 +2995,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -3641,10 +3017,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -3653,7 +3025,7 @@ window.REPORT_DATA = {
     },
     "26H2325": {
      "rollNo": "26H2325",
-     "sNo": 17.0,
+     "sNo": 17,
      "name": "Thirushanth.B",
      "marks": {
       "CU 1": {
@@ -3666,15 +3038,6 @@ window.REPORT_DATA = {
        "Total": 440
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -3696,7 +3059,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -3719,10 +3081,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -3731,7 +3089,7 @@ window.REPORT_DATA = {
     },
     "26H2326": {
      "rollNo": "26H2326",
-     "sNo": 18.0,
+     "sNo": 18,
      "name": "Vishnu Varthan. A",
      "marks": {
       "CU 1": {
@@ -3744,15 +3102,6 @@ window.REPORT_DATA = {
        "Total": 238
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -3774,7 +3123,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -3797,10 +3145,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -3809,7 +3153,7 @@ window.REPORT_DATA = {
     },
     "26H2327": {
      "rollNo": "26H2327",
-     "sNo": 19.0,
+     "sNo": 19,
      "name": "Vishal.M",
      "marks": {
       "CU 1": {
@@ -3822,15 +3166,6 @@ window.REPORT_DATA = {
        "Total": 256
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -3852,7 +3187,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -3875,10 +3209,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -3887,7 +3217,7 @@ window.REPORT_DATA = {
     },
     "26M12342": {
      "rollNo": "26M12342",
-     "sNo": 20.0,
+     "sNo": 20,
      "name": "Abinav.M",
      "marks": {
       "CU 1": {
@@ -3900,15 +3230,6 @@ window.REPORT_DATA = {
        "Total": 308
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -3930,7 +3251,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -3953,10 +3273,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -3965,7 +3281,7 @@ window.REPORT_DATA = {
     },
     "26M12343": {
      "rollNo": "26M12343",
-     "sNo": 21.0,
+     "sNo": 21,
      "name": "Akkshayaa.K",
      "marks": {
       "CU 1": {
@@ -3978,15 +3294,6 @@ window.REPORT_DATA = {
        "Total": 328
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -4008,7 +3315,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -4031,10 +3337,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -4043,7 +3345,7 @@ window.REPORT_DATA = {
     },
     "26M12344": {
      "rollNo": "26M12344",
-     "sNo": 22.0,
+     "sNo": 22,
      "name": "Bharanish.S.R",
      "marks": {
       "CU 1": {
@@ -4056,15 +3358,6 @@ window.REPORT_DATA = {
        "Total": 423
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -4086,7 +3379,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -4109,10 +3401,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -4121,7 +3409,7 @@ window.REPORT_DATA = {
     },
     "26M12345": {
      "rollNo": "26M12345",
-     "sNo": 23.0,
+     "sNo": 23,
      "name": "Kaviyavarshini.A",
      "marks": {
       "CU 1": {
@@ -4134,15 +3422,6 @@ window.REPORT_DATA = {
        "Total": 475
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -4164,7 +3443,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -4187,10 +3465,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -4199,7 +3473,7 @@ window.REPORT_DATA = {
     },
     "26M12346": {
      "rollNo": "26M12346",
-     "sNo": 24.0,
+     "sNo": 24,
      "name": "Lishvanth.S.V",
      "marks": {
       "CU 1": {
@@ -4212,15 +3486,6 @@ window.REPORT_DATA = {
        "Total": 216
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -4242,7 +3507,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -4265,10 +3529,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -4277,7 +3537,7 @@ window.REPORT_DATA = {
     },
     "26M12347": {
      "rollNo": "26M12347",
-     "sNo": 25.0,
+     "sNo": 25,
      "name": "Mavish.J.S",
      "marks": {
       "CU 1": {
@@ -4290,15 +3550,6 @@ window.REPORT_DATA = {
        "Total": 330
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -4320,7 +3571,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -4343,10 +3593,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -4355,7 +3601,7 @@ window.REPORT_DATA = {
     },
     "26M12348": {
      "rollNo": "26M12348",
-     "sNo": 26.0,
+     "sNo": 26,
      "name": "Navanitha.M",
      "marks": {
       "CU 1": {
@@ -4368,15 +3614,6 @@ window.REPORT_DATA = {
        "Total": 306
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -4398,7 +3635,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -4421,10 +3657,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -4433,7 +3665,7 @@ window.REPORT_DATA = {
     },
     "26M12349": {
      "rollNo": "26M12349",
-     "sNo": 27.0,
+     "sNo": 27,
      "name": "Sathvika.Y",
      "marks": {
       "CU 1": {
@@ -4446,15 +3678,6 @@ window.REPORT_DATA = {
        "Total": 371
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -4476,7 +3699,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -4499,10 +3721,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -4511,7 +3729,7 @@ window.REPORT_DATA = {
     },
     "26M12350": {
      "rollNo": "26M12350",
-     "sNo": 28.0,
+     "sNo": 28,
      "name": "Devashri.P.R",
      "marks": {
       "CU 1": {
@@ -4524,15 +3742,6 @@ window.REPORT_DATA = {
        "Total": 458
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -4554,7 +3763,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -4577,10 +3785,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -4589,7 +3793,7 @@ window.REPORT_DATA = {
     },
     "26M12351": {
      "rollNo": "26M12351",
-     "sNo": 29.0,
+     "sNo": 29,
      "name": "Nithin Pranav.V",
      "marks": {
       "CU 1": {
@@ -4602,15 +3806,6 @@ window.REPORT_DATA = {
        "Total": 309
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -4632,7 +3827,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -4655,10 +3849,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -4667,7 +3857,7 @@ window.REPORT_DATA = {
     },
     "26M22355": {
      "rollNo": "26M22355",
-     "sNo": 30.0,
+     "sNo": 30,
      "name": "Akshaya.K",
      "marks": {
       "CU 1": {
@@ -4680,15 +3870,6 @@ window.REPORT_DATA = {
        "Total": 364
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -4710,7 +3891,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -4733,10 +3913,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -4745,7 +3921,7 @@ window.REPORT_DATA = {
     },
     "26M22356": {
      "rollNo": "26M22356",
-     "sNo": 31.0,
+     "sNo": 31,
      "name": "Amrish.J.R",
      "marks": {
       "CU 1": {
@@ -4758,15 +3934,6 @@ window.REPORT_DATA = {
        "Total": 318
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -4788,7 +3955,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -4811,10 +3977,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -4823,7 +3985,7 @@ window.REPORT_DATA = {
     },
     "26M22357": {
      "rollNo": "26M22357",
-     "sNo": 32.0,
+     "sNo": 32,
      "name": "Anikksha.P",
      "marks": {
       "CU 1": {
@@ -4836,15 +3998,6 @@ window.REPORT_DATA = {
        "Total": 325
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -4866,7 +4019,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -4889,10 +4041,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -4901,7 +4049,7 @@ window.REPORT_DATA = {
     },
     "26M22358": {
      "rollNo": "26M22358",
-     "sNo": 33.0,
+     "sNo": 33,
      "name": "Archita.K",
      "marks": {
       "CU 1": {
@@ -4914,15 +4062,6 @@ window.REPORT_DATA = {
        "Total": 335.5
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -4944,7 +4083,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -4967,10 +4105,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -4979,7 +4113,7 @@ window.REPORT_DATA = {
     },
     "26M22359": {
      "rollNo": "26M22359",
-     "sNo": 34.0,
+     "sNo": 34,
      "name": "Ashok. A",
      "marks": {
       "CU 1": {
@@ -4992,15 +4126,6 @@ window.REPORT_DATA = {
        "Total": 215
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -5022,7 +4147,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -5045,10 +4169,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -5057,7 +4177,7 @@ window.REPORT_DATA = {
     },
     "26M22360": {
      "rollNo": "26M22360",
-     "sNo": 35.0,
+     "sNo": 35,
      "name": "Dhaadsin.N",
      "marks": {
       "CU 1": {
@@ -5070,15 +4190,6 @@ window.REPORT_DATA = {
        "Total": 400
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -5100,7 +4211,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -5123,10 +4233,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -5135,7 +4241,7 @@ window.REPORT_DATA = {
     },
     "26M22361": {
      "rollNo": "26M22361",
-     "sNo": 36.0,
+     "sNo": 36,
      "name": "Dhakshin.T.K",
      "marks": {
       "CU 1": {
@@ -5148,15 +4254,6 @@ window.REPORT_DATA = {
        "Total": 284
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -5178,7 +4275,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -5201,10 +4297,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -5213,7 +4305,7 @@ window.REPORT_DATA = {
     },
     "26M22362": {
      "rollNo": "26M22362",
-     "sNo": 37.0,
+     "sNo": 37,
      "name": "Gajeshwar.N.J",
      "marks": {
       "CU 1": {
@@ -5226,15 +4318,6 @@ window.REPORT_DATA = {
        "Total": 259
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -5258,7 +4341,6 @@ window.REPORT_DATA = {
        "CS": true
       },
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -5281,10 +4363,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -5293,7 +4371,7 @@ window.REPORT_DATA = {
     },
     "26M22363": {
      "rollNo": "26M22363",
-     "sNo": 38.0,
+     "sNo": 38,
      "name": "Harsheta.A",
      "marks": {
       "CU 1": {
@@ -5306,15 +4384,6 @@ window.REPORT_DATA = {
        "Total": 275.5
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -5336,7 +4405,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -5359,10 +4427,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -5371,7 +4435,7 @@ window.REPORT_DATA = {
     },
     "26M22364": {
      "rollNo": "26M22364",
-     "sNo": 39.0,
+     "sNo": 39,
      "name": "Kabilesh.B",
      "marks": {
       "CU 1": {
@@ -5384,15 +4448,6 @@ window.REPORT_DATA = {
        "Total": 414
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -5414,7 +4469,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -5437,10 +4491,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -5449,7 +4499,7 @@ window.REPORT_DATA = {
     },
     "26M22365": {
      "rollNo": "26M22365",
-     "sNo": 40.0,
+     "sNo": 40,
      "name": "Kavinaya",
      "marks": {
       "CU 1": {
@@ -5462,15 +4512,6 @@ window.REPORT_DATA = {
        "Total": 381.5
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -5492,7 +4533,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -5515,10 +4555,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -5527,7 +4563,7 @@ window.REPORT_DATA = {
     },
     "26M22366": {
      "rollNo": "26M22366",
-     "sNo": 41.0,
+     "sNo": 41,
      "name": "Kiruthick",
      "marks": {
       "CU 1": {
@@ -5540,15 +4576,6 @@ window.REPORT_DATA = {
        "Total": 276
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -5570,7 +4597,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -5593,10 +4619,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -5605,7 +4627,7 @@ window.REPORT_DATA = {
     },
     "26M22367": {
      "rollNo": "26M22367",
-     "sNo": 42.0,
+     "sNo": 42,
      "name": "Lakshana.R",
      "marks": {
       "CU 1": {
@@ -5618,15 +4640,6 @@ window.REPORT_DATA = {
        "Total": 337.5
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -5648,7 +4661,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -5671,10 +4683,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -5683,7 +4691,7 @@ window.REPORT_DATA = {
     },
     "26M22368": {
      "rollNo": "26M22368",
-     "sNo": 43.0,
+     "sNo": 43,
      "name": "Likitha.R",
      "marks": {
       "CU 1": {
@@ -5696,15 +4704,6 @@ window.REPORT_DATA = {
        "Total": 402
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -5726,7 +4725,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -5749,10 +4747,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -5761,7 +4755,7 @@ window.REPORT_DATA = {
     },
     "26M22369": {
      "rollNo": "26M22369",
-     "sNo": 44.0,
+     "sNo": 44,
      "name": "Pranav.P.K",
      "marks": {
       "CU 1": {
@@ -5774,15 +4768,6 @@ window.REPORT_DATA = {
        "Total": 370
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -5804,7 +4789,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -5827,10 +4811,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -5839,7 +4819,7 @@ window.REPORT_DATA = {
     },
     "26M22370": {
      "rollNo": "26M22370",
-     "sNo": 45.0,
+     "sNo": 45,
      "name": "Rithika. R",
      "marks": {
       "CU 1": {
@@ -5852,15 +4832,6 @@ window.REPORT_DATA = {
        "Total": 375
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -5882,7 +4853,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -5905,10 +4875,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -5917,7 +4883,7 @@ window.REPORT_DATA = {
     },
     "26M22371": {
      "rollNo": "26M22371",
-     "sNo": 46.0,
+     "sNo": 46,
      "name": "Sachith.B",
      "marks": {
       "CU 1": {
@@ -5930,15 +4896,6 @@ window.REPORT_DATA = {
        "Total": 248
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -5960,7 +4917,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -5983,10 +4939,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -5995,7 +4947,7 @@ window.REPORT_DATA = {
     },
     "26M22372": {
      "rollNo": "26M22372",
-     "sNo": 47.0,
+     "sNo": 47,
      "name": "Shana Manikandan",
      "marks": {
       "CU 1": {
@@ -6008,15 +4960,6 @@ window.REPORT_DATA = {
        "Total": 296
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -6038,7 +4981,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -6061,10 +5003,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -6073,7 +5011,7 @@ window.REPORT_DATA = {
     },
     "26M22373": {
      "rollNo": "26M22373",
-     "sNo": 48.0,
+     "sNo": 48,
      "name": "Shruthi Sainthavi.S",
      "marks": {
       "CU 1": {
@@ -6086,15 +5024,6 @@ window.REPORT_DATA = {
        "Total": 323
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -6118,7 +5047,6 @@ window.REPORT_DATA = {
        "CS": true
       },
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -6141,10 +5069,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -6153,7 +5077,7 @@ window.REPORT_DATA = {
     },
     "26M22374": {
      "rollNo": "26M22374",
-     "sNo": 49.0,
+     "sNo": 49,
      "name": "Shruthikka.K.P",
      "marks": {
       "CU 1": {
@@ -6166,15 +5090,6 @@ window.REPORT_DATA = {
        "Total": 311
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -6196,7 +5111,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -6219,10 +5133,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -6231,7 +5141,7 @@ window.REPORT_DATA = {
     },
     "26M22375": {
      "rollNo": "26M22375",
-     "sNo": 50.0,
+     "sNo": 50,
      "name": "Sri Haran.R",
      "marks": {
       "CU 1": {
@@ -6244,15 +5154,6 @@ window.REPORT_DATA = {
        "Total": 275.5
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -6274,7 +5175,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -6297,10 +5197,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -6309,7 +5205,7 @@ window.REPORT_DATA = {
     },
     "26M22376": {
      "rollNo": "26M22376",
-     "sNo": 51.0,
+     "sNo": 51,
      "name": "Srree maansheiga.A.M",
      "marks": {
       "CU 1": {
@@ -6322,15 +5218,6 @@ window.REPORT_DATA = {
        "Total": 288
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -6352,7 +5239,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -6375,10 +5261,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -6387,7 +5269,7 @@ window.REPORT_DATA = {
     },
     "26M22377": {
      "rollNo": "26M22377",
-     "sNo": 52.0,
+     "sNo": 52,
      "name": "Thejashvini.N",
      "marks": {
       "CU 1": {
@@ -6400,15 +5282,6 @@ window.REPORT_DATA = {
        "Total": 344
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -6430,7 +5303,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -6453,10 +5325,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -6465,7 +5333,7 @@ window.REPORT_DATA = {
     },
     "26M22378": {
      "rollNo": "26M22378",
-     "sNo": 53.0,
+     "sNo": 53,
      "name": "Vithun.D.S",
      "marks": {
       "CU 1": {
@@ -6478,15 +5346,6 @@ window.REPORT_DATA = {
        "Total": 192
       },
       "TE 1": {
-       "PHY": null,
-       "CHE": null,
-       "MAT": null,
-       "CS": null,
-       "ENG": null,
-       "PED": null,
-       "Total": 0
-      },
-      "CU 2": {
        "PHY": null,
        "CHE": null,
        "MAT": null,
@@ -6510,7 +5369,6 @@ window.REPORT_DATA = {
        "CHE": true
       },
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -6530,10 +5388,6 @@ window.REPORT_DATA = {
        "rank": 85
       },
       "TE 1": {
-       "total": 0,
-       "rank": 1
-      },
-      "CU 2": {
        "total": 0,
        "rank": 1
       },
@@ -6567,13 +5421,11 @@ window.REPORT_DATA = {
    "exams": [
     "CU 1",
     "TE 1",
-    "CU 2",
     "TE 2"
    ],
    "conducted": {
     "CU 1": true,
     "TE 1": false,
-    "CU 2": false,
     "TE 2": false
    },
    "classSize": 2,
@@ -6583,7 +5435,7 @@ window.REPORT_DATA = {
       "Acc": {
        "max": 64,
        "min": 48,
-       "avg": 56.0,
+       "avg": 56,
        "present": 2,
        "topperRoll": "26S2379",
        "topperName": "Hariharan.J"
@@ -6591,7 +5443,7 @@ window.REPORT_DATA = {
       "Bs": {
        "max": 79,
        "min": 63,
-       "avg": 71.0,
+       "avg": 71,
        "present": 2,
        "topperRoll": "26S2379",
        "topperName": "Hariharan.J"
@@ -6623,7 +5475,7 @@ window.REPORT_DATA = {
       "PE": {
        "max": 84,
        "min": 64,
-       "avg": 74.0,
+       "avg": 74,
        "present": 2,
        "topperRoll": "26S2379",
        "topperName": "Hariharan.J"
@@ -6637,22 +5489,6 @@ window.REPORT_DATA = {
      }
     },
     "TE 1": {
-     "subjects": {
-      "Acc": null,
-      "Bs": null,
-      "Eco": null,
-      "A.Math": null,
-      "Eng": null,
-      "PE": null
-     },
-     "total": {
-      "max": 0,
-      "topperRoll": "26S2379",
-      "topperName": "Hariharan.J",
-      "present": 2
-     }
-    },
-    "CU 2": {
      "subjects": {
       "Acc": null,
       "Bs": null,
@@ -6688,7 +5524,7 @@ window.REPORT_DATA = {
    "students": {
     "26S2379": {
      "rollNo": "26S2379",
-     "sNo": 1.0,
+     "sNo": 1,
      "name": "Hariharan.J",
      "marks": {
       "CU 1": {
@@ -6701,15 +5537,6 @@ window.REPORT_DATA = {
        "Total": 416
       },
       "TE 1": {
-       "Acc": null,
-       "Bs": null,
-       "Eco": null,
-       "A.Math": null,
-       "Eng": null,
-       "PE": null,
-       "Total": 0
-      },
-      "CU 2": {
        "Acc": null,
        "Bs": null,
        "Eco": null,
@@ -6731,7 +5558,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -6754,10 +5580,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -6766,7 +5588,7 @@ window.REPORT_DATA = {
     },
     "26S2380": {
      "rollNo": "26S2380",
-     "sNo": 2.0,
+     "sNo": 2,
      "name": "Mouneeth.K.S",
      "marks": {
       "CU 1": {
@@ -6779,15 +5601,6 @@ window.REPORT_DATA = {
        "Total": 323
       },
       "TE 1": {
-       "Acc": null,
-       "Bs": null,
-       "Eco": null,
-       "A.Math": null,
-       "Eng": null,
-       "PE": null,
-       "Total": 0
-      },
-      "CU 2": {
        "Acc": null,
        "Bs": null,
        "Eco": null,
@@ -6809,7 +5622,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -6829,10 +5641,6 @@ window.REPORT_DATA = {
        "rank": 46
       },
       "TE 1": {
-       "total": 0,
-       "rank": 1
-      },
-      "CU 2": {
        "total": 0,
        "rank": 1
       },
@@ -6866,13 +5674,11 @@ window.REPORT_DATA = {
    "exams": [
     "CU 1",
     "TE 1",
-    "CU 2",
     "TE 2"
    ],
    "conducted": {
     "CU 1": true,
     "TE 1": false,
-    "CU 2": false,
     "TE 2": false
    },
    "classSize": 5,
@@ -6882,7 +5688,7 @@ window.REPORT_DATA = {
       "Acc": {
        "max": 70,
        "min": 45,
-       "avg": 53.0,
+       "avg": 53,
        "present": 5,
        "topperRoll": "26S3384",
        "topperName": "Midhunasree.G.P"
@@ -6951,22 +5757,6 @@ window.REPORT_DATA = {
       "present": 5
      }
     },
-    "CU 2": {
-     "subjects": {
-      "Acc": null,
-      "Bs": null,
-      "Eco": null,
-      "Cs": null,
-      "Eng": null,
-      "PE": null
-     },
-     "total": {
-      "max": 0,
-      "topperRoll": "26S3381",
-      "topperName": "Atchaya.K",
-      "present": 5
-     }
-    },
     "TE 2": {
      "subjects": {
       "Acc": null,
@@ -6987,7 +5777,7 @@ window.REPORT_DATA = {
    "students": {
     "26S3381": {
      "rollNo": "26S3381",
-     "sNo": 1.0,
+     "sNo": 1,
      "name": "Atchaya.K",
      "marks": {
       "CU 1": {
@@ -7000,15 +5790,6 @@ window.REPORT_DATA = {
        "Total": 315
       },
       "TE 1": {
-       "Acc": null,
-       "Bs": null,
-       "Eco": null,
-       "Cs": null,
-       "Eng": null,
-       "PE": null,
-       "Total": 0
-      },
-      "CU 2": {
        "Acc": null,
        "Bs": null,
        "Eco": null,
@@ -7032,7 +5813,6 @@ window.REPORT_DATA = {
        "PE": true
       },
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -7055,10 +5835,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7067,7 +5843,7 @@ window.REPORT_DATA = {
     },
     "26S3382": {
      "rollNo": "26S3382",
-     "sNo": 2.0,
+     "sNo": 2,
      "name": "Deshigasree.A.G",
      "marks": {
       "CU 1": {
@@ -7080,15 +5856,6 @@ window.REPORT_DATA = {
        "Total": 323
       },
       "TE 1": {
-       "Acc": null,
-       "Bs": null,
-       "Eco": null,
-       "Cs": null,
-       "Eng": null,
-       "PE": null,
-       "Total": 0
-      },
-      "CU 2": {
        "Acc": null,
        "Bs": null,
        "Eco": null,
@@ -7110,7 +5877,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -7133,10 +5899,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7145,7 +5907,7 @@ window.REPORT_DATA = {
     },
     "26S3383": {
      "rollNo": "26S3383",
-     "sNo": 3.0,
+     "sNo": 3,
      "name": "Jessica.N",
      "marks": {
       "CU 1": {
@@ -7158,15 +5920,6 @@ window.REPORT_DATA = {
        "Total": 461
       },
       "TE 1": {
-       "Acc": null,
-       "Bs": null,
-       "Eco": null,
-       "Cs": null,
-       "Eng": null,
-       "PE": null,
-       "Total": 0
-      },
-      "CU 2": {
        "Acc": null,
        "Bs": null,
        "Eco": null,
@@ -7188,7 +5941,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -7211,10 +5963,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7223,7 +5971,7 @@ window.REPORT_DATA = {
     },
     "26S3384": {
      "rollNo": "26S3384",
-     "sNo": 4.0,
+     "sNo": 4,
      "name": "Midhunasree.G.P",
      "marks": {
       "CU 1": {
@@ -7236,15 +5984,6 @@ window.REPORT_DATA = {
        "Total": 462
       },
       "TE 1": {
-       "Acc": null,
-       "Bs": null,
-       "Eco": null,
-       "Cs": null,
-       "Eng": null,
-       "PE": null,
-       "Total": 0
-      },
-      "CU 2": {
        "Acc": null,
        "Bs": null,
        "Eco": null,
@@ -7266,7 +6005,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -7289,10 +6027,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7301,7 +6035,7 @@ window.REPORT_DATA = {
     },
     "26S3385": {
      "rollNo": "26S3385",
-     "sNo": 5.0,
+     "sNo": 5,
      "name": "Prathiksha.V.P",
      "marks": {
       "CU 1": {
@@ -7314,15 +6048,6 @@ window.REPORT_DATA = {
        "Total": 427
       },
       "TE 1": {
-       "Acc": null,
-       "Bs": null,
-       "Eco": null,
-       "Cs": null,
-       "Eng": null,
-       "PE": null,
-       "Total": 0
-      },
-      "CU 2": {
        "Acc": null,
        "Bs": null,
        "Eco": null,
@@ -7344,7 +6069,6 @@ window.REPORT_DATA = {
      "absent": {
       "CU 1": {},
       "TE 1": {},
-      "CU 2": {},
       "TE 2": {}
      },
      "percentile": {
@@ -7367,10 +6091,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7385,13 +6105,11 @@ window.REPORT_DATA = {
    "exams": [
     "CU 1",
     "TE 1",
-    "CU 2",
     "TE 2"
    ],
    "conducted": {
     "CU 1": true,
     "TE 1": false,
-    "CU 2": false,
     "TE 2": false
    },
    "classSize": 85,
@@ -7402,13 +6120,12 @@ window.REPORT_DATA = {
      "name": "Kanimitha.M"
     },
     "TE 1": null,
-    "CU 2": null,
     "TE 2": null
    },
    "students": {
     "26H1301": {
      "rollNo": "26H1301",
-     "sNo": 1.0,
+     "sNo": 1,
      "name": "Ahalya.R",
      "stream": [
       "Bio",
@@ -7423,10 +6140,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7435,7 +6148,7 @@ window.REPORT_DATA = {
     },
     "26H1302": {
      "rollNo": "26H1302",
-     "sNo": 2.0,
+     "sNo": 2,
      "name": "Asswin.R.S",
      "stream": [
       "Bio",
@@ -7450,10 +6163,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7462,7 +6171,7 @@ window.REPORT_DATA = {
     },
     "26H1303": {
      "rollNo": "26H1303",
-     "sNo": 3.0,
+     "sNo": 3,
      "name": "Dharunraja.M.S",
      "stream": [
       "Bio",
@@ -7477,10 +6186,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7489,7 +6194,7 @@ window.REPORT_DATA = {
     },
     "26H1304": {
      "rollNo": "26H1304",
-     "sNo": 4.0,
+     "sNo": 4,
      "name": "Jaisree.A",
      "stream": [
       "Bio",
@@ -7504,10 +6209,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7516,7 +6217,7 @@ window.REPORT_DATA = {
     },
     "26H1305": {
      "rollNo": "26H1305",
-     "sNo": 5.0,
+     "sNo": 5,
      "name": "Rethika.S",
      "stream": [
       "Bio",
@@ -7531,10 +6232,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7543,7 +6240,7 @@ window.REPORT_DATA = {
     },
     "26H1306": {
      "rollNo": "26H1306",
-     "sNo": 6.0,
+     "sNo": 6,
      "name": "Rubhan.S",
      "stream": [
       "Bio",
@@ -7558,10 +6255,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7570,7 +6263,7 @@ window.REPORT_DATA = {
     },
     "26H1307": {
      "rollNo": "26H1307",
-     "sNo": 7.0,
+     "sNo": 7,
      "name": "Sakthi Jeevanes.G.A",
      "stream": [
       "Bio",
@@ -7585,10 +6278,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7597,7 +6286,7 @@ window.REPORT_DATA = {
     },
     "26H1308": {
      "rollNo": "26H1308",
-     "sNo": 8.0,
+     "sNo": 8,
      "name": "Sharvesh.S.P",
      "stream": [
       "Bio",
@@ -7612,10 +6301,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7624,7 +6309,7 @@ window.REPORT_DATA = {
     },
     "26H2309": {
      "rollNo": "26H2309",
-     "sNo": 9.0,
+     "sNo": 9,
      "name": "Aaradhana.R",
      "stream": [
       "Math",
@@ -7639,10 +6324,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7651,7 +6332,7 @@ window.REPORT_DATA = {
     },
     "26H2310": {
      "rollNo": "26H2310",
-     "sNo": 10.0,
+     "sNo": 10,
      "name": "Abhinav Shrihari.N",
      "stream": [
       "Math",
@@ -7666,10 +6347,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7678,7 +6355,7 @@ window.REPORT_DATA = {
     },
     "26H2311": {
      "rollNo": "26H2311",
-     "sNo": 11.0,
+     "sNo": 11,
      "name": "Akash.R",
      "stream": [
       "Math",
@@ -7693,10 +6370,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7705,7 +6378,7 @@ window.REPORT_DATA = {
     },
     "26H2312": {
      "rollNo": "26H2312",
-     "sNo": 12.0,
+     "sNo": 12,
      "name": "Danish.M",
      "stream": [
       "Math",
@@ -7720,10 +6393,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7732,7 +6401,7 @@ window.REPORT_DATA = {
     },
     "26H2313": {
      "rollNo": "26H2313",
-     "sNo": 13.0,
+     "sNo": 13,
      "name": "Dharaniish.R.S",
      "stream": [
       "Math",
@@ -7747,10 +6416,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7759,7 +6424,7 @@ window.REPORT_DATA = {
     },
     "26H2314": {
      "rollNo": "26H2314",
-     "sNo": 14.0,
+     "sNo": 14,
      "name": "Jovith Vinayaka.M.V",
      "stream": [
       "Math",
@@ -7774,10 +6439,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7786,7 +6447,7 @@ window.REPORT_DATA = {
     },
     "26H2315": {
      "rollNo": "26H2315",
-     "sNo": 15.0,
+     "sNo": 15,
      "name": "Kanimitha.M",
      "stream": [
       "Math",
@@ -7801,10 +6462,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7813,7 +6470,7 @@ window.REPORT_DATA = {
     },
     "26H2316": {
      "rollNo": "26H2316",
-     "sNo": 16.0,
+     "sNo": 16,
      "name": "Kanishkaa.V",
      "stream": [
       "Math",
@@ -7828,10 +6485,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7840,7 +6493,7 @@ window.REPORT_DATA = {
     },
     "26H2317": {
      "rollNo": "26H2317",
-     "sNo": 17.0,
+     "sNo": 17,
      "name": "Nikesh.S.S",
      "stream": [
       "Math",
@@ -7855,10 +6508,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7867,7 +6516,7 @@ window.REPORT_DATA = {
     },
     "26H2318": {
      "rollNo": "26H2318",
-     "sNo": 18.0,
+     "sNo": 18,
      "name": "Perinban.M",
      "stream": [
       "Math",
@@ -7882,10 +6531,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7894,7 +6539,7 @@ window.REPORT_DATA = {
     },
     "26H2319": {
      "rollNo": "26H2319",
-     "sNo": 19.0,
+     "sNo": 19,
      "name": "Prakalya.K.S",
      "stream": [
       "Math",
@@ -7909,10 +6554,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7921,7 +6562,7 @@ window.REPORT_DATA = {
     },
     "26H2320": {
      "rollNo": "26H2320",
-     "sNo": 20.0,
+     "sNo": 20,
      "name": "Praveen Kumaran.T",
      "stream": [
       "Math",
@@ -7936,10 +6577,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7948,7 +6585,7 @@ window.REPORT_DATA = {
     },
     "26H2321": {
      "rollNo": "26H2321",
-     "sNo": 21.0,
+     "sNo": 21,
      "name": "Ram Prasath.K",
      "stream": [
       "Math",
@@ -7963,10 +6600,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -7975,7 +6608,7 @@ window.REPORT_DATA = {
     },
     "26H2322": {
      "rollNo": "26H2322",
-     "sNo": 22.0,
+     "sNo": 22,
      "name": "Sri Hari.A.S",
      "stream": [
       "Math",
@@ -7990,10 +6623,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8002,7 +6631,7 @@ window.REPORT_DATA = {
     },
     "26H2323": {
      "rollNo": "26H2323",
-     "sNo": 23.0,
+     "sNo": 23,
      "name": "Srinika.J.S",
      "stream": [
       "Math",
@@ -8017,10 +6646,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8029,7 +6654,7 @@ window.REPORT_DATA = {
     },
     "26H2324": {
      "rollNo": "26H2324",
-     "sNo": 24.0,
+     "sNo": 24,
      "name": "Suvekshaya.V.S",
      "stream": [
       "Math",
@@ -8044,10 +6669,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8056,7 +6677,7 @@ window.REPORT_DATA = {
     },
     "26H2325": {
      "rollNo": "26H2325",
-     "sNo": 25.0,
+     "sNo": 25,
      "name": "Thirushanth.B",
      "stream": [
       "Math",
@@ -8071,10 +6692,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8083,7 +6700,7 @@ window.REPORT_DATA = {
     },
     "26H2326": {
      "rollNo": "26H2326",
-     "sNo": 26.0,
+     "sNo": 26,
      "name": "Vishnu Varthan. A",
      "stream": [
       "Math",
@@ -8098,10 +6715,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8110,7 +6723,7 @@ window.REPORT_DATA = {
     },
     "26H2327": {
      "rollNo": "26H2327",
-     "sNo": 27.0,
+     "sNo": 27,
      "name": "Vishal.M",
      "stream": [
       "Math",
@@ -8125,10 +6738,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8137,7 +6746,7 @@ window.REPORT_DATA = {
     },
     "26H3328": {
      "rollNo": "26H3328",
-     "sNo": 28.0,
+     "sNo": 28,
      "name": "Narmadhavarshini.G",
      "stream": [
       "Bio",
@@ -8152,10 +6761,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8164,7 +6769,7 @@ window.REPORT_DATA = {
     },
     "26M11329": {
      "rollNo": "26M11329",
-     "sNo": 29.0,
+     "sNo": 29,
      "name": "Anu Varshini.K.M",
      "stream": [
       "Bio",
@@ -8179,10 +6784,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8191,7 +6792,7 @@ window.REPORT_DATA = {
     },
     "26M11330": {
      "rollNo": "26M11330",
-     "sNo": 30.0,
+     "sNo": 30,
      "name": "Hemasri.S.S",
      "stream": [
       "Bio",
@@ -8206,10 +6807,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8218,7 +6815,7 @@ window.REPORT_DATA = {
     },
     "26M11331": {
      "rollNo": "26M11331",
-     "sNo": 31.0,
+     "sNo": 31,
      "name": "Hemavaashini.S",
      "stream": [
       "Bio",
@@ -8233,10 +6830,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8245,7 +6838,7 @@ window.REPORT_DATA = {
     },
     "26M11332": {
      "rollNo": "26M11332",
-     "sNo": 32.0,
+     "sNo": 32,
      "name": "Naveen.C.S",
      "stream": [
       "Bio",
@@ -8260,10 +6853,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8272,7 +6861,7 @@ window.REPORT_DATA = {
     },
     "26M11333": {
      "rollNo": "26M11333",
-     "sNo": 33.0,
+     "sNo": 33,
      "name": "Nela",
      "stream": [
       "Bio",
@@ -8287,10 +6876,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8299,7 +6884,7 @@ window.REPORT_DATA = {
     },
     "26M11334": {
      "rollNo": "26M11334",
-     "sNo": 34.0,
+     "sNo": 34,
      "name": "Nikhil Shriram.J",
      "stream": [
       "Bio",
@@ -8314,10 +6899,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8326,7 +6907,7 @@ window.REPORT_DATA = {
     },
     "26M11335": {
      "rollNo": "26M11335",
-     "sNo": 35.0,
+     "sNo": 35,
      "name": "Pritika.S.R",
      "stream": [
       "Bio",
@@ -8341,10 +6922,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8353,7 +6930,7 @@ window.REPORT_DATA = {
     },
     "26M11336": {
      "rollNo": "26M11336",
-     "sNo": 36.0,
+     "sNo": 36,
      "name": "Rethika.S",
      "stream": [
       "Bio",
@@ -8368,10 +6945,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8380,7 +6953,7 @@ window.REPORT_DATA = {
     },
     "26M11337": {
      "rollNo": "26M11337",
-     "sNo": 37.0,
+     "sNo": 37,
      "name": "Samritha.K",
      "stream": [
       "Bio",
@@ -8395,10 +6968,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8407,7 +6976,7 @@ window.REPORT_DATA = {
     },
     "26M11338": {
      "rollNo": "26M11338",
-     "sNo": 38.0,
+     "sNo": 38,
      "name": "Shynthavi.S",
      "stream": [
       "Bio",
@@ -8422,10 +6991,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8434,7 +6999,7 @@ window.REPORT_DATA = {
     },
     "26M11339": {
      "rollNo": "26M11339",
-     "sNo": 39.0,
+     "sNo": 39,
      "name": "Tara.R",
      "stream": [
       "Bio",
@@ -8449,10 +7014,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8461,7 +7022,7 @@ window.REPORT_DATA = {
     },
     "26M11340": {
      "rollNo": "26M11340",
-     "sNo": 40.0,
+     "sNo": 40,
      "name": "Veka",
      "stream": [
       "Bio",
@@ -8476,10 +7037,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8488,7 +7045,7 @@ window.REPORT_DATA = {
     },
     "26M11341": {
      "rollNo": "26M11341",
-     "sNo": 41.0,
+     "sNo": 41,
      "name": "Vinusha.P.S",
      "stream": [
       "Bio",
@@ -8503,10 +7060,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8515,7 +7068,7 @@ window.REPORT_DATA = {
     },
     "26M12342": {
      "rollNo": "26M12342",
-     "sNo": 42.0,
+     "sNo": 42,
      "name": "Abinav.M",
      "stream": [
       "Math",
@@ -8530,10 +7083,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8542,7 +7091,7 @@ window.REPORT_DATA = {
     },
     "26M12343": {
      "rollNo": "26M12343",
-     "sNo": 43.0,
+     "sNo": 43,
      "name": "Akkshayaa.K",
      "stream": [
       "Math",
@@ -8557,10 +7106,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8569,7 +7114,7 @@ window.REPORT_DATA = {
     },
     "26M12344": {
      "rollNo": "26M12344",
-     "sNo": 44.0,
+     "sNo": 44,
      "name": "Bharanish.S.R",
      "stream": [
       "Math",
@@ -8584,10 +7129,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8596,7 +7137,7 @@ window.REPORT_DATA = {
     },
     "26M12345": {
      "rollNo": "26M12345",
-     "sNo": 45.0,
+     "sNo": 45,
      "name": "Kaviyavarshini.A",
      "stream": [
       "Math",
@@ -8611,10 +7152,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8623,7 +7160,7 @@ window.REPORT_DATA = {
     },
     "26M12346": {
      "rollNo": "26M12346",
-     "sNo": 46.0,
+     "sNo": 46,
      "name": "Lishvanth.S.V",
      "stream": [
       "Math",
@@ -8638,10 +7175,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8650,7 +7183,7 @@ window.REPORT_DATA = {
     },
     "26M12347": {
      "rollNo": "26M12347",
-     "sNo": 47.0,
+     "sNo": 47,
      "name": "Mavish.J.S",
      "stream": [
       "Math",
@@ -8665,10 +7198,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8677,7 +7206,7 @@ window.REPORT_DATA = {
     },
     "26M12348": {
      "rollNo": "26M12348",
-     "sNo": 48.0,
+     "sNo": 48,
      "name": "Navanitha.M",
      "stream": [
       "Math",
@@ -8692,10 +7221,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8704,7 +7229,7 @@ window.REPORT_DATA = {
     },
     "26M12349": {
      "rollNo": "26M12349",
-     "sNo": 49.0,
+     "sNo": 49,
      "name": "Sathvika.Y",
      "stream": [
       "Math",
@@ -8719,10 +7244,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8731,7 +7252,7 @@ window.REPORT_DATA = {
     },
     "26M12350": {
      "rollNo": "26M12350",
-     "sNo": 50.0,
+     "sNo": 50,
      "name": "Devashri.P.R",
      "stream": [
       "Math",
@@ -8746,10 +7267,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8758,7 +7275,7 @@ window.REPORT_DATA = {
     },
     "26M12351": {
      "rollNo": "26M12351",
-     "sNo": 51.0,
+     "sNo": 51,
      "name": "Nithin Pranav.V",
      "stream": [
       "Math",
@@ -8773,10 +7290,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8785,7 +7298,7 @@ window.REPORT_DATA = {
     },
     "26M13352": {
      "rollNo": "26M13352",
-     "sNo": 52.0,
+     "sNo": 52,
      "name": "Girishanth.S.G",
      "stream": [
       "Bio",
@@ -8800,10 +7313,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8812,7 +7321,7 @@ window.REPORT_DATA = {
     },
     "26M13353": {
      "rollNo": "26M13353",
-     "sNo": 53.0,
+     "sNo": 53,
      "name": "Nandita.T.P",
      "stream": [
       "Bio",
@@ -8827,10 +7336,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8839,7 +7344,7 @@ window.REPORT_DATA = {
     },
     "26M13354": {
      "rollNo": "26M13354",
-     "sNo": 54.0,
+     "sNo": 54,
      "name": "Shruthisha.S.N",
      "stream": [
       "Bio",
@@ -8854,10 +7359,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8866,7 +7367,7 @@ window.REPORT_DATA = {
     },
     "26M22355": {
      "rollNo": "26M22355",
-     "sNo": 55.0,
+     "sNo": 55,
      "name": "Akshaya.K",
      "stream": [
       "Math",
@@ -8881,10 +7382,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8893,7 +7390,7 @@ window.REPORT_DATA = {
     },
     "26M22356": {
      "rollNo": "26M22356",
-     "sNo": 56.0,
+     "sNo": 56,
      "name": "Amrish.J.R",
      "stream": [
       "Math",
@@ -8908,10 +7405,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8920,7 +7413,7 @@ window.REPORT_DATA = {
     },
     "26M22357": {
      "rollNo": "26M22357",
-     "sNo": 57.0,
+     "sNo": 57,
      "name": "Anikksha.P",
      "stream": [
       "Math",
@@ -8935,10 +7428,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8947,7 +7436,7 @@ window.REPORT_DATA = {
     },
     "26M22358": {
      "rollNo": "26M22358",
-     "sNo": 58.0,
+     "sNo": 58,
      "name": "Archita.K",
      "stream": [
       "Math",
@@ -8962,10 +7451,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -8974,7 +7459,7 @@ window.REPORT_DATA = {
     },
     "26M22359": {
      "rollNo": "26M22359",
-     "sNo": 59.0,
+     "sNo": 59,
      "name": "Ashok. A",
      "stream": [
       "Math",
@@ -8989,10 +7474,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9001,7 +7482,7 @@ window.REPORT_DATA = {
     },
     "26M22360": {
      "rollNo": "26M22360",
-     "sNo": 60.0,
+     "sNo": 60,
      "name": "Dhaadsin.N",
      "stream": [
       "Math",
@@ -9016,10 +7497,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9028,7 +7505,7 @@ window.REPORT_DATA = {
     },
     "26M22361": {
      "rollNo": "26M22361",
-     "sNo": 61.0,
+     "sNo": 61,
      "name": "Dhakshin.T.K",
      "stream": [
       "Math",
@@ -9043,10 +7520,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9055,7 +7528,7 @@ window.REPORT_DATA = {
     },
     "26M22362": {
      "rollNo": "26M22362",
-     "sNo": 62.0,
+     "sNo": 62,
      "name": "Gajeshwar.N.J",
      "stream": [
       "Math",
@@ -9070,10 +7543,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9082,7 +7551,7 @@ window.REPORT_DATA = {
     },
     "26M22363": {
      "rollNo": "26M22363",
-     "sNo": 63.0,
+     "sNo": 63,
      "name": "Harsheta.A",
      "stream": [
       "Math",
@@ -9097,10 +7566,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9109,7 +7574,7 @@ window.REPORT_DATA = {
     },
     "26M22364": {
      "rollNo": "26M22364",
-     "sNo": 64.0,
+     "sNo": 64,
      "name": "Kabilesh.B",
      "stream": [
       "Math",
@@ -9124,10 +7589,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9136,7 +7597,7 @@ window.REPORT_DATA = {
     },
     "26M22365": {
      "rollNo": "26M22365",
-     "sNo": 65.0,
+     "sNo": 65,
      "name": "Kavinaya",
      "stream": [
       "Math",
@@ -9151,10 +7612,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9163,7 +7620,7 @@ window.REPORT_DATA = {
     },
     "26M22366": {
      "rollNo": "26M22366",
-     "sNo": 66.0,
+     "sNo": 66,
      "name": "Kiruthick",
      "stream": [
       "Math",
@@ -9178,10 +7635,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9190,7 +7643,7 @@ window.REPORT_DATA = {
     },
     "26M22367": {
      "rollNo": "26M22367",
-     "sNo": 67.0,
+     "sNo": 67,
      "name": "Lakshana.R",
      "stream": [
       "Math",
@@ -9205,10 +7658,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9217,7 +7666,7 @@ window.REPORT_DATA = {
     },
     "26M22368": {
      "rollNo": "26M22368",
-     "sNo": 68.0,
+     "sNo": 68,
      "name": "Likitha.R",
      "stream": [
       "Math",
@@ -9232,10 +7681,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9244,7 +7689,7 @@ window.REPORT_DATA = {
     },
     "26M22369": {
      "rollNo": "26M22369",
-     "sNo": 69.0,
+     "sNo": 69,
      "name": "Pranav.P.K",
      "stream": [
       "Math",
@@ -9259,10 +7704,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9271,7 +7712,7 @@ window.REPORT_DATA = {
     },
     "26M22370": {
      "rollNo": "26M22370",
-     "sNo": 70.0,
+     "sNo": 70,
      "name": "Rithika. R",
      "stream": [
       "Math",
@@ -9286,10 +7727,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9298,7 +7735,7 @@ window.REPORT_DATA = {
     },
     "26M22371": {
      "rollNo": "26M22371",
-     "sNo": 71.0,
+     "sNo": 71,
      "name": "Sachith.B",
      "stream": [
       "Math",
@@ -9313,10 +7750,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9325,7 +7758,7 @@ window.REPORT_DATA = {
     },
     "26M22372": {
      "rollNo": "26M22372",
-     "sNo": 72.0,
+     "sNo": 72,
      "name": "Shana Manikandan",
      "stream": [
       "Math",
@@ -9340,10 +7773,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9352,7 +7781,7 @@ window.REPORT_DATA = {
     },
     "26M22373": {
      "rollNo": "26M22373",
-     "sNo": 73.0,
+     "sNo": 73,
      "name": "Shruthi Sainthavi.S",
      "stream": [
       "Math",
@@ -9367,10 +7796,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9379,7 +7804,7 @@ window.REPORT_DATA = {
     },
     "26M22374": {
      "rollNo": "26M22374",
-     "sNo": 74.0,
+     "sNo": 74,
      "name": "Shruthikka.K.P",
      "stream": [
       "Math",
@@ -9394,10 +7819,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9406,7 +7827,7 @@ window.REPORT_DATA = {
     },
     "26M22375": {
      "rollNo": "26M22375",
-     "sNo": 75.0,
+     "sNo": 75,
      "name": "Sri Haran.R",
      "stream": [
       "Math",
@@ -9421,10 +7842,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9433,7 +7850,7 @@ window.REPORT_DATA = {
     },
     "26M22376": {
      "rollNo": "26M22376",
-     "sNo": 76.0,
+     "sNo": 76,
      "name": "Srree maansheiga.A.M",
      "stream": [
       "Math",
@@ -9448,10 +7865,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9460,7 +7873,7 @@ window.REPORT_DATA = {
     },
     "26M22377": {
      "rollNo": "26M22377",
-     "sNo": 77.0,
+     "sNo": 77,
      "name": "Thejashvini.N",
      "stream": [
       "Math",
@@ -9475,10 +7888,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9487,7 +7896,7 @@ window.REPORT_DATA = {
     },
     "26M22378": {
      "rollNo": "26M22378",
-     "sNo": 78.0,
+     "sNo": 78,
      "name": "Vithun.D.S",
      "stream": [
       "Math",
@@ -9502,10 +7911,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9514,7 +7919,7 @@ window.REPORT_DATA = {
     },
     "26S2379": {
      "rollNo": "26S2379",
-     "sNo": 79.0,
+     "sNo": 79,
      "name": "Hariharan.J",
      "stream": [
       "Applied Math"
@@ -9528,10 +7933,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9540,7 +7941,7 @@ window.REPORT_DATA = {
     },
     "26S2380": {
      "rollNo": "26S2380",
-     "sNo": 80.0,
+     "sNo": 80,
      "name": "Mouneeth.K.S",
      "stream": [
       "Applied Math"
@@ -9554,10 +7955,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9566,7 +7963,7 @@ window.REPORT_DATA = {
     },
     "26S3381": {
      "rollNo": "26S3381",
-     "sNo": 81.0,
+     "sNo": 81,
      "name": "Atchaya.K",
      "stream": [
       "CS"
@@ -9580,10 +7977,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9592,7 +7985,7 @@ window.REPORT_DATA = {
     },
     "26S3382": {
      "rollNo": "26S3382",
-     "sNo": 82.0,
+     "sNo": 82,
      "name": "Deshigasree.A.G",
      "stream": [
       "CS"
@@ -9606,10 +7999,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9618,7 +8007,7 @@ window.REPORT_DATA = {
     },
     "26S3383": {
      "rollNo": "26S3383",
-     "sNo": 83.0,
+     "sNo": 83,
      "name": "Jessica.N",
      "stream": [
       "CS"
@@ -9632,10 +8021,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9644,7 +8029,7 @@ window.REPORT_DATA = {
     },
     "26S3384": {
      "rollNo": "26S3384",
-     "sNo": 84.0,
+     "sNo": 84,
      "name": "Midhunasree.G.P",
      "stream": [
       "CS"
@@ -9658,10 +8043,6 @@ window.REPORT_DATA = {
        "total": 0,
        "rank": 1
       },
-      "CU 2": {
-       "total": 0,
-       "rank": 1
-      },
       "TE 2": {
        "total": 0,
        "rank": 1
@@ -9670,7 +8051,7 @@ window.REPORT_DATA = {
     },
     "26S3385": {
      "rollNo": "26S3385",
-     "sNo": 85.0,
+     "sNo": 85,
      "name": "Prathiksha.V.P",
      "stream": [
       "CS"
@@ -9681,10 +8062,6 @@ window.REPORT_DATA = {
        "rank": 13
       },
       "TE 1": {
-       "total": 0,
-       "rank": 1
-      },
-      "CU 2": {
        "total": 0,
        "rank": 1
       },

@@ -18,12 +18,14 @@ const teacherAccounts = require('./lib/teacherAccounts.js');
 
 // Auth endpoint for Teacher/Admin Login
 app.post(['/api/auth', '/api/teacher/auth'], express.json(), (req, res) => {
-  const authRes = teacherAccounts.verifyTeacherLogin(req.body.user, req.body.pass);
+  const userInput = req.body.user || req.body.username;
+  const passInput = req.body.pass || req.body.password;
+  const authRes = teacherAccounts.verifyTeacherLogin(userInput, passInput);
 
   if (authRes && authRes.ok) {
     const expires = Date.now() + 8 * 60 * 60 * 1000; // 8 hours
     const token = authToken.sign(expires, authRes.user);
-    return res.json({ ok: true, token, expires, teacher: authRes });
+    return res.json({ ok: true, token, expires, until: expires, teacher: authRes });
   }
   return res.status(401).json({ error: 'Invalid username or password' });
 });

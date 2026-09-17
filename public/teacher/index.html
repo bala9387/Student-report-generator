@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=5.0, user-scalable=yes" />
   <title>Teacher Portal &middot; KSR Akshara Academy</title>
   <link rel="stylesheet" href="/styles.css?v=37" />
-  <link rel="stylesheet" href="/teacher/teacher.css?v=15" />
+  <link rel="stylesheet" href="/teacher/teacher.css?v=16" />
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
@@ -168,6 +168,27 @@
             </button>
           </div>
         </div>
+
+        <div class="series-selector" id="seriesSelector">
+          <h2 class="stream-heading">Filter by Series</h2>
+          <div class="series-cards">
+            <button type="button" class="series-card active" data-series="all">
+              <span class="series-name">All Students</span>
+            </button>
+            <button type="button" class="series-card" data-series="H" title="Harmony (H Series, e.g. 26H3328)">
+              <span class="series-name">Harmony</span>
+              <span class="series-badge">H Series</span>
+            </button>
+            <button type="button" class="series-card" data-series="M1" title="Melody1 (M1 Series, e.g. 26M13353)">
+              <span class="series-name">Melody 1</span>
+              <span class="series-badge">M1 Series</span>
+            </button>
+            <button type="button" class="series-card" data-series="M2" title="Melody2 (M2 Series, e.g. 26M22378)">
+              <span class="series-name">Melody 2</span>
+              <span class="series-badge">M2 Series</span>
+            </button>
+          </div>
+        </div>
       </aside>
 
       <!-- Main Content -->
@@ -191,7 +212,6 @@
             <div class="module-tabs" id="examTabs">
             <button class="tab-btn active" data-exam="CU 1">CU 1</button>
             <button class="tab-btn" data-exam="TE 1">TE 1</button>
-            <button class="tab-btn" data-exam="CU 2">CU 2</button>
             <button class="tab-btn" data-exam="TE 2">TE 2</button>
             </div>
           </div>
@@ -278,6 +298,6 @@
     </div>
   </div>
 
-  <script src="teacher.js?v=39"></script>
+  <script src="teacher.js?v=41"></script>
 </body>
 </html>

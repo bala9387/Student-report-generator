@@ -11,11 +11,27 @@
   var currentGrade  = "12";
   var currentStream = "Bio - Maths";
   var currentExam   = "CU 1";
+  var currentSeries = "all";   // "all" | "H" | "M1" | "M2"
   var studentRows   = [];      // data returned by API
   var subjectCols   = [];      // subject short codes
   var currentSubjectFull = {}; // subject short code -> full name
   var dirtyRolls    = {};      // rollNo → { marks: { subj: val } }
   var converterOn   = false;   // converter toggle state
+
+  function matchesSeries(rollNo, series) {
+    if (!series || series === "all") return true;
+    var r = String(rollNo || "").toUpperCase();
+    if (series === "H") {
+      return r.indexOf("H") >= 0;
+    }
+    if (series === "M1") {
+      return r.indexOf("M1") >= 0 || (r.indexOf("M") >= 0 && r.indexOf("M2") < 0);
+    }
+    if (series === "M2") {
+      return r.indexOf("M2") >= 0;
+    }
+    return true;
+  }
 
   var SUBJECT_FULL_MAP = {
     PHY: "Physics", CHE: "Chemistry", MAT: "Mathematics", BIO: "Biology",
@@ -299,6 +315,7 @@
   /* ═══════════ Init ═══════════ */
   wireGradeButtons();
   wireStreamCards();
+  wireSeriesButtons();
   wireExamTabs();
   if (saveBtn) saveBtn.addEventListener("click", saveAll);
   var refreshBtn = $("#refreshBtn");
@@ -1026,6 +1043,7 @@
       .then(function (d) {
         if (d.error) { if (!silent) showMsg(d.error, "error"); return; }
         renderPeTable(d);
+        filterRows();
         if (!silent) hideMsg();
       })
       .catch(function (e) { if (!silent) showMsg("Network error: " + e.message, "error"); });
@@ -1038,7 +1056,7 @@
 
     titleEl.textContent = "PE Analysis — All Exams";
 
-    // Header: S.No | Roll No | Student Name | Stream | CU1 Total | TE1 Total | CU2 Total | TE2 Total
+    // Header: S.No | Roll No | Student Name | Stream | CU1 Total | TE1 Total | TE2 Total
     var thRow = "<tr><th>S.No</th><th>Roll No</th><th>Student Name</th><th>Stream</th>";
     exams.forEach(function (ex) {
       thRow += "<th>" + esc(ex) + "</th>";
@@ -1206,7 +1224,7 @@
     dirtyRolls[roll].exams[exam] = valToSave;
     updateSaveState();
 
-    renderPeSubjectStats(["CU 1", "TE 1", "CU 2", "TE 2"], {});
+    renderPeSubjectStats(["CU 1", "TE 1", "TE 2"], {});
   }
 
   /* ═══════════ Render the spreadsheet table ═══════════ */
@@ -1383,6 +1401,8 @@
       inp.addEventListener("keydown", onMarkKeydown);
     });
 
+    filterRows();
+
     // Also render mobile cards if in card view
     if (currentViewMode === "cards") renderMobileCards();
   }
@@ -1410,7 +1430,9 @@
       // Search filter
       var roll = (st.rollNo || "").toLowerCase();
       var name = (st.name || "").toLowerCase();
-      var hidden = q && roll.indexOf(q) < 0 && name.indexOf(q) < 0;
+      var matchSearch = !q || roll.indexOf(q) >= 0 || name.indexOf(q) >= 0;
+      var matchSeries = matchesSeries(st.rollNo, currentSeries);
+      var hidden = !(matchSearch && matchSeries);
       var hiddenAttr = hidden ? ' style="display:none;"' : '';
 
       var total = computeTotal(st.marks);
@@ -1739,7 +1761,7 @@
       if (!dirtyRolls[roll]) dirtyRolls[roll] = { exams: {} };
       if (!dirtyRolls[roll].exams) dirtyRolls[roll].exams = {};
       dirtyRolls[roll].exams[exam] = valToApply;
-      renderPeSubjectStats(["CU 1", "TE 1", "CU 2", "TE 2"], {});
+      renderPeSubjectStats(["CU 1", "TE 1", "TE 2"], {});
     }
     updateSaveState();
   }
@@ -1963,14 +1985,20 @@
 
   /* ═══════════ Search / filter ═══════════ */
   function filterRows() {
-    var q = searchBox.value.trim().toLowerCase();
+    var q = searchBox ? searchBox.value.trim().toLowerCase() : "";
+    var visibleCount = 0;
     // Filter table rows
     var rows = tBody.querySelectorAll("tr");
     rows.forEach(function (r) {
-      var roll = (r.dataset.roll || "").toLowerCase();
+      var roll = r.dataset.roll || "";
+      var rollLower = roll.toLowerCase();
       var name = (r.children[2] ? r.children[2].textContent : "").toLowerCase();
-      if (!q || roll.indexOf(q) >= 0 || name.indexOf(q) >= 0) {
+      var matchSearch = !q || rollLower.indexOf(q) >= 0 || name.indexOf(q) >= 0;
+      var matchSeries = matchesSeries(roll, currentSeries);
+
+      if (matchSearch && matchSeries) {
         r.classList.remove("hidden-row");
+        visibleCount++;
       } else {
         r.classList.add("hidden-row");
       }
@@ -1979,12 +2007,36 @@
     if (mobileCardsEl) {
       var cards = mobileCardsEl.querySelectorAll(".student-card-item");
       cards.forEach(function(card) {
-        var roll = (card.dataset.roll || "").toLowerCase();
+        var roll = card.dataset.roll || "";
+        var rollLower = roll.toLowerCase();
         var nameEl = card.querySelector(".card-student-name");
         var name = nameEl ? nameEl.textContent.toLowerCase() : "";
-        card.style.display = (!q || roll.indexOf(q) >= 0 || name.indexOf(q) >= 0) ? "" : "none";
+        var matchSearch = !q || rollLower.indexOf(q) >= 0 || name.indexOf(q) >= 0;
+        var matchSeries = matchesSeries(roll, currentSeries);
+        card.style.display = (matchSearch && matchSeries) ? "" : "none";
       });
     }
+
+    if (countEl && studentRows && studentRows.length > 0) {
+      if (currentSeries !== "all" || q) {
+        countEl.textContent = visibleCount + " of " + studentRows.length + " students";
+      } else {
+        countEl.textContent = studentRows.length + " students";
+      }
+    }
+  }
+
+  /* ═══════════ Series / Section filter cards ═══════════ */
+  function wireSeriesButtons() {
+    var cards = document.querySelectorAll(".series-card");
+    cards.forEach(function (c) {
+      c.addEventListener("click", function () {
+        cards.forEach(function (x) { x.classList.remove("active"); });
+        c.classList.add("active");
+        currentSeries = c.dataset.series || "all";
+        filterRows();
+      });
+    });
   }
 
   /* ═══════════ Save to server ═══════════ */
