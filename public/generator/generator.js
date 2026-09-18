@@ -45,7 +45,7 @@
     "   b. Set totalMarksObtained and evaluatedTotalMarks to match the official recorded total.\n" +
     "   c. If no cover page table exists, evaluate each section/question against the provided Question Paper and sum the marks scored.\n" +
     "3. SECTION BREAKDOWN: Identify all sections/parts present in the paper (e.g. Section A, Section B, Part 1, Part 2, etc.). For each section, provide the section name, question type (e.g. MCQs, Short Answer, Long Answer, Case Study, Practical), section total max marks, section obtained marks, and performance level.\n" +
-    "4. DYNAMIC SUBJECT-SPECIFIC FEEDBACK: Tailor Strengths, Areas for Improvement, and Actionable Recommendations specifically to the subject being graded (e.g. Mathematics, Physics, Chemistry, Biology, Computer Science, English, Accountancy, Business Studies, Economics, etc.). Cite specific question numbers and topic concepts from the uploaded paper.\n" +
+    "4. DYNAMIC SUBJECT-SPECIFIC FEEDBACK: Tailor Factors Affecting Performance and Improvement Strategy specifically to the subject being graded (e.g. Mathematics, Physics, Chemistry, Biology, Computer Science, English, Accountancy, Business Studies, Economics, etc.). Cite specific question numbers and topic concepts from the uploaded paper.\n" +
     "5. FOOTNOTE: Set footnote to empty string '' if section marks sum up to the total. If there is a discrepancy between cover page total and section sum, briefly note it in the footnote.\n\n" +
     "Instructions for output JSON fields:\n" +
     "- studentName: Student's name found on answer sheet, or 'Student' if unreadable.\n" +
@@ -59,10 +59,8 @@
     "- summaryPerformanceLevel: Overall evaluation summary.\n" +
     "- footnote: Discrepancy note or empty string ''.\n" +
     "- sections: Array of section objects { sectionName, questionType, totalMarks, obtainedMarks, performanceLevel } matching the paper structure.\n" +
-    "- coreConcepts: Array of 3-5 objects { title, detail } highlighting key core subject concepts tested in the paper (e.g. Electrostatics, Capacitance, Current Electricity, Gauss's Law, etc.).\n" +
-    "- studyTips: Array of 4-6 objects { title, detail } providing actionable, subject-tailored study tips & strategies (e.g. Master the MCQs, Visualize Vector Problems, Clarify Material Properties, Understand 'Why' Not Just 'What', Check Your Signs).\n" +
-    "- strengths: Array of 3-5 objects { title, detail } with subject-specific feedback.\n" +
-    "- areasForImprovement: Array of 3-5 objects { title, detail } with subject-specific feedback.\n";
+    "- factorsAffectingPerformance: Array of 3-5 objects { title, detail } analyzing specific factors affecting the student's performance.\n" +
+    "- improvementStrategy: Array of 3-5 objects { title, detail } providing actionable improvement strategies.\n";
 
   var RESPONSE_SCHEMA = {
     type: "object",
@@ -91,7 +89,7 @@
           required: ["sectionName", "questionType", "totalMarks", "obtainedMarks", "performanceLevel"]
         }
       },
-      coreConcepts: {
+      factorsAffectingPerformance: {
         type: "array",
         items: {
           type: "object",
@@ -99,23 +97,7 @@
           required: ["title", "detail"]
         }
       },
-      studyTips: {
-        type: "array",
-        items: {
-          type: "object",
-          properties: { title: { type: "string" }, detail: { type: "string" } },
-          required: ["title", "detail"]
-        }
-      },
-      strengths: {
-        type: "array",
-        items: {
-          type: "object",
-          properties: { title: { type: "string" }, detail: { type: "string" } },
-          required: ["title", "detail"]
-        }
-      },
-      areasForImprovement: {
+      improvementStrategy: {
         type: "array",
         items: {
           type: "object",
@@ -127,7 +109,7 @@
     required: [
       "studentName", "gradeSection", "subject", "examTitle", "dateOfExam",
       "totalMaxMarks", "totalMarksObtained", "sections",
-      "strengths", "areasForImprovement", "coreConcepts", "studyTips"
+      "factorsAffectingPerformance", "improvementStrategy"
     ]
   };
 
@@ -746,10 +728,8 @@
         y += 6;
       }
 
-      drawBulletSection("3. Key Strengths", rep.strengths);
-      drawBulletSection("4. Key Areas for Improvement", rep.areasForImprovement);
-      drawBulletSection("5. Core Concepts Assessed", rep.coreConcepts);
-      drawBulletSection("6. Actionable Study Tips", rep.studyTips || rep.actionableRecommendations);
+      drawBulletSection("3. Factors Affecting Performance", rep.factorsAffectingPerformance || rep["Factors Affecting Performance"]);
+      drawBulletSection("4. Improvement Strategy", rep.improvementStrategy || rep["Improvement Strategy"]);
 
       // Page numbers & confidential footer
       var totalPages = doc.internal.getNumberOfPages();
@@ -894,21 +874,13 @@
       h += "<div class='pdf-footnote'>" + esc(rep.footnote) + "</div>";
     }
 
-    // 4. Key Strengths
-    h += "<div class='pdf-sec-bar'>3. Key Strengths</div>";
-    h += renderBulletList(rep.strengths);
+    // 3. Factors Affecting Performance
+    h += "<div class='pdf-sec-bar'>3. Factors Affecting Performance</div>";
+    h += renderBulletList(rep.factorsAffectingPerformance || rep["Factors Affecting Performance"]);
 
-    // 5. Key Areas for Improvement
-    h += "<div class='pdf-sec-bar'>4. Key Areas for Improvement</div>";
-    h += renderBulletList(rep.areasForImprovement);
-
-    // 6. Core Concepts Assessed
-    h += "<div class='pdf-sec-bar'>5. Core Concepts Assessed</div>";
-    h += renderBulletList(rep.coreConcepts);
-
-    // 7. Actionable Study Tips
-    h += "<div class='pdf-sec-bar'>6. Actionable Study Tips</div>";
-    h += renderBulletList(rep.studyTips || rep.actionableRecommendations);
+    // 4. Improvement Strategy
+    h += "<div class='pdf-sec-bar'>4. Improvement Strategy</div>";
+    h += renderBulletList(rep.improvementStrategy || rep["Improvement Strategy"]);
 
     h += "<p class='ai-note'>Generated by AI (" + esc(model || "Gemini") + ").</p>";
 

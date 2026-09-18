@@ -8,6 +8,7 @@ const path = require('path');
 const api = require('./lib/reportApi.js');
 const teacherApi = require('./lib/teacherApi.js');
 const gemini = require('./lib/geminiReport.js');
+const tracker = require('./lib/apiTracker.js');
 
 const authToken = require('./lib/authToken.js');
 
@@ -248,17 +249,80 @@ app.post('/api/teacher/refresh', requireAuth, async (req, res) => {
   }
 });
 
+// API Spend & Usage Tracking (GET)
+app.get('/api/generate-report', async (req, res) => {
+  const data = tracker.getUsageData();
+  if (req.query.checkHealth === '1') {
+    const health = await gemini.checkApiHealth();
+    return res.json({ ...data, health });
+  }
+  res.json(data);
+});
+
 // AI Report Generator (Open for students & parents - supports up to 100MB file uploads)
 app.post('/api/generate-report', express.json({ limit: '150mb' }), async (req, res) => {
   try {
+    const body = req.body || {};
+
+    // Manage tracking actions
+    if (body.action) {
+      const isLocal = !req.headers.origin || req.headers.origin.startsWith('http://localhost') || req.headers.origin.startsWith('http://127.0.0.1');
+      if (!isLocal) {
+        const authHeader = (req.headers['authorization'] || '').replace(/^Bearer\s+/i, '').trim();
+        const authInfo = authToken.verify(authHeader);
+        if (!authInfo) return res.status(401).json({ error: 'Admin authentication required.' });
+      }
+
+      if (body.action === 'updateCap') {
+        const ok = tracker.updateSpendCap(body.cap);
+        if (ok) return res.json({ ok: true, data: tracker.getUsageData() });
+        return res.status(400).json({ error: 'Invalid spend cap' });
+      }
+      if (body.action === 'updateSpend') {
+        const ok = tracker.updateCurrentSpend(body.spend);
+        if (ok) return res.json({ ok: true, data: tracker.getUsageData() });
+        return res.status(400).json({ error: 'Invalid spend value' });
+      }
+      if (body.action === 'updateTotal') {
+        const ok = tracker.updateTotalRequests(body.total);
+        if (ok) return res.json({ ok: true, data: tracker.getUsageData() });
+        return res.status(400).json({ error: 'Invalid total value' });
+      }
+      if (body.action === 'clearLogs') {
+        tracker.clearLogs(body.resetCounters === true);
+        return res.json({ ok: true, data: tracker.getUsageData() });
+      }
+    }
+
     const result = await gemini.generateReport({
-      syllabus: req.body.syllabus,
-      questionPaper: req.body.questionPaper,
-      answerPaper: req.body.answerPaper,
-      notes: req.body.notes
+      syllabus: body.syllabus,
+      questionPaper: body.questionPaper,
+      answerPaper: body.answerPaper,
+      notes: body.notes
     });
+
+    if (result && !result.error) {
+      const rep = result.report || {};
+      const subjectDesc = ((rep.subject ? rep.subject : '') + (rep.studentName ? (' - ' + rep.studentName) : '')).trim() || 'AI Evaluation';
+      const tokens = (result.usage && result.usage.totalTokens) || 3500;
+      const estCost = Math.max(0.05, Math.round((tokens / 1000) * 0.03 * 100) / 100);
+      tracker.recordApiCall({
+        cost: estCost,
+        subject: subjectDesc,
+        model: result.rawModel || result.model || 'gemini-flash-latest',
+        tokens: tokens
+      });
+    }
+
     res.json(result);
   } catch (err) {
+    tracker.recordApiCall({
+      cost: 0,
+      subject: "AI Evaluation",
+      model: process.env.GEMINI_MODEL || 'gemini-flash-latest',
+      tokens: 0,
+      status: err.message && err.message.includes('prepayment') ? 'Credits Depleted' : (err.status === 429 ? 'Rate Limited' : 'Failed')
+    });
     res.status(err.status || 502).json({ error: err.message || 'Report generation failed' });
   }
 });

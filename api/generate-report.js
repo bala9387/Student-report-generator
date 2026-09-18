@@ -29,12 +29,15 @@ module.exports = async (req, res) => {
       try { body = JSON.parse(body); } catch(e) {}
     }
 
-    // Only administrative tracking actions require teacher/admin auth
+    // Only administrative tracking actions require teacher/admin auth on remote deployments
     if (body.action) {
-      const authHeader = (req.headers['authorization'] || '').replace(/^Bearer\s+/i, '').trim();
-      const authInfo = authToken.verify(authHeader);
-      if (!authInfo) {
-        return res.status(401).json({ error: 'Admin authentication required.' });
+      const isLocal = !origin || origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1');
+      if (!isLocal) {
+        const authHeader = (req.headers['authorization'] || '').replace(/^Bearer\s+/i, '').trim();
+        const authInfo = authToken.verify(authHeader);
+        if (!authInfo) {
+          return res.status(401).json({ error: 'Admin authentication required.' });
+        }
       }
     }
 
@@ -57,7 +60,7 @@ module.exports = async (req, res) => {
     }
 
     if (body.action === 'clearLogs') {
-      tracker.clearLogs();
+      tracker.clearLogs(body.resetCounters === true);
       return res.status(200).json({ ok: true, data: tracker.getUsageData() });
     }
 
@@ -69,11 +72,24 @@ module.exports = async (req, res) => {
     });
 
     if (result && !result.error) {
-      tracker.recordApiCall({ cost: 0.12, subject: "AI Evaluation" });
+      const rep = result.report || {};
+      const subjectDesc = ((rep.subject ? rep.subject : '') + (rep.studentName ? (' - ' + rep.studentName) : '')).trim() || 'AI Evaluation';
+      tracker.recordApiCall({
+        cost: 0.12,
+        subject: subjectDesc,
+        model: result.model || 'gemini-flash-latest'
+      });
     }
 
     return res.status(200).json(result);
   } catch (err) {
+    tracker.recordApiCall({
+      cost: 0,
+      subject: "AI Evaluation",
+      model: process.env.GEMINI_MODEL || 'gemini-flash-latest',
+      tokens: 0,
+      status: err.message && err.message.includes('prepayment') ? 'Credits Depleted' : (err.status === 429 ? 'Rate Limited' : 'Failed')
+    });
     return res.status(200).json({ error: err.message || 'Report generation error on server' });
   }
 };
