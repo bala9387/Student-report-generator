@@ -682,10 +682,12 @@ $("#downloadBtn").addEventListener("click", function () {
     currentPDF = { type: "slow-learners" };
     var maxTot = maxTotalMarks();
     var cutoff = (data && data.failThreshold) || (currentStudentGrade === "11" || currentStudentGrade === "XI" ? 30 : 40);
+    var minFails = (data && data.minFails != null) ? data.minFails : ((currentStudentGrade === "11" || currentStudentGrade === "XI") ? 3 : 1);
+    var failSubDesc = "more than " + minFails + (minFails === 1 ? " subject" : " subjects");
 
     var head = el("div", "rep-head");
     head.innerHTML = "<div class='rep-banner'>" + esc(BANNER) + "</div>" +
-      "<h2>Slow Learners</h2><div class='school'>Students who failed in more than 3 subjects (&lt; " + cutoff + ") &middot; Academic Year " +
+      "<h2>Slow Learners</h2><div class='school'>Students who failed in " + failSubDesc + " (&lt; " + cutoff + ") &middot; Academic Year " +
       esc(DATA.meta.academicYear) + "</div>";
     host.appendChild(head);
 
@@ -709,7 +711,7 @@ $("#downloadBtn").addEventListener("click", function () {
     });
 
     if (!data.list || data.list.length === 0) {
-      host.appendChild(el("p", "note-top", "<b>No slow learners found</b> for <b>" + esc(data.exam) + "</b> (no students failed in more than 3 subjects)."));
+      host.appendChild(el("p", "note-top", "<b>No slow learners found</b> for <b>" + esc(data.exam) + "</b> (no students failed in " + failSubDesc + ")."));
       return;
     }
 
@@ -1124,9 +1126,11 @@ $("#downloadBtn").addEventListener("click", function () {
     var doc = new jsPDF({ unit: "pt", format: "a4" });
     var data = lastSlowLearners;
     var cutoff = (data && data.failThreshold) || (currentStudentGrade === "11" || currentStudentGrade === "XI" ? 30 : 40);
+    var minFails = (data && data.minFails != null) ? data.minFails : ((currentStudentGrade === "11" || currentStudentGrade === "XI") ? 3 : 1);
+    var failSubDesc = "more than " + minFails + (minFails === 1 ? " subject" : " subjects");
     var y = pdfHeader(doc, "Slow Learners", "Academic Year " + DATA.meta.academicYear);
     doc.setFont("helvetica", "italic"); doc.setFontSize(9); doc.setTextColor(120);
-    doc.text("Students who failed in more than 3 subjects (< " + cutoff + ") as of " + data.exam + " · " + data.list.length + " students", doc.internal.pageSize.getWidth() / 2, y, { align: "center" });
+    doc.text("Students who failed in " + failSubDesc + " (< " + cutoff + ") as of " + data.exam + " · " + data.list.length + " students", doc.internal.pageSize.getWidth() / 2, y, { align: "center" });
     y += 16;
 
     var rows = data.list.map(function (s, idx) {
