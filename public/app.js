@@ -335,8 +335,13 @@ $("#downloadBtn").addEventListener("click", function () {
     return g;
   }
 
-  function markCell(val, absent, isTop) {
-    if (val == null || absent || val === "AB" || val === "ab" || val === "") return '<span class="your-mark">0</span>';
+  function markCell(val, absent, isTop, isFail) {
+    if (absent) return '<span class="your-mark is-absent" style="color:#94a3b8;">AB</span>';
+    if (val == null || val === "AB" || val === "ab" || val === "") return '<span class="your-mark">0</span>';
+    if (isFail) {
+      return '<span class="your-mark is-fail" style="color:#dc2626;font-weight:700;">' + val +
+        ' <span style="display:inline-block;padding:1px 5px;font-size:0.72em;background:rgba(220,38,38,0.1);color:#dc2626;border-radius:3px;margin-left:4px;font-weight:700;vertical-align:middle;">Fail</span></span>';
+    }
     return '<span class="your-mark' + (isTop ? " is-top" : "") + '">' + val + "</span>";
   }
   // percentage of marks obtained (one decimal, no trailing .0) e.g. 56, 63.5, 50.7
@@ -418,20 +423,25 @@ $("#downloadBtn").addEventListener("click", function () {
     var thead = "<thead><tr><th>Subject</th><th>Marks Obtained</th><th>Class Highest</th><th>Percentage</th></tr></thead>";
     var body = "<tbody>";
     
+    var isClass12 = (currentStudentGrade === "12" || currentStudentGrade === "XII" || !currentStudentGrade) ||
+                    (typeof $("#grade") !== "undefined" && $("#grade") && ($("#grade").value === "12" || $("#grade").value === "XII"));
+    var failCutoff = isClass12 ? 40 : 30;
+
     m.subjects.forEach(function (code) {
       var full = (m.subjectFull && m.subjectFull[code] && m.subjectFull[code] !== code) ? m.subjectFull[code] : getSubjectFullName(code);
       body += "<tr><td class='subj'>" + esc(full) + " <small style='color:#8a93a3'>(" + esc(code) + ")</small></td>";
       var rawVal = s.marks[exam][code];
-      var val = (rawVal == null || rawVal === "AB" || rawVal === "ab" || rawVal === "") ? 0 : rawVal;
+      var isAbsent = (rawVal === "AB" || rawVal === "ab");
+      var val = (rawVal == null || isAbsent || rawVal === "") ? 0 : rawVal;
+      var numVal = parseFloat(val) || 0;
       var cs = m.classStats[exam] && m.classStats[exam].subjects[code];
-      var isTop = cs && val > 0 && val === cs.max;
-      body += "<td>" + markCell(val, false, isTop) + "</td>";
+      var isTop = cs && numVal > 0 && numVal === cs.max;
+      var isFail = !isAbsent && rawVal !== "" && rawVal != null && numVal < failCutoff;
+      body += "<td>" + markCell(val, isAbsent, isTop, isFail) + "</td>";
       body += "<td>" + (cs && cs.max != null ? "<b>" + cs.max + "</b>" : "&mdash;") + "</td>";
       body += "<td>" + pctCell(pctObtained(val, MAXSUB)) + "</td></tr>";
     });
     
-    var isClass12 = (currentStudentGrade === "12" || currentStudentGrade === "XII" || !currentStudentGrade) ||
-                    (typeof $("#grade") !== "undefined" && $("#grade") && ($("#grade").value === "12" || $("#grade").value === "XII"));
     var hasPE = m.subjects.some(function (code) { return isPhysicalEducation(code); });
     var isTEWithPE = isClass12 && (exam === "TE 1" || exam === "TE 2") && hasPE;
     var maxTotal = isTEWithPE ? 500 : (m.subjects.length * MAXSUB);
@@ -671,10 +681,11 @@ $("#downloadBtn").addEventListener("click", function () {
     lastSlowLearners = data;
     currentPDF = { type: "slow-learners" };
     var maxTot = maxTotalMarks();
+    var cutoff = (data && data.failThreshold) || (currentStudentGrade === "11" || currentStudentGrade === "XI" ? 30 : 40);
 
     var head = el("div", "rep-head");
     head.innerHTML = "<div class='rep-banner'>" + esc(BANNER) + "</div>" +
-      "<h2>Slow Learners</h2><div class='school'>Students who failed in more than 3 subjects (&lt; 30) &middot; Academic Year " +
+      "<h2>Slow Learners</h2><div class='school'>Students who failed in more than 3 subjects (&lt; " + cutoff + ") &middot; Academic Year " +
       esc(DATA.meta.academicYear) + "</div>";
     host.appendChild(head);
 
@@ -704,7 +715,7 @@ $("#downloadBtn").addEventListener("click", function () {
 
     var scroll = el("div", "tbl-scroll");
     var tbl = el("table", "grid");
-    var h = "<thead><tr><th>#</th><th>Name</th><th>Roll No</th><th>Stream</th><th>Failed Subjects (&lt; 30)</th><th>Fails</th><th>Total Marks</th></tr></thead><tbody>";
+    var h = "<thead><tr><th>#</th><th>Name</th><th>Roll No</th><th>Stream</th><th>Failed Subjects (&lt; " + cutoff + ")</th><th>Fails</th><th>Total Marks</th></tr></thead><tbody>";
     data.list.forEach(function (s, idx) {
       var failedTags = (s.failedSubjects || []).map(function (f) {
         return '<span style="display:inline-block;margin:2px 4px;padding:2px 6px;background:rgba(220,38,38,0.1);color:#dc2626;border-radius:4px;font-weight:600;font-size:0.85em;">' +
@@ -967,22 +978,36 @@ $("#downloadBtn").addEventListener("click", function () {
 
     y = sectionBar(doc, y + 14, "Academic Performance \u00B7 marks out of " + MAXSUB + " per subject");
     
+    var isClass12 = (currentStudentGrade === "12" || currentStudentGrade === "XII" || !currentStudentGrade) ||
+                    (typeof $("#grade") !== "undefined" && $("#grade") && ($("#grade").value === "12" || $("#grade").value === "XII"));
+    var failCutoff = isClass12 ? 40 : 30;
+
     var head = ["Subject", "Marks Obtained", "Class Highest", "Percentage"];
     var rows = [];
     m.subjects.forEach(function (code) {
       var full = (m.subjectFull && m.subjectFull[code] && m.subjectFull[code] !== code) ? m.subjectFull[code] : getSubjectFullName(code);
       var r = [(full || code) + " (" + code + ")"];
       var rawVal = s.marks[exam][code];
-      var v = (rawVal == null || rawVal === "AB" || rawVal === "ab" || rawVal === "") ? 0 : rawVal;
+      var isAbsent = (rawVal === "AB" || rawVal === "ab");
+      var v = (rawVal == null || isAbsent || rawVal === "") ? 0 : rawVal;
+      var numV = parseFloat(v) || 0;
       var cs = m.classStats[exam] && m.classStats[exam].subjects[code];
-      var isTop = cs && v > 0 && v === cs.max;
-      r.push(isTop ? { text: String(v), isTop: true } : String(v));
+      var isTop = cs && numV > 0 && numV === cs.max;
+      var isFail = !isAbsent && rawVal !== "" && rawVal != null && numV < failCutoff;
+
+      if (isAbsent) {
+        r.push("AB");
+      } else if (isTop) {
+        r.push({ text: String(v), isTop: true });
+      } else if (isFail) {
+        r.push({ text: String(v) + " (Fail)", isFail: true });
+      } else {
+        r.push(String(v));
+      }
       r.push((cs && cs.max != null) ? String(cs.max) : "-");
-      r.push(Math.round(v / MAXSUB * 1000)/10 + "%");
+      r.push(Math.round(numV / MAXSUB * 1000)/10 + "%");
       rows.push(r);
     });
-    var isClass12 = (currentStudentGrade === "12" || currentStudentGrade === "XII" || !currentStudentGrade) ||
-                    (typeof $("#grade") !== "undefined" && $("#grade") && ($("#grade").value === "12" || $("#grade").value === "XII"));
     var hasPE = m.subjects.some(function (code) { return isPhysicalEducation(code); });
     var isTEWithPE = isClass12 && (exam === "TE 1" || exam === "TE 2") && hasPE;
     var maxTotal = isTEWithPE ? 500 : (m.subjects.length * MAXSUB);
@@ -1098,9 +1123,10 @@ $("#downloadBtn").addEventListener("click", function () {
     var jsPDF = window.jspdf.jsPDF;
     var doc = new jsPDF({ unit: "pt", format: "a4" });
     var data = lastSlowLearners;
+    var cutoff = (data && data.failThreshold) || (currentStudentGrade === "11" || currentStudentGrade === "XI" ? 30 : 40);
     var y = pdfHeader(doc, "Slow Learners", "Academic Year " + DATA.meta.academicYear);
     doc.setFont("helvetica", "italic"); doc.setFontSize(9); doc.setTextColor(120);
-    doc.text("Students who failed in more than 3 subjects (< 30) as of " + data.exam + " · " + data.list.length + " students", doc.internal.pageSize.getWidth() / 2, y, { align: "center" });
+    doc.text("Students who failed in more than 3 subjects (< " + cutoff + ") as of " + data.exam + " · " + data.list.length + " students", doc.internal.pageSize.getWidth() / 2, y, { align: "center" });
     y += 16;
 
     var rows = data.list.map(function (s, idx) {
@@ -1110,7 +1136,7 @@ $("#downloadBtn").addEventListener("click", function () {
     drawTable(doc, {
       startY: y, colWidths: [30, 115, 75, 95, 145, 40, 50],
       aligns: ["center", "left", "center", "center", "left", "center", "center"],
-      fontSize: 8.5, head: ["#", "Name", "Roll No", "Stream", "Failed Subjects (<30)", "Fails", "Total"], body: rows
+      fontSize: 8.5, head: ["#", "Name", "Roll No", "Stream", "Failed Subjects (<" + cutoff + ")", "Fails", "Total"], body: rows
     });
 
     doc.save("Slow_Learners_" + data.exam.replace(/\s+/g, "") + ".pdf");
@@ -1246,14 +1272,16 @@ $("#downloadBtn").addEventListener("click", function () {
         var w = colW[i];
         var text = (typeof cellData === "object" && cellData !== null) ? cellData.text : cellData;
         var isTop = (typeof cellData === "object" && cellData !== null) ? cellData.isTop : false;
+        var isFail = (typeof cellData === "object" && cellData !== null) ? cellData.isFail : false;
         doc.setFillColor.apply(doc, sty.fill);
         doc.rect(x, y, w, h, "F");
         doc.setDrawColor(217, 222, 231); doc.setLineWidth(0.75);
         doc.rect(x, y, w, h, "S");
-        var bold = sty.bold || (sty.boldFirst && i === 0) || isTop;
+        var bold = sty.bold || (sty.boldFirst && i === 0) || isTop || isFail;
         doc.setFont("helvetica", bold ? "bold" : "normal");
         doc.setFontSize(sty.fontSize);
-        doc.setTextColor.apply(doc, isTop ? [154, 106, 0] : sty.textColor);
+        var textColor = isTop ? [154, 106, 0] : (isFail ? [220, 38, 38] : sty.textColor);
+        doc.setTextColor.apply(doc, textColor);
         var align = aligns[i];
         if (isTop && align === "center") {
           var tw = doc.getTextWidth(String(text));
