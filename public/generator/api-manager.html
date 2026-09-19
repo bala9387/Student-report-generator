@@ -322,11 +322,18 @@
             var creditAlert = document.getElementById('creditAlert');
             var healthEl = document.getElementById('apiHealthVal');
             
-            // Check explicit health status or inspect recent logs
-            var isDepleted = (data.health && data.health.status === 'depleted') ||
-                             (data.logs && data.logs.length > 0 && String(data.logs[0].status).includes('Depleted'));
-            var isRateLimited = (data.health && data.health.status === 'rate_limited') ||
-                                (data.logs && data.logs.length > 0 && String(data.logs[0].status).includes('Rate'));
+            // Check explicit health status first, fallback to latest log if health check wasn't performed
+            var isDepleted = false;
+            var isRateLimited = false;
+            var isMissingKey = false;
+            if (data.health) {
+              isDepleted = data.health.status === 'depleted';
+              isRateLimited = data.health.status === 'rate_limited';
+              isMissingKey = data.health.status === 'missing_key';
+            } else if (data.logs && data.logs.length > 0) {
+              isDepleted = String(data.logs[0].status).includes('Depleted');
+              isRateLimited = String(data.logs[0].status).includes('Rate');
+            }
 
             if (creditAlert) {
               creditAlert.style.display = isDepleted ? 'flex' : 'none';
@@ -339,8 +346,11 @@
               } else if (isRateLimited) {
                 healthEl.textContent = 'Rate Limited';
                 healthEl.style.color = '#d97706';
+              } else if (isMissingKey) {
+                healthEl.textContent = 'Missing API Key';
+                healthEl.style.color = '#dc2626';
               } else {
-                healthEl.textContent = 'Active & Ready';
+                healthEl.textContent = (data.health && data.health.message) ? data.health.message : 'Active & Ready';
                 healthEl.style.color = '#059669';
               }
             }

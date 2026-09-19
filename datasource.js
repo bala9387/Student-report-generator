@@ -55,6 +55,8 @@
   var EXAMS = ["CU 1", "TE 1", "TE 2"];
   // 0-indexed start column of each exam block in a group tab (6 subjects + Total)
   var BLOCK_START = { "CU 1": 3, "TE 1": 10, "TE 2": 24 };
+  // Grade 12 has 8 columns per exam block (5 subjects + Total of 500 + PED + Total)
+  var BLOCK_START_G12 = { "CU 1": 3, "TE 1": 11, "TE 2": 27 };
   // 0-indexed (total, rank) columns per exam in the PE - Analysis tab
   var PE_COLS = { "CU 1": [6, 7], "TE 1": [8, 9], "TE 2": [12, 13] };
   var SUBJECT_FULL = {
@@ -341,13 +343,30 @@
         var roll = String(cell(row, 1)).trim();
         var name = String(cell(row, 2)).trim();
         var marks = {};
+        var isClass12 = (String(grade || "").trim() === "12" || String(grade || "").trim() === "XII" || !grade);
+        var isClass11 = (String(grade || "").trim() === "11" || String(grade || "").trim() === "XI");
+        var activeBlock = isClass12 ? BLOCK_START_G12 : BLOCK_START;
+
         EXAMS.forEach(function (ex) {
-          var base = BLOCK_START[ex]; var rm = {};
+          var base = activeBlock[ex]; var rm = {};
           var sumSubject = 0;
           var sumNonPE = 0;
           var hasSubjectMark = false;
           subjects.forEach(function (s, i) {
-            var rawCell = cell(row, base + i);
+            var colOffset = i;
+            if (isClass12) {
+              if (i < 5) {
+                colOffset = i;
+              } else if (i === 5) {
+                // 6th subject is PED / PE
+                if (modeLabel === "Bio - Maths" && (ex === "CU 1" || ex === "TE 2")) {
+                  colOffset = 5;
+                } else {
+                  colOffset = 6;
+                }
+              }
+            }
+            var rawCell = cell(row, base + colOffset);
             var isAB = String(rawCell || "").trim().toLowerCase() === "ab";
             var v = (isAB || rawCell === "" || rawCell == null) ? 0 : num(rawCell);
             if (v == null) v = 0;
@@ -361,11 +380,16 @@
               sumNonPE += v;
             }
           });
-          var isClass12 = (String(grade || "").trim() === "12" || String(grade || "").trim() === "XII" || !grade);
-          var isClass11 = (String(grade || "").trim() === "11" || String(grade || "").trim() === "XI");
+
+          if (isClass12) {
+            var t500Offset = (modeLabel === "Bio - Maths" && (ex === "CU 1" || ex === "TE 2")) ? 6 : 5;
+            var t500Val = num(cell(row, base + t500Offset));
+            rm.Total500 = t500Val != null ? t500Val : sumNonPE;
+          }
+
           var isTE = (ex === "TE 1" || ex === "TE 2");
           var hasPE = subjects.some(function (subj) { return isPhysicalEducation(subj); });
-          var tot = num(cell(row, base + 6));
+          var tot = isClass12 ? num(cell(row, base + 7)) : num(cell(row, base + 6));
           if (isClass12 && isTE && hasPE) {
             tot = sumNonPE;
           } else if (isClass11) {

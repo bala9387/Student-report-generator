@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=5.0, user-scalable=yes" />
+  <title>Question Paper Setter &middot; KSR Akshara Academy</title>
+  <link rel="stylesheet" href="/styles.css?v=37" />
+  <link rel="stylesheet" href="/teacher/teacher.css?v=16" />
+  <link rel="stylesheet" href="/teacher/paper-setter.css?v=1" />
+  <!-- Offline-capable PDF and DOCX parsers from local vendor directory -->
+  <script src="/vendor/pdf.min.js"></script>
+  <script src="/vendor/mammoth.browser.min.js"></script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="paper-setter-body">
+
+  <!-- Top Navigation Bar -->
+  <header class="ps-topbar no-print">
+    <div class="ps-brand">
+      <img src="/logo.jpg" alt="KSR Akshara Academy Logo" onerror="this.style.display='none'" />
+      <div class="ps-brand-title">
+        <strong>KSR Akshara Academy</strong>
+        <span>Question Paper Setter &middot; Multi-Set Generator</span>
+      </div>
+    </div>
+    <div class="ps-topbar-actions">
+      <a href="/teacher/" class="ps-btn-link">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        <span>Teacher Portal</span>
+      </a>
+      <a href="/generator/api-manager.html" class="ps-btn-link">API Spend</a>
+      <a href="/" class="ps-btn-link">Student Portal</a>
+    </div>
+  </header>
+
+  <main class="ps-container">
+    
+    <!-- Control & Upload Panel -->
+    <section class="ps-control-panel no-print">
+      <div class="ps-panel-header">
+        <h1>Universal AI Question Paper Setter</h1>
+        <p>Upload <strong>any</strong> question paper in <strong>PDF</strong> or <strong>Word (.docx)</strong> format &mdash; school exams, university degree papers, unit slip tests, or competitive exams across any subject and language. Our AI engine automatically detects the structure and creates balanced, shuffled sets.</p>
+        <div class="ps-rule-badges">
+          <span class="ps-rule-badge highlight">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Any Paper: Schools, Universities, Slip Tests &amp; Boards
+          </span>
+          <span class="ps-rule-badge highlight">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            MCQs: Options Shuffled &amp; Normalized
+          </span>
+          <span class="ps-rule-badge highlight">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Descriptive / Short &amp; Long Answers: Questions Shuffled
+          </span>
+          <span class="ps-rule-badge highlight">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Internal Choice (OR): Linked &amp; Preserved
+          </span>
+          <span class="ps-rule-badge">
+            Passage &amp; Case-Based: Preserved Order
+          </span>
+        </div>
+      </div>
+
+      <div class="ps-grid">
+        <!-- Dropzone -->
+        <div class="ps-dropzone" id="dropzone">
+          <input type="file" id="paperFileInput" accept=".pdf,.docx,.doc,.txt" />
+          <svg class="ps-dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="12" y1="18" x2="12" y2="12"></line>
+            <line x1="9" y1="15" x2="12" y2="12"></line>
+            <line x1="15" y1="15" x2="12" y2="12"></line>
+          </svg>
+          <div class="ps-dropzone-text">Click to browse or drag &amp; drop Question Paper</div>
+          <div class="ps-dropzone-sub">Supports <strong>PDF</strong> and Word <strong>DOCX / DOC</strong></div>
+          <div id="fileSelectedBadge" class="ps-file-selected-badge" style="display:none;"></div>
+        </div>
+
+        <!-- Settings Box -->
+        <div class="ps-settings-box">
+          <div>
+            <div class="ps-field-group">
+              <label for="numSetsSelect" class="ps-field-label">Number of Question Paper Sets</label>
+              <select id="numSetsSelect" class="ps-select">
+                <option value="2">2 Sets (Set A &amp; Set B)</option>
+                <option value="3" selected>3 Sets (Set A, Set B &amp; Set C)</option>
+                <option value="4">4 Sets (Set A, Set B, Set C &amp; Set D)</option>
+              </select>
+            </div>
+            <div style="font-size:0.8rem;color:#64748b;line-height:1.4;">
+              Each set will include the school header, exam title with set badge, instructions, and exact question tables ready for printing.
+            </div>
+          </div>
+
+          <div class="ps-actions-row">
+            <button type="button" id="generateSetsBtn" class="ps-btn-primary">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+              <span>Generate Sets</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="resultsSection" style="display:none;">
+      <div class="ps-tabs-bar no-print">
+        <div class="ps-tabs-list" id="tabsList"></div>
+        <div class="ps-set-toolbar">
+          <button type="button" id="printSetBtn" class="ps-tool-btn btn-print" title="Print this set in A4 exam sheet format or Save as PDF">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            <span>Print / Save PDF</span>
+          </button>
+          <button type="button" id="downloadDocBtn" class="ps-tool-btn" title="Download current set as Microsoft Word document">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Download Word (.doc)</span>
+          </button>
+          <button type="button" id="downloadAllBtn" class="ps-tool-btn" title="Download all sets as Word documents">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>
+            <span>Download All Sets</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Exam Paper Preview Container -->
+      <div id="paperPreview" class="exam-paper-container"></div>
+
+      <!-- Shuffling Matrix Container -->
+      <div id="matrixPreview" style="display:none;"></div>
+    </section>
+
+  </main>
+
+  <script src="/teacher/paper-setter.js?v=4"></script>
+</body>
+</html>

@@ -15,6 +15,8 @@
     { "source": "/api/teacher/forgot-password", "destination": "/api/teacher/forgot-password" },
     { "source": "/api/teacher/export-excel", "destination": "/api/teacher/marks?action=export-excel" },
     { "source": "/api/teacher/sheet-link", "destination": "/api/teacher/marks?action=sheet-link" },
+    { "source": "/api/parse-paper", "destination": "/api/parse-paper" },
+    { "source": "/teacher/paper-setter", "destination": "/teacher/paper-setter.html" },
     { "source": "/teacher", "destination": "/teacher/index.html" },
     { "source": "/teacher/", "destination": "/teacher/index.html" },
     { "source": "/generator", "destination": "/generator/index.html" },
@@ -25,6 +27,10 @@
     "api/generate-report.js": {
       "maxDuration": 60,
       "memory": 1024
+    },
+    "api/parse-paper.js": {
+      "maxDuration": 30,
+      "memory": 512
     }
   },
   "headers": [

@@ -691,7 +691,7 @@ $("#downloadBtn").addEventListener("click", function () {
 
     var head = el("div", "rep-head");
     head.innerHTML = "<div class='rep-banner'>" + esc(BANNER) + "</div>" +
-      "<h2>Slow Learners</h2><div class='school'>" + criteriaDesc + " &middot; Academic Year " +
+      "<h2>Aspiring Achievers</h2><div class='school'>" + criteriaDesc + " &middot; Academic Year " +
       esc(DATA.meta.academicYear) + "</div>";
     host.appendChild(head);
 
@@ -716,7 +716,7 @@ $("#downloadBtn").addEventListener("click", function () {
 
     if (!data.list || data.list.length === 0) {
       var noFoundDesc = minFails === 1 ? "no students failed in any subject" : "no students failed in more than 3 subjects";
-      host.appendChild(el("p", "note-top", "<b>No slow learners found</b> for <b>" + esc(data.exam) + "</b> (" + noFoundDesc + ")."));
+      host.appendChild(el("p", "note-top", "<b>No aspiring achievers found</b> for <b>" + esc(data.exam) + "</b> (" + noFoundDesc + ")."));
       return;
     }
 
@@ -1138,7 +1138,7 @@ $("#downloadBtn").addEventListener("click", function () {
       ? "Students who failed in 1 or more subjects (< " + cutoff + ")"
       : "Students who failed in more than 3 subjects (< " + cutoff + ")";
 
-    var y = pdfHeader(doc, "Slow Learners", "Academic Year " + DATA.meta.academicYear);
+    var y = pdfHeader(doc, "Aspiring Achievers", "Academic Year " + DATA.meta.academicYear);
     doc.setFont("helvetica", "italic"); doc.setFontSize(9); doc.setTextColor(120);
     doc.text(criteriaDesc + " as of " + data.exam + " · " + data.list.length + " students", doc.internal.pageSize.getWidth() / 2, y, { align: "center" });
     y += 16;
@@ -1153,7 +1153,7 @@ $("#downloadBtn").addEventListener("click", function () {
       fontSize: 8.5, head: ["#", "Name", "Roll No", "Stream", "Failed Subjects (<" + cutoff + ")", "Fails", "Total"], body: rows
     });
 
-    doc.save("Slow_Learners_" + data.exam.replace(/\s+/g, "") + ".pdf");
+    doc.save("Aspiring_Achievers_" + data.exam.replace(/\s+/g, "") + ".pdf");
   }
 
   function buildPDF(mode, student) {

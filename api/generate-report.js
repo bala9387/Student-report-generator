@@ -20,6 +20,11 @@ module.exports = async (req, res) => {
 
   if (req.method === 'GET') {
     const data = tracker.getUsageData();
+    const query = req.query || {};
+    if (query.checkHealth === '1' || (req.url && req.url.includes('checkHealth=1'))) {
+      const health = await gemini.checkApiHealth();
+      return res.status(200).json({ ...data, health });
+    }
     return res.status(200).json(data);
   }
 
@@ -83,14 +88,15 @@ module.exports = async (req, res) => {
 
     return res.status(200).json(result);
   } catch (err) {
+    const isDepleted = (err.message && err.message.includes('prepayment')) || err.status === 402;
     tracker.recordApiCall({
       cost: 0,
       subject: "AI Evaluation",
       model: process.env.GEMINI_MODEL || 'gemini-flash-latest',
       tokens: 0,
-      status: err.message && err.message.includes('prepayment') ? 'Credits Depleted' : (err.status === 429 ? 'Rate Limited' : 'Failed')
+      status: isDepleted ? 'Credits Depleted' : (err.status === 429 ? 'Rate Limited' : 'Failed')
     });
-    return res.status(200).json({ error: err.message || 'Report generation error on server' });
+    return res.status(err.status || 502).json({ error: err.message || 'Report generation error on server' });
   }
 };
 
