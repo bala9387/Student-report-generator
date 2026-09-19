@@ -27,10 +27,6 @@
     "api/generate-report.js": {
       "maxDuration": 60,
       "memory": 1024
-    },
-    "api/parse-paper.js": {
-      "maxDuration": 60,
-      "memory": 1024
     }
   },
   "headers": [
