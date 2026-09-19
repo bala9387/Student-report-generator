@@ -9,7 +9,7 @@ const api = require('./lib/reportApi.js');
 const teacherApi = require('./lib/teacherApi.js');
 const gemini = require('./lib/geminiReport.js');
 const tracker = require('./lib/apiTracker.js');
-const parsePaper = require('./api/parse-paper.js');
+const reportHandler = require('./api/generate-report.js');
 
 const authToken = require('./lib/authToken.js');
 
@@ -111,7 +111,11 @@ app.all(['/api/refresh', '/api/force-refresh'], async (req, res) => {
 });
 
 // ---------- Gemini-Powered Paper Parser ----------
-app.post('/api/parse-paper', express.json({ limit: '10mb' }), parsePaper);
+app.post('/api/parse-paper', express.json({ limit: '10mb' }), (req, res) => {
+  req.query = req.query || {};
+  req.query.action = 'parse-paper';
+  reportHandler(req, res);
+});
 
 // ---------- Teacher Portal Endpoints ----------
 app.get('/api/teacher/marks', requireAuth, async (req, res) => {
