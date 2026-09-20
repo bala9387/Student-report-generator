@@ -425,7 +425,7 @@ $("#downloadBtn").addEventListener("click", function () {
     
     var isClass12 = (currentStudentGrade === "12" || currentStudentGrade === "XII" || !currentStudentGrade) ||
                     (typeof $("#grade") !== "undefined" && $("#grade") && ($("#grade").value === "12" || $("#grade").value === "XII"));
-    var failCutoff = isClass12 ? 40 : 30;
+    var failCutoff = isClass12 ? 45 : 30;
 
     m.subjects.forEach(function (code) {
       var full = (m.subjectFull && m.subjectFull[code] && m.subjectFull[code] !== code) ? m.subjectFull[code] : getSubjectFullName(code);
@@ -683,7 +683,7 @@ $("#downloadBtn").addEventListener("click", function () {
     var maxTot = maxTotalMarks();
     var isClass12 = (currentStudentGrade === "12" || currentStudentGrade === "XII" || !currentStudentGrade) ||
                     (data && (data.grade === "12" || data.grade === "XII"));
-    var cutoff = (data && data.failThreshold) || (isClass12 ? 40 : 30);
+    var cutoff = (data && data.failThreshold) || (isClass12 ? 45 : 30);
     var minFails = (data && data.minFailsRequired != null) ? data.minFailsRequired : (isClass12 ? 1 : 4);
     var criteriaDesc = minFails === 1
       ? "Students who failed in 1 or more subjects (&lt; " + cutoff + ")"
@@ -987,7 +987,7 @@ $("#downloadBtn").addEventListener("click", function () {
     
     var isClass12 = (currentStudentGrade === "12" || currentStudentGrade === "XII" || !currentStudentGrade) ||
                     (typeof $("#grade") !== "undefined" && $("#grade") && ($("#grade").value === "12" || $("#grade").value === "XII"));
-    var failCutoff = isClass12 ? 40 : 30;
+    var failCutoff = isClass12 ? 45 : 30;
 
     var head = ["Subject", "Marks Obtained", "Class Highest", "Percentage"];
     var rows = [];
@@ -1132,7 +1132,7 @@ $("#downloadBtn").addEventListener("click", function () {
     var data = lastSlowLearners;
     var isClass12 = (currentStudentGrade === "12" || currentStudentGrade === "XII" || !currentStudentGrade) ||
                     (data && (data.grade === "12" || data.grade === "XII"));
-    var cutoff = (data && data.failThreshold) || (isClass12 ? 40 : 30);
+    var cutoff = (data && data.failThreshold) || (isClass12 ? 45 : 30);
     var minFails = (data && data.minFailsRequired != null) ? data.minFailsRequired : (isClass12 ? 1 : 4);
     var criteriaDesc = minFails === 1
       ? "Students who failed in 1 or more subjects (< " + cutoff + ")"
