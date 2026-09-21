@@ -45,7 +45,7 @@
   var OPT_LABELS = ["a", "b", "c", "d", "e"];
 
   function permuteOptions(options, setIdx, qIdx) {
-    if (!options || options.length <= 1) return options;
+    if (!options || options.length <= 1) return { options: options || [], mapping: {} };
     var len = options.length;
     // Derive a unique deterministic shift for this question + set combination
     var offset = (setIdx * 2 + qIdx * 3) % len;
@@ -60,13 +60,15 @@
         origIdx = (i + offset) % len;
       }
       var origOpt = options[origIdx];
+      var origText = (typeof origOpt === 'string') ? origOpt : (origOpt && (origOpt.text !== undefined ? origOpt.text : (origOpt.option || origOpt.value || '')));
+      var origLabel = (origOpt && origOpt.label) ? origOpt.label : (OPT_LABELS[origIdx] || String.fromCharCode(97 + origIdx));
       var newLabel = OPT_LABELS[i] || String.fromCharCode(97 + i);
       newOpts.push({
         label: newLabel,
-        text: origOpt.text,
-        originalLabel: origOpt.label || OPT_LABELS[origIdx]
+        text: String(origText || '').trim(),
+        originalLabel: origLabel
       });
-      mapping[newLabel] = origOpt.label || OPT_LABELS[origIdx];
+      mapping[newLabel] = origLabel;
     }
 
     return { options: newOpts, mapping: mapping };
@@ -458,7 +460,7 @@
       var pageText = "";
 
       content.items.forEach(function (item) {
-        if (lastY !== null && Math.abs(item.transform[5] - lastY) > 6) {
+        if (lastY !== null && Math.abs(item.transform[5] - lastY) > 9) {
           pageText += "\n";
         } else if (lastY !== null) {
           pageText += " ";
@@ -674,8 +676,10 @@
         // Options for Section A
         if (q.options && q.options.length > 0) {
           html += '    <div class="exam-options-grid">';
-          q.options.forEach(function (opt) {
-            html += '    <div class="exam-option-item"><strong>' + opt.label + ')</strong> ' + formatMathText(opt.text) + '</div>';
+          q.options.forEach(function (opt, optIdx) {
+            var lbl = (opt && opt.label) ? opt.label : String.fromCharCode(97 + optIdx);
+            var txt = (typeof opt === 'string') ? opt : (opt ? (opt.text !== undefined ? opt.text : (opt.option || opt.value || '')) : '');
+            html += '    <div class="exam-option-item"><strong>' + escapeHtml(lbl) + ')</strong> ' + formatMathText(txt) + '</div>';
           });
           html += '    </div>';
         }
@@ -697,6 +701,23 @@
 
     html += '</div>'; // outer border
     paperPreview.innerHTML = html;
+
+    // Render KaTeX math equations if KaTeX is available
+    if (window.renderMathInElement) {
+      try {
+        window.renderMathInElement(paperPreview, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false },
+            { left: '\\(', right: '\\)', display: false },
+            { left: '\\[', right: '\\]', display: true }
+          ],
+          throwOnError: false
+        });
+      } catch (err) {
+        console.warn('KaTeX auto-render note:', err);
+      }
+    }
   }
 
   function renderMatrix() {
@@ -737,7 +758,9 @@
         sec.questions.forEach(function (q) {
           html += '<tr>';
           html += '  <td><strong>Q' + q.qNo + '</strong></td>';
-          var labels = (q.options || []).map(function (o) { return o.label; }).join(', ') || 'a, b, c, d';
+          var labels = (q.options || []).map(function (o, oi) {
+            return (o && o.label) ? o.label : String.fromCharCode(97 + oi);
+          }).join(', ') || 'a, b, c, d';
           html += '  <td><span class="matrix-badge-orig">' + labels + '</span></td>';
           for (var si2 = 1; si2 < generatedSets.length; si2++) {
             var mapSrc = generatedSets[si2].mapping;
@@ -850,7 +873,9 @@
         if (q.options && q.options.length > 0) {
           bodyHtml += '  <table style="width:100%; border:none; margin-top:6px;"><tr>';
           q.options.forEach(function (opt, idx) {
-            bodyHtml += '<td style="width:50%; border:none; padding:2px 0;"><strong>' + opt.label + ')</strong> ' + formatMathText(opt.text) + '</td>';
+            var lbl = (opt && opt.label) ? opt.label : String.fromCharCode(97 + idx);
+            var txt = (typeof opt === 'string') ? opt : (opt ? (opt.text !== undefined ? opt.text : (opt.option || opt.value || '')) : '');
+            bodyHtml += '<td style="width:50%; border:none; padding:2px 0;"><strong>' + escapeHtml(lbl) + ')</strong> ' + formatMathText(txt) + '</td>';
             if (idx % 2 === 1 && idx < q.options.length - 1) bodyHtml += '</tr><tr>';
           });
           bodyHtml += '  </tr></table>';

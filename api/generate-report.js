@@ -20,8 +20,21 @@ RULES:
    - Sub-questions: If a question has sub-parts like (a), (b) or (i), (ii), keep them together in the question's "text" field so they stay as a single cohesive question unit.
    - Internal choice ("OR"): If a question provides an alternative choice (e.g., separated by "OR", "or", "अथवा", "அல்லது", "Either... or"), extract the alternative question into "orText".
    - Marks: Extract question marks (e.g., [2], [5], (10 marks), 13M) into the "marks" field as a clean number or string (e.g., "2", "5", "13").
-6. Normalize MCQ option labels to lowercase single letters: a, b, c, d, e (even if original uses A/B/C/D, 1/2/3/4, i/ii/iii/iv).
-7. Multilingual Support: If the paper is in a non-English language (Hindi, Tamil, French, Spanish, etc.), keep the question text, options, and section names in the original language. Only use English for the JSON keys.
+6. CRITICAL: Mathematical Formulas, Equations, & Scientific Symbols:
+   - Carefully preserve and transcribe ALL mathematical equations, physics expressions, chemical formulas, and units.
+   - Format formulas using standard LaTeX notation enclosed in $...$ (inline) or $$...$$ (display), for example: $\\vec{E} = 2\\hat{i} + 3\\hat{j}$, $\\Delta V = V_B - V_A$, $\\frac{1}{4\\pi\\varepsilon_0}$, $\\mu_0$, $\\theta = 30^\\circ$, etc.
+   - DO NOT leave equations blank or omit symbols! If OCR/extracted text had missing symbols (e.g., "expressed as . Find..."), reconstruct the intended standard physics/math formulas based on the question context.
+7. MCQ Options Format:
+   - For every MCQ question, each option MUST be an object with "label" and "text":
+     [
+       { "label": "a", "text": "option 1 text with LaTeX if applicable" },
+       { "label": "b", "text": "option 2 text with LaTeX if applicable" },
+       { "label": "c", "text": "option 3 text with LaTeX if applicable" },
+       { "label": "d", "text": "option 4 text with LaTeX if applicable" }
+     ]
+   - "label": single lowercase letter: "a", "b", "c", "d" (or "e").
+   - "text": the actual option text or mathematical formula. NEVER leave "text" empty or undefined!
+8. Multilingual Support: If the paper is in a non-English language (Hindi, Tamil, French, Spanish, etc.), keep the question text, options, and section names in the original language. Only use English for the JSON keys.
 
 RETURN FORMAT (strict JSON, no markdown code fences, no explanation):
 {
@@ -36,15 +49,20 @@ RETURN FORMAT (strict JSON, no markdown code fences, no explanation):
   "sections": [
     {
       "name": "Section A",
-      "description": "short description like '10 Short Answer Questions of 2 marks each'",
-      "shuffleType": "options | questions | none",
+      "description": "short description like '16 Multiple Choice Questions of 1 mark each'",
+      "shuffleType": "options",
       "marksPerQ": "1",
       "questions": [
         {
           "qNo": 1,
-          "text": "full question text",
-          "marks": "2",
-          "options": [],
+          "text": "An electric field is expressed as $\\\\vec{E} = 2\\\\hat{i} + 3\\\\hat{j}$. Find the potential difference...",
+          "marks": "1",
+          "options": [
+            { "label": "a", "text": "10 V" },
+            { "label": "b", "text": "-10 V" },
+            { "label": "c", "text": "20 V" },
+            { "label": "d", "text": "-20 V" }
+          ],
           "orText": null
         }
       ]
@@ -65,7 +83,7 @@ async function handleParsePaper(req, res, body) {
     return res.status(500).json({ error: 'GEMINI_API_KEY not configured on server.' });
   }
 
-  const model = process.env.GEMINI_MODEL || 'gemini-flash-latest';
+  const model = process.env.PAPER_SETTER_MODEL || process.env.GEMINI_PAPER_MODEL || 'gemini-3.8-flash';
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
 
   const requestBody = {
@@ -152,11 +170,26 @@ async function handleParsePaper(req, res, body) {
       }
       sec.questions.forEach((q, qIdx) => {
         if (!q.qNo) q.qNo = qIdx + 1;
-        if (!q.options) q.options = [];
         if (q.orText === undefined) q.orText = null;
-        q.options.forEach((opt, i) => {
-          opt.label = String.fromCharCode(97 + i);
-        });
+
+        // Robust option normalization
+        if (!Array.isArray(q.options)) {
+          q.options = [];
+        } else {
+          q.options = q.options.map((opt, i) => {
+            const defaultLabel = String.fromCharCode(97 + i);
+            if (typeof opt === 'string') {
+              // Strip prefix like "a)", "(a)", "a.", "A."
+              const cleanText = opt.replace(/^[(\[]?[a-eA-E0-9][\.\)\:\-\]]\s*/, '').trim();
+              return { label: defaultLabel, text: cleanText || opt.trim() };
+            } else if (opt && typeof opt === 'object') {
+              const lbl = (opt.label || opt.key || defaultLabel).toString().toLowerCase().replace(/[\.\)\:\(\[\]]/g, '').trim();
+              const text = opt.text !== undefined ? opt.text : (opt.value || opt.option || opt.content || '');
+              return { label: lbl || defaultLabel, text: String(text).trim() };
+            }
+            return { label: defaultLabel, text: String(opt || '').trim() };
+          });
+        }
       });
     });
 
