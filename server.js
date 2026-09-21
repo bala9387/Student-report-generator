@@ -57,9 +57,18 @@ function requireAuth(req, res, next) {
 }
 
 const PUBLIC_DIR = path.join(__dirname, 'public');
-app.get(['/', '/index.html'], (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'index.html')));
-app.get('/app.js', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'app.js')));
-app.get('/styles.css', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'styles.css')));
+app.get(['/', '/index.html'], (req, res) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
+});
+app.get('/app.js', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.sendFile(path.join(PUBLIC_DIR, 'app.js'));
+});
+app.get('/styles.css', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.sendFile(path.join(PUBLIC_DIR, 'styles.css'));
+});
 app.get('/logo.jpg', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'logo.jpg')));
 app.use('/vendor', express.static(path.join(PUBLIC_DIR, 'vendor')));
 app.use('/generator', express.static(path.join(PUBLIC_DIR, 'generator')));

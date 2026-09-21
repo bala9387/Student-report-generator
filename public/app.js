@@ -803,7 +803,14 @@
     host.innerHTML = "";
 
     $("#downloadBtn").style.display = "none";
-    if ($("#downloadLandscapeBtn")) $("#downloadLandscapeBtn").style.display = "inline-flex";
+    var dlBtn = $("#downloadLandscapeBtn");
+    if (dlBtn) {
+      var gradeStr = (data.grade === "10" || data.grade === "X") ? "Class_10" : ((data.grade === "11" || data.grade === "XI") ? "Class_11" : "Class_12");
+      var fileName = gradeStr + "_" + (data.sectionName || "Section").replace(/\s+/g, "_") + "_" + (data.exam || "Exam").replace(/\s+/g, "") + "_MarkSheet_Landscape.pdf";
+      dlBtn.href = "/api/section-pdf?grade=" + encodeURIComponent(data.grade) + "&section=" + encodeURIComponent(data.sectionKey) + "&exam=" + encodeURIComponent(data.exam) + "&_t=" + Date.now();
+      dlBtn.setAttribute("download", fileName);
+      dlBtn.style.display = "inline-flex";
+    }
 
     var gradeDisplay = (data.grade === "10" || data.grade === "X") ? "Class 10" : ((data.grade === "11" || data.grade === "XI") ? "Class 11" : "Class 12");
     var head = el("div", "rep-head");
@@ -1167,67 +1174,19 @@
   function savePdf(doc, filename) {
     var name = filename.endsWith(".pdf") ? filename : (filename + ".pdf");
     try {
-      var base64 = doc.output("datauristring");
-      if (base64) {
-        var iframe = document.getElementById("pdf_download_frame");
-        if (!iframe) {
-          iframe = document.createElement("iframe");
-          iframe.id = "pdf_download_frame";
-          iframe.name = "pdf_download_frame";
-          iframe.style.display = "none";
-          document.body.appendChild(iframe);
-        }
-        var form = document.createElement("form");
-        form.method = "POST";
-        form.action = "/api/download-pdf";
-        form.target = "pdf_download_frame";
-        form.style.display = "none";
-
-        var fnInput = document.createElement("input");
-        fnInput.type = "hidden";
-        fnInput.name = "filename";
-        fnInput.value = name;
-        form.appendChild(fnInput);
-
-        var dataInput = document.createElement("input");
-        dataInput.type = "hidden";
-        dataInput.name = "base64";
-        dataInput.value = base64;
-        form.appendChild(dataInput);
-
-        document.body.appendChild(form);
-        form.submit();
-        setTimeout(function () {
-          try { document.body.removeChild(form); } catch (e) {}
-        }, 1500);
-        return;
-      }
-    } catch (err) {
-      console.warn("Server bounce download failed, using client fallback:", err);
-    }
-
-    try {
-      var blob = doc.output("blob");
-      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-        window.navigator.msSaveOrOpenBlob(blob, name);
-        return;
-      }
-      var url = URL.createObjectURL(blob);
+      var dataUri = doc.output("datauristring");
       var a = document.createElement("a");
-      a.style.display = "none";
-      a.href = url;
+      a.href = dataUri;
       a.setAttribute("download", name);
-      a.rel = "";
-      a.target = "_self";
+      a.style.display = "none";
       document.body.appendChild(a);
       a.click();
       setTimeout(function () {
-        try {
-          document.body.removeChild(a);
-          URL.revokeObjectURL(url);
-        } catch (err) {}
-      }, 1500);
+        try { document.body.removeChild(a); } catch (e) {}
+      }, 1000);
+      return;
     } catch (e) {
+      console.warn("savePdf datauristring error, falling back to doc.save:", e);
       doc.save(name);
     }
   }
@@ -1469,261 +1428,20 @@
 
   function buildSectionLandscapePDF() {
     if (!lastSectionData) return;
-    var jsPDF = window.jspdf.jsPDF;
-    var doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
     var data = lastSectionData;
-    var pageW = doc.internal.pageSize.getWidth();
-    var pageH = doc.internal.pageSize.getHeight();
-
-    function drawLandscapeHeader() {
-      doc.setFillColor(209, 213, 219); doc.rect(0, 0, pageW, 8, "F");
-      doc.setFillColor(183, 22, 28); doc.rect(0, 0, pageW, 6, "F");
-
-      doc.setFont("helvetica", "bold"); doc.setFontSize(10.5); doc.setTextColor(20, 30, 48);
-      doc.text(BANNER, pageW / 2, 26, { align: "center" });
-
-      var gradeDisplay = (data.grade === "10" || data.grade === "X") ? "Class 10" : ((data.grade === "11" || data.grade === "XI") ? "Class 11" : "Class 12");
-      doc.setFont("helvetica", "bold"); doc.setFontSize(16); doc.setTextColor(183, 22, 28);
-      doc.text(gradeDisplay + " — " + data.sectionName + " Mark Sheet", pageW / 2, 44, { align: "center" });
-
-      doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.setTextColor(90);
-      var year = (DATA && DATA.meta && DATA.meta.academicYear) || "2026 - 2027";
-      var subText = "Academic Year " + year + "  ·  Exam: " + data.exam + "  ·  Total Students: " + data.students.length + "  ·  Generated: " + today();
-      doc.text(subText, pageW / 2, 58, { align: "center" });
-    }
-
-    var startY = 70;
-    var x0 = 35;
-    var usableW = pageW - x0 * 2;
-
-    var hasPed = !!data.hasPed;
-    var subs = data.subjects || [];
-    var nSubs = subs.length || 1;
-    var trailingW = hasPed ? 164 : 65;
-    var subColW = Math.floor((usableW - 300 - trailingW) / nSubs);
-
-    var colWidths = [24, 56, 135, 85];
-    var aligns = ["center", "center", "left", "left"];
-    var headRow = ["#", "Roll No", "Student Name", "Stream"];
-
-    subs.forEach(function (s) {
-      colWidths.push(subColW);
-      aligns.push("center");
-      headRow.push(s);
-    });
-
-    if (hasPed) {
-      colWidths.push(62, 40, 62);
-      aligns.push("center", "center", "center");
-      headRow.push("Total (500)", "PED", "Grand Total");
-    } else {
-      colWidths.push(65);
-      aligns.push("center");
-      headRow.push("Total");
-    }
-
-    var sumColW = colWidths.reduce(function (a, b) { return a + b; }, 0);
-    var diff = usableW - sumColW;
-    if (diff !== 0) {
-      colWidths[2] += diff;
-    }
-
-    var headH = 20;
-    var rowH = 15.5;
-    var y = startY;
-
-    function renderTableRow(cells, h, isHeader, isEven) {
-      var x = x0;
-      cells.forEach(function (cellData, i) {
-        var w = colWidths[i];
-        var text = (typeof cellData === "object" && cellData !== null) ? cellData.text : cellData;
-        var isFail = (typeof cellData === "object" && cellData !== null) ? cellData.isFail : false;
-
-        if (isHeader) {
-          doc.setFillColor(241, 245, 249);
-        } else if (isEven) {
-          doc.setFillColor(248, 250, 252);
-        } else {
-          doc.setFillColor(255, 255, 255);
-        }
-        doc.rect(x, y, w, h, "F");
-
-        doc.setDrawColor(218, 222, 230);
-        doc.setLineWidth(0.5);
-        doc.rect(x, y, w, h, "S");
-
-        var bold = isHeader || isFail || (i === 0);
-        doc.setFont("helvetica", bold ? "bold" : "normal");
-        doc.setFontSize(isHeader ? 8 : 7.5);
-        var textColor = isHeader ? [30, 41, 59] : (isFail ? [220, 38, 38] : [30, 35, 45]);
-        doc.setTextColor.apply(doc, textColor);
-
-        var align = isHeader ? "center" : aligns[i];
-        var pad = 4;
-        var tx = align === "left" ? x + pad : (align === "right" ? x + w - pad : x + w / 2);
-        doc.text(String(text != null ? text : "-"), tx, y + h / 2 + 0.5, { align: align, baseline: "middle" });
-        x += w;
-      });
-      y += h;
-    }
-
-    drawLandscapeHeader();
-    renderTableRow(headRow, headH, true, false);
-
-    var failCutoff = (data.exam === "CU 1") ? 35 : ((data.grade === "12") ? 45 : 30);
-    data.students.forEach(function (st, idx) {
-      if (y + rowH > pageH - 28) {
-        doc.addPage();
-        y = 70;
-        drawLandscapeHeader();
-        renderTableRow(headRow, headH, true, false);
-      }
-
-      var rowCells = [
-        String(idx + 1),
-        st.rollNo || "-",
-        st.name || "-",
-        domainLabel(st.stream || "")
-      ];
-
-      subs.forEach(function (sub) {
-        var raw = (st.marks && st.marks[sub] != null && st.marks[sub] !== "") ? st.marks[sub] : "-";
-        var isFail = false;
-        var numV = parseFloat(raw);
-        if (!isNaN(numV) && raw !== "-" && String(raw).toUpperCase() !== "AB") {
-          if (numV < failCutoff) isFail = true;
-        }
-        rowCells.push(isFail ? { text: String(raw), isFail: true } : String(raw));
-      });
-
-      if (hasPed) {
-        var tot500 = st.total500 != null ? String(st.total500) : "-";
-        var ped = st.ped != null ? String(st.ped) : "-";
-        var grandTot = st.total != null ? String(st.total) : "-";
-        rowCells.push(tot500, ped, grandTot);
-      } else {
-        var tot = st.total != null ? String(st.total) : "-";
-        rowCells.push(tot);
-      }
-
-      renderTableRow(rowCells, rowH, false, idx % 2 === 1);
-    });
-
-    // Render the 6 summary statistic rows (Present, Absent, Failure, Average, Max, Min)
-    var stats = data.stats || null;
-    if (stats) {
-      var statRowsConfig = [
-        { label: "No. of Student Present", key: "present" },
-        { label: "No. of Student Absent", key: "absent" },
-        { label: "No. of Student Failure", key: "failure" },
-        { label: "Subject Average", key: "average" },
-        { label: "Maximum Mark", key: "max" },
-        { label: "Minimum Mark", key: "min" }
-      ];
-
-      var labelW = colWidths[0] + colWidths[1] + colWidths[2] + colWidths[3];
-
-      statRowsConfig.forEach(function (cfg) {
-        if (y + rowH > pageH - 28) {
-          doc.addPage();
-          y = 70;
-          drawLandscapeHeader();
-          renderTableRow(headRow, headH, true, false);
-        }
-
-        var x = x0;
-
-        // Merged label cell across #, Roll, Name, Stream
-        doc.setFillColor(255, 255, 255);
-        doc.rect(x, y, labelW, rowH, "F");
-        doc.setDrawColor(218, 222, 230);
-        doc.setLineWidth(0.5);
-        doc.rect(x, y, labelW, rowH, "S");
-
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(7.5);
-        doc.setTextColor(192, 0, 0); // Bold dark red (#c00000)
-        doc.text(cfg.label, x + labelW - 6, y + rowH / 2 + 0.5, { align: "right", baseline: "middle" });
-        x += labelW;
-
-        // Subject columns
-        subs.forEach(function (sub, sIdx) {
-          var w = colWidths[4 + sIdx];
-          doc.setFillColor(255, 255, 255);
-          doc.rect(x, y, w, rowH, "F");
-          doc.setDrawColor(218, 222, 230);
-          doc.setLineWidth(0.5);
-          doc.rect(x, y, w, rowH, "S");
-
-          var val = stats[cfg.key] && stats[cfg.key][sub] != null ? stats[cfg.key][sub] : "-";
-          doc.setFont("helvetica", "normal");
-          doc.setFontSize(7.5);
-          doc.setTextColor(40, 45, 55);
-          doc.text(String(val), x + w / 2, y + rowH / 2 + 0.5, { align: "center", baseline: "middle" });
-          x += w;
-        });
-
-        if (hasPed) {
-          // Total (500) column (empty cell)
-          var wTot500 = colWidths[4 + subs.length];
-          doc.setFillColor(255, 255, 255);
-          doc.rect(x, y, wTot500, rowH, "F");
-          doc.setDrawColor(218, 222, 230);
-          doc.setLineWidth(0.5);
-          doc.rect(x, y, wTot500, rowH, "S");
-          x += wTot500;
-
-          // PED column
-          var wPed = colWidths[5 + subs.length];
-          doc.setFillColor(255, 255, 255);
-          doc.rect(x, y, wPed, rowH, "F");
-          doc.setDrawColor(218, 222, 230);
-          doc.setLineWidth(0.5);
-          doc.rect(x, y, wPed, rowH, "S");
-
-          var pedVal = stats[cfg.key] && stats[cfg.key]["PED"] != null ? stats[cfg.key]["PED"] : "-";
-          doc.setFont("helvetica", "normal");
-          doc.setFontSize(7.5);
-          doc.setTextColor(40, 45, 55);
-          doc.text(String(pedVal), x + wPed / 2, y + rowH / 2 + 0.5, { align: "center", baseline: "middle" });
-          x += wPed;
-
-          // Grand Total column (empty cell)
-          var wGrandTot = colWidths[6 + subs.length];
-          doc.setFillColor(255, 255, 255);
-          doc.rect(x, y, wGrandTot, rowH, "F");
-          doc.setDrawColor(218, 222, 230);
-          doc.setLineWidth(0.5);
-          doc.rect(x, y, wGrandTot, rowH, "S");
-          x += wGrandTot;
-        } else {
-          // Total column (empty cell)
-          var wTot = colWidths[4 + subs.length];
-          doc.setFillColor(255, 255, 255);
-          doc.rect(x, y, wTot, rowH, "F");
-          doc.setDrawColor(218, 222, 230);
-          doc.setLineWidth(0.5);
-          doc.rect(x, y, wTot, rowH, "S");
-          x += wTot;
-        }
-
-        y += rowH;
-      });
-    }
-
-    if (y + 20 <= pageH - 15) {
-      doc.setFont("helvetica", "italic");
-      doc.setFontSize(7.5);
-      doc.setTextColor(120);
-      var note = hasPed
-        ? "* Red indicates mark < " + failCutoff + ". Total (500) excludes Physical Education (PED). Grand Total includes all evaluated subjects."
-        : "* Red indicates mark < " + failCutoff + ". Total includes all evaluated subjects.";
-      doc.text(note, x0, y + 14);
-    }
-
     var gradeStr = (data.grade === "10" || data.grade === "X") ? "Class_10" : ((data.grade === "11" || data.grade === "XI") ? "Class_11" : "Class_12");
-    var fileName = gradeStr + "_" + data.sectionName.replace(/\s+/g, "_") + "_" + (data.exam || "Exam").replace(/\s+/g, "") + "_MarkSheet_Landscape.pdf";
-    savePdf(doc, fileName);
+    var fileName = gradeStr + "_" + (data.sectionName || "Section").replace(/\s+/g, "_") + "_" + (data.exam || "Exam").replace(/\s+/g, "") + "_MarkSheet_Landscape.pdf";
+    var url = "/api/section-pdf?grade=" + encodeURIComponent(data.grade) + "&section=" + encodeURIComponent(data.sectionKey) + "&exam=" + encodeURIComponent(data.exam) + "&_t=" + Date.now();
+
+    var a = document.createElement("a");
+    a.href = url;
+    a.setAttribute("download", fileName);
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () {
+      try { document.body.removeChild(a); } catch (e) {}
+    }, 1000);
   }
 
   function buildPDF(mode, student) {

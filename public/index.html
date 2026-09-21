@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=5.0, user-scalable=yes" />
   <title>Student Performance Report</title>
-  <link rel="stylesheet" href="styles.css?v=43" />
+  <link rel="stylesheet" href="styles.css?v=60" />
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="landing-body">
@@ -176,10 +176,10 @@
           <svg viewBox="0 0 24 24" class="btn-ic"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
           <span>Download PDF</span>
         </button>
-        <button id="downloadLandscapeBtn" class="btn-primary" style="display:none;background:#047857;border-color:#065f46;">
+        <a id="downloadLandscapeBtn" class="btn-primary" style="display:none;background:#047857;border-color:#065f46;text-decoration:none;align-items:center;width:auto;" href="/api/section-pdf?grade=12&section=H&exam=TE%201" download="Class_12_Harmony_TE1_MarkSheet_Landscape.pdf">
           <svg viewBox="0 0 24 24" class="btn-ic"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
           <span>Download PDF (Landscape)</span>
-        </button>
+        </a>
         <button id="printBtn" class="btn-ghost">
           <svg viewBox="0 0 24 24" class="btn-ic"><path d="M6 9V3h12v6"/><rect x="5" y="9" width="14" height="7" rx="1"/><path d="M8 16h8v5H8z"/></svg>
           <span>Print</span>
@@ -257,6 +257,6 @@
   <!-- data.js / datasource.js are backend-only now (see server.js) — the browser
        never talks to Google Sheets directly and never sees the sheet ID. -->
   <script src="vendor/jspdf.umd.min.js"></script>
-  <script src="app.js?v=53"></script>
+  <script src="app.js?v=60"></script>
 </body>
 </html>
