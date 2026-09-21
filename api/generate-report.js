@@ -2,75 +2,134 @@ const gemini = require('../lib/geminiReport.js');
 const tracker = require('../lib/apiTracker.js');
 const authToken = require('../lib/authToken.js');
 
-const PARSE_PROMPT = `You are a universal question paper parser for school, high school, competitive exam, and university examinations across any educational board worldwide.
-
-Your task: Given the raw text extracted from a question paper (exam/test paper), return a **strictly valid JSON** object representing the paper's complete structure.
+const PARSE_PROMPT = `You are a universal question paper parser. Given raw text from a question paper, return a strictly valid JSON object with the paper's complete structure.
 
 RULES:
-1. Header Detection: Detect the school/institution/university name, exam title, date, grade/class/semester, total marks, subject, and duration from the paper header. If any field is missing, use an empty string "" (or sensible fallback).
-2. Sections Detection: Identify ALL sections in the paper. Sections may be named "Section A/B/C", "Part A/B/C", "Unit 1/2/3", "खण्ड क/ख", "பகுதி அ/ஆ", or any other convention.
-   - If the paper has NO explicit section headers (e.g., slip tests or single-section papers), group all questions under a single section named "Section A" or "Questions".
-3. Section Shuffle Classification:
-   - "options" → ONLY if the section predominantly contains MCQs (multiple choice questions with options like a/b/c/d or A/B/C/D or i/ii/iii/iv or 1/2/3/4).
-   - "questions" → if the section contains short answer, long answer, numerical, essay, or descriptive questions that can be reordered across sets.
-   - "none" → if the section contains reading passages, case studies, source-based scenarios, or comprehension questions with dependent sub-parts that should NOT be reordered.
-4. Non-MCQ & Subjective Papers: If the paper has NO MCQs (e.g., descriptive, university degree, essay, or numerical problem papers), classify those sections as "questions". Set "options": [] (empty array). NEVER invent or fabricate options if none exist in the original paper!
-5. Question Extraction:
-   - Extract every question with its sequential number (qNo: 1, 2, 3...), full text, and marks.
-   - Sub-questions: If a question has sub-parts like (a), (b) or (i), (ii), keep them together in the question's "text" field so they stay as a single cohesive question unit.
-   - Internal choice ("OR"): If a question provides an alternative choice (e.g., separated by "OR", "or", "अथवा", "அல்லது", "Either... or"), extract the alternative question into "orText".
-   - Marks: Extract question marks (e.g., [2], [5], (10 marks), 13M) into the "marks" field as a clean number or string (e.g., "2", "5", "13").
-6. CRITICAL: Mathematical Formulas, Equations, & Scientific Symbols:
-   - Carefully preserve and transcribe ALL mathematical equations, physics expressions, chemical formulas, and units.
-   - Format formulas using standard LaTeX notation enclosed in $...$ (inline) or $$...$$ (display), for example: $\\vec{E} = 2\\hat{i} + 3\\hat{j}$, $\\Delta V = V_B - V_A$, $\\frac{1}{4\\pi\\varepsilon_0}$, $\\mu_0$, $\\theta = 30^\\circ$, etc.
-   - DO NOT leave equations blank or omit symbols! If OCR/extracted text had missing symbols (e.g., "expressed as . Find..."), reconstruct the intended standard physics/math formulas based on the question context.
-7. MCQ Options Format:
-   - For every MCQ question, each option MUST be an object with "label" and "text":
-     [
-       { "label": "a", "text": "option 1 text with LaTeX if applicable" },
-       { "label": "b", "text": "option 2 text with LaTeX if applicable" },
-       { "label": "c", "text": "option 3 text with LaTeX if applicable" },
-       { "label": "d", "text": "option 4 text with LaTeX if applicable" }
-     ]
-   - "label": single lowercase letter: "a", "b", "c", "d" (or "e").
-   - "text": the actual option text or mathematical formula. NEVER leave "text" empty or undefined!
-8. Multilingual Support: If the paper is in a non-English language (Hindi, Tamil, French, Spanish, etc.), keep the question text, options, and section names in the original language. Only use English for the JSON keys.
+1. Header: Detect school name, exam title, date, grade/class, total marks, subject, duration. Each must be a separate field. If missing, use "".
+2. Sections: Find ALL sections (Section A/B/C/D/E, Part A/B, etc). If no section headers exist, put all questions under one section.
+3. shuffleType: "options" for MCQ sections, "questions" for short/long answer sections, "none" for case-based/passage sections.
+4. CRITICAL - Extract EVERY question: Each question must have qNo (integer), text (full question), marks (string), options (array of {label, text} objects for MCQs, empty [] for non-MCQs), orText (alternative question text or null).
+5. MCQ options: Each option = {"label": "a", "text": "the option text"}. Labels: a, b, c, d. NEVER leave text empty!
+6. Math/Science: Use LaTeX in $...$ for formulas. E.g. $\\vec{E}$, $\\frac{1}{2}mv^2$, $\\theta = 30°$. Reconstruct missing symbols from context.
+7. DO NOT skip any questions. The total question count must match the original paper.
 
-RETURN FORMAT (strict JSON, no markdown code fences, no explanation):
-{
-  "schoolName": "string",
-  "examTitle": "string", 
-  "date": "string",
-  "grade": "string",
-  "marks": "string",
-  "subject": "string",
-  "duration": "string",
-  "instructions": ["string array of general instructions"],
-  "sections": [
-    {
-      "name": "Section A",
-      "description": "short description like '16 Multiple Choice Questions of 1 mark each'",
-      "shuffleType": "options",
-      "marksPerQ": "1",
-      "questions": [
-        {
-          "qNo": 1,
-          "text": "An electric field is expressed as $\\\\vec{E} = 2\\\\hat{i} + 3\\\\hat{j}$. Find the potential difference...",
-          "marks": "1",
-          "options": [
-            { "label": "a", "text": "10 V" },
-            { "label": "b", "text": "-10 V" },
-            { "label": "c", "text": "20 V" },
-            { "label": "d", "text": "-20 V" }
-          ],
-          "orText": null
-        }
-      ]
+IMPORTANT: Return ONLY valid JSON. No markdown, no explanations.`;
+
+// responseSchema forces Gemini to produce all required fields
+const PARSE_RESPONSE_SCHEMA = {
+  type: "OBJECT",
+  properties: {
+    schoolName: { type: "STRING" },
+    examTitle: { type: "STRING" },
+    date: { type: "STRING" },
+    grade: { type: "STRING" },
+    marks: { type: "STRING" },
+    subject: { type: "STRING" },
+    duration: { type: "STRING" },
+    instructions: { type: "ARRAY", items: { type: "STRING" } },
+    sections: {
+      type: "ARRAY",
+      items: {
+        type: "OBJECT",
+        properties: {
+          name: { type: "STRING" },
+          description: { type: "STRING" },
+          shuffleType: { type: "STRING" },
+          marksPerQ: { type: "STRING" },
+          questions: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: {
+                qNo: { type: "INTEGER" },
+                text: { type: "STRING" },
+                marks: { type: "STRING" },
+                options: {
+                  type: "ARRAY",
+                  items: {
+                    type: "OBJECT",
+                    properties: {
+                      label: { type: "STRING" },
+                      text: { type: "STRING" }
+                    },
+                    required: ["label", "text"]
+                  }
+                },
+                orText: { type: "STRING", nullable: true }
+              },
+              required: ["qNo", "text", "marks", "options"]
+            }
+          }
+        },
+        required: ["name", "shuffleType", "questions"]
+      }
     }
-  ]
-}
+  },
+  required: ["schoolName", "examTitle", "sections"]
+};
 
-IMPORTANT: Return ONLY the JSON object. No markdown code fences, no explanations, no extra text.`;
+async function callGeminiParsePaper(apiKey, model, text) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+
+  const requestBody = {
+    contents: [{
+      parts: [
+        { text: PARSE_PROMPT },
+        { text: "Here is the raw text extracted from the question paper:\n\n---\n" + text.slice(0, 80000) + "\n---" }
+      ]
+    }],
+    generationConfig: {
+      temperature: 0.1,
+      maxOutputTokens: 60000,
+      responseMimeType: "application/json",
+      responseSchema: PARSE_RESPONSE_SCHEMA
+    }
+  };
+
+  console.log('[parse-paper] Using model:', model);
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(requestBody)
+  });
+
+  if (!response.ok) {
+    const errBody = await response.text();
+    console.error('[parse-paper] Gemini error with model ' + model + ':', response.status, errBody.slice(0, 500));
+    const err = new Error('Gemini API error: ' + response.status);
+    err.status = response.status;
+    err.body = errBody;
+    throw err;
+  }
+
+  const data = await response.json();
+  const candidate = data.candidates && data.candidates[0];
+  if (!candidate || !candidate.content || !candidate.content.parts) {
+    throw new Error('No valid response from Gemini (model: ' + model + ')');
+  }
+
+  const rawJson = candidate.content.parts.map(p => p.text || '').join('');
+  let parsed;
+  try {
+    parsed = JSON.parse(rawJson);
+  } catch (e1) {
+    const jsonMatch = rawJson.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if (jsonMatch) {
+      parsed = JSON.parse(jsonMatch[1].trim());
+    } else {
+      throw new Error('Invalid JSON from Gemini');
+    }
+  }
+
+  // Count total questions
+  let totalQ = 0;
+  if (parsed.sections && Array.isArray(parsed.sections)) {
+    parsed.sections.forEach(s => { totalQ += (s.questions && Array.isArray(s.questions)) ? s.questions.length : 0; });
+  }
+  console.log('[parse-paper] Model', model, 'returned', (parsed.sections || []).length, 'sections,', totalQ, 'questions');
+
+  return parsed;
+}
 
 async function handleParsePaper(req, res, body) {
   const { text } = body || {};
@@ -83,65 +142,59 @@ async function handleParsePaper(req, res, body) {
     return res.status(500).json({ error: 'GEMINI_API_KEY not configured on server.' });
   }
 
-  const model = process.env.PAPER_SETTER_MODEL || process.env.GEMINI_PAPER_MODEL || 'gemini-3.8-flash';
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+  // Model fallback chain: PAPER_SETTER_MODEL → GEMINI_MODEL → gemini-3.8-flash → gemini-flash-latest
+  const primaryModel = process.env.PAPER_SETTER_MODEL || process.env.GEMINI_MODEL || 'gemini-3.8-flash';
+  const fallbackModels = ['gemini-3.8-flash', 'gemini-flash-latest', 'gemini-3.5-flash'].filter(m => m !== primaryModel);
 
-  const requestBody = {
-    contents: [{
-      parts: [
-        { text: PARSE_PROMPT },
-        { text: "Here is the raw text extracted from the question paper:\n\n---\n" + text.slice(0, 80000) + "\n---" }
-      ]
-    }],
-    generationConfig: {
-      temperature: 0.1,
-      maxOutputTokens: 30000,
-      responseMimeType: "application/json"
+  let parsed = null;
+  let lastError = null;
+
+  // Try primary model first
+  try {
+    parsed = await callGeminiParsePaper(apiKey, primaryModel, text);
+  } catch (err) {
+    console.error('[parse-paper] Primary model failed:', primaryModel, err.message);
+    lastError = err;
+
+    // Check for billing/rate limit errors before trying fallback
+    if (err.status === 402 || (err.body && (err.body.includes('prepayment') || err.body.includes('billing')))) {
+      return res.status(402).json({ error: 'API credits depleted. Please add funds or use a free-tier project.' });
     }
-  };
+  }
+
+  // If primary failed or returned 0 questions, try fallback models
+  if (!parsed || !parsed.sections || parsed.sections.every(s => !s.questions || s.questions.length === 0)) {
+    if (parsed) {
+      console.log('[parse-paper] Primary model returned 0 questions, trying fallback models...');
+    }
+    for (const fallbackModel of fallbackModels) {
+      try {
+        const fallbackParsed = await callGeminiParsePaper(apiKey, fallbackModel, text);
+        let fallbackQ = 0;
+        if (fallbackParsed.sections) {
+          fallbackParsed.sections.forEach(s => { fallbackQ += (s.questions || []).length; });
+        }
+        if (fallbackQ > 0) {
+          parsed = fallbackParsed;
+          console.log('[parse-paper] Fallback model', fallbackModel, 'succeeded with', fallbackQ, 'questions');
+          break;
+        }
+      } catch (fallbackErr) {
+        console.error('[parse-paper] Fallback model failed:', fallbackModel, fallbackErr.message);
+        lastError = fallbackErr;
+      }
+    }
+  }
+
+  if (!parsed) {
+    if (lastError && lastError.status === 429) {
+      return res.status(429).json({ error: 'Rate limited. Please wait a moment and try again.' });
+    }
+    return res.status(502).json({ error: 'All models failed to parse the paper. ' + (lastError ? lastError.message : '') });
+  }
 
   try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(requestBody)
-    });
-
-    if (!response.ok) {
-      const errBody = await response.text();
-      console.error('[parse-paper] Gemini error:', response.status, errBody);
-      if (response.status === 402 || errBody.includes('prepayment') || errBody.includes('billing')) {
-        return res.status(402).json({ error: 'API credits depleted. Please add funds or use a free-tier project.' });
-      }
-      if (response.status === 429) {
-        return res.status(429).json({ error: 'Rate limited. Please wait a moment and try again.' });
-      }
-      return res.status(502).json({ error: 'Gemini API error: ' + response.status });
-    }
-
-    const data = await response.json();
-    const candidate = data.candidates && data.candidates[0];
-    if (!candidate || !candidate.content || !candidate.content.parts) {
-      return res.status(502).json({ error: 'No valid response from Gemini.' });
-    }
-
-    const rawJson = candidate.content.parts.map(p => p.text || '').join('');
-    let parsed;
-    try {
-      parsed = JSON.parse(rawJson);
-    } catch (e1) {
-      const jsonMatch = rawJson.match(/```(?:json)?\s*([\s\S]*?)```/);
-      if (jsonMatch) {
-        try {
-          parsed = JSON.parse(jsonMatch[1].trim());
-        } catch (e2) {
-          return res.status(502).json({ error: 'Gemini returned invalid JSON. Try again.' });
-        }
-      } else {
-        return res.status(502).json({ error: 'Gemini returned invalid JSON. Try again.' });
-      }
-    }
-
+    // Normalize: if questions at root level instead of sections
     if ((!parsed.sections || !Array.isArray(parsed.sections) || parsed.sections.length === 0) && Array.isArray(parsed.questions) && parsed.questions.length > 0) {
       parsed.sections = [{
         name: "Section A",
@@ -179,11 +232,10 @@ async function handleParsePaper(req, res, body) {
           q.options = q.options.map((opt, i) => {
             const defaultLabel = String.fromCharCode(97 + i);
             if (typeof opt === 'string') {
-              // Strip prefix like "a)", "(a)", "a.", "A."
-              const cleanText = opt.replace(/^[(\[]?[a-eA-E0-9][\.\)\:\-\]]\s*/, '').trim();
+              const cleanText = opt.replace(/^[(\[]?[a-eA-E0-9][\.)\:\-\]]\s*/, '').trim();
               return { label: defaultLabel, text: cleanText || opt.trim() };
             } else if (opt && typeof opt === 'object') {
-              const lbl = (opt.label || opt.key || defaultLabel).toString().toLowerCase().replace(/[\.\)\:\(\[\]]/g, '').trim();
+              const lbl = (opt.label || opt.key || defaultLabel).toString().toLowerCase().replace(/[\.)\:(\[\]]/g, '').trim();
               const text = opt.text !== undefined ? opt.text : (opt.value || opt.option || opt.content || '');
               return { label: lbl || defaultLabel, text: String(text).trim() };
             }
@@ -195,7 +247,7 @@ async function handleParsePaper(req, res, body) {
 
     return res.json({ ok: true, paper: parsed });
   } catch (err) {
-    console.error('[parse-paper] Error:', err);
+    console.error('[parse-paper] Post-processing error:', err);
     return res.status(500).json({ error: 'Server error parsing paper: ' + err.message });
   }
 }
