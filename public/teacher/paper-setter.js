@@ -524,19 +524,22 @@
       throw new Error('Unexpected response from AI parser.');
 
     } catch (err) {
-      console.error("Gemini parse failed, falling back to local parser:", err);
-      // Fallback: try local regex parser
+      console.warn("AI parse error, trying local parser fallback:", err);
       updateParsingLoader("⚡ Falling back to local parser...");
       
       var paper = parsePaperFromText(text);
       hideParsingLoader();
 
-      if (paper && paper.sections.length > 0) {
+      var hasQuestions = paper && paper.sections && paper.sections.some(function(s) {
+        return s.questions && s.questions.length > 0;
+      });
+
+      if (hasQuestions) {
         parsedPaper = paper;
         resultsSection.style.display = 'none';
         updateUploadSuccessBadge(paper);
       } else {
-        alert("Could not parse the question paper.\n\nError: " + err.message + "\n\nPlease ensure the paper has clearly labeled sections and questions.");
+        alert("Could not parse the question paper.\n\nDetails: " + (err.message || 'Unknown error') + "\n\nPlease ensure the paper text is readable and contains clearly numbered questions.");
       }
     }
   }

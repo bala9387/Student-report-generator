@@ -137,52 +137,57 @@ async function handleParsePaper(req, res, body) {
     return res.status(400).json({ error: 'Missing or too short paper text. Upload a valid question paper.' });
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
+  const keys = (gemini.getApiKeys ? gemini.getApiKeys() : []).filter(Boolean);
+  if (!keys.length && process.env.GEMINI_API_KEY) {
+    keys.push(process.env.GEMINI_API_KEY);
+  }
+  if (!keys.length) {
     return res.status(500).json({ error: 'GEMINI_API_KEY not configured on server.' });
   }
 
-  // Model fallback chain: PAPER_SETTER_MODEL → GEMINI_MODEL → gemini-3.8-flash → gemini-flash-latest
-  const primaryModel = process.env.PAPER_SETTER_MODEL || process.env.GEMINI_MODEL || 'gemini-3.8-flash';
-  const fallbackModels = ['gemini-3.8-flash', 'gemini-flash-latest', 'gemini-3.5-flash'].filter(m => m !== primaryModel);
+  // Model fallback chain: PAPER_SETTER_MODEL → gemini-3.8-flash → gemini-flash-latest → gemini-3.6-flash → gemini-3.5-flash
+  const primaryModel = process.env.PAPER_SETTER_MODEL || 'gemini-3.8-flash';
+  const candidateModels = [primaryModel, 'gemini-3.8-flash', 'gemini-flash-latest', 'gemini-3.6-flash', 'gemini-3.5-flash'].filter((m, idx, arr) => arr.indexOf(m) === idx);
 
   let parsed = null;
   let lastError = null;
 
-  // Try primary model first
-  try {
-    parsed = await callGeminiParsePaper(apiKey, primaryModel, text);
-  } catch (err) {
-    console.error('[parse-paper] Primary model failed:', primaryModel, err.message);
-    lastError = err;
+  for (let kIdx = 0; kIdx < keys.length; kIdx++) {
+    const key = keys[kIdx];
+    console.log(`[parse-paper] Trying API Key #${kIdx + 1}/${keys.length}...`);
 
-    // Check for billing/rate limit errors before trying fallback
-    if (err.status === 402 || (err.body && (err.body.includes('prepayment') || err.body.includes('billing')))) {
-      return res.status(402).json({ error: 'API credits depleted. Please add funds or use a free-tier project.' });
-    }
-  }
-
-  // If primary failed or returned 0 questions, try fallback models
-  if (!parsed || !parsed.sections || parsed.sections.every(s => !s.questions || s.questions.length === 0)) {
-    if (parsed) {
-      console.log('[parse-paper] Primary model returned 0 questions, trying fallback models...');
-    }
-    for (const fallbackModel of fallbackModels) {
+    for (const model of candidateModels) {
       try {
-        const fallbackParsed = await callGeminiParsePaper(apiKey, fallbackModel, text);
-        let fallbackQ = 0;
-        if (fallbackParsed.sections) {
-          fallbackParsed.sections.forEach(s => { fallbackQ += (s.questions || []).length; });
+        const result = await callGeminiParsePaper(key, model, text);
+        let qCount = 0;
+        if (result && result.sections && Array.isArray(result.sections)) {
+          result.sections.forEach(s => { qCount += (s.questions && Array.isArray(s.questions)) ? s.questions.length : 0; });
         }
-        if (fallbackQ > 0) {
-          parsed = fallbackParsed;
-          console.log('[parse-paper] Fallback model', fallbackModel, 'succeeded with', fallbackQ, 'questions');
+        if (qCount > 0) {
+          parsed = result;
+          console.log(`[parse-paper] Key #${kIdx + 1} (${model}) succeeded with ${qCount} questions`);
+          break;
+        } else {
+          console.log(`[parse-paper] Key #${kIdx + 1} (${model}) returned 0 questions, trying next model...`);
+        }
+      } catch (err) {
+        console.error(`[parse-paper] Key #${kIdx + 1} (${model}) failed:`, err.message);
+        lastError = err;
+
+        // If auth error (401/403), invalid key (400), or billing depleted (402), skip to next key immediately
+        const isKeyBad = err.status === 401 || err.status === 403 || err.status === 402 ||
+          (err.status === 400 && err.body && (err.body.includes('API_KEY_INVALID') || err.body.includes('API key not valid'))) ||
+          (err.body && (err.body.includes('prepayment') || err.body.includes('billing') || err.body.includes('API_KEY_INVALID')));
+
+        if (isKeyBad) {
+          console.warn(`[parse-paper] Key #${kIdx + 1} rejected with ${err.status}, rotating to next key...`);
           break;
         }
-      } catch (fallbackErr) {
-        console.error('[parse-paper] Fallback model failed:', fallbackModel, fallbackErr.message);
-        lastError = fallbackErr;
       }
+    }
+
+    if (parsed && parsed.sections && parsed.sections.some(s => s.questions && s.questions.length > 0)) {
+      break;
     }
   }
 
@@ -276,7 +281,9 @@ module.exports = async (req, res) => {
 
   try {
     let body = req.body || {};
-    if (typeof body === 'string') {
+    if (Buffer.isBuffer(body)) {
+      try { body = JSON.parse(body.toString('utf8')); } catch(e) {}
+    } else if (typeof body === 'string') {
       try { body = JSON.parse(body); } catch(e) {}
     }
 
