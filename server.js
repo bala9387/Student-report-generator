@@ -91,7 +91,7 @@ app.get('/api/lookup', async (req, res) => {
 app.get('/api/leaderboard', async (req, res) => {
   const fresh = req.query.fresh === '1' || !!req.query._t;
   const examMode = req.query.mode || req.query.exam || null;
-  const r = await api.getLeaderboard(req.query.scope, req.query.n, req.query.grade, examMode, fresh);
+  const r = await api.getLeaderboard(req.query.scope, req.query.n || req.query.section, req.query.grade, examMode, fresh);
   res.status(r.status).json(r.body);
 });
 

@@ -297,6 +297,36 @@ body{
 }
 .feedback-btn:hover{background:#f1f5f9;color:#0f172a;border-color:#94a3b8}
 
+/* ---------- section sheet links (Class 12) ---------- */
+.series-sheet-links{margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft)}
+.series-sheet-links .hint{margin:0 0 10px;font-size:0.88rem;color:var(--muted)}
+.series-sheet-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.series-sheet-btns .btn-ghost{width:100%;box-sizing:border-box;justify-content:center;font-size:0.9rem;padding:9px 8px;text-align:center}
+
+/* ---------- section marks excel table ---------- */
+.sec-table-wrap{
+  background:#fff;border-radius:8px;border:1px solid var(--line);
+  margin-top:14px;overflow-x:auto;box-shadow:0 1px 3px rgba(0,0,0,0.03);
+}
+.sec-table{
+  width:100%;border-collapse:collapse;font-size:0.88rem;white-space:nowrap;
+}
+.sec-table th{
+  background:#f1f5f9;color:#1e293b;font-weight:700;padding:9px 10px;
+  border-bottom:1px solid #cbd5e1;border-right:1px solid #e2e8f0;text-align:center;
+}
+.sec-table td{
+  padding:8px 10px;border-bottom:1px solid #f1f5f9;border-right:1px solid #f1f5f9;
+  color:#334155;text-align:center;
+}
+.sec-table tr:nth-child(even){background:#f8fafc}
+.sec-table tr:hover{background:#f1f5f9}
+.sec-table .col-name{text-align:left;font-weight:600;color:#0f172a}
+.sec-table .col-stream{font-size:0.8rem;color:#64748b}
+.sec-table .col-tot500{font-weight:700;color:#0369a1;background:rgba(3,105,161,0.04)}
+.sec-table .col-total{font-weight:700;color:#0f172a;background:rgba(15,23,42,0.05)}
+.sec-table .mark-fail{color:#dc2626;font-weight:700;background:rgba(220,38,38,0.08);border-radius:4px;padding:2px 4px}
+
 /* ---------- rank badges (medals for top 3, used in tables + cards) ---------- */
 .rank-badge{display:inline-flex;align-items:center;gap:3px;font-weight:700}
 .rank-badge .rank-of{font-weight:500;color:var(--muted);font-size:.85em}
@@ -594,6 +624,9 @@ table.grid tr.total-row td{background:#faf6ea;font-weight:700}
   .lb-btns .btn-ghost {
     width: 100%;
     justify-content: center;
+  }
+  .series-sheet-btns {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .report-toolbar {

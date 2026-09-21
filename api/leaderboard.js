@@ -7,6 +7,6 @@ module.exports = async (req, res) => {
 
   const q = req.query || {};
   const fresh = q.fresh === '1' || !!q._t;
-  const r = await api.getLeaderboard(q.scope, q.n, q.grade, q.mode || q.exam, fresh);
+  const r = await api.getLeaderboard(q.scope, q.n || q.section, q.grade, q.mode || q.exam, fresh);
   return res.status(r.status).json(r.body);
 };

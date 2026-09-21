@@ -127,6 +127,8 @@
   var currentLeaderboardScope = null;
   var currentLeaderboardRenderFn = null;
   var currentLeaderboardBtn = null;
+  var lastSectionData = null;
+  var currentSectionKey = null;
 
   function updateToolbarModeOptions(isStudentReport, activeMode) {
     var sel = $("#reportModeSelect");
@@ -160,6 +162,9 @@
     currentStudentGrade = grade || ($("#grade") ? $("#grade").value : "12");
     currentMode = mode;
     currentLeaderboardScope = null;
+    currentSectionKey = null;
+    if ($("#downloadLandscapeBtn")) $("#downloadLandscapeBtn").style.display = "none";
+    if ($("#downloadBtn")) $("#downloadBtn").style.display = "";
 
     var submitBtn = $("#submitBtn");
     if (submitBtn) submitBtn.disabled = true;
@@ -214,6 +219,17 @@
     msg.className = "message"; msg.innerHTML = "";
     fetchStudentReport(roll, mode, grade);
   });
+
+  var gradeSelect = $("#grade");
+  if (gradeSelect) {
+    gradeSelect.addEventListener("change", function () {
+      var g = this.value;
+      currentStudentGrade = g;
+      var links = $("#seriesSheetLinks");
+      if (links) links.style.display = (g === "12" || g === "XII") ? "" : "none";
+      load(false);
+    });
+  }
 
   function showMsg(kind, html) { msg.className = "message " + kind; msg.innerHTML = html; }
 
@@ -278,17 +294,27 @@
 
   $("#backBtn").addEventListener("click", function () {
     currentMentorUrl = null;
+    currentSectionKey = null;
+    if ($("#downloadLandscapeBtn")) $("#downloadLandscapeBtn").style.display = "none";
+    if ($("#downloadBtn")) $("#downloadBtn").style.display = "";
     showView("lookup");
   });
   $("#printBtn").addEventListener("click", function () { window.print(); });
-$("#downloadBtn").addEventListener("click", function () {
+  $("#downloadBtn").addEventListener("click", function () {
     if (!currentPDF) return;
     if (currentPDF.type === "exam") buildExamPDF(currentPDF.mode, currentPDF.student, currentPDF.exam);
     else if (currentPDF.type === "top-school") buildSchoolTopPDF();
     else if (currentPDF.type === "top-stream") buildStreamTopPDF();
     else if (currentPDF.type === "slow-learners") buildSlowLearnersPDF();
+    else if (currentPDF.type === "section-sheet") buildSectionLandscapePDF();
     else buildPDF(currentPDF.mode, currentPDF.student);
   });
+  var downloadLandscapeBtn = $("#downloadLandscapeBtn");
+  if (downloadLandscapeBtn) {
+    downloadLandscapeBtn.addEventListener("click", function () {
+      buildSectionLandscapePDF();
+    });
+  }
 
   // ---------- rendering ----------
   function conductedExams(m) {
@@ -742,6 +768,131 @@ $("#downloadBtn").addEventListener("click", function () {
     host.appendChild(scroll);
   }
 
+  function renderSectionSheet(host, data) {
+    lastSectionData = data;
+    currentSectionKey = data.sectionKey;
+    currentPDF = { type: "section-sheet" };
+    host.innerHTML = "";
+
+    $("#downloadBtn").style.display = "none";
+    if ($("#downloadLandscapeBtn")) $("#downloadLandscapeBtn").style.display = "inline-flex";
+
+    var head = el("div", "rep-head");
+    head.innerHTML = "<div class='rep-banner'>" + esc(BANNER) + "</div>" +
+      "<h2>Class 12 &mdash; " + esc(data.sectionName) + " Mark Sheet</h2>" +
+      "<div class='school'>Academic Year " + esc((DATA && DATA.meta && DATA.meta.academicYear) || "2026 - 2027") + " &middot; " + data.students.length + " Students</div>";
+    host.appendChild(head);
+
+    // Exam Mode Pills row
+    var examList = data.availableExams || ["CU 1", "TE 1", "TE 2"];
+    var modeRow = el("div", "lb-mode-row");
+    var pillsHtml = examList.map(function (ex) {
+      return '<button type="button" class="btn-mode-pill' + (ex === data.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(ex) + '</button>';
+    }).join("");
+    modeRow.innerHTML = '<span class="lb-asof-text">Exam: <b>' + esc(data.exam) + '</b> &middot; Section: <b>' + esc(data.sectionName) + '</b> (' + data.students.length + ' students)</span>' +
+      '<div class="lb-mode-pill-group">' + pillsHtml + '</div>';
+    host.appendChild(modeRow);
+
+    var pills = modeRow.querySelectorAll(".btn-mode-pill");
+    pills.forEach(function (p) {
+      p.addEventListener("click", function () {
+        var m = this.getAttribute("data-mode");
+        if (m && m !== data.exam) {
+          showSectionSheet(data.sectionKey, m);
+        }
+      });
+    });
+
+    if (!data.students || data.students.length === 0) {
+      host.appendChild(el("p", "note-top", "<b>No students found</b> for section <b>" + esc(data.sectionName) + "</b>."));
+      return;
+    }
+
+    var scroll = el("div", "sec-table-wrap");
+    var tbl = el("table", "sec-table");
+
+    // Table Header
+    var ths = "<tr><th>#</th><th>Roll No</th><th style='text-align:left;'>Student Name</th><th>Stream</th>";
+    data.subjects.forEach(function (sub) {
+      ths += "<th>" + esc(sub) + "</th>";
+    });
+    ths += "<th class='col-tot500'>Total (500)</th><th>PED</th><th class='col-total'>Grand Total</th></tr>";
+
+    var h = "<thead>" + ths + "</thead><tbody>";
+
+    data.students.forEach(function (st, idx) {
+      h += "<tr>" +
+        "<td>" + (idx + 1) + "</td>" +
+        "<td style='font-family:monospace;font-weight:600;'>" + esc(st.rollNo) + "</td>" +
+        "<td class='col-name'>" + esc(st.name) + "</td>" +
+        "<td class='col-stream'>" + esc(domainLabel(st.stream)) + "</td>";
+
+      data.subjects.forEach(function (sub) {
+        var mark = (st.marks && st.marks[sub] != null && st.marks[sub] !== "") ? st.marks[sub] : "-";
+        var isFail = false;
+        var num = parseFloat(mark);
+        if (!isNaN(num) && mark !== "-" && mark !== "AB" && mark !== "ab") {
+          if (num < 45) isFail = true;
+        }
+        var cellContent = isFail ? '<span class="mark-fail">' + esc(mark) + '</span>' : esc(mark);
+        h += "<td>" + cellContent + "</td>";
+      });
+
+      var tot500 = st.total500 != null ? st.total500 : "-";
+      var ped = st.ped != null ? st.ped : "-";
+      var grandTot = st.total != null ? st.total : "-";
+
+      h += "<td class='col-tot500'>" + esc(tot500) + "</td>" +
+        "<td>" + esc(ped) + "</td>" +
+        "<td class='col-total'>" + esc(grandTot) + "</td>" +
+        "</tr>";
+    });
+
+    h += "</tbody>";
+    tbl.innerHTML = h;
+    scroll.appendChild(tbl);
+    host.appendChild(scroll);
+  }
+
+  function showSectionSheet(seriesKey, requestedMode) {
+    currentLeaderboardScope = null;
+    currentStudentRoll = null;
+    currentMentorUrl = null;
+    currentSectionKey = seriesKey;
+
+    var examMode = requestedMode || currentMode || "TE 1";
+    if (examMode === "PE - Analysis") examMode = "TE 1";
+    currentMode = examMode;
+    updateToolbarModeOptions(false, examMode);
+
+    var host = $("#report");
+    host.innerHTML = "";
+    host.appendChild(el("p", "lb-asof", "Loading section mark sheet&hellip;"));
+
+    $("#downloadBtn").style.display = "none";
+    if ($("#downloadLandscapeBtn")) $("#downloadLandscapeBtn").style.display = "inline-flex";
+    showView("report");
+
+    var grade = "12";
+    updateToolbarGradeOptions(grade);
+    BANNER = "Grade XII · Team Elevate 2027";
+
+    apiGet("/api/leaderboard?scope=section&section=" + encodeURIComponent(seriesKey) + "&grade=12&mode=" + encodeURIComponent(examMode) + "&fresh=1&_t=" + Date.now())
+      .then(function (resp) {
+        absorbMeta(resp);
+        host.innerHTML = "";
+        if (resp.exam) {
+          currentMode = resp.exam;
+          updateToolbarModeOptions(false, resp.exam);
+        }
+        renderSectionSheet(host, resp);
+      })
+      .catch(function (e) {
+        host.innerHTML = "";
+        host.appendChild(el("p", "note-pending", "Could not load section mark sheet. " + esc(e.message)));
+      });
+  }
+
   function showLeaderboard(scope, renderFn, btn, requestedMode) {
     if (btn) btn.disabled = true;
     currentLeaderboardScope = scope;
@@ -749,6 +900,9 @@ $("#downloadBtn").addEventListener("click", function () {
     currentLeaderboardBtn = btn;
     currentStudentRoll = null;
     currentMentorUrl = null;
+    currentSectionKey = null;
+    if ($("#downloadLandscapeBtn")) $("#downloadLandscapeBtn").style.display = "none";
+    if ($("#downloadBtn")) $("#downloadBtn").style.display = "";
 
     var examMode = requestedMode || currentMode || "TE 1";
     if (examMode === "PE - Analysis") examMode = "TE 1";
@@ -787,7 +941,9 @@ $("#downloadBtn").addEventListener("click", function () {
   if (reportModeSelect) {
     reportModeSelect.addEventListener("change", function () {
       var newMode = this.value;
-      if (currentLeaderboardScope) {
+      if (currentSectionKey) {
+        showSectionSheet(currentSectionKey, newMode);
+      } else if (currentLeaderboardScope) {
         var renderFn = currentLeaderboardScope === "school" ? renderSchoolTop : (currentLeaderboardScope === "stream" ? renderStreamTop : renderSlowLearners);
         var btn = currentLeaderboardScope === "school" ? $("#topSchoolBtn") : (currentLeaderboardScope === "stream" ? $("#topStreamBtn") : $("#slowLearnersBtn"));
         showLeaderboard(currentLeaderboardScope, renderFn, btn, newMode);
@@ -919,6 +1075,15 @@ $("#downloadBtn").addEventListener("click", function () {
   if (slowLearnersBtn) {
     slowLearnersBtn.addEventListener("click", function (ev) { guardedLeaderboard("slow", renderSlowLearners, ev.currentTarget); });
   }
+
+  ["btnHarmony", "btnMelody1", "btnMelody2", "btnSymphony"].forEach(function (id) {
+    var b = $("#" + id);
+    if (!b) return;
+    b.addEventListener("click", function () {
+      var series = b.getAttribute("data-series");
+      if (series) showSectionSheet(series, currentMode);
+    });
+  });
 
   // ---------- PDF export (jsPDF) ----------
   function buildExamPDF(m, s, exam) {
@@ -1154,6 +1319,151 @@ $("#downloadBtn").addEventListener("click", function () {
     });
 
     doc.save("Aspiring_Achievers_" + data.exam.replace(/\s+/g, "") + ".pdf");
+  }
+
+  function buildSectionLandscapePDF() {
+    if (!lastSectionData) return;
+    var jsPDF = window.jspdf.jsPDF;
+    var doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+    var data = lastSectionData;
+    var pageW = doc.internal.pageSize.getWidth();
+    var pageH = doc.internal.pageSize.getHeight();
+
+    function drawLandscapeHeader() {
+      doc.setFillColor(209, 213, 219); doc.rect(0, 0, pageW, 8, "F");
+      doc.setFillColor(183, 22, 28); doc.rect(0, 0, pageW, 6, "F");
+
+      doc.setFont("helvetica", "bold"); doc.setFontSize(10.5); doc.setTextColor(20, 30, 48);
+      doc.text(BANNER, pageW / 2, 26, { align: "center" });
+
+      doc.setFont("helvetica", "bold"); doc.setFontSize(16); doc.setTextColor(183, 22, 28);
+      doc.text("Class 12 — " + data.sectionName + " Mark Sheet", pageW / 2, 44, { align: "center" });
+
+      doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.setTextColor(90);
+      var year = (DATA && DATA.meta && DATA.meta.academicYear) || "2026 - 2027";
+      var subText = "Academic Year " + year + "  ·  Exam: " + data.exam + "  ·  Total Students: " + data.students.length + "  ·  Generated: " + today();
+      doc.text(subText, pageW / 2, 58, { align: "center" });
+    }
+
+    var startY = 70;
+    var x0 = 35;
+    var usableW = pageW - x0 * 2;
+
+    var subs = data.subjects || [];
+    var nSubs = subs.length || 1;
+    var subColW = Math.floor((usableW - 464) / nSubs);
+
+    var colWidths = [24, 56, 135, 85];
+    var aligns = ["center", "center", "left", "left"];
+    var headRow = ["#", "Roll No", "Student Name", "Stream"];
+
+    subs.forEach(function (s) {
+      colWidths.push(subColW);
+      aligns.push("center");
+      headRow.push(s);
+    });
+
+    colWidths.push(62, 40, 62);
+    aligns.push("center", "center", "center");
+    headRow.push("Total (500)", "PED", "Grand Total");
+
+    var sumColW = colWidths.reduce(function (a, b) { return a + b; }, 0);
+    var diff = usableW - sumColW;
+    if (diff !== 0) {
+      colWidths[2] += diff;
+    }
+
+    var headH = 20;
+    var rowH = 15.5;
+    var y = startY;
+
+    function renderTableRow(cells, h, isHeader, isEven) {
+      var x = x0;
+      cells.forEach(function (cellData, i) {
+        var w = colWidths[i];
+        var text = (typeof cellData === "object" && cellData !== null) ? cellData.text : cellData;
+        var isFail = (typeof cellData === "object" && cellData !== null) ? cellData.isFail : false;
+
+        if (isHeader) {
+          doc.setFillColor(241, 245, 249);
+        } else if (isEven) {
+          doc.setFillColor(248, 250, 252);
+        } else {
+          doc.setFillColor(255, 255, 255);
+        }
+        doc.rect(x, y, w, h, "F");
+
+        doc.setDrawColor(218, 222, 230);
+        doc.setLineWidth(0.5);
+        doc.rect(x, y, w, h, "S");
+
+        var bold = isHeader || isFail || (i === 0);
+        doc.setFont("helvetica", bold ? "bold" : "normal");
+        doc.setFontSize(isHeader ? 8 : 7.5);
+
+        if (isHeader) {
+          doc.setTextColor(30, 41, 59);
+        } else if (isFail) {
+          doc.setTextColor(220, 38, 38);
+        } else {
+          doc.setTextColor(40, 45, 55);
+        }
+
+        var align = aligns[i];
+        var pad = 4;
+        var tx = align === "left" ? x + pad : (align === "right" ? x + w - pad : x + w / 2);
+        doc.text(String(text != null ? text : "-"), tx, y + h / 2 + 0.5, { align: align, baseline: "middle" });
+        x += w;
+      });
+      y += h;
+    }
+
+    drawLandscapeHeader();
+    renderTableRow(headRow, headH, true, false);
+
+    data.students.forEach(function (st, idx) {
+      if (y + rowH > pageH - 28) {
+        doc.addPage();
+        y = 70;
+        drawLandscapeHeader();
+        renderTableRow(headRow, headH, true, false);
+      }
+
+      var rowCells = [
+        String(idx + 1),
+        st.rollNo || "-",
+        st.name || "-",
+        domainLabel(st.stream || "")
+      ];
+
+      subs.forEach(function (sub) {
+        var raw = (st.marks && st.marks[sub] != null && st.marks[sub] !== "") ? st.marks[sub] : "-";
+        var isFail = false;
+        var numV = parseFloat(raw);
+        if (!isNaN(numV) && raw !== "-" && String(raw).toUpperCase() !== "AB") {
+          if (numV < 45) isFail = true;
+        }
+        rowCells.push(isFail ? { text: String(raw), isFail: true } : String(raw));
+      });
+
+      var tot500 = st.total500 != null ? String(st.total500) : "-";
+      var ped = st.ped != null ? String(st.ped) : "-";
+      var grandTot = st.total != null ? String(st.total) : "-";
+
+      rowCells.push(tot500, ped, grandTot);
+
+      renderTableRow(rowCells, rowH, false, idx % 2 === 1);
+    });
+
+    if (y + 20 <= pageH - 15) {
+      doc.setFont("helvetica", "italic");
+      doc.setFontSize(7.5);
+      doc.setTextColor(120);
+      doc.text("* Red indicates mark < 45. Total (500) excludes Physical Education (PED). Grand Total includes all evaluated subjects.", x0, y + 14);
+    }
+
+    var fileName = data.sectionName.replace(/\s+/g, "_") + "_" + (data.exam || "Exam").replace(/\s+/g, "") + "_MarkSheet_Landscape.pdf";
+    doc.save(fileName);
   }
 
   function buildPDF(mode, student) {
@@ -1399,6 +1709,10 @@ $("#downloadBtn").addEventListener("click", function () {
     $("#topSchoolBtn").disabled = false;
     $("#topStreamBtn").disabled = false;
     if ($("#slowLearnersBtn")) $("#slowLearnersBtn").disabled = false;
+    ["btnHarmony", "btnMelody1", "btnMelody2", "btnSymphony"].forEach(function (id) {
+      var b = $("#" + id);
+      if (b) b.disabled = false;
+    });
     if (res.live) {
       setStatus("live", "Live · " + fmtTime(new Date(res.when)), "Loaded live from Google Sheets.");
     } else {
