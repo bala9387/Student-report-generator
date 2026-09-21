@@ -289,6 +289,14 @@ body{
 .lb-btns{display:flex;gap:9px;flex-wrap:wrap}
 .lb-btns .btn-ghost{flex:1 1 auto;white-space:nowrap}
 
+/* ---------- feedback button ---------- */
+.feedback-wrap{margin-top:9px}
+.feedback-btn{
+  width:100%;box-sizing:border-box;text-decoration:none;justify-content:center;
+  background:#f8fafc;border-color:#cbd5e1;color:#475569;
+}
+.feedback-btn:hover{background:#f1f5f9;color:#0f172a;border-color:#94a3b8}
+
 /* ---------- rank badges (medals for top 3, used in tables + cards) ---------- */
 .rank-badge{display:inline-flex;align-items:center;gap:3px;font-weight:700}
 .rank-badge .rank-of{font-weight:500;color:var(--muted);font-size:.85em}
