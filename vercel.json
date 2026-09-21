@@ -5,6 +5,8 @@
     { "source": "/api/lookup", "destination": "/api/lookup" },
     { "source": "/api/meta", "destination": "/api/meta" },
     { "source": "/api/leaderboard", "destination": "/api/leaderboard" },
+    { "source": "/api/section-pdf", "destination": "/api/section-pdf" },
+    { "source": "/api/download-pdf", "destination": "/api/download-pdf" },
     { "source": "/api/generate-report", "destination": "/api/generate-report" },
     { "source": "/api/parse-paper", "destination": "/api/generate-report?action=parse-paper" },
     { "source": "/api/auth", "destination": "/api/auth" },

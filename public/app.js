@@ -322,7 +322,23 @@
   var downloadLandscapeBtn = $("#downloadLandscapeBtn");
   if (downloadLandscapeBtn) {
     downloadLandscapeBtn.addEventListener("click", function () {
-      buildSectionLandscapePDF();
+      var grade = currentStudentGrade || ($("#grade") ? $("#grade").value : "12");
+      var section = currentSectionKey || "H";
+      var exam = (lastSectionData && lastSectionData.exam) || currentMode || "TE 1";
+      var gradeStr = (grade === "10" || grade === "X") ? "Class_10" : ((grade === "11" || grade === "XI") ? "Class_11" : "Class_12");
+      var secName = (lastSectionData && lastSectionData.sectionName) ? lastSectionData.sectionName : (section === "H" ? "Harmony" : (section === "S" ? "Symphony" : "Melody"));
+      var filename = gradeStr + "_" + secName.replace(/\s+/g, "_") + "_" + exam.replace(/\s+/g, "") + "_MarkSheet_Landscape.pdf";
+      var url = "/api/section-pdf?grade=" + encodeURIComponent(grade) + "&section=" + encodeURIComponent(section) + "&exam=" + encodeURIComponent(exam) + "&_t=" + Date.now();
+
+      var a = document.createElement("a");
+      a.href = url;
+      a.setAttribute("download", filename);
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () {
+        try { document.body.removeChild(a); } catch (e) {}
+      }, 1500);
     });
   }
 
@@ -1150,6 +1166,46 @@
   // ---------- PDF export (jsPDF) ----------
   function savePdf(doc, filename) {
     var name = filename.endsWith(".pdf") ? filename : (filename + ".pdf");
+    try {
+      var base64 = doc.output("datauristring");
+      if (base64) {
+        var iframe = document.getElementById("pdf_download_frame");
+        if (!iframe) {
+          iframe = document.createElement("iframe");
+          iframe.id = "pdf_download_frame";
+          iframe.name = "pdf_download_frame";
+          iframe.style.display = "none";
+          document.body.appendChild(iframe);
+        }
+        var form = document.createElement("form");
+        form.method = "POST";
+        form.action = "/api/download-pdf";
+        form.target = "pdf_download_frame";
+        form.style.display = "none";
+
+        var fnInput = document.createElement("input");
+        fnInput.type = "hidden";
+        fnInput.name = "filename";
+        fnInput.value = name;
+        form.appendChild(fnInput);
+
+        var dataInput = document.createElement("input");
+        dataInput.type = "hidden";
+        dataInput.name = "base64";
+        dataInput.value = base64;
+        form.appendChild(dataInput);
+
+        document.body.appendChild(form);
+        form.submit();
+        setTimeout(function () {
+          try { document.body.removeChild(form); } catch (e) {}
+        }, 1500);
+        return;
+      }
+    } catch (err) {
+      console.warn("Server bounce download failed, using client fallback:", err);
+    }
+
     try {
       var blob = doc.output("blob");
       if (window.navigator && window.navigator.msSaveOrOpenBlob) {

@@ -15,11 +15,16 @@ const authToken = require('./lib/authToken.js');
 
 const app = express();
 app.use(cors());
+app.use(express.json({ limit: '15mb' }));
+app.use(express.urlencoded({ extended: true, limit: '15mb' }));
+
+const sectionPdfHandler = require('./api/section-pdf.js');
+const downloadPdfHandler = require('./api/download-pdf.js');
 
 const teacherAccounts = require('./lib/teacherAccounts.js');
 
 // Auth endpoint for Teacher/Admin Login
-app.post(['/api/auth', '/api/teacher/auth'], express.json(), (req, res) => {
+app.post(['/api/auth', '/api/teacher/auth'], (req, res) => {
   const userInput = req.body.user || req.body.username;
   const passInput = req.body.pass || req.body.password;
   const authRes = teacherAccounts.verifyTeacherLogin(userInput, passInput);
@@ -94,6 +99,9 @@ app.get('/api/leaderboard', async (req, res) => {
   const r = await api.getLeaderboard(req.query.scope, req.query.n || req.query.section, req.query.grade, examMode, fresh);
   res.status(r.status).json(r.body);
 });
+
+app.get('/api/section-pdf', sectionPdfHandler);
+app.all('/api/download-pdf', downloadPdfHandler);
 
 app.all(['/api/refresh', '/api/force-refresh'], async (req, res) => {
   try {
