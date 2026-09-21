@@ -1148,6 +1148,34 @@
   });
 
   // ---------- PDF export (jsPDF) ----------
+  function savePdf(doc, filename) {
+    var name = filename.endsWith(".pdf") ? filename : (filename + ".pdf");
+    try {
+      var blob = doc.output("blob");
+      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveOrOpenBlob(blob, name);
+        return;
+      }
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.style.display = "none";
+      a.href = url;
+      a.setAttribute("download", name);
+      a.rel = "";
+      a.target = "_self";
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () {
+        try {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        } catch (err) {}
+      }, 1500);
+    } catch (e) {
+      doc.save(name);
+    }
+  }
+
   function buildExamPDF(m, s, exam) {
     var jsPDF = window.jspdf.jsPDF;
     var doc = new jsPDF({ unit: "pt", format: "a4" });
@@ -1273,7 +1301,7 @@
     y = statBoxes(doc, y + 14, boxes);
 
     var fn = s.name.replace(/\s+/g, "_") + "_" + exam.replace(/\s+/g, "") + "_Report.pdf";
-    doc.save(fn);
+    savePdf(doc, fn);
   }
 
   function pdfHeader(doc, title, subtitle) {
@@ -1315,7 +1343,7 @@
       fontSize: 9, head: ["Rank", "Name", "Roll No", "Stream", "Total Marks", "Percentage"], body: rows
     });
 
-    doc.save("Top_Performers_School_" + top.exam.replace(/\s+/g, "") + ".pdf");
+    savePdf(doc, "Top_Performers_School_" + top.exam.replace(/\s+/g, "") + ".pdf");
   }
 
   function buildStreamTopPDF() {
@@ -1349,7 +1377,7 @@
       y += 14;
     });
 
-    doc.save("Top_Performers_by_Stream_" + top.exam.replace(/\s+/g, "") + ".pdf");
+    savePdf(doc, "Top_Performers_by_Stream_" + top.exam.replace(/\s+/g, "") + ".pdf");
   }
 
   function buildSlowLearnersPDF() {
@@ -1380,7 +1408,7 @@
       fontSize: 8.5, head: ["#", "Name", "Roll No", "Stream", "Failed Subjects (<" + cutoff + ")", "Fails", "Total"], body: rows
     });
 
-    doc.save("Aspiring_Achievers_" + data.exam.replace(/\s+/g, "") + ".pdf");
+    savePdf(doc, "Aspiring_Achievers_" + data.exam.replace(/\s+/g, "") + ".pdf");
   }
 
   function buildSectionLandscapePDF() {
@@ -1639,7 +1667,7 @@
 
     var gradeStr = (data.grade === "10" || data.grade === "X") ? "Class_10" : ((data.grade === "11" || data.grade === "XI") ? "Class_11" : "Class_12");
     var fileName = gradeStr + "_" + data.sectionName.replace(/\s+/g, "_") + "_" + (data.exam || "Exam").replace(/\s+/g, "") + "_MarkSheet_Landscape.pdf";
-    doc.save(fileName);
+    savePdf(doc, fileName);
   }
 
   function buildPDF(mode, student) {
@@ -1707,7 +1735,7 @@
     });
     analysisPDF(doc, DATA.modes[mode], student, y);
     var fn = student.name.replace(/\s+/g, "_") + "_PE-Analysis_Report.pdf";
-    doc.save(fn);
+    savePdf(doc, fn);
   }
 
   function sectionBar(doc, y, text) {
