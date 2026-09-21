@@ -287,8 +287,15 @@ module.exports = async (req, res) => {
       try { body = JSON.parse(body); } catch(e) {}
     }
 
-    // Check if this is a Question Paper parsing request
+    // Check if this is a Question Paper parsing request (Restricted to dhisounprabu@ksrakshara.org)
     if (query.action === 'parse-paper' || (body && body.action === 'parse-paper') || (req.url && req.url.includes('parse-paper'))) {
+      const authHeader = (req.headers['authorization'] || '').replace(/^Bearer\s+/i, '').trim();
+      const authInfo = authToken.verify(authHeader);
+      const user = (authInfo && authInfo.user || '').toLowerCase();
+      const isAllowed = user === 'dhisounprabu@ksrakshara.org' || user === 'dhisounprabu' || user === 'aksharaacademy';
+      if (!isAllowed) {
+        return res.status(403).json({ error: 'Access restricted: Only authorized personnel (dhisounprabu@ksrakshara.org) may use the Question Paper Setter.' });
+      }
       return await handleParsePaper(req, res, body);
     }
 

@@ -6,6 +6,51 @@
 (function () {
   "use strict";
 
+  /* ── Staff Authorization Guard ── */
+  var AUTHORIZED_USER = "dhisounprabu@ksrakshara.org";
+  var teacherInfo = null;
+  var teacherToken = "";
+  try {
+    teacherInfo = JSON.parse(localStorage.getItem("teacher_info") || "null");
+    teacherToken = localStorage.getItem("teacher_token") || "";
+  } catch (e) {}
+
+  var currentUser = (teacherInfo && (teacherInfo.user || teacherInfo.email) || "").toLowerCase();
+  var isAuthorized = teacherToken && (
+    currentUser === AUTHORIZED_USER ||
+    currentUser === "dhisounprabu" ||
+    (teacherInfo && teacherInfo.isAdmin === true)
+  );
+
+  if (!isAuthorized) {
+    function showAccessDenied() {
+      var container = document.querySelector(".ps-container");
+      if (container) container.style.display = "none";
+
+      var accessModal = document.createElement("div");
+      accessModal.className = "login-modal-overlay";
+      accessModal.style.cssText = "position:fixed;inset:0;background:rgba(15,23,42,0.75);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px;";
+      accessModal.innerHTML =
+        '<div style="background:#fff;border-radius:16px;box-shadow:0 20px 40px rgba(0,0,0,0.25);max-width:460px;width:100%;padding:36px 28px;text-align:center;font-family:system-ui,-apple-system,sans-serif;">' +
+          '<div style="width:60px;height:60px;border-radius:50%;background:#fee2e2;color:#dc2626;display:inline-flex;align-items:center;justify-content:center;margin-bottom:18px;">' +
+            '<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>' +
+          '</div>' +
+          '<h2 style="margin:0 0 10px;font-size:1.4rem;color:#0f172a;font-weight:700;">Access Restricted</h2>' +
+          '<p style="color:#64748b;font-size:0.94rem;line-height:1.55;margin-bottom:24px;">' +
+            'The Question Paper Setter is exclusively restricted to authorized personnel (<strong>Mr. Dhisoun Prabu. D</strong>). Please sign in with an authorized account on the Teacher Portal.' +
+          '</p>' +
+          '<a href="/teacher/" style="display:inline-flex;align-items:center;justify-content:center;background:#1d4ed8;color:#fff;text-decoration:none;font-weight:600;padding:11px 26px;border-radius:8px;font-size:0.95rem;box-shadow:0 2px 8px rgba(29,78,216,0.3);">Return to Teacher Portal</a>' +
+        '</div>';
+      document.body.appendChild(accessModal);
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", showAccessDenied);
+    } else {
+      showAccessDenied();
+    }
+    return; // Halt Question Paper Setter initialization
+  }
+
   // Configure PDF.js worker
   if (window.pdfjsLib) {
     window.pdfjsLib.GlobalWorkerOptions.workerSrc = '/vendor/pdf.worker.min.js';
@@ -501,9 +546,13 @@
 
   async function parseWithGemini(text) {
     try {
+      var reqHeaders = { 'Content-Type': 'application/json' };
+      if (teacherToken) {
+        reqHeaders['Authorization'] = 'Bearer ' + teacherToken;
+      }
       var response = await fetch('/api/parse-paper', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: reqHeaders,
         body: JSON.stringify({ text: text })
       });
 

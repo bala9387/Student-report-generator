@@ -748,6 +748,8 @@
       if (openSheetBtn) openSheetBtn.style.display = "none";
       var adminSubjWrap = $("#adminSubjectSelectorWrap");
       if (adminSubjWrap) adminSubjWrap.style.display = "none";
+      var paperSetterBtn = $("#paperSetterNavBtn");
+      if (paperSetterBtn) paperSetterBtn.style.display = "none";
     } else {
       if (loginModal) loginModal.style.display = "none";
       if (layout) layout.style.display = "";
@@ -766,6 +768,14 @@
       var adminSubjWrap = $("#adminSubjectSelectorWrap");
       if (adminSubjWrap) {
         adminSubjWrap.style.display = (info && info.isAdmin === true) ? "inline-flex" : "none";
+      }
+
+      // Question Paper Setter access: ONLY for dhisounprabu@ksrakshara.org (and admin)
+      var paperSetterBtn = $("#paperSetterNavBtn");
+      if (paperSetterBtn) {
+        var user = (info && (info.user || info.email) || "").toLowerCase();
+        var isPaperSetterAllowed = (user === "dhisounprabu@ksrakshara.org" || user === "dhisounprabu" || (info && info.isAdmin === true));
+        paperSetterBtn.style.display = isPaperSetterAllowed ? "inline-flex" : "none";
       }
 
       if (badge && info && info.name) {
