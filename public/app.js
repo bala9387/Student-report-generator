@@ -221,14 +221,8 @@
   });
 
   function updateSeriesButtonsForGrade(g) {
-    var links = $("#seriesSheetLinks");
-    if (links) links.style.display = (g === "10" || g === "X" || g === "12" || g === "XII") ? "" : "none";
-    var m2 = $("#btnMelody2");
-    if (m2) m2.style.display = (g === "10" || g === "X") ? "none" : "";
-    var m1 = $("#btnMelody1");
-    if (m1) m1.textContent = (g === "10" || g === "X") ? "Melody" : "Melody 1";
-    var hint = $("#seriesSheetHint");
-    if (hint) hint.textContent = (g === "10" || g === "X") ? "Or view section mark sheets (Class 10)" : "Or view section mark sheets (Class 12)";
+    var wrap = $("#markDownloadWrap");
+    if (wrap) wrap.style.display = (g === "10" || g === "X" || g === "12" || g === "XII" || g === "11" || g === "XI") ? "" : "none";
   }
 
   var gradeSelect = $("#grade");
@@ -329,16 +323,8 @@
       var secName = (lastSectionData && lastSectionData.sectionName) ? lastSectionData.sectionName : (section === "H" ? "Harmony" : (section === "S" ? "Symphony" : "Melody"));
       var filename = gradeStr + "_" + secName.replace(/\s+/g, "_") + "_" + exam.replace(/\s+/g, "") + "_MarkSheet_Landscape.pdf";
       var url = "/api/section-pdf?grade=" + encodeURIComponent(grade) + "&section=" + encodeURIComponent(section) + "&exam=" + encodeURIComponent(exam) + "&_t=" + Date.now();
-
-      var a = document.createElement("a");
-      a.href = url;
-      a.setAttribute("download", filename);
-      a.style.display = "none";
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(function () {
-        try { document.body.removeChild(a); } catch (e) {}
-      }, 1500);
+      downloadLandscapeBtn.href = url;
+      downloadLandscapeBtn.setAttribute("download", filename);
     });
   }
 
@@ -819,6 +805,41 @@
       "<div class='school'>Academic Year " + esc((DATA && DATA.meta && DATA.meta.academicYear) || "2026 - 2027") + " &middot; " + data.students.length + " Students</div>";
     host.appendChild(head);
 
+    // Stream Selector row (Harmony, Melody 1, Melody 2, Symphony)
+    var isG10 = (data.grade === "10" || data.grade === "X");
+    var streamList = isG10 ? [
+      { key: "H", label: "Harmony" },
+      { key: "M", label: "Melody" },
+      { key: "S", label: "Symphony" }
+    ] : [
+      { key: "H", label: "Harmony" },
+      { key: "M1", label: "Melody 1" },
+      { key: "M2", label: "Melody 2" },
+      { key: "S", label: "Symphony" }
+    ];
+
+    var activeStreamKey = data.sectionKey;
+    if (isG10 && (activeStreamKey === "M1" || activeStreamKey === "M2")) activeStreamKey = "M";
+
+    var streamRow = el("div", "lb-stream-row");
+    var streamPillsHtml = streamList.map(function (st) {
+      var isActive = (st.key === activeStreamKey);
+      return '<button type="button" class="btn-stream-pill' + (isActive ? ' active' : '') + '" data-stream="' + esc(st.key) + '">' + esc(st.label) + '</button>';
+    }).join("");
+    streamRow.innerHTML = '<span class="lb-asof-text" style="font-weight:700;color:#1e293b;">Stream:</span>' +
+      '<div class="lb-stream-pill-group">' + streamPillsHtml + '</div>';
+    host.appendChild(streamRow);
+
+    var streamBtns = streamRow.querySelectorAll(".btn-stream-pill");
+    streamBtns.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var sk = this.getAttribute("data-stream");
+        if (sk && sk !== activeStreamKey) {
+          showSectionSheet(sk, data.exam);
+        }
+      });
+    });
+
     // Exam Mode Pills row
     var examList = data.availableExams || ["CU 1", "TE 1", "TE 2"];
     var modeRow = el("div", "lb-mode-row");
@@ -1064,12 +1085,25 @@
   function isAuthed() {
     try {
       var s = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
-      return s && s.until > Date.now();
+      return !!(s && s.until > Date.now());
     } catch (e) { return false; }
   }
 
-  function saveSession(until) {
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ until: until }));
+  function isMasterAdmin() {
+    try {
+      var s = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
+      return !!(s && s.until > Date.now() && s.isAdmin === true);
+    } catch (e) { return false; }
+  }
+
+  function saveSession(until, teacher) {
+    var isAdmin = !!(teacher && (teacher.isAdmin === true || (teacher.user && (teacher.user.toLowerCase() === "aksharaacademy" || teacher.user.toLowerCase() === "aksharaacademy@ksrakshara.org"))));
+    var user = (teacher && teacher.user) || "";
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({
+      until: until,
+      isAdmin: isAdmin,
+      user: user
+    }));
   }
 
   // pending leaderboard scope to launch after successful login
@@ -1081,6 +1115,15 @@
     $("#loginPass").value = "";
     $("#loginMsg").className = "message";
     $("#loginMsg").innerHTML = "";
+    var titleEl = $("#loginTitle");
+    var subEl = $("#loginSubtitle");
+    if (scope === "mark-download") {
+      if (titleEl) titleEl.textContent = "Master Admin Access";
+      if (subEl) subEl.textContent = "Sign in with Master Admin credentials to view and download mark sheets";
+    } else {
+      if (titleEl) titleEl.textContent = "Staff Access";
+      if (subEl) subEl.textContent = "Sign in to view Top Performers";
+    }
     $("#loginOverlay").hidden = false;
     setTimeout(function () { $("#loginUser").focus(); }, 50);
   }
@@ -1127,12 +1170,26 @@
       .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, body: b }; }); })
       .then(function (res) {
         if (res.body.ok) {
-          saveSession(res.body.until);
+          var teacher = res.body.teacher;
+          var isAdmin = !!(teacher && (teacher.isAdmin === true || (teacher.user && (teacher.user.toLowerCase() === "aksharaacademy" || teacher.user.toLowerCase() === "aksharaacademy@ksrakshara.org"))));
           var scope = pendingScope;
-          closeLogin();
-          if (scope === "school") showLeaderboard("school", renderSchoolTop, $("#topSchoolBtn"));
-          else if (scope === "stream") showLeaderboard("stream", renderStreamTop, $("#topStreamBtn"));
-          else if (scope === "slow") showLeaderboard("slow", renderSlowLearners, $("#slowLearnersBtn"));
+          if (scope === "mark-download") {
+            if (!isAdmin) {
+              msgEl.className = "message error";
+              msgEl.innerHTML = "Access restricted: Master Admin credentials required.";
+              btn.disabled = false;
+              return;
+            }
+            saveSession(res.body.until, teacher);
+            closeLogin();
+            showSectionSheet("H", currentMode);
+          } else {
+            saveSession(res.body.until, teacher);
+            closeLogin();
+            if (scope === "school") showLeaderboard("school", renderSchoolTop, $("#topSchoolBtn"));
+            else if (scope === "stream") showLeaderboard("stream", renderStreamTop, $("#topStreamBtn"));
+            else if (scope === "slow") showLeaderboard("slow", renderSlowLearners, $("#slowLearnersBtn"));
+          }
         } else {
           msgEl.className = "message error";
           msgEl.innerHTML = esc(res.body.error || "Invalid credentials");
@@ -1161,14 +1218,16 @@
     slowLearnersBtn.addEventListener("click", function (ev) { guardedLeaderboard("slow", renderSlowLearners, ev.currentTarget); });
   }
 
-  ["btnHarmony", "btnMelody1", "btnMelody2", "btnSymphony"].forEach(function (id) {
-    var b = $("#" + id);
-    if (!b) return;
-    b.addEventListener("click", function () {
-      var series = b.getAttribute("data-series");
-      if (series) showSectionSheet(series, currentMode);
+  var markDownloadBtn = $("#markDownloadBtn");
+  if (markDownloadBtn) {
+    markDownloadBtn.addEventListener("click", function () {
+      if (isMasterAdmin()) {
+        showSectionSheet("H", currentMode);
+      } else {
+        openLogin("mark-download");
+      }
     });
-  });
+  }
 
   // ---------- PDF export (jsPDF) ----------
   function savePdf(doc, filename) {
@@ -1687,10 +1746,7 @@
     $("#topSchoolBtn").disabled = false;
     $("#topStreamBtn").disabled = false;
     if ($("#slowLearnersBtn")) $("#slowLearnersBtn").disabled = false;
-    ["btnHarmony", "btnMelody1", "btnMelody2", "btnSymphony"].forEach(function (id) {
-      var b = $("#" + id);
-      if (b) b.disabled = false;
-    });
+    if ($("#markDownloadBtn")) $("#markDownloadBtn").disabled = false;
     if (res.live) {
       setStatus("live", "Live · " + fmtTime(new Date(res.when)), "Loaded live from Google Sheets.");
     } else {

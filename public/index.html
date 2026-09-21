@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=5.0, user-scalable=yes" />
   <title>Student Performance Report</title>
-  <link rel="stylesheet" href="styles.css?v=60" />
+  <link rel="stylesheet" href="styles.css?v=65" />
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="landing-body">
@@ -158,14 +158,11 @@
         </a>
       </div>
 
-      <div class="series-sheet-links" id="seriesSheetLinks">
-        <p class="hint" id="seriesSheetHint">Or view section mark sheets (Class 12)</p>
-        <div class="series-sheet-btns">
-          <button type="button" class="btn-ghost series-sheet-btn" data-series="H" id="btnHarmony">Harmony</button>
-          <button type="button" class="btn-ghost series-sheet-btn" data-series="M1" id="btnMelody1">Melody 1</button>
-          <button type="button" class="btn-ghost series-sheet-btn" data-series="M2" id="btnMelody2">Melody 2</button>
-          <button type="button" class="btn-ghost series-sheet-btn" data-series="S" id="btnSymphony">Symphony</button>
-        </div>
+      <div class="mark-download-wrap" id="markDownloadWrap">
+        <button type="button" id="markDownloadBtn" class="btn-ghost mark-download-btn" disabled>
+          <svg viewBox="0 0 24 24" class="btn-ic" aria-hidden="true"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+          <span>Mark Download</span>
+        </button>
       </div>
     </section>
 
@@ -230,8 +227,8 @@
     <div class="login-card">
       <div class="login-header">
         <img src="logo.jpg" alt="KSR Logo" class="login-logo" />
-        <h2>Staff Access</h2>
-        <p>Sign in to view Top Performers</p>
+        <h2 id="loginTitle">Staff Access</h2>
+        <p id="loginSubtitle">Sign in to view Top Performers</p>
       </div>
       <form id="loginForm" autocomplete="off">
         <div class="field">
@@ -257,6 +254,6 @@
   <!-- data.js / datasource.js are backend-only now (see server.js) — the browser
        never talks to Google Sheets directly and never sees the sheet ID. -->
   <script src="vendor/jspdf.umd.min.js"></script>
-  <script src="app.js?v=60"></script>
+  <script src="app.js?v=66"></script>
 </body>
 </html>

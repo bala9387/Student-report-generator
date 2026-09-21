@@ -297,11 +297,27 @@ body{
 }
 .feedback-btn:hover{background:#f1f5f9;color:#0f172a;border-color:#94a3b8}
 
-/* ---------- section sheet links (Class 12) ---------- */
-.series-sheet-links{margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft)}
-.series-sheet-links .hint{margin:0 0 10px;font-size:0.88rem;color:var(--muted)}
-.series-sheet-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.series-sheet-btns .btn-ghost{width:100%;box-sizing:border-box;justify-content:center;font-size:0.9rem;padding:9px 8px;text-align:center}
+/* ---------- mark download button ---------- */
+.mark-download-wrap{margin-top:9px}
+.mark-download-btn{
+  width:100%;box-sizing:border-box;text-decoration:none;justify-content:center;
+  background:#f8fafc;border-color:#cbd5e1;color:#1e293b;font-weight:600;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.mark-download-btn:hover{background:#f1f5f9;color:#0f172a;border-color:#94a3b8}
+
+/* ---------- section stream pills inside the page ---------- */
+.lb-stream-row{display:flex;align-items:center;gap:12px;margin:8px 0 12px;flex-wrap:wrap}
+.lb-stream-pill-group{display:flex;gap:8px;flex-wrap:wrap}
+.btn-stream-pill{
+  padding:6px 14px;border-radius:20px;border:1px solid #cbd5e1;background:#fff;
+  color:#334155;font-size:0.88rem;font-weight:600;cursor:pointer;transition:all .15s ease;
+}
+.btn-stream-pill:hover{background:#f1f5f9;border-color:#94a3b8;color:#0f172a}
+.btn-stream-pill.active{
+  background:#1e293b;border-color:#0f172a;color:#fff;
+  box-shadow:0 2px 6px rgba(15,23,42,.15);
+}
 
 /* ---------- section marks excel table ---------- */
 .sec-table-wrap{
