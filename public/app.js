@@ -849,6 +849,34 @@
     });
 
     h += "</tbody>";
+
+    var stats = data.stats;
+    if (stats) {
+      var statRowsConfig = [
+        { label: "No. of Student Present", key: "present" },
+        { label: "No. of Student Absent", key: "absent" },
+        { label: "No. of Student Failure", key: "failure" },
+        { label: "Subject Average", key: "average" },
+        { label: "Maximum Mark", key: "max" },
+        { label: "Minimum Mark", key: "min" }
+      ];
+
+      h += "<tfoot>";
+      statRowsConfig.forEach(function (cfg) {
+        h += "<tr class='stat-row'><td colspan='4' class='stat-label'>" + esc(cfg.label) + "</td>";
+        data.subjects.forEach(function (sub) {
+          var val = (stats[cfg.key] && stats[cfg.key][sub] != null) ? stats[cfg.key][sub] : "-";
+          h += "<td>" + esc(String(val)) + "</td>";
+        });
+        h += "<td class='col-tot500'></td>";
+        var pedVal = (stats[cfg.key] && stats[cfg.key]["PED"] != null) ? stats[cfg.key]["PED"] : "-";
+        h += "<td>" + esc(String(pedVal)) + "</td>";
+        h += "<td class='col-total'></td>";
+        h += "</tr>";
+      });
+      h += "</tfoot>";
+    }
+
     tbl.innerHTML = h;
     scroll.appendChild(tbl);
     host.appendChild(scroll);
@@ -1454,6 +1482,97 @@
 
       renderTableRow(rowCells, rowH, false, idx % 2 === 1);
     });
+
+    // Render the 6 summary statistic rows (Present, Absent, Failure, Average, Max, Min)
+    var stats = data.stats || null;
+    if (stats) {
+      var statRowsConfig = [
+        { label: "No. of Student Present", key: "present" },
+        { label: "No. of Student Absent", key: "absent" },
+        { label: "No. of Student Failure", key: "failure" },
+        { label: "Subject Average", key: "average" },
+        { label: "Maximum Mark", key: "max" },
+        { label: "Minimum Mark", key: "min" }
+      ];
+
+      var labelW = colWidths[0] + colWidths[1] + colWidths[2] + colWidths[3];
+
+      statRowsConfig.forEach(function (cfg) {
+        if (y + rowH > pageH - 28) {
+          doc.addPage();
+          y = 70;
+          drawLandscapeHeader();
+          renderTableRow(headRow, headH, true, false);
+        }
+
+        var x = x0;
+
+        // Merged label cell across #, Roll, Name, Stream
+        doc.setFillColor(255, 255, 255);
+        doc.rect(x, y, labelW, rowH, "F");
+        doc.setDrawColor(218, 222, 230);
+        doc.setLineWidth(0.5);
+        doc.rect(x, y, labelW, rowH, "S");
+
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(7.5);
+        doc.setTextColor(192, 0, 0); // Bold dark red (#c00000)
+        doc.text(cfg.label, x + labelW - 6, y + rowH / 2 + 0.5, { align: "right", baseline: "middle" });
+        x += labelW;
+
+        // Subject columns
+        subs.forEach(function (sub, sIdx) {
+          var w = colWidths[4 + sIdx];
+          doc.setFillColor(255, 255, 255);
+          doc.rect(x, y, w, rowH, "F");
+          doc.setDrawColor(218, 222, 230);
+          doc.setLineWidth(0.5);
+          doc.rect(x, y, w, rowH, "S");
+
+          var val = stats[cfg.key] && stats[cfg.key][sub] != null ? stats[cfg.key][sub] : "-";
+          doc.setFont("helvetica", "normal");
+          doc.setFontSize(7.5);
+          doc.setTextColor(40, 45, 55);
+          doc.text(String(val), x + w / 2, y + rowH / 2 + 0.5, { align: "center", baseline: "middle" });
+          x += w;
+        });
+
+        // Total (500) column (empty cell)
+        var wTot500 = colWidths[4 + subs.length];
+        doc.setFillColor(255, 255, 255);
+        doc.rect(x, y, wTot500, rowH, "F");
+        doc.setDrawColor(218, 222, 230);
+        doc.setLineWidth(0.5);
+        doc.rect(x, y, wTot500, rowH, "S");
+        x += wTot500;
+
+        // PED column
+        var wPed = colWidths[5 + subs.length];
+        doc.setFillColor(255, 255, 255);
+        doc.rect(x, y, wPed, rowH, "F");
+        doc.setDrawColor(218, 222, 230);
+        doc.setLineWidth(0.5);
+        doc.rect(x, y, wPed, rowH, "S");
+
+        var pedVal = stats[cfg.key] && stats[cfg.key]["PED"] != null ? stats[cfg.key]["PED"] : "-";
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(7.5);
+        doc.setTextColor(40, 45, 55);
+        doc.text(String(pedVal), x + wPed / 2, y + rowH / 2 + 0.5, { align: "center", baseline: "middle" });
+        x += wPed;
+
+        // Grand Total column (empty cell)
+        var wGrandTot = colWidths[6 + subs.length];
+        doc.setFillColor(255, 255, 255);
+        doc.rect(x, y, wGrandTot, rowH, "F");
+        doc.setDrawColor(218, 222, 230);
+        doc.setLineWidth(0.5);
+        doc.rect(x, y, wGrandTot, rowH, "S");
+        x += wGrandTot;
+
+        y += rowH;
+      });
+    }
 
     if (y + 20 <= pageH - 15) {
       doc.setFont("helvetica", "italic");
