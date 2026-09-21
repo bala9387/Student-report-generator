@@ -220,13 +220,23 @@
     fetchStudentReport(roll, mode, grade);
   });
 
+  function updateSeriesButtonsForGrade(g) {
+    var links = $("#seriesSheetLinks");
+    if (links) links.style.display = (g === "10" || g === "X" || g === "12" || g === "XII") ? "" : "none";
+    var m2 = $("#btnMelody2");
+    if (m2) m2.style.display = (g === "10" || g === "X") ? "none" : "";
+    var m1 = $("#btnMelody1");
+    if (m1) m1.textContent = (g === "10" || g === "X") ? "Melody" : "Melody 1";
+    var hint = $("#seriesSheetHint");
+    if (hint) hint.textContent = (g === "10" || g === "X") ? "Or view section mark sheets (Class 10)" : "Or view section mark sheets (Class 12)";
+  }
+
   var gradeSelect = $("#grade");
   if (gradeSelect) {
     gradeSelect.addEventListener("change", function () {
       var g = this.value;
       currentStudentGrade = g;
-      var links = $("#seriesSheetLinks");
-      if (links) links.style.display = (g === "12" || g === "XII") ? "" : "none";
+      updateSeriesButtonsForGrade(g);
       load(false);
     });
   }
@@ -601,7 +611,9 @@
   // ---------- Top Performers (leaderboards) ----------
   var DOMAIN_LABELS = {
     "Bio-Math": "Bio - Maths", "Math-CS": "Maths - CS", "Bio-CS": "Bio - CS",
-    "Applied Math": "Applied Maths", "CS": "Computer Science"
+    "Applied Math": "Applied Maths", "CS": "Computer Science",
+    "X Harmony": "Harmony", "X Melody": "Melody", "X Symphony": "Symphony",
+    "10 H": "Harmony", "10 M": "Melody", "10 S": "Symphony"
   };
   function domainLabel(dom) { return DOMAIN_LABELS[dom] || dom; }
 
@@ -777,9 +789,10 @@
     $("#downloadBtn").style.display = "none";
     if ($("#downloadLandscapeBtn")) $("#downloadLandscapeBtn").style.display = "inline-flex";
 
+    var gradeDisplay = (data.grade === "10" || data.grade === "X") ? "Class 10" : ((data.grade === "11" || data.grade === "XI") ? "Class 11" : "Class 12");
     var head = el("div", "rep-head");
     head.innerHTML = "<div class='rep-banner'>" + esc(BANNER) + "</div>" +
-      "<h2>Class 12 &mdash; " + esc(data.sectionName) + " Mark Sheet</h2>" +
+      "<h2>" + esc(gradeDisplay) + " &mdash; " + esc(data.sectionName) + " Mark Sheet</h2>" +
       "<div class='school'>Academic Year " + esc((DATA && DATA.meta && DATA.meta.academicYear) || "2026 - 2027") + " &middot; " + data.students.length + " Students</div>";
     host.appendChild(head);
 
@@ -812,11 +825,16 @@
     var tbl = el("table", "sec-table");
 
     // Table Header
+    var hasPed = !!data.hasPed;
     var ths = "<tr><th>#</th><th>Roll No</th><th style='text-align:left;'>Student Name</th><th>Stream</th>";
     data.subjects.forEach(function (sub) {
       ths += "<th>" + esc(sub) + "</th>";
     });
-    ths += "<th class='col-tot500'>Total (500)</th><th>PED</th><th class='col-total'>Grand Total</th></tr>";
+    if (hasPed) {
+      ths += "<th class='col-tot500'>Total (500)</th><th>PED</th><th class='col-total'>Grand Total</th></tr>";
+    } else {
+      ths += "<th class='col-total'>Total</th></tr>";
+    }
 
     var h = "<thead>" + ths + "</thead><tbody>";
 
@@ -827,25 +845,31 @@
         "<td class='col-name'>" + esc(st.name) + "</td>" +
         "<td class='col-stream'>" + esc(domainLabel(st.stream)) + "</td>";
 
+      var failCutoff = (data.exam === "CU 1") ? 35 : ((data.grade === "12") ? 45 : 30);
       data.subjects.forEach(function (sub) {
         var mark = (st.marks && st.marks[sub] != null && st.marks[sub] !== "") ? st.marks[sub] : "-";
         var isFail = false;
         var num = parseFloat(mark);
         if (!isNaN(num) && mark !== "-" && mark !== "AB" && mark !== "ab") {
-          if (num < 45) isFail = true;
+          if (num < failCutoff) isFail = true;
         }
         var cellContent = isFail ? '<span class="mark-fail">' + esc(mark) + '</span>' : esc(mark);
         h += "<td>" + cellContent + "</td>";
       });
 
-      var tot500 = st.total500 != null ? st.total500 : "-";
-      var ped = st.ped != null ? st.ped : "-";
-      var grandTot = st.total != null ? st.total : "-";
+      if (hasPed) {
+        var tot500 = st.total500 != null ? st.total500 : "-";
+        var ped = st.ped != null ? st.ped : "-";
+        var grandTot = st.total != null ? st.total : "-";
 
-      h += "<td class='col-tot500'>" + esc(tot500) + "</td>" +
-        "<td>" + esc(ped) + "</td>" +
-        "<td class='col-total'>" + esc(grandTot) + "</td>" +
-        "</tr>";
+        h += "<td class='col-tot500'>" + esc(tot500) + "</td>" +
+          "<td>" + esc(ped) + "</td>" +
+          "<td class='col-total'>" + esc(grandTot) + "</td>";
+      } else {
+        var tot = st.total != null ? st.total : "-";
+        h += "<td class='col-total'>" + esc(tot) + "</td>";
+      }
+      h += "</tr>";
     });
 
     h += "</tbody>";
@@ -868,10 +892,14 @@
           var val = (stats[cfg.key] && stats[cfg.key][sub] != null) ? stats[cfg.key][sub] : "-";
           h += "<td>" + esc(String(val)) + "</td>";
         });
-        h += "<td class='col-tot500'></td>";
-        var pedVal = (stats[cfg.key] && stats[cfg.key]["PED"] != null) ? stats[cfg.key]["PED"] : "-";
-        h += "<td>" + esc(String(pedVal)) + "</td>";
-        h += "<td class='col-total'></td>";
+        if (hasPed) {
+          h += "<td class='col-tot500'></td>";
+          var pedVal = (stats[cfg.key] && stats[cfg.key]["PED"] != null) ? stats[cfg.key]["PED"] : "-";
+          h += "<td>" + esc(String(pedVal)) + "</td>";
+          h += "<td class='col-total'></td>";
+        } else {
+          h += "<td class='col-total'></td>";
+        }
         h += "</tr>";
       });
       h += "</tfoot>";
@@ -901,11 +929,14 @@
     if ($("#downloadLandscapeBtn")) $("#downloadLandscapeBtn").style.display = "inline-flex";
     showView("report");
 
-    var grade = "12";
+    var grade = currentStudentGrade || ($("#grade") ? $("#grade").value : "12");
+    currentStudentGrade = grade;
     updateToolbarGradeOptions(grade);
-    BANNER = "Grade XII · Team Elevate 2027";
+    if (grade === "10" || grade === "X") BANNER = "Grade X · Academic Session 2026-27";
+    else if (grade === "11" || grade === "XI") BANNER = "Grade XI · Academic Session 2026-27";
+    else BANNER = "Grade XII · Team Elevate 2027";
 
-    apiGet("/api/leaderboard?scope=section&section=" + encodeURIComponent(seriesKey) + "&grade=12&mode=" + encodeURIComponent(examMode) + "&fresh=1&_t=" + Date.now())
+    apiGet("/api/leaderboard?scope=section&section=" + encodeURIComponent(seriesKey) + "&grade=" + encodeURIComponent(grade) + "&mode=" + encodeURIComponent(examMode) + "&fresh=1&_t=" + Date.now())
       .then(function (resp) {
         absorbMeta(resp);
         host.innerHTML = "";
@@ -987,12 +1018,15 @@
       var newGrade = this.value;
       currentStudentGrade = newGrade;
       if ($("#grade")) $("#grade").value = newGrade;
+      updateSeriesButtonsForGrade(newGrade);
 
       if (newGrade === "10" || newGrade === "X") BANNER = "Grade X · Academic Session 2026-27";
       else if (newGrade === "11" || newGrade === "XI") BANNER = "Grade XI · Academic Session 2026-27";
       else BANNER = "Grade XII · Team Elevate 2027";
 
-      if (currentLeaderboardScope) {
+      if (currentSectionKey) {
+        showSectionSheet(currentSectionKey, currentMode);
+      } else if (currentLeaderboardScope) {
         var renderFn = currentLeaderboardScope === "school" ? renderSchoolTop : (currentLeaderboardScope === "stream" ? renderStreamTop : renderSlowLearners);
         var btn = currentLeaderboardScope === "school" ? $("#topSchoolBtn") : (currentLeaderboardScope === "stream" ? $("#topStreamBtn") : $("#slowLearnersBtn"));
         showLeaderboard(currentLeaderboardScope, renderFn, btn, currentMode);
@@ -1364,8 +1398,9 @@
       doc.setFont("helvetica", "bold"); doc.setFontSize(10.5); doc.setTextColor(20, 30, 48);
       doc.text(BANNER, pageW / 2, 26, { align: "center" });
 
+      var gradeDisplay = (data.grade === "10" || data.grade === "X") ? "Class 10" : ((data.grade === "11" || data.grade === "XI") ? "Class 11" : "Class 12");
       doc.setFont("helvetica", "bold"); doc.setFontSize(16); doc.setTextColor(183, 22, 28);
-      doc.text("Class 12 — " + data.sectionName + " Mark Sheet", pageW / 2, 44, { align: "center" });
+      doc.text(gradeDisplay + " — " + data.sectionName + " Mark Sheet", pageW / 2, 44, { align: "center" });
 
       doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); doc.setTextColor(90);
       var year = (DATA && DATA.meta && DATA.meta.academicYear) || "2026 - 2027";
@@ -1377,9 +1412,11 @@
     var x0 = 35;
     var usableW = pageW - x0 * 2;
 
+    var hasPed = !!data.hasPed;
     var subs = data.subjects || [];
     var nSubs = subs.length || 1;
-    var subColW = Math.floor((usableW - 464) / nSubs);
+    var trailingW = hasPed ? 164 : 65;
+    var subColW = Math.floor((usableW - 300 - trailingW) / nSubs);
 
     var colWidths = [24, 56, 135, 85];
     var aligns = ["center", "center", "left", "left"];
@@ -1391,9 +1428,15 @@
       headRow.push(s);
     });
 
-    colWidths.push(62, 40, 62);
-    aligns.push("center", "center", "center");
-    headRow.push("Total (500)", "PED", "Grand Total");
+    if (hasPed) {
+      colWidths.push(62, 40, 62);
+      aligns.push("center", "center", "center");
+      headRow.push("Total (500)", "PED", "Grand Total");
+    } else {
+      colWidths.push(65);
+      aligns.push("center");
+      headRow.push("Total");
+    }
 
     var sumColW = colWidths.reduce(function (a, b) { return a + b; }, 0);
     var diff = usableW - sumColW;
@@ -1428,16 +1471,10 @@
         var bold = isHeader || isFail || (i === 0);
         doc.setFont("helvetica", bold ? "bold" : "normal");
         doc.setFontSize(isHeader ? 8 : 7.5);
+        var textColor = isHeader ? [30, 41, 59] : (isFail ? [220, 38, 38] : [30, 35, 45]);
+        doc.setTextColor.apply(doc, textColor);
 
-        if (isHeader) {
-          doc.setTextColor(30, 41, 59);
-        } else if (isFail) {
-          doc.setTextColor(220, 38, 38);
-        } else {
-          doc.setTextColor(40, 45, 55);
-        }
-
-        var align = aligns[i];
+        var align = isHeader ? "center" : aligns[i];
         var pad = 4;
         var tx = align === "left" ? x + pad : (align === "right" ? x + w - pad : x + w / 2);
         doc.text(String(text != null ? text : "-"), tx, y + h / 2 + 0.5, { align: align, baseline: "middle" });
@@ -1449,6 +1486,7 @@
     drawLandscapeHeader();
     renderTableRow(headRow, headH, true, false);
 
+    var failCutoff = (data.exam === "CU 1") ? 35 : ((data.grade === "12") ? 45 : 30);
     data.students.forEach(function (st, idx) {
       if (y + rowH > pageH - 28) {
         doc.addPage();
@@ -1469,16 +1507,20 @@
         var isFail = false;
         var numV = parseFloat(raw);
         if (!isNaN(numV) && raw !== "-" && String(raw).toUpperCase() !== "AB") {
-          if (numV < 45) isFail = true;
+          if (numV < failCutoff) isFail = true;
         }
         rowCells.push(isFail ? { text: String(raw), isFail: true } : String(raw));
       });
 
-      var tot500 = st.total500 != null ? String(st.total500) : "-";
-      var ped = st.ped != null ? String(st.ped) : "-";
-      var grandTot = st.total != null ? String(st.total) : "-";
-
-      rowCells.push(tot500, ped, grandTot);
+      if (hasPed) {
+        var tot500 = st.total500 != null ? String(st.total500) : "-";
+        var ped = st.ped != null ? String(st.ped) : "-";
+        var grandTot = st.total != null ? String(st.total) : "-";
+        rowCells.push(tot500, ped, grandTot);
+      } else {
+        var tot = st.total != null ? String(st.total) : "-";
+        rowCells.push(tot);
+      }
 
       renderTableRow(rowCells, rowH, false, idx % 2 === 1);
     });
@@ -1537,38 +1579,49 @@
           x += w;
         });
 
-        // Total (500) column (empty cell)
-        var wTot500 = colWidths[4 + subs.length];
-        doc.setFillColor(255, 255, 255);
-        doc.rect(x, y, wTot500, rowH, "F");
-        doc.setDrawColor(218, 222, 230);
-        doc.setLineWidth(0.5);
-        doc.rect(x, y, wTot500, rowH, "S");
-        x += wTot500;
+        if (hasPed) {
+          // Total (500) column (empty cell)
+          var wTot500 = colWidths[4 + subs.length];
+          doc.setFillColor(255, 255, 255);
+          doc.rect(x, y, wTot500, rowH, "F");
+          doc.setDrawColor(218, 222, 230);
+          doc.setLineWidth(0.5);
+          doc.rect(x, y, wTot500, rowH, "S");
+          x += wTot500;
 
-        // PED column
-        var wPed = colWidths[5 + subs.length];
-        doc.setFillColor(255, 255, 255);
-        doc.rect(x, y, wPed, rowH, "F");
-        doc.setDrawColor(218, 222, 230);
-        doc.setLineWidth(0.5);
-        doc.rect(x, y, wPed, rowH, "S");
+          // PED column
+          var wPed = colWidths[5 + subs.length];
+          doc.setFillColor(255, 255, 255);
+          doc.rect(x, y, wPed, rowH, "F");
+          doc.setDrawColor(218, 222, 230);
+          doc.setLineWidth(0.5);
+          doc.rect(x, y, wPed, rowH, "S");
 
-        var pedVal = stats[cfg.key] && stats[cfg.key]["PED"] != null ? stats[cfg.key]["PED"] : "-";
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(7.5);
-        doc.setTextColor(40, 45, 55);
-        doc.text(String(pedVal), x + wPed / 2, y + rowH / 2 + 0.5, { align: "center", baseline: "middle" });
-        x += wPed;
+          var pedVal = stats[cfg.key] && stats[cfg.key]["PED"] != null ? stats[cfg.key]["PED"] : "-";
+          doc.setFont("helvetica", "normal");
+          doc.setFontSize(7.5);
+          doc.setTextColor(40, 45, 55);
+          doc.text(String(pedVal), x + wPed / 2, y + rowH / 2 + 0.5, { align: "center", baseline: "middle" });
+          x += wPed;
 
-        // Grand Total column (empty cell)
-        var wGrandTot = colWidths[6 + subs.length];
-        doc.setFillColor(255, 255, 255);
-        doc.rect(x, y, wGrandTot, rowH, "F");
-        doc.setDrawColor(218, 222, 230);
-        doc.setLineWidth(0.5);
-        doc.rect(x, y, wGrandTot, rowH, "S");
-        x += wGrandTot;
+          // Grand Total column (empty cell)
+          var wGrandTot = colWidths[6 + subs.length];
+          doc.setFillColor(255, 255, 255);
+          doc.rect(x, y, wGrandTot, rowH, "F");
+          doc.setDrawColor(218, 222, 230);
+          doc.setLineWidth(0.5);
+          doc.rect(x, y, wGrandTot, rowH, "S");
+          x += wGrandTot;
+        } else {
+          // Total column (empty cell)
+          var wTot = colWidths[4 + subs.length];
+          doc.setFillColor(255, 255, 255);
+          doc.rect(x, y, wTot, rowH, "F");
+          doc.setDrawColor(218, 222, 230);
+          doc.setLineWidth(0.5);
+          doc.rect(x, y, wTot, rowH, "S");
+          x += wTot;
+        }
 
         y += rowH;
       });
@@ -1578,10 +1631,14 @@
       doc.setFont("helvetica", "italic");
       doc.setFontSize(7.5);
       doc.setTextColor(120);
-      doc.text("* Red indicates mark < 45. Total (500) excludes Physical Education (PED). Grand Total includes all evaluated subjects.", x0, y + 14);
+      var note = hasPed
+        ? "* Red indicates mark < " + failCutoff + ". Total (500) excludes Physical Education (PED). Grand Total includes all evaluated subjects."
+        : "* Red indicates mark < " + failCutoff + ". Total includes all evaluated subjects.";
+      doc.text(note, x0, y + 14);
     }
 
-    var fileName = data.sectionName.replace(/\s+/g, "_") + "_" + (data.exam || "Exam").replace(/\s+/g, "") + "_MarkSheet_Landscape.pdf";
+    var gradeStr = (data.grade === "10" || data.grade === "X") ? "Class_10" : ((data.grade === "11" || data.grade === "XI") ? "Class_11" : "Class_12");
+    var fileName = gradeStr + "_" + data.sectionName.replace(/\s+/g, "_") + "_" + (data.exam || "Exam").replace(/\s+/g, "") + "_MarkSheet_Landscape.pdf";
     doc.save(fileName);
   }
 
@@ -1841,7 +1898,8 @@
   }
 
   function load(isRefresh) {
-    var grade = $("#grade") ? $("#grade").value : "12";
+    var grade = currentStudentGrade || ($("#grade") ? $("#grade").value : "12");
+    updateSeriesButtonsForGrade(grade);
     if (grade === "10" || grade === "X") BANNER = "Grade X · Academic Session 2026-27";
     else if (grade === "11" || grade === "XI") BANNER = "Grade XI · Academic Session 2026-27";
     else BANNER = "Grade XII · Team Elevate 2027";

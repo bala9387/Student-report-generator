@@ -199,11 +199,11 @@
 
       // Auto-assign Class 10 streams based on roll number prefix
       var rollUpper = roll.toUpperCase();
-      if (/^26XH/i.test(rollUpper)) {
+      if (/^26(X)?H/i.test(rollUpper)) {
         stream = ["10 H"];
-      } else if (/^26XM/i.test(rollUpper)) {
+      } else if (/^26(X)?M/i.test(rollUpper)) {
         stream = ["10 M"];
-      } else if (/^26XS/i.test(rollUpper)) {
+      } else if (/^26(X)?S/i.test(rollUpper)) {
         stream = ["10 S"];
       }
 
@@ -227,7 +227,7 @@
     Object.keys(peStudents).forEach(function (r) {
       var st = peStudents[r];
       var dom = (st.stream || []).join("-");
-      st.domainName = dom;
+      st.domainName = STREAM_ALIAS[dom] || dom;
       if (!domainGroups[dom]) domainGroups[dom] = [];
       domainGroups[dom].push(st);
     });
