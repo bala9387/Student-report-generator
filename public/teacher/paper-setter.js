@@ -435,7 +435,7 @@
       }
 
       // Send to Gemini AI for intelligent parsing
-      updateParsingLoader("🤖 AI is analyzing your question paper...");
+      updateParsingLoader("AI is analyzing your question paper...");
       await parseWithGemini(extractedText);
 
     } catch (err) {
@@ -525,7 +525,7 @@
 
     } catch (err) {
       console.warn("AI parse error, trying local parser fallback:", err);
-      updateParsingLoader("⚡ Falling back to local parser...");
+      updateParsingLoader("Falling back to local parser...");
       
       var paper = parsePaperFromText(text);
       hideParsingLoader();
