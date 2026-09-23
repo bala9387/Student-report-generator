@@ -2,18 +2,53 @@ const gemini = require('../lib/geminiReport.js');
 const tracker = require('../lib/apiTracker.js');
 const authToken = require('../lib/authToken.js');
 
-const PARSE_PROMPT = `You are a universal question paper parser. Given raw text from a question paper, return a strictly valid JSON object with the paper's complete structure.
+const PARSE_PROMPT = `You are a high-precision question paper parser. Given raw text extracted from an original question paper, return a strictly valid JSON object with the paper's complete structure.
 
-RULES:
-1. Header: Detect school name, exam title, date, grade/class, total marks, subject, duration. Each must be a separate field. If missing, use "".
-2. Sections: Find ALL sections (Section A/B/C/D/E, Part A/B, etc). If no section headers exist, put all questions under one section.
-3. shuffleType: "options" for MCQ sections, "questions" for short/long answer sections, "none" for case-based/passage sections.
-4. CRITICAL - Extract EVERY question: Each question must have qNo (integer), text (full question), marks (string), options (array of {label, text} objects for MCQs, empty [] for non-MCQs), orText (alternative question text or null).
-5. MCQ options: Each option = {"label": "a", "text": "the option text"}. Labels: a, b, c, d. NEVER leave text empty!
-6. Math/Science: Use LaTeX in $...$ for formulas. E.g. $\\vec{E}$, $\\frac{1}{2}mv^2$, $\\theta = 30°$. Reconstruct missing symbols from context.
-7. DO NOT skip any questions. The total question count must match the original paper.
+CRITICAL FIDELITY & MATH RULES:
+1. STRICT FIDELITY - PRESERVE EXACT ORIGINAL TEXT:
+   - DO NOT rewrite, rephrase, simplify, alter, "reconstruct", or invent questions or formulas.
+   - You MUST preserve the EXACT wording, question stems, symbols, formulas, numbers, and options from the source text.
+   - NEVER add words like "If", "Suppose", or "Calculate" if they are not in the original question text.
+   - NEVER hallucinate or alter formulas (e.g., do NOT turn |x| into f(x), do NOT invent \\boxed{}, do NOT change exponents or signs). Copy every formula exactly as written.
 
-IMPORTANT: Return ONLY valid JSON. No markdown, no explanations.`;
+2. MATHEMATICAL FORMULAS & LaTeX:
+   - Preserve all mathematical formulas, equations, and mathematical variables using standard LaTeX enclosed in single dollar signs ($...$), e.g. $\\int |x|\\,dx = kx|x| + C$ or $x \\neq 0$ or $\\frac{1}{2}$.
+   - STRICT DELIMITER RULE: NEVER enclose English words, phrases, or question instructions inside dollar signs ($...$)!
+     INCORRECT: $\\int f(x)\\,dx = kx \\boxed{x} + C, x \\neq 0, thenthevalueofk$ is :
+     CORRECT: $\\int |x|\\,dx = kx|x| + C$, $x \\neq 0$, then the value of $k$ is :
+     Normal English words ("then", "the value of", "is equal to", "where", "equals", "if", etc.) MUST stay as plain text outside the $...$ math delimiters.
+
+3. HEADER EXTRACTION:
+   - Detect school name, exam title, date, grade/class, total marks, subject, duration. Each must be a separate field. If missing, use "".
+
+4. SECTIONS:
+   - Find ALL sections (Section A/B/C/D/E, Part A/B, etc). If no section headers exist, put all questions under one section.
+   - shuffleType: "options" for MCQ sections, "questions" for short/long answer sections, "none" for case-based/passage sections.
+
+5. EXTRACT EVERY QUESTION:
+   - Each question must have qNo (integer), text (full question text), marks (string), options (array of {label, text} objects for MCQs, empty [] for non-MCQs), orText (alternative question text or null).
+   - DO NOT skip any questions. The total question count must match the original paper.
+
+6. MCQ OPTIONS:
+   - Each option = {"label": "a", "text": "the option text"}. Labels: a, b, c, d.
+   - NEVER leave text empty! Preserve mathematical formulas inside options using $...$ (e.g. text: "$\\frac{1}{2}$").
+
+7. TABLES & TABULATIONS (CRITICAL):
+   - If a question contains a data table, schedule, SQL table, recordset, grid, matrix, or tabulation (e.g. TABLE: CLUB with columns COACH_ID, COACHNAME, AGE, SPORTS, DOJ, PAY, SEX), you MUST preserve the entire table inside the question's 'text' as a clean, complete Markdown table with header row and pipe separators:
+     **TABLE: CLUB**
+     | COACH_ID | COACHNAME | AGE | SPORTS | DOJ | PAY | SEX |
+     |---|---|---|---|---|---|---|
+     | 1 | ARUN | 35 | KARATE | 27/03/1996 | 1000 | M |
+     | 2 | RAVINA | 34 | KARATE | 20/01/1998 | 1200 | F |
+     | 3 | KARAN | 34 | SQUASH | 19/02/1998 | 2000 | M |
+     | 4 | TARUN | 33 | BASKETBALL | 01/01/1998 | 1500 | M |
+     | 5 | ANKITA | 36 | SWIMMING | 12/01/1998 | 750 | F |
+   - NEVER drop, skip, or flatten any table row or column. Keep every cell and data value intact!
+
+8. IMAGES & DIAGRAMS (CRITICAL):
+   - If a question contains an image placeholder, diagram tag, or figure reference (such as [IMAGE_1], [IMAGE_2], [IMG_1], [FIGURE_1], or diagram reference), you MUST preserve that exact placeholder token inside the question's 'text' (or 'orText') at the exact position where the diagram/figure appears. NEVER remove, rename, or omit image placeholder tokens!
+
+IMPORTANT: Return ONLY valid JSON matching the schema. No markdown outside the JSON, no explanations.`;
 
 // responseSchema forces Gemini to produce all required fields
 const PARSE_RESPONSE_SCHEMA = {

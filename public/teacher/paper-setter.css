@@ -583,6 +583,126 @@ body.paper-setter-body {
   color: #000000;
 }
 
+/* Embedded Question Tables (Tabulation / Data Tables) */
+.exam-table-wrapper {
+  margin: 10px auto 14px auto;
+  overflow-x: auto;
+  text-align: center;
+  width: 100%;
+}
+
+.exam-table-title {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.05rem;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  margin: 6px 0 6px 0;
+  text-align: center;
+  color: #000000;
+  text-transform: uppercase;
+}
+
+.exam-inner-table {
+  border-collapse: collapse !important;
+  border: 1.5px solid #000000 !important;
+  margin: 8px auto 14px auto;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 0.94rem;
+  color: #000000;
+  background-color: #ffffff;
+  width: auto;
+  min-width: 65%;
+  max-width: 100%;
+}
+
+.exam-inner-table th,
+.exam-inner-table td {
+  border: 1px solid #000000 !important;
+  padding: 5px 10px;
+  line-height: 1.35;
+  color: #000000;
+}
+
+.exam-inner-table th {
+  background-color: #f1f5f9 !important;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+  border-bottom: 2px solid #000000 !important;
+}
+
+.exam-inner-table td {
+  text-align: left;
+}
+
+.exam-inner-table td.text-center,
+.exam-inner-table th.text-center {
+  text-align: center;
+}
+
+.exam-inner-table td.text-right,
+.exam-inner-table th.text-right {
+  text-align: right;
+}
+
+.exam-inner-table tr:hover {
+  background-color: #fafafa;
+}
+
+/* Question Embedded Images & Diagrams */
+.exam-q-img-box {
+  margin: 10px auto;
+  text-align: center;
+  max-width: 100%;
+}
+
+.exam-question-img {
+  max-width: 480px;
+  max-height: 340px;
+  width: auto;
+  height: auto;
+  display: inline-block;
+  border: 1px solid #000000;
+  border-radius: 2px;
+  background: #ffffff;
+  padding: 4px;
+}
+
+.exam-img-attach-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  color: #475569;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: all 0.15s;
+}
+
+.exam-img-attach-btn:hover {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+}
+
+/* Inline Code / SQL Keywords in Questions */
+.exam-inline-code {
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.92em;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+
 /* Teacher Shuffling Matrix Table */
 .matrix-container {
   background: #ffffff;
@@ -694,6 +814,45 @@ body.paper-setter-body {
   .exam-table tr {
     page-break-inside: avoid;
     page-break-after: auto;
+  }
+
+  .exam-inner-table {
+    border: 1.5px solid #000000 !important;
+    page-break-inside: avoid;
+    width: 95% !important;
+  }
+
+  .exam-inner-table th {
+    background-color: #f1f5f9 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .exam-inner-table th,
+  .exam-inner-table td {
+    border: 1px solid #000000 !important;
+  }
+
+  .exam-table-title {
+    font-weight: bold !important;
+    text-align: center !important;
+    color: #000000 !important;
+  }
+
+  .exam-q-img-box {
+    page-break-inside: avoid;
+  }
+
+  .exam-question-img {
+    max-width: 420px !important;
+    max-height: 280px !important;
+    border: 1px solid #000000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .exam-img-attach-btn {
+    display: none !important;
   }
 }
 
