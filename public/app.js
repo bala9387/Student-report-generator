@@ -632,7 +632,7 @@
 
     var head = el("div", "rep-head");
     head.innerHTML = "<div class='rep-banner'>" + esc(BANNER) + "</div>" +
-      "<h2>Top Performers</h2><div class='school'>School-wide &middot; Academic Year " +
+      "<h2>Top Performers</h2><div class='school'>Top " + (top.list ? top.list.length : 25) + " &middot; School-wide &middot; Academic Year " +
       esc(DATA.meta.academicYear) + "</div>";
     host.appendChild(head);
 
@@ -641,7 +641,7 @@
     var pillsHtml = examList.map(function (ex) {
       return '<button type="button" class="btn-mode-pill' + (ex === top.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(ex) + '</button>';
     }).join("");
-    modeRow.innerHTML = '<span class="lb-asof-text">Ranking as of <b>' + esc(top.exam) + '</b> &middot; out of ' + top.classSize + ' students</span>' +
+    modeRow.innerHTML = '<span class="lb-asof-text">Top ' + (top.list ? top.list.length : 25) + ' Toppers &middot; Ranking as of <b>' + esc(top.exam) + '</b> &middot; out of ' + top.classSize + ' students</span>' +
       '<div class="lb-mode-pill-group">' + pillsHtml + '</div>';
     host.appendChild(modeRow);
 
@@ -1023,7 +1023,7 @@
     if (grade === "10" || grade === "X") BANNER = "Grade X · Academic Session 2026-27";
     else if (grade === "11" || grade === "XI") BANNER = "Grade XI · Academic Session 2026-27";
     else BANNER = "Grade XII · Team Elevate 2027";
-    apiGet("/api/leaderboard?scope=" + scope + "&n=5&grade=" + encodeURIComponent(grade) + "&mode=" + encodeURIComponent(examMode) + "&fresh=1&_t=" + Date.now())
+    apiGet("/api/leaderboard?scope=" + scope + "&n=25&grade=" + encodeURIComponent(grade) + "&mode=" + encodeURIComponent(examMode) + "&fresh=1&_t=" + Date.now())
       .then(function (resp) {
         absorbMeta(resp);
         host.innerHTML = "";
@@ -1401,7 +1401,7 @@
     var y = pdfHeader(doc, "Top Performers",
       "School-wide · Academic Year " + DATA.meta.academicYear);
     doc.setFont("helvetica", "italic"); doc.setFontSize(9); doc.setTextColor(120);
-    doc.text("Ranking as of " + top.exam + " · out of " + top.classSize + " students", doc.internal.pageSize.getWidth() / 2, y, { align: "center" });
+    doc.text("Top " + (top.list ? top.list.length : 25) + " Toppers as of " + top.exam + " · out of " + top.classSize + " students", doc.internal.pageSize.getWidth() / 2, y, { align: "center" });
     y += 16;
 
     var rows = top.list.map(function (s) {
