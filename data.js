@@ -28,7 +28,7 @@ window.REPORT_DATA = {
     "TE 1": true,
     "TE 2": false
    },
-   "classSize": 86,
+   "classSize": 87,
    "topper": {
     "CU 1": {
      "total": 536
@@ -4999,7 +4999,7 @@ window.REPORT_DATA = {
     "TE 1": true,
     "TE 2": false
    },
-   "classSize": 53,
+   "classSize": 54,
    "classStats": {
     "CU 1": {
      "subjects": {
