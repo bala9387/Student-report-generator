@@ -11,12 +11,20 @@
   var currentGrade  = localStorage.getItem("teacher_grade") || "12";
   var currentStream = "Bio - Maths";
   var currentExam   = "CU 1";
+  var currentPart   = "I Full"; // "I Full" | "II Full" | "III Full" | "IV Full"
   var currentSeries = "all";   // "all" | "H" | "M1" | "M2"
   var studentRows   = [];      // data returned by API
   var subjectCols   = [];      // subject short codes
   var currentSubjectFull = {}; // subject short code -> full name
   var dirtyRolls    = {};      // rollNo → { marks: { subj: val } }
   var converterOn   = false;   // converter toggle state
+
+  function getEffectiveExam() {
+    if (currentExam === "CU 2") {
+      return "CU 2 - " + currentPart;
+    }
+    return currentExam;
+  }
 
   function matchesSeries(rollNo, series) {
     if (!series || series === "all") return true;
@@ -167,6 +175,7 @@
   var saveStatusText     = $("#saveStatusText");
   var saveStatus         = document.querySelector(".save-status");
   var exportExcelBtn     = $("#exportExcelBtn"); // may be null if removed
+  var exportPortionBtn   = $("#exportPortionBtn");
   var openSheetBtn       = $("#openSheetBtn");
   var mobileCardsEl      = $("#mobileCardsContainer");
   var tableWrapper       = $("#tableScrollWrapper");
@@ -325,6 +334,7 @@
     });
   }
   if (exportExcelBtn) exportExcelBtn.addEventListener("click", exportToExcel);
+  if (exportPortionBtn) exportPortionBtn.addEventListener("click", exportCurrentPortion);
   if (openSheetBtn) {
     openSheetBtn.addEventListener("click", async function () {
       var info = getTeacherInfo();
@@ -428,13 +438,68 @@
     var url = URL.createObjectURL(blob);
     var a = document.createElement("a");
     a.href = url;
-    var filename = "Grade_" + currentGrade + "_" + currentStream.replace(/[^a-zA-Z0-9]/g, "_") + "_" + currentExam.replace(/[^a-zA-Z0-9]/g, "_") + ".csv";
+    var filename = "Grade_" + currentGrade + "_" + currentStream.replace(/[^a-zA-Z0-9]/g, "_") + "_" + getEffectiveExam().replace(/[^a-zA-Z0-9]/g, "_") + ".csv";
     a.download = filename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     showMsg("Exported " + filename + " successfully!", "ok");
+  }
+
+  function exportCurrentPortion() {
+    if (!studentRows || !studentRows.length) {
+      showMsg("No student data available to export.", "info");
+      return;
+    }
+
+    var info = getTeacherInfo();
+    var isMaster = !!(info && info.isAdmin === true);
+    var isMentor = (currentStream === "Mentor Report");
+    var isAdmin = !info || info.isAdmin || !info.allowedCodes;
+    var visibleCols = subjectCols.filter(function (s) {
+      if (isAdmin || isMentor) return true;
+      return isSubjectAllowed(s);
+    });
+    if (visibleCols.length === 0) {
+      showMsg("No assigned subjects available to export for this stream.", "info");
+      return;
+    }
+
+    var showTotalCol = !isMentor && (isAdmin || isMaster);
+    var portionName = getEffectiveExam();
+    var headers = ["S.No", "Roll No", "Student Name"].concat(visibleCols);
+    if (showTotalCol) headers.push("Total");
+
+    var rows = [headers];
+    studentRows.forEach(function (st, idx) {
+      var r = [st.sNo || (idx + 1), st.rollNo, st.name];
+      visibleCols.forEach(function (s) {
+        var v = st.marks[s];
+        r.push((v === null || v === undefined) ? "" : v);
+      });
+      if (showTotalCol) r.push(computeTotal(st.marks));
+      rows.push(r);
+    });
+
+    var csvContent = rows.map(function (row) {
+      return row.map(function (val) {
+        var str = String(val == null ? "" : val).replace(/"/g, '""');
+        return '"' + str + '"';
+      }).join(",");
+    }).join("\r\n");
+
+    var blob = new Blob(["\ufeff" + csvContent], { type: "text/csv;charset=utf-8;" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    var filename = "Grade_" + currentGrade + "_" + currentStream.replace(/[^a-zA-Z0-9]/g, "_") + "_" + portionName.replace(/[^a-zA-Z0-9]/g, "_") + ".csv";
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showMsg("Downloaded " + portionName + " spreadsheet successfully!", "ok");
   }
 
   function updateGradeButtonVisibility() {
@@ -976,11 +1041,22 @@
         } else {
           if (moduleTabs) moduleTabs.style.display = "";
         }
+        updateCu2PartsBarVisibility();
         if (saveBtn) saveBtn.style.display = "";
         
         loadData();
       });
     });
+  }
+
+  function updateCu2PartsBarVisibility() {
+    var cu2Bar = document.getElementById("cu2PartsBar");
+    if (!cu2Bar) return;
+    if (currentExam === "CU 2" && currentStream !== "PE - Analysis" && currentStream !== "Rankwise" && currentStream !== "Mentor Report") {
+      cu2Bar.style.display = "inline-flex";
+    } else {
+      cu2Bar.style.display = "none";
+    }
   }
 
   /* ═══════════ Exam tabs ═══════════ */
@@ -991,6 +1067,18 @@
         tabs.forEach(function (x) { x.classList.remove("active"); });
         t.classList.add("active");
         currentExam = t.dataset.exam;
+        updateCu2PartsBarVisibility();
+        resetDirty();
+        loadData();
+      });
+    });
+
+    var subTabs = document.querySelectorAll(".sub-tab-btn");
+    subTabs.forEach(function (st) {
+      st.addEventListener("click", function () {
+        subTabs.forEach(function (x) { x.classList.remove("active"); });
+        st.classList.add("active");
+        currentPart = st.dataset.part;
         resetDirty();
         loadData();
       });
@@ -1000,6 +1088,7 @@
   /* ═══════════ Load data from server ═══════════ */
   function loadData(silent) {
     updateOutOfBoxVisibility();
+    updateCu2PartsBarVisibility();
     if (!silent) showMsg("Loading...", "info");
 
     if (currentStream === "PE - Analysis" || currentStream === "Rankwise") {
@@ -1007,8 +1096,9 @@
       return;
     }
 
+    var effExam = getEffectiveExam();
     fetch("/api/teacher/marks?stream=" + encodeURIComponent(currentStream) +
-          "&exam=" + encodeURIComponent(currentExam) +
+          "&exam=" + encodeURIComponent(effExam) +
           "&grade=" + encodeURIComponent(currentGrade) +
           "&fresh=1&_t=" + Date.now(), {
       headers: getAuthHeaders()
@@ -1033,7 +1123,7 @@
         studentRows = (d.students || []).slice().sort(function (a, b) {
           return (a.sNo || 0) - (b.sNo || 0);
         });
-        titleEl.textContent = "Grade " + currentGrade + " — " + currentStream + " (" + currentExam + ")";
+        titleEl.textContent = "Grade " + currentGrade + " — " + currentStream + " (" + effExam + ")";
         renderTable();
         if (!silent) hideMsg();
       })
@@ -2095,7 +2185,7 @@
     fetch("/api/teacher/save", {
       method: "POST",
       headers: Object.assign({ "Content-Type": "application/json" }, getAuthHeaders()),
-      body: JSON.stringify({ stream: currentStream, exam: currentExam, updates: updates, grade: currentGrade })
+      body: JSON.stringify({ stream: currentStream, exam: getEffectiveExam(), updates: updates, grade: currentGrade })
     })
     .then(function (r) {
       return r.text().then(function (text) {

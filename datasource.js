@@ -49,16 +49,41 @@
     if (g === "10" || g === "X") {
       return ["Rank wise", "PE - Analysis", "Mentor Report"].concat(getGradeGroups(grade));
     }
-    return ["PE - Analysis", "Rankwise", "Sheet1", "Mentor Report"].concat(getGradeGroups(grade));
+    return ["PE - Analysis", "Rankwise", "Sheet1", "Mentor Report", "Full Portion Exam (FPE)"].concat(getGradeGroups(grade));
   }
 
-  var EXAMS = ["CU 1", "TE 1", "TE 2"];
+  var EXAMS = ["CU 1", "TE 1", "CU 2 - I Full", "CU 2 - II Full", "CU 2 - III Full", "CU 2 - IV Full", "TE 2"];
   // 0-indexed start column of each exam block in a group tab (6 subjects + Total)
-  var BLOCK_START = { "CU 1": 3, "TE 1": 10, "TE 2": 24 };
+  var BLOCK_START = {
+    "CU 1": 3,
+    "TE 1": 10,
+    "CU 2 - I Full": 17,
+    "CU 2 - II Full": 24,
+    "CU 2 - III Full": 31,
+    "CU 2 - IV Full": 38,
+    "TE 2": 24
+  };
   // Grade 12 has 8 columns per exam block (5 subjects + Total of 500 + PED + Total)
-  var BLOCK_START_G12 = { "CU 1": 3, "TE 1": 11, "TE 2": 27 };
+  var BLOCK_START_G12 = {
+    "CU 1": 3,
+    "TE 1": 11,
+    "CU 2": 19,
+    "TE 2": 27
+  };
+  // Grade 12 Full Portion Exam (FPE) block start columns (7 subjects: PHY, CHE, MAT, CS, BIO, ENG, PED)
+  var FPE_BLOCK_START = {
+    "CU 2 - I Full": 6,
+    "CU 2 - II Full": 13,
+    "CU 2 - III Full": 20,
+    "CU 2 - IV Full": 27
+  };
   // 0-indexed (total, rank) columns per exam in the PE - Analysis tab
-  var PE_COLS = { "CU 1": [6, 7], "TE 1": [8, 9], "TE 2": [12, 13] };
+  var PE_COLS = {
+    "CU 1": [6, 7],
+    "TE 1": [8, 9],
+    "CU 2": [10, 11],
+    "TE 2": [12, 13]
+  };
   var SUBJECT_FULL = {
     PHY: "Physics", CHE: "Chemistry", MAT: "Mathematics", BIO: "Biology",
     CS: "Computer Science", ENG: "English", PED: "Physical Education",
@@ -210,10 +235,14 @@
       var exams = {};
       EXAMS.forEach(function (ex) {
         var cols = PE_COLS[ex];
-        var tot = num(cell(row, cols[0]));
-        var rk = num(cell(row, cols[1]));
-        exams[ex] = { total: tot == null ? 0 : tot, rank: rk };
-        if (tot != null) peClass[ex].push(tot);
+        if (cols && cols[0] != null) {
+          var tot = num(cell(row, cols[0]));
+          var rk = num(cell(row, cols[1]));
+          exams[ex] = { total: tot == null ? 0 : tot, rank: rk };
+          if (tot != null) peClass[ex].push(tot);
+        } else {
+          exams[ex] = { total: 0, rank: null };
+        }
       });
 
       peStudents[roll] = { rollNo: roll, sNo: num(cell(row, 0)), name: name, stream: stream, exams: exams, rowIdx: row.rowIndex };
@@ -339,68 +368,130 @@
       var dist = {}, distTotal = {};
       EXAMS.forEach(function (ex) { dist[ex] = {}; subjects.forEach(function (s) { dist[ex][s] = []; }); distTotal[ex] = []; });
 
+      var isClass12 = (String(grade || "").trim() === "12" || String(grade || "").trim() === "XII" || !grade);
+      var isClass11 = (String(grade || "").trim() === "11" || String(grade || "").trim() === "XI");
+      var activeBlock = isClass12 ? BLOCK_START_G12 : BLOCK_START;
+
+      var fpeRows = (isClass12 && sheets["Full Portion Exam (FPE)"]) ? studentRows(sheets["Full Portion Exam (FPE)"]) : [];
+      var fpeByRoll = {};
+      fpeRows.forEach(function (fr) {
+        var rNo = String(cell(fr, 1)).trim().toUpperCase();
+        if (rNo) fpeByRoll[rNo] = fr;
+      });
+
+      function getFpeSubjectOffset(s) {
+        var code = String(s).trim().toUpperCase();
+        if (code === "PHY" || code === "PHYSICS") return 0;
+        if (code === "CHE" || code === "CHEMISTRY") return 1;
+        if (code === "MAT" || code === "MATH" || code === "MATHS" || code === "MATHEMATICS") return 2;
+        if (code === "CS" || code === "COMP") return 3;
+        if (code === "BIO" || code === "BIOLOGY") return 4;
+        if (code === "ENG" || code === "ENGLISH") return 5;
+        if (code === "PED" || code === "PE") return 6;
+        if (code === "ACC" || code === "ACCOUNTANCY") return 0;
+        if (code === "BS" || code === "BST" || code === "BUSINESS STUDIES") return 1;
+        if (code === "ECO" || code === "ECONOMICS") return 2;
+        if (code === "A.MATH" || code === "APP. MATH" || code === "APPLIED MATH") return 3;
+        return -1;
+      }
+
       srows.forEach(function (row) {
         var roll = String(cell(row, 1)).trim();
         var name = String(cell(row, 2)).trim();
         var marks = {};
-        var isClass12 = (String(grade || "").trim() === "12" || String(grade || "").trim() === "XII" || !grade);
-        var isClass11 = (String(grade || "").trim() === "11" || String(grade || "").trim() === "XI");
-        var activeBlock = isClass12 ? BLOCK_START_G12 : BLOCK_START;
 
         EXAMS.forEach(function (ex) {
-          var base = activeBlock[ex]; var rm = {};
+          var isFpePart = isClass12 && (ex.indexOf("CU 2 - ") === 0);
+          var base = isFpePart ? FPE_BLOCK_START[ex] : activeBlock[ex];
+          var rm = {};
           var sumSubject = 0;
           var sumNonPE = 0;
           var hasSubjectMark = false;
-          subjects.forEach(function (s, i) {
-            var colOffset = i;
-            if (isClass12) {
-              if (i < 5) {
-                colOffset = i;
-              } else if (i === 5) {
-                // 6th subject is PED / PE
-                if (modeLabel === "Bio - Maths" && (ex === "CU 1" || ex === "TE 2")) {
-                  colOffset = 5;
-                } else {
-                  colOffset = 6;
+
+          if (isFpePart) {
+            var rollUpper = roll.toUpperCase();
+            var fpeRow = fpeByRoll[rollUpper];
+            subjects.forEach(function (s) {
+              var fpeOff = getFpeSubjectOffset(s);
+              var rawCell = (fpeRow && base != null && fpeOff >= 0) ? cell(fpeRow, base + fpeOff) : null;
+              var isAB = String(rawCell || "").trim().toLowerCase() === "ab";
+              var v = (isAB || rawCell === "" || rawCell == null || rawCell === "-") ? 0 : num(rawCell);
+              if (v == null) v = 0;
+              rm[s] = v;
+              dist[ex][s].push(v);
+              if (v > 0) {
+                sumSubject += v;
+                hasSubjectMark = true;
+              }
+              if (!isPhysicalEducation(s)) sumNonPE += v;
+            });
+            rm.Total500 = sumNonPE;
+            rm.Total = sumNonPE > 0 ? sumNonPE : sumSubject;
+          } else {
+            subjects.forEach(function (s, i) {
+              var colOffset = i;
+              if (isClass12) {
+                if (i < 5) {
+                  colOffset = i;
+                } else if (i === 5) {
+                  // 6th subject is PED / PE
+                  if (modeLabel === "Bio - Maths" && (ex === "CU 1" || ex === "TE 2")) {
+                    colOffset = 5;
+                  } else {
+                    colOffset = 6;
+                  }
                 }
               }
-            }
-            var rawCell = cell(row, base + colOffset);
-            var isAB = String(rawCell || "").trim().toLowerCase() === "ab";
-            var v = (isAB || rawCell === "" || rawCell == null) ? 0 : num(rawCell);
-            if (v == null) v = 0;
-            rm[s] = v;
-            dist[ex][s].push(v);
-            if (v > 0) {
-              sumSubject += v;
-              hasSubjectMark = true;
-            }
-            if (!isPhysicalEducation(s)) {
-              sumNonPE += v;
-            }
-          });
+              var rawCell = (base != null) ? cell(row, base + colOffset) : null;
+              var isAB = String(rawCell || "").trim().toLowerCase() === "ab";
+              var v = (isAB || rawCell === "" || rawCell == null) ? 0 : num(rawCell);
+              if (v == null) v = 0;
+              rm[s] = v;
+              dist[ex][s].push(v);
+              if (v > 0) {
+                sumSubject += v;
+                hasSubjectMark = true;
+              }
+              if (!isPhysicalEducation(s)) {
+                sumNonPE += v;
+              }
+            });
 
-          if (isClass12) {
-            var t500Offset = (modeLabel === "Bio - Maths" && (ex === "CU 1" || ex === "TE 2")) ? 6 : 5;
-            var t500Val = num(cell(row, base + t500Offset));
-            rm.Total500 = t500Val != null ? t500Val : sumNonPE;
+            if (isClass12 && base != null) {
+              var t500Offset = (modeLabel === "Bio - Maths" && (ex === "CU 1" || ex === "TE 2")) ? 6 : 5;
+              var t500Val = num(cell(row, base + t500Offset));
+              rm.Total500 = t500Val != null ? t500Val : sumNonPE;
+            }
+
+            var isTE = (ex === "TE 1" || ex === "TE 2");
+            var hasPE = subjects.some(function (subj) { return isPhysicalEducation(subj); });
+            var tot = (base != null) ? (isClass12 ? num(cell(row, base + 7)) : num(cell(row, base + 6))) : null;
+            if (isClass12 && isTE && hasPE) {
+              tot = sumNonPE;
+            } else if (isClass11) {
+              tot = hasSubjectMark ? sumSubject : (tot != null ? tot : 0);
+            } else if ((tot == null || tot === 0) && hasSubjectMark) {
+              tot = sumSubject;
+            }
+            rm.Total = tot == null ? 0 : tot;
           }
 
-          var isTE = (ex === "TE 1" || ex === "TE 2");
-          var hasPE = subjects.some(function (subj) { return isPhysicalEducation(subj); });
-          var tot = isClass12 ? num(cell(row, base + 7)) : num(cell(row, base + 6));
-          if (isClass12 && isTE && hasPE) {
-            tot = sumNonPE;
-          } else if (isClass11) {
-            tot = hasSubjectMark ? sumSubject : (tot != null ? tot : 0);
-          } else if ((tot == null || tot === 0) && hasSubjectMark) {
-            tot = sumSubject;
-          }
-          rm.Total = tot == null ? 0 : tot;
           marks[ex] = rm;
-          if (tot != null && tot > 0) distTotal[ex].push(tot);
+          if (rm.Total != null && rm.Total > 0) distTotal[ex].push(rm.Total);
+
+          // Populate peStudents total if not set from sheet
+          if (peStudents[roll]) {
+            if (!peStudents[roll].exams[ex]) peStudents[roll].exams[ex] = {};
+            if (rm.Total > 0 || !peStudents[roll].exams[ex].total) {
+              peStudents[roll].exams[ex].total = rm.Total;
+              peClass[ex].push(rm.Total);
+            }
+          }
         });
+
+        // Add CU 2 alias pointing to CU 2 - I Full
+        marks["CU 2"] = marks["CU 2 - I Full"] || marks["CU 1"];
+
         students[roll] = { rollNo: roll, sNo: num(cell(row, 0)), name: name, marks: marks, rowIdx: row.rowIndex };
         addIndex(roll, modeLabel);
       });
@@ -422,6 +513,7 @@
           ? { max: Math.max.apply(null, distTotal[ex]), present: distTotal[ex].length } : null;
         classStats[ex] = { subjects: perSub, total: totStat };
       });
+      conducted["CU 2"] = conducted["CU 2 - I Full"] || false;
 
       Object.keys(students).forEach(function (roll) {
         var st = students[roll];
@@ -438,14 +530,60 @@
           st.percentile[ex] = pex;
         });
         var pe = peStudents[roll];
-        st.overall = pe ? { "CU 1": pe.exams["CU 1"], "TE 1": pe.exams["TE 1"],
-          "TE 2": pe.exams["TE 2"] } : null;
+        if (pe) {
+          st.overall = {};
+          EXAMS.forEach(function (ex) {
+            st.overall[ex] = pe.exams[ex];
+          });
+          st.overall["CU 2"] = pe.exams["CU 2 - I Full"] || pe.exams["CU 1"];
+        } else {
+          st.overall = null;
+        }
       });
 
       var subjectFull = {}; subjects.forEach(function (s) { subjectFull[s] = getSubjectFullName(s); });
       modes[modeLabel] = { type: "group", label: modeLabel, subjects: subjects, subjectFull: subjectFull,
         exams: EXAMS, conducted: conducted, classSize: srows.length,
         classStats: classStats, students: students };
+    });
+
+    // Recompute ranks and topper status across all exams after group tabs and FPE are parsed
+    EXAMS.forEach(function (exn) {
+      Object.keys(domainGroups).forEach(function (dom) {
+        var arr = domainGroups[dom].filter(function (st) {
+          return st.exams[exn] && st.exams[exn].total > 0;
+        });
+        arr.sort(function(a, b) { return b.exams[exn].total - a.exams[exn].total; });
+        var prevTot = -1, prevRk = 1;
+        arr.forEach(function(st, i) {
+          var tot = st.exams[exn].total;
+          if (tot !== prevTot) {
+            prevRk = i + 1;
+            prevTot = tot;
+          }
+          st.exams[exn].domainRank = prevRk;
+          st.exams[exn].domainSize = domainGroups[dom].length;
+        });
+      });
+
+      var allStudents = Object.keys(peStudents).map(function(r) { return peStudents[r]; });
+      var validStudents = allStudents.filter(function (st) {
+        return st.exams[exn] && st.exams[exn].total > 0;
+      });
+      validStudents.sort(function (a, b) { return b.exams[exn].total - a.exams[exn].total; });
+      var sPrevTot = -1, sPrevRk = 1;
+      validStudents.forEach(function (st, i) {
+        var tot = st.exams[exn].total;
+        if (tot !== sPrevTot) {
+          sPrevRk = i + 1;
+          sPrevTot = tot;
+        }
+        st.exams[exn].rank = sPrevRk;
+      });
+
+      var mx = validStudents.length > 0 ? validStudents[0].exams[exn].total : 0;
+      peConducted[exn] = mx > 0;
+      peTopper[exn] = mx > 0 ? { total: mx } : null;
     });
 
     // ---- Mentor Report tab: roll → per-exam Google Drive links ----

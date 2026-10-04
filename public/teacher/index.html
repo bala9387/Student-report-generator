@@ -214,9 +214,19 @@
           <div>
             <p class="control-label">Assessment</p>
             <div class="module-tabs" id="examTabs">
-            <button class="tab-btn active" data-exam="CU 1">CU 1</button>
-            <button class="tab-btn" data-exam="TE 1">TE 1</button>
-            <button class="tab-btn" data-exam="TE 2">TE 2</button>
+              <button class="tab-btn active" data-exam="CU 1">CU 1</button>
+              <button class="tab-btn" data-exam="TE 1">TE 1</button>
+              <button class="tab-btn" data-exam="CU 2">CU 2</button>
+              <button class="tab-btn" data-exam="TE 2">TE 2</button>
+            </div>
+            <div class="cu2-parts-bar" id="cu2PartsBar" style="display:none;margin-top:8px;">
+              <span class="cu2-parts-label">Portion:</span>
+              <div class="module-tabs cu2-sub-tabs" id="cu2SubTabs">
+                <button type="button" class="sub-tab-btn active" data-part="I Full">I Full</button>
+                <button type="button" class="sub-tab-btn" data-part="II Full">II Full</button>
+                <button type="button" class="sub-tab-btn" data-part="III Full">III Full</button>
+                <button type="button" class="sub-tab-btn" data-part="IV Full">IV Full</button>
+              </div>
             </div>
           </div>
           <div class="exam-bar-right" style="display:flex;align-items:center;gap:8px;">
@@ -228,6 +238,10 @@
             <button id="exportExcelBtn" class="btn-export-excel" style="display:none;" title="Download complete Excel marks workbook (.xlsx) of this class">
               <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
               <span>Download Full Excel</span>
+            </button>
+            <button id="exportPortionBtn" class="btn-export-portion" title="Download spreadsheet of only the currently selected portion / exam">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <span>Export Portion</span>
             </button>
             <button id="openSheetBtn" class="btn-open-sheet" style="display:none;" title="Securely open live Google Sheet in new tab (Admin Only)">
               <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -302,6 +316,6 @@
     </div>
   </div>
 
-  <script src="teacher.js?v=41"></script>
+  <script src="teacher.js?v=44"></script>
 </body>
 </html>

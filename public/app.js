@@ -135,8 +135,8 @@
     if (!sel) return;
     sel.innerHTML = "";
     var modes = isStudentReport
-      ? ["PE - Analysis", "CU 1", "TE 1", "TE 2"]
-      : ["CU 1", "TE 1", "TE 2"];
+      ? ["PE - Analysis", "CU 1", "TE 1", "CU 2 - I Full", "CU 2 - II Full", "CU 2 - III Full", "CU 2 - IV Full", "TE 2"]
+      : ["CU 1", "TE 1", "CU 2 - I Full", "CU 2 - II Full", "CU 2 - III Full", "CU 2 - IV Full", "TE 2"];
     modes.forEach(function (m) {
       var opt = document.createElement("option");
       opt.value = m;
@@ -636,7 +636,7 @@
       esc(DATA.meta.academicYear) + "</div>";
     host.appendChild(head);
 
-    var examList = top.availableExams || ["CU 1", "TE 1", "TE 2"];
+    var examList = top.availableExams || ["CU 1", "TE 1", "CU 2 - I Full", "CU 2 - II Full", "CU 2 - III Full", "CU 2 - IV Full", "TE 2"];
     var modeRow = el("div", "lb-mode-row");
     var pillsHtml = examList.map(function (ex) {
       return '<button type="button" class="btn-mode-pill' + (ex === top.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(ex) + '</button>';
@@ -681,7 +681,7 @@
       esc(DATA.meta.academicYear) + "</div>";
     host.appendChild(head);
 
-    var examList = top.availableExams || ["CU 1", "TE 1", "TE 2"];
+    var examList = top.availableExams || ["CU 1", "TE 1", "CU 2 - I Full", "CU 2 - II Full", "CU 2 - III Full", "CU 2 - IV Full", "TE 2"];
     var modeRow = el("div", "lb-mode-row");
     var pillsHtml = examList.map(function (ex) {
       return '<button type="button" class="btn-mode-pill' + (ex === top.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(ex) + '</button>';
@@ -735,7 +735,7 @@
       esc(DATA.meta.academicYear) + "</div>";
     host.appendChild(head);
 
-    var examList = data.availableExams || ["CU 1", "TE 1", "TE 2"];
+    var examList = data.availableExams || ["CU 1", "TE 1", "CU 2 - I Full", "CU 2 - II Full", "CU 2 - III Full", "CU 2 - IV Full", "TE 2"];
     var modeRow = el("div", "lb-mode-row");
     var pillsHtml = examList.map(function (ex) {
       return '<button type="button" class="btn-mode-pill' + (ex === data.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(ex) + '</button>';
