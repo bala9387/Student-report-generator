@@ -134,6 +134,11 @@
     if (!ex) return "";
     var s = String(ex).trim();
     if (s === "TE 2" || s === "TE2" || s.toLowerCase() === "second half") return "Second half";
+    if (s === "CU 2" || s === "CU2" || s.toLowerCase() === "full portion" || s.toLowerCase() === "full postion") return "Full Portion";
+    if (/^CU\s*2\s*-\s*(.+)$/i.test(s)) {
+      var part = s.match(/^CU\s*2\s*-\s*(.+)$/i)[1];
+      return "Full Portion - " + part;
+    }
     return s;
   }
 
