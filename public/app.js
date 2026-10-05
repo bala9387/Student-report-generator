@@ -130,6 +130,13 @@
   var lastSectionData = null;
   var currentSectionKey = null;
 
+  function formatExamName(ex) {
+    if (!ex) return "";
+    var s = String(ex).trim();
+    if (s === "TE 2" || s === "TE2" || s.toLowerCase() === "second half") return "Second half";
+    return s;
+  }
+
   function updateToolbarModeOptions(isStudentReport, activeMode) {
     var sel = $("#reportModeSelect");
     if (!sel) return;
@@ -140,7 +147,7 @@
     modes.forEach(function (m) {
       var opt = document.createElement("option");
       opt.value = m;
-      opt.textContent = m;
+      opt.textContent = formatExamName(m);
       if (m === activeMode) opt.selected = true;
       sel.appendChild(opt);
     });
@@ -433,16 +440,16 @@
     head.innerHTML = "<div class='rep-banner'>" + esc(BANNER) + "</div>" +
       topperHtml +
       "<h2>Student Analysis Report</h2><div class='school'>" +
-      esc(m.label) + " &middot; " + esc(exam) + " &middot; Academic Year " + esc(DATA.meta.academicYear) + "</div>";
+      esc(m.label) + " &middot; " + esc(formatExamName(exam)) + " &middot; Academic Year " + esc(DATA.meta.academicYear) + "</div>";
     host.appendChild(head);
 
     if (isSchoolTopper) {
       host.appendChild(el("p", "note-top",
-        "<b>Outstanding Achievement!</b> " + esc(s.name) + " holds Rank 1 out of the entire school (" + DATA.modes["PE - Analysis"].classSize + " students) in " + esc(exam) + "."));
+        "<b>Outstanding Achievement!</b> " + esc(s.name) + " holds Rank 1 out of the entire school (" + DATA.modes["PE - Analysis"].classSize + " students) in " + esc(formatExamName(exam)) + "."));
     } else if (isStreamTopper) {
       host.appendChild(el("p", "note-top",
         "<b>Congratulations.</b> " + esc(s.name) + " holds Rank 1 in their stream (" +
-        (overallEx.domainSize || m.classSize) + " students in " + esc(exam) + ")."));
+        (overallEx.domainSize || m.classSize) + " students in " + esc(formatExamName(exam)) + ")."));
     }
 
     host.appendChild(el("div", "sec-title", "1. Student Information"));
@@ -569,11 +576,11 @@
     m.exams.forEach(function (ex) {
       var e = s.exams[ex];
       if (!m.conducted[ex]) {
-        h += "<tr><td class='subj'>" + esc(ex) + "</td><td class='pending-col' colspan='3'>Not conducted yet</td></tr>";
+        h += "<tr><td class='subj'>" + esc(formatExamName(ex)) + "</td><td class='pending-col' colspan='3'>Not conducted yet</td></tr>";
         return;
       }
       var top = m.topper[ex];
-      h += "<tr><td class='subj'>" + esc(ex) + "</td><td class='your-mark" + (e.rank === 1 ? " is-top" : "") + "'>" +
+      h += "<tr><td class='subj'>" + esc(formatExamName(ex)) + "</td><td class='your-mark" + (e.rank === 1 ? " is-top" : "") + "'>" +
         e.total + " / " + maxTot + "</td><td>" + rankBadge(e.domainRank, e.domainSize) + "</td><td>" +
         (top ? top.total + " / " + maxTot : "—") + "</td></tr>";
     });
@@ -581,7 +588,7 @@
     tbl.innerHTML = h; scroll.appendChild(tbl); host.appendChild(scroll);
 
     var cards = el("div", "cards");
-    cards.appendChild(card(latestEx.total + " / " + maxTot, "Total Marks (" + latest + ")"));
+    cards.appendChild(card(latestEx.total + " / " + maxTot, "Total Marks (" + esc(formatExamName(latest)) + ")"));
     // rank card with special styling
     var rankCard = el("div", "card" + (latestEx.rank != null && latestEx.rank <= 3 ? " card-rank card-rank-" + latestEx.rank : ""));
     rankCard.innerHTML = "<div class='num'>" + rankBadge(latestEx.domainRank, latestEx.domainSize) + "</div><div class='lbl'>Rank (in stream)</div>";
@@ -639,9 +646,9 @@
     var examList = top.availableExams || ["CU 1", "TE 1", "CU 2 - I Full", "CU 2 - II Full", "CU 2 - III Full", "CU 2 - IV Full", "TE 2"];
     var modeRow = el("div", "lb-mode-row");
     var pillsHtml = examList.map(function (ex) {
-      return '<button type="button" class="btn-mode-pill' + (ex === top.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(ex) + '</button>';
+      return '<button type="button" class="btn-mode-pill' + (ex === top.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(formatExamName(ex)) + '</button>';
     }).join("");
-    modeRow.innerHTML = '<span class="lb-asof-text">Top ' + (top.list ? top.list.length : 25) + ' Toppers &middot; Ranking as of <b>' + esc(top.exam) + '</b> &middot; out of ' + top.classSize + ' students</span>' +
+    modeRow.innerHTML = '<span class="lb-asof-text">Top ' + (top.list ? top.list.length : 25) + ' Toppers &middot; Ranking as of <b>' + esc(formatExamName(top.exam)) + '</b> &middot; out of ' + top.classSize + ' students</span>' +
       '<div class="lb-mode-pill-group">' + pillsHtml + '</div>';
     host.appendChild(modeRow);
 
@@ -684,9 +691,9 @@
     var examList = top.availableExams || ["CU 1", "TE 1", "CU 2 - I Full", "CU 2 - II Full", "CU 2 - III Full", "CU 2 - IV Full", "TE 2"];
     var modeRow = el("div", "lb-mode-row");
     var pillsHtml = examList.map(function (ex) {
-      return '<button type="button" class="btn-mode-pill' + (ex === top.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(ex) + '</button>';
+      return '<button type="button" class="btn-mode-pill' + (ex === top.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(formatExamName(ex)) + '</button>';
     }).join("");
-    modeRow.innerHTML = '<span class="lb-asof-text">Ranking as of <b>' + esc(top.exam) + '</b></span>' +
+    modeRow.innerHTML = '<span class="lb-asof-text">Ranking as of <b>' + esc(formatExamName(top.exam)) + '</b></span>' +
       '<div class="lb-mode-pill-group">' + pillsHtml + '</div>';
     host.appendChild(modeRow);
 
@@ -738,9 +745,9 @@
     var examList = data.availableExams || ["CU 1", "TE 1", "CU 2 - I Full", "CU 2 - II Full", "CU 2 - III Full", "CU 2 - IV Full", "TE 2"];
     var modeRow = el("div", "lb-mode-row");
     var pillsHtml = examList.map(function (ex) {
-      return '<button type="button" class="btn-mode-pill' + (ex === data.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(ex) + '</button>';
+      return '<button type="button" class="btn-mode-pill' + (ex === data.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(formatExamName(ex)) + '</button>';
     }).join("");
-    modeRow.innerHTML = '<span class="lb-asof-text">Exam: <b>' + esc(data.exam) + '</b> &middot; ' + data.list.length + ' student' + (data.list.length === 1 ? '' : 's') + '</span>' +
+    modeRow.innerHTML = '<span class="lb-asof-text">Exam: <b>' + esc(formatExamName(data.exam)) + '</b> &middot; ' + data.list.length + ' student' + (data.list.length === 1 ? '' : 's') + '</span>' +
       '<div class="lb-mode-pill-group">' + pillsHtml + '</div>';
     host.appendChild(modeRow);
 
@@ -756,7 +763,7 @@
 
     if (!data.list || data.list.length === 0) {
       var noFoundDesc = minFails === 1 ? "no students failed in any subject" : "no students failed in more than 3 subjects";
-      host.appendChild(el("p", "note-top", "<b>No aspiring achievers found</b> for <b>" + esc(data.exam) + "</b> (" + noFoundDesc + ")."));
+      host.appendChild(el("p", "note-top", "<b>No aspiring achievers found</b> for <b>" + esc(formatExamName(data.exam)) + "</b> (" + noFoundDesc + ")."));
       return;
     }
 
@@ -844,9 +851,9 @@
     var examList = data.availableExams || ["CU 1", "TE 1", "TE 2"];
     var modeRow = el("div", "lb-mode-row");
     var pillsHtml = examList.map(function (ex) {
-      return '<button type="button" class="btn-mode-pill' + (ex === data.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(ex) + '</button>';
+      return '<button type="button" class="btn-mode-pill' + (ex === data.exam ? ' active' : '') + '" data-mode="' + esc(ex) + '">' + esc(formatExamName(ex)) + '</button>';
     }).join("");
-    modeRow.innerHTML = '<span class="lb-asof-text">Exam: <b>' + esc(data.exam) + '</b> &middot; Section: <b>' + esc(data.sectionName) + '</b> (' + data.students.length + ' students)</span>' +
+    modeRow.innerHTML = '<span class="lb-asof-text">Exam: <b>' + esc(formatExamName(data.exam)) + '</b> &middot; Section: <b>' + esc(data.sectionName) + '</b> (' + data.students.length + ' students)</span>' +
       '<div class="lb-mode-pill-group">' + pillsHtml + '</div>';
     host.appendChild(modeRow);
 
@@ -1289,16 +1296,16 @@
     doc.setFont("helvetica", "bold"); doc.setFontSize(18); doc.setTextColor(183, 22, 28);
     doc.text("Student Analysis Report", W / 2, titleY, { align: "center" });
     doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(90);
-    doc.text(m.label + " \u00B7 " + exam + " \u00B7 Academic Year " + DATA.meta.academicYear, W / 2, subY, { align: "center" });
+    doc.text(m.label + " \u00B7 " + formatExamName(exam) + " \u00B7 Academic Year " + DATA.meta.academicYear, W / 2, subY, { align: "center" });
 
     var y = infoStartY;
     if (isSchoolTopper) {
       doc.setFont("helvetica", "italic"); doc.setFontSize(9); doc.setTextColor(90, 67, 0);
-      doc.text("Outstanding Achievement - " + s.name + " holds Rank 1 out of the entire school in " + exam + ".", W / 2, y, { align: "center" });
+      doc.text("Outstanding Achievement - " + s.name + " holds Rank 1 out of the entire school in " + formatExamName(exam) + ".", W / 2, y, { align: "center" });
       y += 14;
     } else if (isStreamTopper) {
       doc.setFont("helvetica", "italic"); doc.setFontSize(9); doc.setTextColor(90, 67, 0);
-      doc.text("Congratulations - " + s.name + " holds Rank 1 in their stream in " + exam + ".", W / 2, y, { align: "center" });
+      doc.text("Congratulations - " + s.name + " holds Rank 1 in their stream in " + formatExamName(exam) + ".", W / 2, y, { align: "center" });
       y += 14;
     }
 

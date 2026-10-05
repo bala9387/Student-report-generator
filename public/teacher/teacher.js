@@ -26,6 +26,13 @@
     return currentExam;
   }
 
+  function formatExamName(ex) {
+    if (!ex) return "";
+    var s = String(ex).trim();
+    if (s === "TE 2" || s === "TE2" || s.toLowerCase() === "second half") return "Second half";
+    return s;
+  }
+
   function matchesSeries(rollNo, series) {
     if (!series || series === "all") return true;
     var r = String(rollNo || "").toUpperCase();
@@ -499,7 +506,7 @@
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    showMsg("Downloaded " + portionName + " spreadsheet successfully!", "ok");
+    showMsg("Downloaded " + formatExamName(portionName) + " spreadsheet successfully!", "ok");
   }
 
   function updateGradeButtonVisibility() {
@@ -1123,7 +1130,7 @@
         studentRows = (d.students || []).slice().sort(function (a, b) {
           return (a.sNo || 0) - (b.sNo || 0);
         });
-        titleEl.textContent = "Grade " + currentGrade + " — " + currentStream + " (" + effExam + ")";
+        titleEl.textContent = "Grade " + currentGrade + " — " + currentStream + " (" + formatExamName(effExam) + ")";
         renderTable();
         if (!silent) hideMsg();
       })
@@ -1159,7 +1166,7 @@
     // Header: S.No | Roll No | Student Name | Stream | CU1 Total | TE1 Total | TE2 Total
     var thRow = "<tr><th>S.No</th><th>Roll No</th><th>Student Name</th><th>Stream</th>";
     exams.forEach(function (ex) {
-      thRow += "<th>" + esc(ex) + "</th>";
+      thRow += "<th>" + esc(formatExamName(ex)) + "</th>";
     });
     thRow += "</tr>";
     tHead.innerHTML = thRow;
