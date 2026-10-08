@@ -438,15 +438,21 @@
               var fpeOff = getFpeSubjectOffset(s);
               var rawCell = (fpeRow && base != null && fpeOff >= 0) ? cell(fpeRow, base + fpeOff) : null;
               var isAB = String(rawCell || "").trim().toLowerCase() === "ab";
-              var v = (isAB || rawCell === "" || rawCell == null || rawCell === "-") ? 0 : num(rawCell);
-              if (v == null) v = 0;
-              rm[s] = v;
-              dist[ex][s].push(v);
-              if (v > 0) {
-                sumSubject += v;
+              var rawTrimmed = (rawCell == null) ? "" : String(rawCell).trim();
+              var isEmpty = !isAB && (rawTrimmed === "" || rawTrimmed === "-" || rawCell == null);
+              if (isAB) {
+                rm[s] = "AB";
+              } else if (isEmpty) {
+                rm[s] = "";
+              } else {
+                var v = num(rawCell);
+                if (v == null) v = 0;
+                rm[s] = v;
+                dist[ex][s].push(v);
                 hasSubjectMark = true;
+                sumSubject += v;
+                if (!isPhysicalEducation(s)) sumNonPE += v;
               }
-              if (!isPhysicalEducation(s)) sumNonPE += v;
             });
             rm.Total500 = sumNonPE;
             rm.Total = sumNonPE > 0 ? sumNonPE : sumSubject;
@@ -485,16 +491,23 @@
               }
               var rawCell = (base != null) ? cell(row, base + colOffset) : null;
               var isAB = String(rawCell || "").trim().toLowerCase() === "ab";
-              var v = (isAB || rawCell === "" || rawCell == null) ? 0 : num(rawCell);
-              if (v == null) v = 0;
-              rm[s] = v;
-              dist[ex][s].push(v);
-              if (v > 0) {
-                sumSubject += v;
+              var rawTrimmed = (rawCell == null) ? "" : String(rawCell).trim();
+              var isEmpty = !isAB && (rawTrimmed === "" || rawTrimmed === "-");
+
+              if (isAB) {
+                rm[s] = "AB";
+              } else if (isEmpty) {
+                rm[s] = "";
+              } else {
+                var v = num(rawCell);
+                if (v == null) v = 0;
+                rm[s] = v;
+                dist[ex][s].push(v);
                 hasSubjectMark = true;
-              }
-              if (!isPhysicalEducation(s)) {
-                sumNonPE += v;
+                sumSubject += v;
+                if (!isPhysicalEducation(s)) {
+                  sumNonPE += v;
+                }
               }
             });
 

@@ -129,7 +129,7 @@
   }
 
   /* ── Auth State & Helper ── */
-  var PORTAL_VERSION = "39"; // bump this when allowedStreams/allowedCodes change
+  var PORTAL_VERSION = "41"; // bump this when allowedStreams/allowedCodes change
   if (localStorage.getItem("teacher_portal_version") !== PORTAL_VERSION) {
     localStorage.removeItem("teacher_info"); // force re-login with fresh permissions
     localStorage.removeItem("teacher_token");
@@ -1231,6 +1231,9 @@
     exams.forEach(function (ex) { liveStats[ex] = []; });
     var rows = tBody.querySelectorAll("tr");
     rows.forEach(function (row) {
+      if (row.classList.contains("hidden-row") || row.style.display === "none") return;
+      var roll = row.dataset.roll || "";
+      if (!matchesSeries(roll, currentSeries)) return;
       var inputs = row.querySelectorAll(".pe-mark-input");
       inputs.forEach(function (inp) {
         var ex = inp.dataset.exam;
@@ -1507,7 +1510,6 @@
 
     tBody.innerHTML = html;
     updateStats(filledCells, totalCells);
-    renderSubjectStats();
     updateSaveState();
 
     // Wire up input events
@@ -1653,28 +1655,37 @@
       return;
     }
 
-    // Gather all mark values per subject from the current inputs
+    // Gather all mark values per subject from the current visible inputs
     var stats = {};
     visibleCols.forEach(function (s) { stats[s] = []; });
 
+    var q = searchBox ? searchBox.value.trim().toLowerCase() : "";
     var rows = tBody.querySelectorAll("tr");
     rows.forEach(function (row) {
+      if (row.classList.contains("hidden-row") || row.style.display === "none") return;
+      var roll = row.dataset.roll || "";
+      if (!matchesSeries(roll, currentSeries)) return;
+      if (q) {
+        var rollLower = roll.toLowerCase();
+        var nameBox = row.querySelector(".student-name-text");
+        var name = (nameBox ? nameBox.textContent : "").toLowerCase();
+        if (rollLower.indexOf(q) < 0 && name.indexOf(q) < 0) return;
+      }
       var inputs = row.querySelectorAll(".mark-input");
       inputs.forEach(function (inp) {
         var subj = inp.dataset.subj;
-        var raw = inp.value.trim();
+        var raw = (inp.value != null ? String(inp.value) : "").trim();
         if (!stats[subj]) stats[subj] = [];
         if (raw === "") {
-          stats[subj].push(null); // empty
+          stats[subj].push(null); // empty / unentered
+        } else if (raw.toUpperCase() === "AB") {
+          stats[subj].push("AB"); // absent
         } else {
           var v = parseFloat(raw);
           stats[subj].push(isNaN(v) ? null : v);
         }
       });
     });
-
-    var totalStudents = studentRows.length;
-    var PASS_MARK = 35; // pass threshold
 
     // Build stat rows
     var labels = [
@@ -1701,8 +1712,13 @@
 
       visibleCols.forEach(function (s) {
         var arr = stats[s] || [];
-        var present = arr.filter(function (v) { return v !== null; });
-        var absent  = arr.filter(function (v) { return v === null; });
+        var present = arr.filter(function (v) { return typeof v === "number" && !isNaN(v); });
+        var absent  = arr.filter(function (v) { return typeof v === "string" && v.toUpperCase() === "AB"; });
+        var sMax    = getSubjectMaxMark(s);
+        var passMark = 35;
+        if (!converterOn && sMax !== 100) {
+          passMark = Math.round(sMax * 0.35);
+        }
         var val = "";
 
         if (row.key === "present") {
@@ -1710,18 +1726,18 @@
         } else if (row.key === "absent") {
           val = absent.length;
         } else if (row.key === "failures") {
-          val = present.filter(function (v) { return v < PASS_MARK; }).length;
+          val = present.filter(function (v) { return v < passMark; }).length;
         } else if (row.key === "average") {
           if (present.length > 0) {
             var sum = present.reduce(function (a, b) { return a + b; }, 0);
             val = (sum / present.length).toFixed(2);
           } else {
-            val = "0.00";
+            val = "-";
           }
         } else if (row.key === "max") {
-          val = present.length > 0 ? Math.max.apply(null, present) : 0;
+          val = present.length > 0 ? Math.max.apply(null, present) : "-";
         } else if (row.key === "min") {
-          val = present.length > 0 ? Math.min.apply(null, present) : 0;
+          val = present.length > 0 ? Math.min.apply(null, present) : "-";
         }
 
         footHtml += '<td class="stat-val col-mark-cell">' + val + '</td>';
@@ -2017,6 +2033,15 @@
     dirtyRolls[roll][subj] = valToSave;
     updateSaveState();
 
+    // Sync table and mobile card inputs if both exist
+    if (inp.closest && inp.closest("#mobileCards")) {
+      var tableInp = tBody.querySelector('input[data-roll="' + roll + '"][data-subj="' + subj + '"]');
+      if (tableInp && tableInp.value !== inp.value) tableInp.value = inp.value;
+    } else if (mobileCardsEl) {
+      var cardInp = mobileCardsEl.querySelector('input[data-roll="' + roll + '"][data-subj="' + subj + '"]');
+      if (cardInp && cardInp.value !== inp.value) cardInp.value = inp.value;
+    }
+
     // Update total in the row
     recalcRowTotal(roll);
     recountFilled();
@@ -2110,15 +2135,18 @@
     rows.forEach(function (r) {
       var roll = r.dataset.roll || "";
       var rollLower = roll.toLowerCase();
-      var name = (r.children[2] ? r.children[2].textContent : "").toLowerCase();
+      var nameBox = r.querySelector(".student-name-text");
+      var name = (nameBox ? nameBox.textContent : (r.children[2] ? r.children[2].textContent : "")).toLowerCase();
       var matchSearch = !q || rollLower.indexOf(q) >= 0 || name.indexOf(q) >= 0;
       var matchSeries = matchesSeries(roll, currentSeries);
 
       if (matchSearch && matchSeries) {
         r.classList.remove("hidden-row");
+        r.style.display = "";
         visibleCount++;
       } else {
         r.classList.add("hidden-row");
+        r.style.display = "none";
       }
     });
     // Filter mobile cards
@@ -2142,6 +2170,9 @@
         countEl.textContent = studentRows.length + " students";
       }
     }
+
+    recountFilled();
+    renderSubjectStats();
   }
 
   /* ═══════════ Series / Section filter cards ═══════════ */
@@ -2314,16 +2345,20 @@
   }
 
   function updateStats(filled, total) {
-    if (countEl) countEl.textContent = studentRows.length + " students";
     if (filledEl) filledEl.textContent = filled + " filled";
     if (emptyEl) emptyEl.textContent = (total - filled) + " empty";
   }
 
   function recountFilled() {
-    var inputs = tBody.querySelectorAll(".mark-input");
-    var filled = 0, total = inputs.length;
-    inputs.forEach(function (inp) {
-      if (inp.value.trim() !== "") filled++;
+    var rows = tBody.querySelectorAll("tr");
+    var filled = 0, total = 0;
+    rows.forEach(function (r) {
+      if (r.classList.contains("hidden-row") || r.style.display === "none") return;
+      var inputs = r.querySelectorAll(".mark-input");
+      inputs.forEach(function (inp) {
+        total++;
+        if (inp.value.trim() !== "") filled++;
+      });
     });
     updateStats(filled, total);
   }
