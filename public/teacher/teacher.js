@@ -41,6 +41,9 @@
   function matchesSeries(rollNo, series) {
     if (!series || series === "all") return true;
     var r = String(rollNo || "").toUpperCase();
+    if (series === "S") {
+      return r.indexOf("S") >= 0;
+    }
     if (series === "H") {
       return r.indexOf("H") >= 0;
     }
@@ -115,18 +118,18 @@
     if (u === "CS" || u === "COMP" || u === "COMPUTERSCIENCE" || s.toLowerCase() === "computer science") return "CS";
     if (u === "AI" || s.toLowerCase() === "artificial intelligence") return "AI";
     if (u === "ACC" || u === "ACCOUNTANCY") return "Acc";
-    if (u === "BS" || u === "BST" || u === "BUSINESS" || s.toLowerCase() === "business studies") return "Bs";
+    if (u === "BS" || u === "BST" || u === "BUSINESS" || u === "BUSINESSSTUDIES" || /BUSINESS.*STUD/i.test(s) || s.toLowerCase() === "business studies" || s.toLowerCase() === "business") return "Bs";
     if (u === "ECO" || u === "ECONOMICS") return "Eco";
     if (u === "TAM" || u === "TAMIL" || u === "L2") return "TAM";
     if (u === "HIN" || u === "HINDI") return "TAM"; // In Class 10 sheet, Hindi is entered under Language 2 (TAM) column
     if (u === "SOC" || u === "SCO" || u === "SST" || /^SOC.*SCI/i.test(s) || s.toLowerCase() === "social science" || s.toLowerCase() === "social") return "SOC";
-    if (u === "SCI" || u === "SCIENCE" || /^PHY.*SCI/i.test(s) || s.toLowerCase() === "physical science" || s.toLowerCase() === "biological science") return "SCI";
+    if (u === "SCI" || u === "SCIENCE" || /^PHY.*SCI/i.test(s) || s.toLowerCase() === "physical science" || s.toLowerCase() === "biological science" || s.toLowerCase() === "science") return "SCI";
 
     return s;
   }
 
   /* ── Auth State & Helper ── */
-  var PORTAL_VERSION = "38"; // bump this when allowedStreams/allowedCodes change
+  var PORTAL_VERSION = "39"; // bump this when allowedStreams/allowedCodes change
   if (localStorage.getItem("teacher_portal_version") !== PORTAL_VERSION) {
     localStorage.removeItem("teacher_info"); // force re-login with fresh permissions
     localStorage.removeItem("teacher_token");
@@ -528,7 +531,7 @@
       return s.indexOf("10") >= 0 || s.indexOf("harmony") >= 0 || s.indexOf("melody") >= 0 || s.indexOf("symphony") >= 0;
     });
     var hasG1112 = streams.some(function(s) {
-      return s === "bio - maths" || s === "bio - cs" || s === "maths - cs" || s === "applied math" || s === "cs";
+      return s === "bio - maths" || s === "bio - cs" || s === "maths - cs" || s === "applied math" || s === "cs" || s === "business studies";
     });
 
     btns.forEach(function (b) {
@@ -554,7 +557,7 @@
     cards.forEach(function (c) {
       var st = c.dataset.stream;
       var isG10Stream = (st === "X Harmony" || st === "X Melody" || st === "X Symphony");
-      var isG1112Stream = (st === "Bio - Maths" || st === "Bio - CS" || st === "Maths - CS" || st === "Applied Math" || st === "CS");
+      var isG1112Stream = (st === "Bio - Maths" || st === "Bio - CS" || st === "Maths - CS" || st === "Applied Math" || st === "CS" || st === "Business Studies");
 
       // Check grade visibility
       var gradeOk;
@@ -712,7 +715,10 @@
     if (!Array.isArray(streams)) return true;
     var target = String(streamName).toLowerCase();
     return streams.some(function (s) {
-      return String(s).toLowerCase() === target;
+      var st = String(s).toLowerCase();
+      if (st === target) return true;
+      if (target === "business studies" && (st === "applied math" || st === "cs" || st === "commerce" || st === "business studies")) return true;
+      return false;
     });
   }
 
@@ -770,7 +776,7 @@
         return s.indexOf("10") >= 0 || s.indexOf("harmony") >= 0 || s.indexOf("melody") >= 0 || s.indexOf("symphony") >= 0;
       });
       var hasG1112 = streams.some(function(s) {
-        return s === "bio - maths" || s === "bio - cs" || s === "maths - cs" || s === "applied math" || s === "cs";
+        return s === "bio - maths" || s === "bio - cs" || s === "maths - cs" || s === "applied math" || s === "cs" || s === "business studies";
       });
 
       // If teacher is dedicated to Class 10 (or has Class 10 subjects), default directly to Grade 10
@@ -799,7 +805,7 @@
       }
     });
 
-    if (firstAllowed && (!isStreamAllowed(currentStream) || currentStream === "PE - Analysis" || currentStream === "Rankwise" || (currentGrade === "10" && (currentStream === "Bio - Maths" || currentStream === "Bio - CS" || currentStream === "Maths - CS" || currentStream === "Applied Math" || currentStream === "CS")))) {
+    if (firstAllowed && (!isStreamAllowed(currentStream) || currentStream === "PE - Analysis" || currentStream === "Rankwise" || (currentGrade === "10" && (currentStream === "Bio - Maths" || currentStream === "Bio - CS" || currentStream === "Maths - CS" || currentStream === "Applied Math" || currentStream === "CS" || currentStream === "Business Studies")))) {
       cards.forEach(function (x) { x.classList.remove("active"); });
       firstAllowed.classList.add("active");
       currentStream = firstAllowed.dataset.stream;

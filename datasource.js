@@ -131,6 +131,28 @@
     return str;
   }
 
+  function toCanonical(subj) {
+    if (!subj) return "";
+    var s = String(subj).trim();
+    var u = s.toUpperCase().replace(/[^A-Z0-9.]/g, "");
+    if (u === "ENG" || u === "ENGLISH") return "ENG";
+    if (u === "PED" || u === "PE" || /^PHY.*ED/i.test(s)) return "PED";
+    if (u === "PHY" || u === "PHYSICS") return "PHY";
+    if (u === "CHE" || u === "CHEMISTRY") return "CHE";
+    if (u === "A.MATH" || u === "AMATH" || /^APP.*MAT/i.test(s)) return "A.Math";
+    if (u === "MAT" || u === "MATH" || u === "MATHS" || u === "MATHEMATICS") return "MAT";
+    if (u === "BIO" || u === "BIOLOGY") return "BIO";
+    if (u === "CS" || u === "COMP" || u === "COMPUTERSCIENCE") return "CS";
+    if (u === "AI" || /ARTIFICIAL/i.test(s)) return "AI";
+    if (u === "ACC" || u === "ACCOUNTANCY") return "Acc";
+    if (u === "BS" || u === "BST" || u === "BUSINESS" || /BUSINESS/i.test(s)) return "Bs";
+    if (u === "ECO" || u === "ECONOMICS") return "Eco";
+    if (u === "TAM" || u === "TAMIL" || u === "L2" || u === "HIN" || u === "HINDI") return "TAM";
+    if (u === "SOC" || u === "SCO" || u === "SST" || /^SOC/i.test(s)) return "SOC";
+    if (u === "SCI" || u === "SCIENCE" || /SCIENCE/i.test(s)) return "SCI";
+    return s;
+  }
+
   function isPhysicalEducation(code) {
     if (!code) return false;
     var c = String(code).trim().toUpperCase();
@@ -370,6 +392,7 @@
 
       var isClass12 = (String(grade || "").trim() === "12" || String(grade || "").trim() === "XII" || !grade);
       var isClass11 = (String(grade || "").trim() === "11" || String(grade || "").trim() === "XI");
+      var isClass10 = (String(grade || "").trim() === "10" || String(grade || "").trim() === "X");
       var activeBlock = isClass12 ? BLOCK_START_G12 : BLOCK_START;
 
       var fpeRows = (isClass12 && sheets["Full Portion Exam (FPE)"]) ? studentRows(sheets["Full Portion Exam (FPE)"]) : [];
@@ -440,6 +463,24 @@
                   } else {
                     colOffset = 6;
                   }
+                }
+              } else if (isClass10) {
+                var g10Order = ["ENG", "TAM", "MAT", "SCI", "SOC", "AI"];
+                var g10RotMap = {
+                  "CU 1": 0,
+                  "TE 1": 1,
+                  "CU 2 - I Full": 2,
+                  "CU 2": 2,
+                  "CU 2 - II Full": 3,
+                  "TE 2": 3,
+                  "CU 2 - III Full": 4,
+                  "CU 2 - IV Full": 5
+                };
+                var targetCode = toCanonical(s);
+                var g10Idx = g10Order.indexOf(targetCode);
+                var g10Rot = g10RotMap[ex] != null ? g10RotMap[ex] : 0;
+                if (g10Idx >= 0) {
+                  colOffset = (g10Idx - g10Rot + 6) % 6;
                 }
               }
               var rawCell = (base != null) ? cell(row, base + colOffset) : null;
