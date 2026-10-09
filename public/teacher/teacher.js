@@ -21,6 +21,8 @@
 
   function getEffectiveExam() {
     if (currentExam === "CU 2") {
+      var isCommerce = (currentStream === "Business Studies" || currentStream === "Applied Math" || currentStream === "CS");
+      if (isCommerce) return "CU 2 - I Full";
       return "CU 2 - " + currentPart;
     }
     return currentExam;
@@ -129,7 +131,7 @@
   }
 
   /* ── Auth State & Helper ── */
-  var PORTAL_VERSION = "41"; // bump this when allowedStreams/allowedCodes change
+  var PORTAL_VERSION = "42"; // bump this when allowedStreams/allowedCodes change
   if (localStorage.getItem("teacher_portal_version") !== PORTAL_VERSION) {
     localStorage.removeItem("teacher_info"); // force re-login with fresh permissions
     localStorage.removeItem("teacher_token");
@@ -1052,6 +1054,14 @@
         currentStream = c.dataset.stream;
         resetDirty();
 
+        // Reset series filter to "All Students" on stream switch to prevent filtering out students
+        currentSeries = "all";
+        var sCards = document.querySelectorAll(".series-card");
+        sCards.forEach(function (x) {
+          if (x.dataset.series === "all") x.classList.add("active");
+          else x.classList.remove("active");
+        });
+
         // Always keep Save All Marks button visible for all streams and views
         var moduleTabs = $("#examTabs");
         if (currentStream === "PE - Analysis" || currentStream === "Rankwise") {
@@ -1070,7 +1080,8 @@
   function updateCu2PartsBarVisibility() {
     var cu2Bar = document.getElementById("cu2PartsBar");
     if (!cu2Bar) return;
-    if (currentExam === "CU 2" && currentStream !== "PE - Analysis" && currentStream !== "Rankwise" && currentStream !== "Mentor Report") {
+    var isCommerce = (currentStream === "Business Studies" || currentStream === "Applied Math" || currentStream === "CS");
+    if (currentExam === "CU 2" && currentStream !== "PE - Analysis" && currentStream !== "Rankwise" && currentStream !== "Mentor Report" && !isCommerce) {
       cu2Bar.style.display = "inline-flex";
     } else {
       cu2Bar.style.display = "none";
@@ -2161,6 +2172,17 @@
         var matchSeries = matchesSeries(roll, currentSeries);
         card.style.display = (matchSearch && matchSeries) ? "" : "none";
       });
+    }
+
+    if (visibleCount === 0 && studentRows && studentRows.length > 0 && currentSeries !== "all" && !q) {
+      currentSeries = "all";
+      var sCards = document.querySelectorAll(".series-card");
+      sCards.forEach(function (x) {
+        if (x.dataset.series === "all") x.classList.add("active");
+        else x.classList.remove("active");
+      });
+      filterRows();
+      return;
     }
 
     if (countEl && studentRows && studentRows.length > 0) {

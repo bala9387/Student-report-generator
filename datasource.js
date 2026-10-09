@@ -68,6 +68,10 @@
     "CU 1": 3,
     "TE 1": 11,
     "CU 2": 19,
+    "CU 2 - I Full": 19,
+    "CU 2 - II Full": 19,
+    "CU 2 - III Full": 19,
+    "CU 2 - IV Full": 19,
     "TE 2": 27
   };
   // Grade 12 Full Portion Exam (FPE) block start columns (7 subjects: PHY, CHE, MAT, CS, BIO, ENG, PED)
@@ -424,7 +428,8 @@
         var marks = {};
 
         EXAMS.forEach(function (ex) {
-          var isFpePart = isClass12 && (ex.indexOf("CU 2 - ") === 0);
+          var isCommerceStream = (modeLabel === "Applied Math" || modeLabel === "CS" || modeLabel === "A.Math");
+          var isFpePart = isClass12 && !isCommerceStream && (ex.indexOf("CU 2 - ") === 0);
           var base = isFpePart ? FPE_BLOCK_START[ex] : activeBlock[ex];
           var rm = {};
           var sumSubject = 0;
