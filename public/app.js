@@ -135,6 +135,7 @@
     var s = String(ex).trim();
     if (s === "TE 2" || s === "TE2" || s.toLowerCase() === "second half") return "Second half";
     if (s === "CU 2" || s === "CU2" || s.toLowerCase() === "full portion" || s.toLowerCase() === "full postion") return "Full Portion";
+    if (s === "Final Mark Sheet" || s === "final") return "Final Mark Sheet (4 Exams)";
     if (/^CU\s*2\s*-\s*(.+)$/i.test(s)) {
       var part = s.match(/^CU\s*2\s*-\s*(.+)$/i)[1];
       return "Full Portion - " + part;
@@ -147,7 +148,7 @@
     if (!sel) return;
     sel.innerHTML = "";
     var modes = isStudentReport
-      ? ["PE - Analysis", "CU 1", "TE 1", "CU 2 - I Full", "CU 2 - II Full", "CU 2 - III Full", "CU 2 - IV Full", "TE 2"]
+      ? ["PE - Analysis", "CU 1", "TE 1", "CU 2 - I Full", "CU 2 - II Full", "CU 2 - III Full", "CU 2 - IV Full", "TE 2", "Final Mark Sheet"]
       : ["CU 1", "TE 1", "CU 2 - I Full", "CU 2 - II Full", "CU 2 - III Full", "CU 2 - IV Full", "TE 2"];
     modes.forEach(function (m) {
       var opt = document.createElement("option");
@@ -229,6 +230,10 @@
     var mode = $("#mode").value;
     var grade = $("#grade") ? $("#grade").value : "12";
     msg.className = "message"; msg.innerHTML = "";
+    if (mode === "Final Mark Sheet" || mode === "final") {
+      window.open("/final-mark-sheet.html?roll=" + encodeURIComponent(roll) + "&grade=" + encodeURIComponent(grade), "_blank");
+      return;
+    }
     fetchStudentReport(roll, mode, grade);
   });
 
@@ -1056,6 +1061,10 @@
   if (reportModeSelect) {
     reportModeSelect.addEventListener("change", function () {
       var newMode = this.value;
+      if (newMode === "Final Mark Sheet" || newMode === "final") {
+        window.open("/final-mark-sheet.html?roll=" + encodeURIComponent(currentStudentRoll || "") + "&grade=" + encodeURIComponent(currentStudentGrade || "12"), "_blank");
+        return;
+      }
       if (currentSectionKey) {
         showSectionSheet(currentSectionKey, newMode);
       } else if (currentLeaderboardScope) {

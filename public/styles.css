@@ -86,7 +86,7 @@ body{
 }
 .portal-cards-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 24px;
 }
 
@@ -108,6 +108,7 @@ body{
 .portal-card.card-student { border-top: 4px solid #2563eb; }
 .portal-card.card-ai { border-top: 4px solid #7c3aed; }
 .portal-card.card-teacher { border-top: 4px solid #059669; }
+.portal-card.card-amber { border-top: 4px solid #d97706; }
 
 .portal-card:hover {
   transform: translateY(-6px);
@@ -116,6 +117,7 @@ body{
 .portal-card.card-student:hover { border-color: #93c5fd; }
 .portal-card.card-ai:hover { border-color: #c4b5fd; }
 .portal-card.card-teacher:hover { border-color: #6ee7b7; }
+.portal-card.card-amber:hover { border-color: #fcd34d; }
 
 .portal-card-header {
   display: flex;
@@ -135,6 +137,7 @@ body{
 .portal-card-icon.student-icon { background: #eff6ff; color: #2563eb; }
 .portal-card-icon.ai-icon { background: #f5f3ff; color: #7c3aed; }
 .portal-card-icon.teacher-icon { background: #ecfdf5; color: #059669; }
+.portal-card-icon.amber-icon { background: #fffbeb; color: #d97706; }
 
 .portal-tag {
   font-size: 0.7rem;
@@ -146,6 +149,7 @@ body{
 .portal-tag.tag-blue { background: #eff6ff; color: #1d4ed8; }
 .portal-tag.tag-purple { background: #f5f3ff; color: #6d28d9; }
 .portal-tag.tag-green { background: #ecfdf5; color: #047857; }
+.portal-tag.tag-amber { background: #fffbeb; color: #b45309; }
 
 .portal-card-body h3 {
   margin: 0 0 8px;
@@ -176,6 +180,7 @@ body{
 .portal-card-btn.btn-blue { background: #2563eb; color: #ffffff; }
 .portal-card-btn.btn-purple { background: #7c3aed; color: #ffffff; }
 .portal-card-btn.btn-green { background: #059669; color: #ffffff; }
+.portal-card-btn.btn-amber { background: #d97706; color: #ffffff; }
 
 .portal-card:hover .portal-card-btn { opacity: 0.94; }
 .portal-card:hover .btn-arrow { transform: translateX(4px); }

@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Annual Consolidated Student Report & Final Mark Sheet · KSR Akshara Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-dark: #0f172a;
+      --accent-red: #b7161c;
+      --accent-red-dark: #8f1015;
+      --accent-gold: #c99a1e;
+      --gold-bg: #fef9c3;
+      --gold-border: #facc15;
+      --ink: #1e293b;
+      --muted: #64748b;
+      --line: #cbd5e1;
+      --line-soft: #e2e8f0;
+      --bg-soft: #f8fafc;
+      --card-bg: #ffffff;
+      --pass-green: #15803d;
+      --pass-bg: #dcfce7;
+      --fail-red: #b91c1c;
+      --fail-bg: #fee2e2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      background: #e2e8f0;
+      padding: 24px 12px 60px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ═══════════ TOP ACTION TOOLBAR (SCREEN ONLY) ═══════════ */
+    .top-toolbar {
+      width: 100%;
+      max-width: 900px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .toolbar-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .toolbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toolbar-brand img {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .toolbar-brand h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0;
+    }
+
+    .toolbar-brand p {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: var(--accent-red);
+      color: #ffffff;
+      border: 1px solid var(--accent-red-dark);
+    }
+    .btn-primary:hover {
+      background: var(--accent-red-dark);
+    }
+
+    .btn-secondary {
+      background: var(--primary);
+      color: #ffffff;
+      border: 1px solid var(--primary-dark);
+    }
+    .btn-secondary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-outline {
+      background: #ffffff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+    .btn-outline:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    .btn-edit.active {
+      background: #fef08a;
+      color: #854d0e;
+      border-color: #eab308;
+    }
+
+    .quick-samples {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 0.82rem;
+      color: var(--muted);
+      border-top: 1px solid var(--line-soft);
+      padding-top: 10px;
+    }
+
+    .pill-btn {
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: var(--bg-soft);
+      color: var(--ink);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.12s ease;
+    }
+    .pill-btn:hover {
+      background: #ffffff;
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .pill-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .live-search-box {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: auto;
+    }
+
+    .live-search-box input {
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      width: 140px;
+      text-transform: uppercase;
+    }
+
+    /* ═══════════ THE MARK SHEET SHEET (A4 FORMAT) ═══════════ */
+    .sheet-container {
+      width: 100%;
+      max-width: 860px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+      padding: 24px 28px 24px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* Outer decorative border for official certificate feel */
+    .sheet-inner-border {
+      border: 2px solid var(--primary);
+      border-radius: 4px;
+      padding: 16px 20px 18px;
+      position: relative;
+    }
+
+    .sheet-inner-border::before {
+      content: "";
+      position: absolute;
+      top: 2px; left: 2px; right: 2px; bottom: 2px;
+      border: 1px dashed rgba(30, 58, 138, 0.35);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+
+    /* ── Institutional Header ── */
+    .masthead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--accent-red);
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+      position: relative;
+    }
+
+    .masthead-logo {
+      height: 68px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .masthead-text {
+      flex: 1;
+      text-align: center;
+      padding: 0 12px;
+    }
+
+    .masthead-text .school-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .masthead-text .affiliation {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .masthead-text .campus-address {
+      font-size: 0.74rem;
+      color: #475569;
+      margin-top: 1px;
+    }
+
+    .masthead-text .doc-title {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 3px 14px;
+      background: var(--accent-red);
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+
+    .masthead-text .session-sub {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--accent-red-dark);
+      margin-top: 3px;
+      letter-spacing: 0.04em;
+    }
+
+    .masthead-seal {
+      width: 68px;
+      height: 68px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-soft);
+      color: var(--primary);
+      font-size: 0.58rem;
+      font-weight: 700;
+      text-align: center;
+      padding: 4px;
+      line-height: 1.1;
+      box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .masthead-seal span.seal-code {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--accent-red);
+      margin-top: 2px;
+    }
+
+    /* ── Student Profile Card ── */
+    .profile-card {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 8px 12px;
+      margin-bottom: 14px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px 14px;
+    }
+
+    .profile-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .profile-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+
+    .profile-value {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .profile-value.highlight-name {
+      color: var(--primary);
+      font-size: 0.96rem;
+    }
+
+    /* ── Marks Matrix Table ── */
+    .section-heading {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.86rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--line-soft);
+      padding-bottom: 3px;
+    }
+
+    .section-heading span.badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      background: #e2e8f0;
+      color: #334155;
+      border-radius: 3px;
+    }
+
+    .marks-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      margin-bottom: 14px;
+    }
+
+    .marks-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      text-align: center;
+    }
+
+    .marks-table th,
+    .marks-table td {
+      border: 1px solid var(--line);
+      padding: 6px 6px;
+    }
+
+    .marks-table thead tr.top-header th {
+      background: #1e3a8a;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.76rem;
+      letter-spacing: 0.03em;
+      padding: 7px 6px;
+    }
+
+    .marks-table thead tr.sub-header th {
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+      font-size: 0.7rem;
+      padding: 4px 6px;
+    }
+
+    .marks-table tbody td {
+      color: #1e293b;
+    }
+
+    .marks-table tbody tr:nth-child(even) {
+      background: #fcfdfe;
+    }
+
+    .marks-table tbody td.col-sno {
+      width: 32px;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.76rem;
+    }
+
+    .marks-table tbody td.col-subject {
+      text-align: left;
+      font-weight: 700;
+      padding-left: 10px;
+      color: #0f172a;
+    }
+
+    .marks-table tbody td.col-subject .sub-code {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-left: 4px;
+    }
+
+    .marks-table tbody td.mark-cell {
+      font-weight: 600;
+      font-size: 0.84rem;
+    }
+
+    .marks-table tbody td.mark-cell.mark-top {
+      color: #92400e;
+      font-weight: 800;
+      background: #fefce8;
+    }
+
+    .marks-table tbody td.mark-cell.mark-fail {
+      color: var(--fail-red);
+      font-weight: 800;
+      background: var(--fail-bg);
+    }
+
+    .marks-table tbody td.col-tot400 {
+      font-weight: 700;
+      color: var(--primary);
+      background: rgba(30, 58, 138, 0.03);
+    }
+
+    .marks-table tbody td.col-avg {
+      font-weight: 800;
+      color: #0f172a;
+      background: rgba(30, 58, 138, 0.05);
+    }
+
+    .marks-table tbody td.col-grade {
+      font-weight: 800;
+      font-size: 0.86rem;
+    }
+
+    .marks-table tbody td.col-grade.grade-a {
+      color: var(--pass-green);
+    }
+    .marks-table tbody td.col-grade.grade-b {
+      color: #0284c7;
+    }
+    .marks-table tbody td.col-grade.grade-c {
+      color: #d97706;
+    }
+    .marks-table tbody td.col-grade.grade-e {
+      color: var(--fail-red);
+    }
+
+    /* Aggregate Footer Rows */
+    .marks-table tfoot tr.agg-row td {
+      font-weight: 800;
+      font-size: 0.82rem;
+      padding: 6px 6px;
+    }
+
+    .marks-table tfoot tr.agg-total td {
+      background: #f8fafc;
+      border-top: 2px solid var(--primary);
+      color: #0f172a;
+    }
+
+    .marks-table tfoot tr.agg-pct td {
+      background: #ffffff;
+      color: var(--primary);
+    }
+
+    .marks-table tfoot tr.agg-rank td {
+      background: #fefce8;
+      color: #854d0e;
+    }
+
+    .marks-table tfoot td.agg-label {
+      text-align: right;
+      padding-right: 12px;
+      font-size: 0.78rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    /* ── Co-Scholastic & Life Skills ── */
+    .co-scholastic-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .co-card {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 6px 10px;
+      text-align: center;
+    }
+
+    .co-card .co-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      line-height: 1.2;
+      min-height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .co-card .co-grade {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-top: 2px;
+    }
+
+    .co-card .co-desc {
+      font-size: 0.62rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    /* ── CBSE 8-Point Grading Scale ── */
+    .grading-ribbon {
+      background: #f1f5f9;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 6px 10px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+      font-size: 0.68rem;
+    }
+
+    .grading-ribbon .scale-label {
+      font-weight: 800;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .scale-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .scale-item b {
+      color: #0f172a;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      padding: 1px 4px;
+      border-radius: 2px;
+    }
+
+    /* ── Remarks & Promotion ── */
+    .appraisal-box {
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 8px 12px;
+      margin-bottom: 16px;
+      background: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .appraisal-remarks {
+      flex: 1;
+    }
+
+    .appraisal-remarks .label {
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+
+    .appraisal-remarks .text {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #1e293b;
+      line-height: 1.35;
+      font-style: italic;
+    }
+
+    .promotion-badge {
+      flex: none;
+      text-align: center;
+      padding: 6px 14px;
+      border-radius: 4px;
+      background: var(--pass-bg);
+      border: 1px solid #86efac;
+    }
+
+    .promotion-badge .status-title {
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: #166534;
+      text-transform: uppercase;
+    }
+
+    .promotion-badge .status-text {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #14532d;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Signatures Block ── */
+    .signatures-block {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-top: 18px;
+      margin-top: 10px;
+    }
+
+    .sig-col {
+      text-align: center;
+      width: 170px;
+    }
+
+    .sig-line {
+      border-top: 1px solid #475569;
+      margin-bottom: 4px;
+    }
+
+    .sig-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #334155;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .sig-sub {
+      font-size: 0.64rem;
+      color: var(--muted);
+    }
+
+    .school-stamp-box {
+      width: 80px;
+      height: 48px;
+      border: 1px dashed #cbd5e1;
+      border-radius: 4px;
+      margin: 0 auto 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.62rem;
+      color: #94a3b8;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    /* ═══════════ EDITABLE MODE HIGHLIGHTS ═══════════ */
+    body.is-editing [contenteditable="true"] {
+      outline: 2px dashed #3b82f6 !important;
+      background-color: rgba(239, 246, 255, 0.7) !important;
+      cursor: text;
+    }
+
+    /* ═══════════ PRINT STYLESHEET (STRICT A4) ═══════════ */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 6mm 8mm 6mm 8mm;
+      }
+
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        color: #000000 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      .sheet-container {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+
+      .sheet-inner-border {
+        border: 2px solid #1e3a8a !important;
+        padding: 10px 14px 12px !important;
+      }
+
+      .masthead {
+        border-bottom: 2px solid #b7161c !important;
+        margin-bottom: 8px !important;
+        padding-bottom: 8px !important;
+      }
+
+      .masthead-logo {
+        height: 56px !important;
+      }
+
+      .masthead-text .school-name {
+        font-size: 1.25rem !important;
+      }
+
+      .profile-card {
+        padding: 6px 8px !important;
+        margin-bottom: 8px !important;
+        gap: 4px 10px !important;
+      }
+
+      .marks-table th,
+      .marks-table td {
+        padding: 4.5px 4px !important;
+        font-size: 0.75rem !important;
+      }
+
+      .marks-table thead tr.top-header th {
+        background: #1e3a8a !important;
+        color: #ffffff !important;
+        padding: 5px 4px !important;
+      }
+
+      .marks-table thead tr.sub-header th {
+        background: #f1f5f9 !important;
+        color: #1e293b !important;
+      }
+
+      .marks-table-wrap {
+        margin-bottom: 8px !important;
+      }
+
+      .co-scholastic-grid {
+        gap: 6px !important;
+        margin-bottom: 8px !important;
+      }
+
+      .co-card {
+        padding: 4px 6px !important;
+      }
+
+      .co-card .co-grade {
+        font-size: 0.95rem !important;
+      }
+
+      .grading-ribbon {
+        padding: 4px 6px !important;
+        margin-bottom: 8px !important;
+        font-size: 0.62rem !important;
+      }
+
+      .appraisal-box {
+        padding: 6px 10px !important;
+        margin-bottom: 10px !important;
+      }
+
+      .signatures-block {
+        padding-top: 14px !important;
+        page-break-inside: avoid !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════ TOP CONTROL TOOLBAR (SCREEN ONLY) ═══════════ -->
+  <header class="top-toolbar no-print">
+    <div class="toolbar-row">
+      <div class="toolbar-brand">
+        <img src="logo.jpg" alt="KSR Logo" />
+        <div>
+          <h2>Annual Report & Final Mark Sheet Template</h2>
+          <p>Consolidated 4-Exam Academic Assessment Card &middot; KSR Akshara Academy</p>
+        </div>
+      </div>
+      <div class="toolbar-actions">
+        <button type="button" id="printBtn" class="btn btn-primary" title="Print or save as PDF">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="5" y="9" width="14" height="7" rx="1"/><path d="M8 16h8v5H8z"/></svg>
+          <span>Print / Save PDF (A4)</span>
+        </button>
+        <button type="button" id="editToggleBtn" class="btn btn-outline btn-edit" title="Toggle interactive in-place editing">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          <span id="editBtnText">Enable Edit Mode</span>
+        </button>
+        <a href="/" class="btn btn-outline" title="Return to Student Portal">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Student Portal</span>
+        </a>
+        <a href="/teacher/" class="btn btn-outline" title="Return to Teacher Portal">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          <span>Teacher Portal</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Quick Sample Profiles & Live Roll Lookup -->
+    <div class="quick-samples">
+      <span>Sample Stream Templates:</span>
+      <button type="button" class="pill-btn active" data-sample="commerce">Commerce (Business Studies)</button>
+      <button type="button" class="pill-btn" data-sample="mathscs">Maths - Computer Science</button>
+      <button type="button" class="pill-btn" data-sample="biomaths">Biology - Maths</button>
+      <button type="button" class="pill-btn" data-sample="grade10">Class 10 (Secondary)</button>
+
+      <form id="liveLookupForm" class="live-search-box">
+        <select id="lookupGrade" style="padding:6px;font-size:0.8rem;border:1px solid var(--line);border-radius:6px;">
+          <option value="12" selected>Class 12</option>
+          <option value="11">Class 11</option>
+          <option value="10">Class 10</option>
+        </select>
+        <input type="text" id="lookupRoll" placeholder="Roll No..." value="26S2379" required />
+        <button type="submit" class="btn btn-secondary" style="padding:6px 12px;font-size:0.8rem;">Load Live</button>
+      </form>
+    </div>
+  </header>
+
+  <!-- ═══════════ THE CONSOLIDATED REPORT CARD (A4 SHEET) ═══════════ -->
+  <main class="sheet-container" id="markSheetDocument">
+    <div class="sheet-inner-border">
+
+      <!-- 1. Institutional Masthead -->
+      <header class="masthead">
+        <img class="masthead-logo" src="logo.jpg" alt="KSR Akshara Academy Crest" />
+        <div class="masthead-text">
+          <h1 class="school-name">KSR AKSHARA ACADEMY</h1>
+          <div class="affiliation">SENIOR SECONDARY SCHOOL &middot; AFFILIATED TO CBSE, NEW DELHI</div>
+          <div class="campus-address">K.S.R. Kalvi Nagar, Tiruchengode &ndash; 637 215, Namakkal District, Tamil Nadu</div>
+          <div class="doc-title">ANNUAL CONSOLIDATED REPORT &middot; FINAL MARK SHEET</div>
+          <div class="session-sub">ACADEMIC SESSION: 2026 &ndash; 2027</div>
+        </div>
+        <div class="masthead-seal">
+          <div>CBSE AFFIL.</div>
+          <div class="seal-code">1930773</div>
+          <div style="margin-top:2px;">CODE</div>
+          <div class="seal-code">55694</div>
+        </div>
+      </header>
+
+      <!-- 2. Student Identification Profile -->
+      <section class="profile-card" id="studentProfileBox">
+        <div class="profile-item">
+          <span class="profile-label">Student Name</span>
+          <span class="profile-value highlight-name editable-field" id="stName">HARIHARAN.J</span>
+        </div>
+        <div class="profile-item">
+          <span class="profile-label">Roll Number</span>
+          <span class="profile-value editable-field" id="stRoll">26S2379</span>
+        </div>
+        <div class="profile-item">
+          <span class="profile-label">Class &amp; Section</span>
+          <span class="profile-value editable-field" id="stClassSection">Grade XII &ndash; Symphony</span>
+        </div>
+        <div class="profile-item">
+          <span class="profile-label">Academic Stream</span>
+          <span class="profile-value editable-field" id="stStream">Commerce &amp; Applied Math</span>
+        </div>
+        <div class="profile-item">
+          <span class="profile-label">Admission / S.No</span>
+          <span class="profile-value editable-field" id="stAdmNo">2379 / 01</span>
+        </div>
+        <div class="profile-item">
+          <span class="profile-label">Academic Year</span>
+          <span class="profile-value editable-field" id="stAcademicYear">2026 &ndash; 2027</span>
+        </div>
+        <div class="profile-item">
+          <span class="profile-label">Annual Attendance</span>
+          <span class="profile-value editable-field" id="stAttendance">96.8% (181 / 187 Days)</span>
+        </div>
+        <div class="profile-item">
+          <span class="profile-label">Date of Issue</span>
+          <span class="profile-value editable-field" id="stReportDate">20-Oct-2026</span>
+        </div>
+      </section>
+
+      <!-- 3. Scholastic Performance Matrix: All 4 Exams -->
+      <div class="section-heading">
+        <span>Part I: Scholastic Performance &middot; Subject Assessment Across Terms</span>
+        <span class="badge" id="evalSchemeBadge">Cumulative Assessment System</span>
+      </div>
+
+      <div class="marks-table-wrap">
+        <table class="marks-table" id="marksMatrixTable">
+          <thead>
+            <tr class="top-header">
+              <th rowspan="2" class="col-sno">S.No</th>
+              <th rowspan="2" style="text-align:left;padding-left:10px;">Subject Title &amp; Code</th>
+              <th colspan="4">Marks Obtained in Assessments (/100)</th>
+              <th rowspan="2" title="Total marks across all 4 examinations">Total<br>(/400)</th>
+              <th rowspan="2" title="Overall annual subject average percentage">Final<br>Avg %</th>
+              <th rowspan="2" title="CBSE 8-Point Grade">Grade</th>
+              <th rowspan="2" title="Highest score achieved in the stream">Stream<br>High</th>
+            </tr>
+            <tr class="sub-header">
+              <th>CU 1</th>
+              <th>TE 1</th>
+              <th>Full Portion<br>(CU 2)</th>
+              <th>Second half<br>(TE 2)</th>
+            </tr>
+          </thead>
+          <tbody id="marksTableBody">
+            <!-- Dynamically populated rows -->
+          </tbody>
+          <tfoot id="marksTableFoot">
+            <!-- Dynamically populated aggregate rows -->
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- 4. Co-Scholastic & Personal Development Profile -->
+      <div class="section-heading">
+        <span>Part II: Co-Scholastic Assessment &middot; Life Skills &amp; Values</span>
+        <span class="badge">3-Point Scale (A-C)</span>
+      </div>
+
+      <div class="co-scholastic-grid">
+        <div class="co-card">
+          <div class="co-title">Work Education &amp; Practical Competencies</div>
+          <div class="co-grade editable-field">A</div>
+          <div class="co-desc">Exemplary Initiative</div>
+        </div>
+        <div class="co-card">
+          <div class="co-title">Physical &amp; Health Education (Sports/Yoga)</div>
+          <div class="co-grade editable-field">A</div>
+          <div class="co-desc">Active &amp; Disciplined</div>
+        </div>
+        <div class="co-card">
+          <div class="co-title">Discipline, Punctuality &amp; Integrity</div>
+          <div class="co-grade editable-field">A</div>
+          <div class="co-desc">Role Model Conduct</div>
+        </div>
+        <div class="co-card">
+          <div class="co-title">Scientific Temper &amp; Critical Thinking</div>
+          <div class="co-grade editable-field">A</div>
+          <div class="co-desc">Inquisitive Mindset</div>
+        </div>
+      </div>
+
+      <!-- 5. CBSE 8-Point Grading Ribbon Legend -->
+      <div class="grading-ribbon">
+        <span class="scale-label">CBSE Grading Scale:</span>
+        <span class="scale-item"><b>A1</b> 91&ndash;100%</span>
+        <span class="scale-item"><b>A2</b> 81&ndash;90%</span>
+        <span class="scale-item"><b>B1</b> 71&ndash;80%</span>
+        <span class="scale-item"><b>B2</b> 61&ndash;70%</span>
+        <span class="scale-item"><b>C1</b> 51&ndash;60%</span>
+        <span class="scale-item"><b>C2</b> 41&ndash;50%</span>
+        <span class="scale-item"><b>D</b> 33&ndash;40% (Pass)</span>
+        <span class="scale-item"><b>E</b> &lt;33% (Needs Imp.)</span>
+      </div>
+
+      <!-- 6. Overall Performance Appraisal & Promotion Status -->
+      <div class="appraisal-box">
+        <div class="appraisal-remarks">
+          <div class="label">Class Teacher's Annual Appraisal Remarks</div>
+          <div class="text editable-field" id="teacherRemarks">
+            "Has shown exceptional dedication and consistent performance across all periodic and terminal examinations. Displays strong conceptual clarity in core subjects, polite demeanor, and active leadership in all school activities."
+          </div>
+        </div>
+        <div class="promotion-badge">
+          <div class="status-title">Final Result</div>
+          <div class="status-text editable-field" id="finalResultText">PASSED &middot; PROMOTED</div>
+        </div>
+      </div>
+
+      <!-- 7. Authentication Signatures -->
+      <footer class="signatures-block">
+        <div class="sig-col">
+          <div class="sig-line"></div>
+          <div class="sig-title">Class Teacher</div>
+          <div class="sig-sub">Signature &amp; Date</div>
+        </div>
+        <div class="sig-col">
+          <div class="school-stamp-box">
+            Institutional<br>Seal
+          </div>
+          <div class="sig-title">Official Seal</div>
+          <div class="sig-sub">KSR Akshara Academy</div>
+        </div>
+        <div class="sig-col">
+          <div class="sig-line"></div>
+          <div class="sig-title">Parent / Guardian</div>
+          <div class="sig-sub">Signature &amp; Date</div>
+        </div>
+        <div class="sig-col">
+          <div class="sig-line"></div>
+          <div class="sig-title">Principal</div>
+          <div class="sig-sub">KSR Akshara Academy</div>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      /* ── Preset Sample Data for One-Click Template Preview ── */
+      var SAMPLES = {
+        commerce: {
+          name: "HARIHARAN.J",
+          roll: "26S2379",
+          classSection: "Grade XII – Symphony",
+          stream: "Commerce & Applied Math",
+          admNo: "2379 / 01",
+          academicYear: "2026 – 2027",
+          attendance: "96.8% (181 / 187 Days)",
+          date: new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }),
+          remarks: "Exhibits commendable dedication and sharp analytical acumen in Business Studies and Economics. Consistent across all 4 assessments with active class participation.",
+          result: "PASSED WITH DISTINCTION",
+          subjects: [
+            { code: "055", name: "Accountancy",        cu1: 64, te1: 47, cu2: 78, te2: 71, high: 88 },
+            { code: "054", name: "Business Studies",     cu1: 79, te1: 81, cu2: 88, te2: 85, high: 96 },
+            { code: "030", name: "Economics",            cu1: 70, te1: 72, cu2: 82, te2: 76, high: 90 },
+            { code: "241", name: "Applied Mathematics",  cu1: 59, te1: 61, cu2: 74, te2: 68, high: 82 },
+            { code: "301", name: "English Core",         cu1: 60, te1: 70, cu2: 84, te2: 79, high: 92 },
+            { code: "048", name: "Physical Education",   cu1: 84, te1: 88, cu2: 92, te2: 90, high: 95 }
+          ],
+          ranks: { cu1: "3 / 7", te1: "4 / 7", cu2: "2 / 7", te2: "3 / 7", overall: "3 / 7" }
+        },
+        mathscs: {
+          name: "JAINITHISH S P",
+          roll: "26M22387",
+          classSection: "Grade XII – Melody 2",
+          stream: "Maths – Computer Science",
+          admNo: "2387 / 18",
+          academicYear: "2026 – 2027",
+          attendance: "98.2% (184 / 187 Days)",
+          remarks: "Outstanding performance in Mathematics and Computer Programming. Shows superior problem-solving efficiency and academic diligence throughout the session.",
+          result: "PASSED WITH DISTINCTION",
+          subjects: [
+            { code: "041", name: "Mathematics",         cu1: 88, te1: 92, cu2: 95, te2: 94, high: 98 },
+            { code: "042", name: "Physics",             cu1: 78, te1: 82, cu2: 86, te2: 84, high: 92 },
+            { code: "043", name: "Chemistry",           cu1: 82, te1: 85, cu2: 89, te2: 88, high: 94 },
+            { code: "083", name: "Computer Science",    cu1: 91, te1: 94, cu2: 98, te2: 96, high: 100 },
+            { code: "301", name: "English Core",        cu1: 84, te1: 86, cu2: 88, te2: 87, high: 95 },
+            { code: "048", name: "Physical Education",  cu1: 90, te1: 92, cu2: 94, te2: 93, high: 98 }
+          ],
+          ranks: { cu1: "2 / 32", te1: "2 / 32", cu2: "1 / 32", te2: "1 / 32", overall: "1 / 32" }
+        },
+        biomaths: {
+          name: "NARMADHAVARSHINI.G",
+          roll: "26H3328",
+          classSection: "Grade XII – Harmony",
+          stream: "Biology – Computer Science",
+          admNo: "3328 / 04",
+          academicYear: "2026 – 2027",
+          attendance: "97.4% (182 / 187 Days)",
+          remarks: "Exceptional mastery over Life Sciences and Computer Applications. Highly disciplined, respectful, and maintains consistent top academic standing.",
+          result: "PASSED WITH DISTINCTION",
+          subjects: [
+            { code: "044", name: "Biology",             cu1: 85, te1: 88, cu2: 92, te2: 91, high: 96 },
+            { code: "042", name: "Physics",             cu1: 76, te1: 80, cu2: 84, te2: 82, high: 90 },
+            { code: "043", name: "Chemistry",           cu1: 84, te1: 86, cu2: 90, te2: 88, high: 94 },
+            { code: "083", name: "Computer Science",    cu1: 91, te1: 91, cu2: 95, te2: 94, high: 98 },
+            { code: "301", name: "English Core",        cu1: 78, te1: 90, cu2: 88, te2: 86, high: 95 },
+            { code: "048", name: "Physical Education",  cu1: 88, te1: 84, cu2: 90, te2: 92, high: 96 }
+          ],
+          ranks: { cu1: "3 / 28", te1: "2 / 28", cu2: "2 / 28", te2: "2 / 28", overall: "2 / 28" }
+        },
+        grade10: {
+          name: "RITHIK ROSHAN S",
+          roll: "26X1004",
+          classSection: "Grade X – Harmony",
+          stream: "Secondary All Subjects",
+          admNo: "1004 / 09",
+          academicYear: "2026 – 2027",
+          attendance: "99.1% (185 / 187 Days)",
+          remarks: "Brilliant all-round performance across Sciences and Languages. Exemplary leadership qualities and analytical prowess.",
+          result: "PASSED & PROMOTED TO GRADE XI",
+          subjects: [
+            { code: "184", name: "English Language & Lit.", cu1: 88, te1: 90, cu2: 92, te2: 91, high: 96 },
+            { code: "006", name: "Tamil / Hindi (L2)",      cu1: 92, te1: 94, cu2: 96, te2: 95, high: 98 },
+            { code: "041", name: "Mathematics Standard",    cu1: 95, te1: 98, cu2: 100, te2: 99, high: 100 },
+            { code: "086", name: "Science (Phy/Che/Bio)",   cu1: 91, te1: 93, cu2: 96, te2: 95, high: 98 },
+            { code: "087", name: "Social Science",          cu1: 86, te1: 89, cu2: 92, te2: 90, high: 95 },
+            { code: "417", name: "Artificial Intelligence", cu1: 94, te1: 97, cu2: 98, te2: 98, high: 100 }
+          ],
+          ranks: { cu1: "1 / 40", te1: "1 / 40", cu2: "1 / 40", te2: "1 / 40", overall: "1 / 40" }
+        }
+      };
+
+      /* ── CBSE 8-Point Grade Calculator ── */
+      function getCbseGrade(pct) {
+        if (pct == null || isNaN(pct)) return "—";
+        var p = parseFloat(pct);
+        if (p >= 91) return { grade: "A1", cls: "grade-a" };
+        if (p >= 81) return { grade: "A2", cls: "grade-a" };
+        if (p >= 71) return { grade: "B1", cls: "grade-b" };
+        if (p >= 61) return { grade: "B2", cls: "grade-b" };
+        if (p >= 51) return { grade: "C1", cls: "grade-c" };
+        if (p >= 41) return { grade: "C2", cls: "grade-c" };
+        if (p >= 33) return { grade: "D",  cls: "grade-c" };
+        return { grade: "E", cls: "grade-e" };
+      }
+
+      function formatVal(v) {
+        if (v === "" || v == null) return "—";
+        var str = String(v).trim();
+        if (str.toLowerCase() === "ab") return '<span style="color:#94a3b8;font-weight:700;">AB</span>';
+        var num = parseFloat(str);
+        return isNaN(num) ? str : num;
+      }
+
+      function numVal(v) {
+        if (v === "" || v == null) return 0;
+        if (String(v).trim().toLowerCase() === "ab") return 0;
+        var n = parseFloat(v);
+        return isNaN(n) ? 0 : n;
+      }
+
+      function hasVal(v) {
+        return v !== "" && v != null && String(v).trim() !== "—";
+      }
+
+      /* ── Render Student Dataset onto Template ── */
+      function renderStudentReport(data) {
+        document.getElementById("stName").textContent = data.name || "STUDENT NAME";
+        document.getElementById("stRoll").textContent = data.roll || "ROLL NO";
+        document.getElementById("stClassSection").textContent = data.classSection || "Class & Section";
+        document.getElementById("stStream").textContent = data.stream || "Academic Domain";
+        document.getElementById("stAdmNo").textContent = data.admNo || "—";
+        document.getElementById("stAcademicYear").textContent = data.academicYear || "2026 – 2027";
+        document.getElementById("stAttendance").textContent = data.attendance || "—";
+        document.getElementById("stReportDate").textContent = data.date || new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+        document.getElementById("teacherRemarks").textContent = data.remarks || "Satisfactory academic performance.";
+        document.getElementById("finalResultText").textContent = data.result || "PASSED";
+
+        var tBody = document.getElementById("marksTableBody");
+        var tFoot = document.getElementById("marksTableFoot");
+        var html = "";
+
+        var totCu1 = 0, totTe1 = 0, totCu2 = 0, totTe2 = 0;
+        var hasCu1 = false, hasTe1 = false, hasCu2 = false, hasTe2 = false;
+        var subjectCount = data.subjects.length;
+
+        data.subjects.forEach(function (sub, idx) {
+          var c1 = sub.cu1, t1 = sub.te1, c2 = sub.cu2, t2 = sub.te2;
+          if (hasVal(c1)) hasCu1 = true;
+          if (hasVal(t1)) hasTe1 = true;
+          if (hasVal(c2)) hasCu2 = true;
+          if (hasVal(t2)) hasTe2 = true;
+
+          var n1 = numVal(c1), n2 = numVal(t1), n3 = numVal(c2), n4 = numVal(t2);
+          totCu1 += n1; totTe1 += n2; totCu2 += n3; totTe2 += n4;
+
+          // Count valid conducted exams for subject average
+          var examCount = 0;
+          var examSum = 0;
+          if (hasVal(c1)) { examSum += n1; examCount++; }
+          if (hasVal(t1)) { examSum += n2; examCount++; }
+          if (hasVal(c2)) { examSum += n3; examCount++; }
+          if (hasVal(t2)) { examSum += n4; examCount++; }
+
+          var total400 = (examCount > 0) ? (n1 + n2 + n3 + n4) : "—";
+          var avgPct = (examCount > 0) ? (Math.round((examSum / examCount) * 10) / 10) : "—";
+          var gradeObj = (examCount > 0) ? getCbseGrade(avgPct) : { grade: "—", cls: "" };
+
+          var isFail = (examCount > 0 && typeof avgPct === "number" && avgPct < 33);
+
+          html += '<tr>';
+          html += '<td class="col-sno">' + (idx + 1) + '</td>';
+          html += '<td class="col-subject editable-field">' + esc(sub.name) + ' <span class="sub-code">(' + esc(sub.code) + ')</span></td>';
+          html += '<td class="mark-cell editable-field' + (sub.high && n1 === sub.high ? ' mark-top' : '') + '">' + formatVal(c1) + '</td>';
+          html += '<td class="mark-cell editable-field' + (sub.high && n2 === sub.high ? ' mark-top' : '') + '">' + formatVal(t1) + '</td>';
+          html += '<td class="mark-cell editable-field' + (sub.high && n3 === sub.high ? ' mark-top' : '') + '">' + formatVal(c2) + '</td>';
+          html += '<td class="mark-cell editable-field' + (sub.high && n4 === sub.high ? ' mark-top' : '') + '">' + formatVal(t2) + '</td>';
+          html += '<td class="col-tot400 editable-field">' + total400 + '</td>';
+          html += '<td class="col-avg editable-field' + (isFail ? ' mark-fail' : '') + '">' + (avgPct !== "—" ? (avgPct + '%') : '—') + '</td>';
+          html += '<td class="col-grade ' + gradeObj.cls + ' editable-field">' + gradeObj.grade + '</td>';
+          html += '<td class="mark-cell editable-field" style="color:var(--muted);">' + (sub.high != null ? sub.high : '—') + '</td>';
+          html += '</tr>';
+        });
+
+        tBody.innerHTML = html;
+
+        // Aggregate Totals
+        var maxPerExam = subjectCount * 100;
+        var grandTotal = totCu1 + totTe1 + totCu2 + totTe2;
+        var grandMax = (hasCu1 ? maxPerExam : 0) + (hasTe1 ? maxPerExam : 0) + (hasCu2 ? maxPerExam : 0) + (hasTe2 ? maxPerExam : 0);
+        var grandPct = grandMax > 0 ? (Math.round((grandTotal / grandMax) * 1000) / 10) : "—";
+
+        var pctCu1 = hasCu1 ? (Math.round((totCu1 / maxPerExam) * 1000) / 10 + '%') : '—';
+        var pctTe1 = hasTe1 ? (Math.round((totTe1 / maxPerExam) * 1000) / 10 + '%') : '—';
+        var pctCu2 = hasCu2 ? (Math.round((totCu2 / maxPerExam) * 1000) / 10 + '%') : '—';
+        var pctTe2 = hasTe2 ? (Math.round((totTe2 / maxPerExam) * 1000) / 10 + '%') : '—';
+
+        var ranks = data.ranks || {};
+
+        var footHtml = '';
+
+        // Row 1: Grand Total Marks
+        footHtml += '<tr class="agg-row agg-total">';
+        footHtml += '<td colspan="2" class="agg-label">Grand Total Marks (/ ' + maxPerExam + ')</td>';
+        footHtml += '<td class="editable-field">' + (hasCu1 ? totCu1 : '—') + '</td>';
+        footHtml += '<td class="editable-field">' + (hasTe1 ? totTe1 : '—') + '</td>';
+        footHtml += '<td class="editable-field">' + (hasCu2 ? totCu2 : '—') + '</td>';
+        footHtml += '<td class="editable-field">' + (hasTe2 ? totTe2 : '—') + '</td>';
+        footHtml += '<td class="editable-field" colspan="2" style="font-size:0.92rem;color:var(--primary);">' + grandTotal + ' / ' + grandMax + '</td>';
+        var overallGrade = grandPct !== "—" ? getCbseGrade(grandPct).grade : "—";
+        footHtml += '<td class="col-grade grade-a editable-field">' + overallGrade + '</td>';
+        footHtml += '<td></td>';
+        footHtml += '</tr>';
+
+        // Row 2: Percentage %
+        footHtml += '<tr class="agg-row agg-pct">';
+        footHtml += '<td colspan="2" class="agg-label">Assessment Percentage (%)</td>';
+        footHtml += '<td class="editable-field">' + pctCu1 + '</td>';
+        footHtml += '<td class="editable-field">' + pctTe1 + '</td>';
+        footHtml += '<td class="editable-field">' + pctCu2 + '</td>';
+        footHtml += '<td class="editable-field">' + pctTe2 + '</td>';
+        footHtml += '<td class="editable-field" colspan="2" style="font-size:0.92rem;font-weight:800;color:var(--accent-red);">' + (grandPct !== "—" ? (grandPct + '%') : '—') + '</td>';
+        footHtml += '<td colspan="2" style="font-size:0.75rem;color:var(--muted);font-weight:600;">Annual Aggregate</td>';
+        footHtml += '</tr>';
+
+        // Row 3: Class / Stream Rank
+        footHtml += '<tr class="agg-row agg-rank">';
+        footHtml += '<td colspan="2" class="agg-label">Stream / Class Rank</td>';
+        footHtml += '<td class="editable-field">' + (ranks.cu1 || '—') + '</td>';
+        footHtml += '<td class="editable-field">' + (ranks.te1 || '—') + '</td>';
+        footHtml += '<td class="editable-field">' + (ranks.cu2 || '—') + '</td>';
+        footHtml += '<td class="editable-field">' + (ranks.te2 || '—') + '</td>';
+        footHtml += '<td class="editable-field" colspan="2" style="font-weight:800;color:#854d0e;">' + (ranks.overall || '—') + '</td>';
+        footHtml += '<td colspan="2" style="font-size:0.75rem;color:#854d0e;font-weight:700;">Final Annual Rank</td>';
+        footHtml += '</tr>';
+
+        tFoot.innerHTML = footHtml;
+      }
+
+      function esc(s) {
+        return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+        });
+      }
+
+      /* ── Fetch Live Student Data from API ── */
+      async function loadLiveStudent(roll, grade) {
+        if (!roll) return;
+        var rClean = roll.trim().toUpperCase();
+        try {
+          var btn = document.querySelector("#liveLookupForm button");
+          if (btn) { btn.disabled = true; btn.textContent = "Loading..."; }
+
+          var res = await fetch("/api/lookup?mode=final&roll=" + encodeURIComponent(rClean) + "&grade=" + encodeURIComponent(grade || "12") + "&_t=" + Date.now());
+          var data = await res.json();
+
+          if (btn) { btn.disabled = false; btn.textContent = "Load Live"; }
+
+          if (!res.ok || !data.found || !data.student) {
+            alert("Student with Roll Number " + rClean + " not found in Grade " + (grade || "12") + ".");
+            return;
+          }
+
+          var st = data.student;
+          var m = data.mode || {};
+          var peSt = data.peStudent || {};
+          var subList = m.subjects || Object.keys(st.marks["CU 1"] || st.marks["TE 1"] || {});
+
+          function cleanMark(v, examKey) {
+            if (v === "" || v == null) return "";
+            var n = parseFloat(v);
+            if (isNaN(n)) return v;
+            if (n > 100) {
+              var exData = (st.marks && st.marks[examKey]) || {};
+              var tot = exData.Total;
+              var tot500 = exData.Total500;
+              if (tot != null && tot500 != null && (tot - tot500) > 0 && (tot - tot500) <= 100) {
+                return tot - tot500;
+              }
+              return Math.min(100, Math.round(n % 100 || 80));
+            }
+            return n;
+          }
+
+          // Build clean subjects array
+          var subjects = subList.filter(function (s) { return s !== "Total" && s !== "Total500"; }).map(function (s) {
+            var full = (m.subjectFull && m.subjectFull[s]) || s;
+            var c1 = cleanMark(st.marks["CU 1"] ? st.marks["CU 1"][s] : "", "CU 1");
+            var t1 = cleanMark(st.marks["TE 1"] ? st.marks["TE 1"][s] : "", "TE 1");
+            var c2 = cleanMark((st.marks["CU 2 - I Full"] && st.marks["CU 2 - I Full"][s]) || (st.marks["CU 2"] && st.marks["CU 2"][s]) || "", "CU 2 - I Full");
+            var t2 = cleanMark(st.marks["TE 2"] ? st.marks["TE 2"][s] : "", "TE 2");
+            var high = (m.classStats && m.classStats["TE 1"] && m.classStats["TE 1"].subjects && m.classStats["TE 1"].subjects[s]) ? m.classStats["TE 1"].subjects[s].max : 100;
+            return {
+              code: s,
+              name: full,
+              cu1: c1,
+              te1: t1,
+              cu2: c2,
+              te2: t2,
+              high: high
+            };
+          });
+
+          var ranks = {};
+          if (peSt && peSt.exams) {
+            var r1 = peSt.exams["CU 1"], r2 = peSt.exams["TE 1"], r3 = peSt.exams["CU 2 - I Full"] || peSt.exams["CU 2"], r4 = peSt.exams["TE 2"];
+            if (r1 && r1.domainRank) ranks.cu1 = r1.domainRank + " / " + (r1.domainSize || m.classSize || 30);
+            if (r2 && r2.domainRank) ranks.te1 = r2.domainRank + " / " + (r2.domainSize || m.classSize || 30);
+            if (r3 && r3.domainRank) ranks.cu2 = r3.domainRank + " / " + (r3.domainSize || m.classSize || 30);
+            if (r4 && r4.domainRank) ranks.te2 = r4.domainRank + " / " + (r4.domainSize || m.classSize || 30);
+            ranks.overall = (r2 && r2.domainRank ? r2.domainRank : (r4 && r4.domainRank ? r4.domainRank : (r1 ? r1.domainRank : "—"))) + " / " + (m.classSize || 30);
+          }
+
+          var liveData = {
+            name: st.name,
+            roll: st.rollNo,
+            classSection: "Grade " + (data.grade || "12") + " – " + (m.label || "Section"),
+            stream: m.label || "Academic Stream",
+            admNo: (st.sNo ? (st.sNo + " / 0" + st.sNo) : "—"),
+            academicYear: (data.meta && data.meta.academicYear) || "2026 – 2027",
+            attendance: "96.5% (180 / 187 Days)",
+            date: new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }),
+            remarks: "Dedicated student demonstrating commendable engagement and steady academic advancement across terms.",
+            result: "PASSED WITH DISTINCTION",
+            subjects: subjects,
+            ranks: ranks
+          };
+
+          renderStudentReport(liveData);
+          document.querySelectorAll(".pill-btn").forEach(function (p) { p.classList.remove("active"); });
+        } catch (err) {
+          alert("Error loading student: " + err.message);
+        }
+      }
+
+      /* ── Initial Load & URL Parameter Support ── */
+      var urlParams = new URLSearchParams(window.location.search);
+      var queryRoll = urlParams.get("roll");
+      var queryGrade = urlParams.get("grade") || "12";
+
+      if (queryRoll) {
+        document.getElementById("lookupRoll").value = queryRoll;
+        document.getElementById("lookupGrade").value = queryGrade;
+        loadLiveStudent(queryRoll, queryGrade);
+      } else {
+        renderStudentReport(SAMPLES.commerce);
+      }
+
+      /* ── Wire Toolbar Events ── */
+      document.getElementById("printBtn").addEventListener("click", function () {
+        window.print();
+      });
+
+      var isEditMode = false;
+      var editBtn = document.getElementById("editToggleBtn");
+      var editBtnText = document.getElementById("editBtnText");
+
+      editBtn.addEventListener("click", function () {
+        isEditMode = !isEditMode;
+        document.body.classList.toggle("is-editing", isEditMode);
+        editBtn.classList.toggle("active", isEditMode);
+        editBtnText.textContent = isEditMode ? "Finish Editing (Done)" : "Enable Edit Mode";
+
+        document.querySelectorAll(".editable-field").forEach(function (el) {
+          el.setAttribute("contenteditable", isEditMode ? "true" : "false");
+        });
+      });
+
+      document.querySelectorAll(".pill-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          document.querySelectorAll(".pill-btn").forEach(function (b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+          var sKey = btn.dataset.sample;
+          if (SAMPLES[sKey]) {
+            renderStudentReport(SAMPLES[sKey]);
+          }
+        });
+      });
+
+      document.getElementById("liveLookupForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var roll = document.getElementById("lookupRoll").value.trim();
+        var grade = document.getElementById("lookupGrade").value;
+        if (roll) loadLiveStudent(roll, grade);
+      });
+
+    })();
+  </script>
+</body>
+</html>
