@@ -23,6 +23,7 @@
     { "source": "/teacher/", "destination": "/teacher/index.html" },
     { "source": "/generator", "destination": "/generator/index.html" },
     { "source": "/generator/", "destination": "/generator/index.html" },
+    { "source": "/final-mark-sheet", "destination": "/final-mark-sheet.html" },
     { "source": "/((?!api/).*)", "destination": "/$1" }
   ],
   "functions": {
