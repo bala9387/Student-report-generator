@@ -231,7 +231,13 @@
     var grade = $("#grade") ? $("#grade").value : "12";
     msg.className = "message"; msg.innerHTML = "";
     if (mode === "Final Mark Sheet" || mode === "final") {
-      window.open("/final-mark-sheet.html?roll=" + encodeURIComponent(roll) + "&grade=" + encodeURIComponent(grade), "_blank");
+      var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+      var targetUrl = "/final-mark-sheet.html?roll=" + encodeURIComponent(roll) + "&grade=" + encodeURIComponent(grade);
+      if (isMobile) {
+        window.location.href = targetUrl;
+      } else {
+        window.open(targetUrl, "_blank");
+      }
       return;
     }
     fetchStudentReport(roll, mode, grade);
@@ -1062,7 +1068,13 @@
     reportModeSelect.addEventListener("change", function () {
       var newMode = this.value;
       if (newMode === "Final Mark Sheet" || newMode === "final") {
-        window.open("/final-mark-sheet.html?roll=" + encodeURIComponent(currentStudentRoll || "") + "&grade=" + encodeURIComponent(currentStudentGrade || "12"), "_blank");
+        var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+        var targetUrl = "/final-mark-sheet.html?roll=" + encodeURIComponent(currentStudentRoll || "") + "&grade=" + encodeURIComponent(currentStudentGrade || "12");
+        if (isMobile) {
+          window.location.href = targetUrl;
+        } else {
+          window.open(targetUrl, "_blank");
+        }
         return;
       }
       if (currentSectionKey) {
@@ -1120,11 +1132,9 @@
   function saveSession(until, teacher) {
     var isAdmin = !!(teacher && (teacher.isAdmin === true || (teacher.user && (teacher.user.toLowerCase() === "aksharaacademy" || teacher.user.toLowerCase() === "aksharaacademy@ksrakshara.org"))));
     var user = (teacher && teacher.user) || "";
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify({
-      until: until,
-      isAdmin: isAdmin,
-      user: user
-    }));
+    var payload = JSON.stringify({ until: until, isAdmin: isAdmin, user: user });
+    sessionStorage.setItem(SESSION_KEY, payload);
+    try { localStorage.setItem(SESSION_KEY, payload); } catch (e) {}
   }
 
   // pending leaderboard scope to launch after successful login
