@@ -400,7 +400,7 @@
 
     .info-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr 1.25fr 1fr;
+      grid-template-columns: 1fr 1.2fr 1fr;
       gap: 4px 12px;
     }
 
@@ -1309,9 +1309,7 @@
             <div><div class="info-label">Roll Number</div><div class="info-value" id="stRoll">26S2379</div></div>
             <div><div class="info-label">Class &amp; Section</div><div class="info-value" id="stClassSection">Grade XII – Symphony</div></div>
             <div><div class="info-label">Academic Stream</div><div class="info-value" id="stStream">Commerce &amp; Applied Math</div></div>
-            <div><div class="info-label">Admission / S.No</div><div class="info-value" id="stAdmNo">2379 / 01</div></div>
             <div><div class="info-label">Academic Year</div><div class="info-value" id="stAcademicYear">2026 – 2027</div></div>
-            <div><div class="info-label">Annual Attendance</div><div class="info-value" id="stAttendance">96.8% (181 / 187 Days)</div></div>
             <div><div class="info-label">Date of Issue</div><div class="info-value" id="stReportDate">20 Oct 2026</div></div>
           </div>
         </section>
@@ -1536,9 +1534,7 @@
         document.getElementById("stRoll").textContent = data.roll || "ROLL NO";
         document.getElementById("stClassSection").textContent = data.classSection || "Class & Section";
         document.getElementById("stStream").textContent = data.stream || "Academic Domain";
-        document.getElementById("stAdmNo").textContent = data.admNo || "—";
         document.getElementById("stAcademicYear").textContent = data.academicYear || "2026 – 2027";
-        document.getElementById("stAttendance").textContent = data.attendance || "—";
         document.getElementById("stReportDate").textContent = data.date || "20 Oct 2026";
         var frEl = document.getElementById("finalResultText"); if (frEl) frEl.textContent = data.result || "";
 
@@ -1720,9 +1716,7 @@
           roll: st.rollNo,
           classSection: "Grade " + (data.grade || "12") + " – " + (m.label || "Section"),
           stream: m.label || "Academic Stream",
-          admNo: (st.sNo ? (st.sNo + " / 01") : "—"),
           academicYear: (data.meta && data.meta.academicYear) || "2026 – 2027",
-          attendance: "96.8% (181 / 187 Days)",
           date: new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }),
           result: "PASSED WITH DISTINCTION",
           subjects: subjects,
