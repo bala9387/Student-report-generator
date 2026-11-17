@@ -537,6 +537,19 @@
       font-weight: 800;
     }
 
+    /* ── Performance Band Ribbon ── */
+    .band-scale {
+      border: 1.5px solid #117A65;
+      background: #D1F2EB;
+      border-radius: 6px;
+      padding: 8px 14px;
+      margin-bottom: 14px;
+      font-size: 10.5px;
+      color: #0B5345;
+    }
+    .band-scale b { color: #0B5345; }
+    .band-item { display: inline-block; margin-right: 14px; }
+
     /* ── CBSE Grading Ribbon ── */
     .grading-scale {
       border: 1.5px solid var(--border-blue);
@@ -1310,7 +1323,6 @@
             <div><div class="info-label">Class &amp; Section</div><div class="info-value" id="stClassSection">Grade XII – Symphony</div></div>
             <div><div class="info-label">Academic Stream</div><div class="info-value" id="stStream">Commerce &amp; Applied Math</div></div>
             <div><div class="info-label">Academic Year</div><div class="info-value" id="stAcademicYear">2026 – 2027</div></div>
-            <div><div class="info-label">Date of Issue</div><div class="info-value" id="stReportDate">&nbsp;</div></div>
           </div>
         </section>
 
@@ -1348,7 +1360,14 @@
 
         <!-- 4. CBSE Grading Scale Ribbon -->
 
-
+        <!-- 5. Performance Band -->
+        <div class="band-scale">
+          <b>PERFORMANCE BAND:</b>&nbsp;&nbsp;
+          <span class="band-item"><b>Excellence</b> — 85% &amp; above</span>
+          <span class="band-item"><b>Progressing</b> — 71% to 84%</span>
+          <span class="band-item"><b>Needs Focus</b> — 61% to 70%</span>
+          <span class="band-item"><b>Priority Support</b> — Below 61%</span>
+        </div>
 
         <!-- 6. Authentication Signatures -->
         <footer class="signatures">
@@ -1535,7 +1554,6 @@
         document.getElementById("stClassSection").textContent = data.classSection || "Class & Section";
         document.getElementById("stStream").textContent = data.stream || "Academic Domain";
         document.getElementById("stAcademicYear").textContent = data.academicYear || "2026 – 2027";
-        document.getElementById("stReportDate").textContent = " ";
         var frEl = document.getElementById("finalResultText"); if (frEl) frEl.textContent = data.result || "";
 
         var tBody = document.getElementById("marksTableBody");
@@ -1648,7 +1666,7 @@
         if (hasPE) {
           // Grand Total of 500 (excludes Physical Education; PE still listed as a subject above)
           footHtml += '<tr class="summary-row">';
-          footHtml += '<td colspan="2" style="text-align:right; padding-right:10px; font-weight:800;">GRAND TOTAL (/ ' + maxPerExam_noPe + ')<br><span style="font-size:9.5px; font-weight:700;">(EXCEPT PHYSICAL EDUCATION)</span></td>';
+          footHtml += '<td colspan="2" style="text-align:right; padding-right:10px; font-weight:800;">GRAND TOTAL (/ ' + maxPerExam_noPe + ')</td>';
           footHtml += '<td>' + (cntCu1_noPe > 0 ? totCu1_noPe : '—') + '</td>';
           footHtml += '<td>' + (cntTe1_noPe > 0 ? (arrow2_noPe + totTe1_noPe) : '—') + '</td>';
           footHtml += '<td>' + (cntHalf_noPe > 0 ? (arrow3_noPe + totHalf_noPe) : '—') + '</td>';
