@@ -21,8 +21,6 @@
 
   function getEffectiveExam() {
     if (currentExam === "CU 2") {
-      var isCommerce = (currentStream === "Business Studies" || currentStream === "Applied Math" || currentStream === "CS");
-      if (isCommerce) return "CU 2 - I Full";
       return "CU 2 - " + currentPart;
     }
     return currentExam;
@@ -1080,8 +1078,7 @@
   function updateCu2PartsBarVisibility() {
     var cu2Bar = document.getElementById("cu2PartsBar");
     if (!cu2Bar) return;
-    var isCommerce = (currentStream === "Business Studies" || currentStream === "Applied Math" || currentStream === "CS");
-    if (currentExam === "CU 2" && currentStream !== "PE - Analysis" && currentStream !== "Rankwise" && currentStream !== "Mentor Report" && !isCommerce) {
+    if (currentExam === "CU 2" && currentStream !== "PE - Analysis" && currentStream !== "Rankwise" && currentStream !== "Mentor Report") {
       cu2Bar.style.display = "inline-flex";
     } else {
       cu2Bar.style.display = "none";
