@@ -81,6 +81,15 @@
     "CU 2 - III Full": 20,
     "CU 2 - IV Full": 27
   };
+  // Grade 12 Commerce tabs (Applied Math, CS): each Full Portion part has its own
+  // 8-column block in the stream tab (Acc, Bs, Eco, A.Math/Cs, Eng, Total of 500, PE, Total).
+  // I Full is the original "CU 2" block (T); II/III/IV Full were added at AJ, AR, AZ.
+  var COMMERCE_CU2_BLOCK_G12 = {
+    "CU 2 - I Full": 19,
+    "CU 2 - II Full": 35,
+    "CU 2 - III Full": 43,
+    "CU 2 - IV Full": 51
+  };
   // 0-indexed (total, rank) columns per exam in the PE - Analysis tab
   var PE_COLS = {
     "CU 1": [6, 7],
@@ -430,7 +439,8 @@
         EXAMS.forEach(function (ex) {
           var isCommerceStream = (modeLabel === "Applied Math" || modeLabel === "CS" || modeLabel === "A.Math");
           var isFpePart = isClass12 && !isCommerceStream && (ex.indexOf("CU 2 - ") === 0);
-          var base = isFpePart ? FPE_BLOCK_START[ex] : activeBlock[ex];
+          var base = isFpePart ? FPE_BLOCK_START[ex]
+            : ((isClass12 && isCommerceStream && COMMERCE_CU2_BLOCK_G12[ex] != null) ? COMMERCE_CU2_BLOCK_G12[ex] : activeBlock[ex]);
           var rm = {};
           var sumSubject = 0;
           var sumNonPE = 0;
