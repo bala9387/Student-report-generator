@@ -429,10 +429,7 @@
 
         EXAMS.forEach(function (ex) {
           var isCommerceStream = (modeLabel === "Applied Math" || modeLabel === "CS" || modeLabel === "A.Math");
-          // Grade 12 Full Portion parts live in the FPE tab. Commerce "I Full" stays in the
-          // stream tab's CU 2 block (where it was always entered); II/III/IV Full use FPE.
-          var isFpePart = isClass12 && (ex.indexOf("CU 2 - ") === 0) &&
-            !(isCommerceStream && ex === "CU 2 - I Full");
+          var isFpePart = isClass12 && !isCommerceStream && (ex.indexOf("CU 2 - ") === 0);
           var base = isFpePart ? FPE_BLOCK_START[ex] : activeBlock[ex];
           var rm = {};
           var sumSubject = 0;
