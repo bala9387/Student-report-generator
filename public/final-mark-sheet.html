@@ -474,6 +474,11 @@
     .marks-table th.sub-header {
       font-size: 9.5px;
       padding: 5px 4px;
+      min-width: 34px;
+    }
+
+    .marks-table tfoot td:not(.total-col) {
+      white-space: nowrap;
     }
 
     .marks-table td {
@@ -1338,16 +1343,19 @@
             <tr>
               <th rowspan="2" style="width:34px">S.No</th>
               <th rowspan="2" style="width:175px; text-align:left; padding-left:8px">Subject Title &amp; Code</th>
-              <th colspan="4">Marks Obtained in Assessments (/100)</th>
-              <th rowspan="2" style="width:60px">Total<br><span style="font-size:9px">(/400)</span></th>
-              <th rowspan="2" style="width:55px">Final<br><span style="font-size:9px">Avg %</span></th>
-              <th rowspan="2" style="width:115px">Performance<br><span style="font-size:9px">Level</span></th>
+              <th colspan="7" id="assessGroupTh">Marks Obtained in Assessments (/100)</th>
+              <th rowspan="2" style="width:56px">Total<br><span style="font-size:9px" id="rowTotalMax">(obtained)</span></th>
+              <th rowspan="2" style="width:50px">Final<br><span style="font-size:9px">Avg %</span></th>
+              <th rowspan="2" style="width:100px">Performance<br><span style="font-size:9px">Level</span></th>
             </tr>
-            <tr>
+            <tr id="assessSubHeaderRow">
               <th class="sub-header">CU 1</th>
               <th class="sub-header">TE 1</th>
               <th class="sub-header">Half Portion</th>
-              <th class="sub-header">Full Portion</th>
+              <th class="sub-header">FP I</th>
+              <th class="sub-header">FP II</th>
+              <th class="sub-header">FP III</th>
+              <th class="sub-header">FP IV</th>
             </tr>
           </thead>
           <tbody id="marksTableBody">
@@ -1571,39 +1579,52 @@
 
         var hasPE = data.subjects.some(isPESubject);
 
-        var totCu1 = 0, totTe1 = 0, totHalf = 0, totFull = 0;
-        var cntCu1 = 0, cntTe1 = 0, cntHalf = 0, cntFull = 0;
-        var subjectCount = data.subjects.length;
+        // Exam columns, in order. Full Portion has four separate parts (FP I-IV).
+        // Older data objects only have `full`, so FP I falls back to it.
+        var EXAM_COLS = [
+          { key: "cu1", label: "CU 1" },
+          { key: "te1", label: "TE 1" },
+          { key: "half", label: "Half Portion" },
+          { key: "fp1", label: "FP I", fallback: "full" },
+          { key: "fp2", label: "FP II" },
+          { key: "fp3", label: "FP III" },
+          { key: "fp4", label: "FP IV" }
+        ];
+        function examVal(sub, col) {
+          var v = sub[col.key];
+          if ((v === undefined || v === "" || v == null) && col.fallback) v = sub[col.fallback];
+          return numVal(v);
+        }
+        function round1(n) { return Math.round(n * 10) / 10; }
 
-        var totCu1_noPe = 0, totTe1_noPe = 0, totHalf_noPe = 0, totFull_noPe = 0;
-        var cntCu1_noPe = 0, cntTe1_noPe = 0, cntHalf_noPe = 0, cntFull_noPe = 0;
+        // Per-column totals, with and without Physical Education
+        var colTot = EXAM_COLS.map(function () { return 0; });
+        var colCnt = EXAM_COLS.map(function () { return 0; });
+        var colTotNoPe = EXAM_COLS.map(function () { return 0; });
+        var colCntNoPe = EXAM_COLS.map(function () { return 0; });
+        var subjectCount = data.subjects.length;
         var coreSubjectCount = 0;
 
         data.subjects.forEach(function (sub, idx) {
-          var n1 = numVal(sub.cu1);
-          var n2 = numVal(sub.te1);
-          var n3 = numVal(sub.half);
-          var n4 = numVal(sub.full);
           var isPE = isPESubject(sub);
+          if (!isPE) coreSubjectCount++;
+          var vals = EXAM_COLS.map(function (col) { return examVal(sub, col); });
 
           var validVals = [];
-          if (n1 !== null) { totCu1 += n1; cntCu1++; validVals.push(n1); if (!isPE) { totCu1_noPe += n1; cntCu1_noPe++; } }
-          if (n2 !== null) { totTe1 += n2; cntTe1++; validVals.push(n2); if (!isPE) { totTe1_noPe += n2; cntTe1_noPe++; } }
-          if (n3 !== null) { totHalf += n3; cntHalf++; validVals.push(n3); if (!isPE) { totHalf_noPe += n3; cntHalf_noPe++; } }
-          if (n4 !== null) { totFull += n4; cntFull++; validVals.push(n4); if (!isPE) { totFull_noPe += n4; cntFull_noPe++; } }
-          if (!isPE) coreSubjectCount++;
+          vals.forEach(function (n, ci) {
+            if (n === null) return;
+            colTot[ci] += n; colCnt[ci]++; validVals.push(n);
+            if (!isPE) { colTotNoPe[ci] += n; colCntNoPe[ci]++; }
+          });
 
-          var rowTotal = validVals.reduce(function(a, b) { return a + b; }, 0);
-          var avgPct = validVals.length > 0 ? (Math.round((rowTotal / validVals.length) * 10) / 10) : null;
+          var rowTotal = round1(validVals.reduce(function (a, b) { return a + b; }, 0));
+          var avgPct = validVals.length > 0 ? round1(rowTotal / validVals.length) : null;
           var perfLevel = avgPct !== null ? getPerformanceLevel(avgPct) : "—";
 
           html += '<tr>';
           html += '<td>' + (idx + 1) + '</td>';
           html += '<td class="col-subject">' + esc(sub.name) + ' (' + esc(sub.code) + ')</td>';
-          html += '<td>' + (n1 !== null ? n1 : '—') + '</td>';
-          html += '<td>' + (n2 !== null ? n2 : '—') + '</td>';
-          html += '<td>' + (n3 !== null ? n3 : '—') + '</td>';
-          html += '<td>' + (n4 !== null ? n4 : '—') + '</td>';
+          vals.forEach(function (n) { html += '<td>' + (n !== null ? n : '—') + '</td>'; });
           html += '<td class="total-col">' + (validVals.length > 0 ? rowTotal : '—') + '</td>';
           html += '<td class="avg-col">' + (avgPct !== null ? (avgPct + '%') : '—') + '</td>';
           html += '<td class="perf-col">' + getPerfBadge(perfLevel) + '</td>';
@@ -1612,6 +1633,19 @@
 
         tBody.innerHTML = html;
 
+        // Header: one sub-header per exam column
+        var groupTh = document.getElementById("assessGroupTh");
+        if (groupTh) groupTh.colSpan = EXAM_COLS.length;
+        var subRow = document.getElementById("assessSubHeaderRow");
+        if (subRow) {
+          subRow.innerHTML = EXAM_COLS.map(function (col) {
+            return '<th class="sub-header">' + esc(col.label) + '</th>';
+          }).join("");
+        }
+        // Row totals cover however many exams that subject has written, so no fixed max.
+        var totMaxEl = document.getElementById("rowTotalMax");
+        if (totMaxEl) totMaxEl.textContent = "(obtained)";
+
         function getArrow(curr, prev) {
           if (curr === null || prev === null) return "";
           if (curr > prev) return '<span class="arrow-up">&uarr;</span> ';
@@ -1619,75 +1653,36 @@
           return "";
         }
 
-        // Aggregate Totals (With Physical Education)
-        var maxPerExam = subjectCount * 100;
-        var grandMax = (cntCu1 > 0 ? maxPerExam : 0) + (cntTe1 > 0 ? maxPerExam : 0) + (cntHalf > 0 ? maxPerExam : 0) + (cntFull > 0 ? maxPerExam : 0);
-        var grandTotal = totCu1 + totTe1 + totHalf + totFull;
-        var grandPct = grandMax > 0 ? (Math.round((grandTotal / grandMax) * 1000) / 10) : null;
-
-        var pct1 = cntCu1 > 0 ? (Math.round((totCu1 / maxPerExam) * 1000) / 10) : null;
-        var pct2 = cntTe1 > 0 ? (Math.round((totTe1 / maxPerExam) * 1000) / 10) : null;
-        var pct3 = cntHalf > 0 ? (Math.round((totHalf / maxPerExam) * 1000) / 10) : null;
-        var pct4 = cntFull > 0 ? (Math.round((totFull / maxPerExam) * 1000) / 10) : null;
-
-        var arrow2 = getArrow(pct2, pct1);
-        var arrow3 = getArrow(pct3, pct2);
-        var arrow4 = getArrow(pct4, pct3);
+        // Grand total row. With PE, the grand total excludes Physical Education
+        // (PE is still listed as a subject above).
+        var tots = hasPE ? colTotNoPe : colTot;
+        var cnts = hasPE ? colCntNoPe : colCnt;
+        var perExamMax = (hasPE ? coreSubjectCount : subjectCount) * 100;
+        // Each exam counts out of 100 per subject that has a mark, so a portion
+        // whose marks are only partly entered doesn't pull the percentage down.
+        // Arrows compare percentages for the same reason.
+        var grandTotal = 0, grandMax = 0, prevPct = null;
+        var footHtml = '<tr class="summary-row">';
+        footHtml += '<td colspan="2" style="text-align:right; padding-right:10px; font-weight:800;">GRAND TOTAL (/ ' + perExamMax + ')</td>';
+        EXAM_COLS.forEach(function (col, ci) {
+          if (cnts[ci] > 0) {
+            var t = round1(tots[ci]);
+            var pct = tots[ci] / (cnts[ci] * 100);
+            footHtml += '<td>' + getArrow(pct, prevPct) + t + '</td>';
+            grandTotal += tots[ci];
+            grandMax += cnts[ci] * 100;
+            prevPct = pct;
+          } else {
+            footHtml += '<td>—</td>';
+          }
+        });
+        grandTotal = round1(grandTotal);
+        var grandPct = grandMax > 0 ? round1((grandTotal / grandMax) * 100) : null;
         var overallPerf = grandPct !== null ? getPerformanceLevel(grandPct) : "—";
-        var ranks = data.ranks || {};
-
-        // Aggregate Totals (Without Physical Education)
-        var maxPerExam_noPe = coreSubjectCount * 100;
-        var grandMax_noPe = (cntCu1_noPe > 0 ? maxPerExam_noPe : 0) + (cntTe1_noPe > 0 ? maxPerExam_noPe : 0) + (cntHalf_noPe > 0 ? maxPerExam_noPe : 0) + (cntFull_noPe > 0 ? maxPerExam_noPe : 0);
-        var grandTotal_noPe = totCu1_noPe + totTe1_noPe + totHalf_noPe + totFull_noPe;
-        var grandPct_noPe = grandMax_noPe > 0 ? (Math.round((grandTotal_noPe / grandMax_noPe) * 1000) / 10) : null;
-
-        var pct1_noPe = cntCu1_noPe > 0 ? (Math.round((totCu1_noPe / maxPerExam_noPe) * 1000) / 10) : null;
-        var pct2_noPe = cntTe1_noPe > 0 ? (Math.round((totTe1_noPe / maxPerExam_noPe) * 1000) / 10) : null;
-        var pct3_noPe = cntHalf_noPe > 0 ? (Math.round((totHalf_noPe / maxPerExam_noPe) * 1000) / 10) : null;
-        var pct4_noPe = cntFull_noPe > 0 ? (Math.round((totFull_noPe / maxPerExam_noPe) * 1000) / 10) : null;
-
-        var arrow2_noPe = getArrow(pct2_noPe, pct1_noPe);
-        var arrow3_noPe = getArrow(pct3_noPe, pct2_noPe);
-        var arrow4_noPe = getArrow(pct4_noPe, pct3_noPe);
-        var overallPerf_noPe = grandPct_noPe !== null ? getPerformanceLevel(grandPct_noPe) : "—";
-
-        // Calculate comparative arrows directly on totals
-        var arrow2 = getArrow(cntTe1 > 0 ? totTe1 : null, cntCu1 > 0 ? totCu1 : null);
-        var arrow3 = getArrow(cntHalf > 0 ? totHalf : null, cntTe1 > 0 ? totTe1 : null);
-        var arrow4 = getArrow(cntFull > 0 ? totFull : null, cntHalf > 0 ? totHalf : null);
-
-        var arrow2_noPe = getArrow(cntTe1_noPe > 0 ? totTe1_noPe : null, cntCu1_noPe > 0 ? totCu1_noPe : null);
-        var arrow3_noPe = getArrow(cntHalf_noPe > 0 ? totHalf_noPe : null, cntTe1_noPe > 0 ? totTe1_noPe : null);
-        var arrow4_noPe = getArrow(cntFull_noPe > 0 ? totFull_noPe : null, cntHalf_noPe > 0 ? totHalf_noPe : null);
-
-        var footHtml = '';
-
-        if (hasPE) {
-          // Grand Total of 500 (excludes Physical Education; PE still listed as a subject above)
-          footHtml += '<tr class="summary-row">';
-          footHtml += '<td colspan="2" style="text-align:right; padding-right:10px; font-weight:800;">GRAND TOTAL (/ ' + maxPerExam_noPe + ')</td>';
-          footHtml += '<td>' + (cntCu1_noPe > 0 ? totCu1_noPe : '—') + '</td>';
-          footHtml += '<td>' + (cntTe1_noPe > 0 ? (arrow2_noPe + totTe1_noPe) : '—') + '</td>';
-          footHtml += '<td>' + (cntHalf_noPe > 0 ? (arrow3_noPe + totHalf_noPe) : '—') + '</td>';
-          footHtml += '<td>' + (cntFull_noPe > 0 ? (arrow4_noPe + totFull_noPe) : '—') + '</td>';
-          footHtml += '<td class="total-col">' + grandTotal_noPe + ' / ' + grandMax_noPe + '</td>';
-          footHtml += '<td class="avg-col">' + (grandPct_noPe !== null ? (grandPct_noPe + '%') : '—') + '</td>';
-          footHtml += '<td class="perf-col">' + getPerfBadge(overallPerf_noPe) + '</td>';
-          footHtml += '</tr>';
-        } else {
-          // Standard layout when student does not have PE (e.g. Grade 10)
-          footHtml += '<tr class="summary-row">';
-          footHtml += '<td colspan="2" style="text-align:right; padding-right:10px; font-weight:800;">GRAND TOTAL (/ ' + maxPerExam + ')</td>';
-          footHtml += '<td>' + (cntCu1 > 0 ? totCu1 : '—') + '</td>';
-          footHtml += '<td>' + (cntTe1 > 0 ? (arrow2 + totTe1) : '—') + '</td>';
-          footHtml += '<td>' + (cntHalf > 0 ? (arrow3 + totHalf) : '—') + '</td>';
-          footHtml += '<td>' + (cntFull > 0 ? (arrow4 + totFull) : '—') + '</td>';
-          footHtml += '<td class="total-col">' + grandTotal + ' / ' + grandMax + '</td>';
-          footHtml += '<td class="avg-col">' + (grandPct !== null ? (grandPct + '%') : '—') + '</td>';
-          footHtml += '<td class="perf-col">' + getPerfBadge(overallPerf) + '</td>';
-          footHtml += '</tr>';
-        }
+        footHtml += '<td class="total-col">' + grandTotal + ' / ' + grandMax + '</td>';
+        footHtml += '<td class="avg-col">' + (grandPct !== null ? (grandPct + '%') : '—') + '</td>';
+        footHtml += '<td class="perf-col">' + getPerfBadge(overallPerf) + '</td>';
+        footHtml += '</tr>';
 
         tFoot.innerHTML = footHtml;
         updateMobileScale();
@@ -1706,14 +1701,20 @@
           var c1 = st.marks["CU 1"] ? st.marks["CU 1"][s] : "";
           var t1 = st.marks["TE 1"] ? st.marks["TE 1"][s] : "";
           var half = st.marks["TE 2"] ? st.marks["TE 2"][s] : "";
-          var fullPortion = (st.marks["CU 2 - I Full"] && st.marks["CU 2 - I Full"][s]) || (st.marks["CU 2"] && st.marks["CU 2"][s]) || "";
+          function fpMark(part) {
+            var ex = st.marks["CU 2 - " + part];
+            return (ex && ex[s] != null) ? ex[s] : "";
+          }
           return {
             code: s,
             name: full,
             cu1: c1,
             te1: t1,
             half: half,
-            full: fullPortion
+            fp1: fpMark("I Full"),
+            fp2: fpMark("II Full"),
+            fp3: fpMark("III Full"),
+            fp4: fpMark("IV Full")
           };
         });
 
