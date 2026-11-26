@@ -198,6 +198,7 @@
   var cardViewBtn        = $("#cardViewBtn");
 
   var autoSaveTimer      = null;  // debounce timer for auto-save
+  var loadDataSeq        = 0;     // id of the latest loadData request
   var AUTO_SAVE_DELAY    = 3000; // 3 seconds after last change
   var converterToggle    = $("#converterToggle");
   var outOfInput         = $("#outOfInput");
@@ -1123,6 +1124,9 @@
     }
 
     var effExam = getEffectiveExam();
+    // Ignore responses from earlier tab clicks so one portion's marks never
+    // render under another portion's tab when the user switches quickly.
+    var reqId = ++loadDataSeq;
     fetch("/api/teacher/marks?stream=" + encodeURIComponent(currentStream) +
           "&exam=" + encodeURIComponent(effExam) +
           "&grade=" + encodeURIComponent(currentGrade) +
@@ -1143,6 +1147,7 @@
         });
       })
       .then(function (d) {
+        if (reqId !== loadDataSeq) return;
         if (d.error) { if (!silent) showMsg(d.error, "error"); return; }
         subjectCols = d.subjects || [];
         currentSubjectFull = d.subjectFull || {};

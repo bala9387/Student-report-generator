@@ -61,7 +61,8 @@
     "CU 2 - II Full": 24,
     "CU 2 - III Full": 31,
     "CU 2 - IV Full": 38,
-    "TE 2": 24
+    // TE 2 (Second Half) has its own block after IV Full; it used to share 24 with II Full.
+    "TE 2": 45
   };
   // Grade 12 has 8 columns per exam block (5 subjects + Total of 500 + PED + Total)
   var BLOCK_START_G12 = {
@@ -493,7 +494,7 @@
                   "CU 2 - I Full": 2,
                   "CU 2": 2,
                   "CU 2 - II Full": 3,
-                  "TE 2": 3,
+                  "TE 2": 0,
                   "CU 2 - III Full": 4,
                   "CU 2 - IV Full": 5
                 };
